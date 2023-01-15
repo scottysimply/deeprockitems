@@ -1,0 +1,5 @@
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\deeprockitems.csproj.AssemblyReference.cache
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\deeprockitems.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\deeprockitems.AssemblyInfoInputs.cache
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\deeprockitems.AssemblyInfo.cs
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\deeprockitems.csproj.CoreCompileInputs.cache
