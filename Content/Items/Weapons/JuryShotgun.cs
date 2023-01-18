@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using static deeprockitems.MyFunctions;
 using static System.Math;
 using Terraria.DataStructures;
+using System.Reflection;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -30,14 +31,17 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int numberProjectiles = 3 + Main.rand.Next(2);
+            // first block is for normal bullets
+            int numberProjectiles = 3 + Main.rand.Next(3);
             for (int i = 0; i < numberProjectiles; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(30));
                 Projectile.NewProjectile(Item.GetSource_FromThis(), position, perturbedSpeed, type, damage, knockback, player.whoAmI);
-            }
+            } 
+
+            // this block manages the knockback
             Vector2 mousePos = MouseRel(Main.MouseWorld, player);
-            if (Main.MouseWorld.X > player.Center.X) // facing to the right
+            if (Main.MouseWorld.X > player.Center.X) // set player facing the right way before we shotgun jump
             {
                 player.direction = 1;
             }
@@ -48,7 +52,7 @@ namespace deeprockitems.Content.Items.Weapons
             ShotgunJump(player, mousePos);
             return true;
         }
-        public static void ShotgunJump(Player player, Vector2 mousePos)
+        public void ShotgunJump(Player player, Vector2 mousePos)
         {
             float speedCap = 15f;
             int powderTaken = 0;
@@ -77,9 +81,9 @@ namespace deeprockitems.Content.Items.Weapons
                 }
             }
         }
-        public static int ConsumePowder(Item currentItem, int powder)
+        public int ConsumePowder(Item currentItem, int powder)
         {
-            for (int i = 0; i < 3; i++)
+            for (int x = 0; x < 3; x++) // takes up to 3 powder
             {
                 if (powder == 3)
                 {
@@ -89,6 +93,7 @@ namespace deeprockitems.Content.Items.Weapons
                 powder++;
                 if (currentItem.stack <= 0)
                 {
+                    currentItem.maxStack = 0; // this is a bug in 1.4, TurnToAir() doesn't reset maxStack, which determines whether right click should swap an item. this prevents that skissue
                     currentItem.TurnToAir();
                     return powder;
                 }

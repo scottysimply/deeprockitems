@@ -24,7 +24,7 @@ namespace deeprockitems.Content.Projectiles
         }
         public override void AI()
         {
-            if (Projectile.velocity.Y != 15f) // cap gravity
+            if (Projectile.velocity.Y != 10f) // cap gravity
             {
                 Projectile.velocity.Y += .5f;
             }

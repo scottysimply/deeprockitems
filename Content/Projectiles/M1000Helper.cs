@@ -30,7 +30,7 @@ namespace deeprockitems.Content.Projectiles
             float maxCharge = 40f; // CHANGE THIS TO SET CHARGE TIME. 60 ticks = 1 second
             Projectile.position = owner.Center;
             int projDamage = Projectile.damage;
-            if (!charged) // one time click
+            if (!charged) // one time stat change
             {
                 projDamage *= 3;
             }
