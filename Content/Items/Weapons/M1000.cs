@@ -31,7 +31,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 5f;
+            Item.shootSpeed = 8f;
             Item.rare = ItemRarityID.Pink;
             Item.scale = .7f;
         }

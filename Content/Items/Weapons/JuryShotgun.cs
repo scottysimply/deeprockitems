@@ -81,7 +81,7 @@ namespace deeprockitems.Content.Items.Weapons
                 }
             }
         }
-        public int ConsumePowder(Item currentItem, int powder)
+        public static int ConsumePowder(Item currentItem, int powder)
         {
             for (int x = 0; x < 3; x++) // takes up to 3 powder
             {
