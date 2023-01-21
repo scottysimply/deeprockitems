@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\scott\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\deeprockitems\\deeprockitems.csproj",
-        "projectName": "deeprockitems",
+        "projectName": "myMod",
         "projectPath": "C:\\Users\\scott\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\deeprockitems\\deeprockitems.csproj",
         "packagesPath": "C:\\Users\\scott\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\scott\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\deeprockitems\\obj\\",
