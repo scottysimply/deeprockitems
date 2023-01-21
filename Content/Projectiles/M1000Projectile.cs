@@ -3,10 +3,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using static System.Math;
+using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Projectiles
 {
-    public class M1000Better : ModProjectile
+    public class M1000Projectile : ModProjectile
     {
         private const float MAX_CHARGE = 40f; // This is the time it takes to charge the weapon, in ticks. Due to being a constant, it is in all caps for readability
         private readonly float SHOOT_SPEED = Main.player[Main.myPlayer].HeldItem.shootSpeed;
@@ -14,8 +15,8 @@ namespace deeprockitems.Content.Projectiles
         private bool one_time = false;
         public override void SetDefaults()
         {
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = 4;
+            Projectile.height = 4;
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
             Projectile.timeLeft = 300;
@@ -34,6 +35,11 @@ namespace deeprockitems.Content.Projectiles
             }
             return false;
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            DrawOffsetX = -40;
+            return true;
+        }
         public override void AI()
         {
             if (!fired)
@@ -45,6 +51,14 @@ namespace deeprockitems.Content.Projectiles
                 fired = true;
                 FiredStats(Main.player[Projectile.owner]);
             }
+        }
+        public override bool ShouldUpdatePosition()
+        {
+            if (!fired)
+            {
+                return false;
+            }
+            return true;
         }
         public override void Kill(int timeLeft)
         {
@@ -60,7 +74,7 @@ namespace deeprockitems.Content.Projectiles
             if (player.channel) // projectile owner is still channeling the weapon
             {
                 Projectile.timeLeft = 300;
-                Projectile.position = player.Center;
+                Projectile.Center = player.Center;
                 if (Projectile.ai[0] < MAX_CHARGE)
                 {
                     Projectile.ai[0]++;
@@ -70,21 +84,18 @@ namespace deeprockitems.Content.Projectiles
                     ChargedStats(player);
                     one_time = true; // Flag will never run again.
                 }
-
                 return true;
             }
-
-
             return false;
         }
         public void FiredStats(Player player) // This changes stats for when the player stops channeling (to clean up the code)
         {
-            Projectile.hide = false;
             Projectile.tileCollide = true;
+            Projectile.hide = false;
             Projectile.extraUpdates = 7;
             Projectile.rotation = player.DirectionTo(Main.MouseWorld).ToRotation();
             Projectile.velocity = player.DirectionTo(Main.MouseWorld) * SHOOT_SPEED; // Makes the projectile shoot toward the mouse.
-            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/M1000Fire") with { Volume = .5f }, player.Center);
+            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/M1000Fire") with { Volume = .4f }, player.Center);
         }
         public void ChargedStats(Player player)
         {

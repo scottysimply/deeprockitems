@@ -22,14 +22,14 @@ namespace deeprockitems.Content.Projectiles
         }
         public override void AI()
         {
-            if (Projectile.velocity.Y != 15f)
+            if (Projectile.velocity.Y != 10f)
             {
                 Projectile.velocity.Y += .5f;
             }
         }
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgePumpHit") with { Volume = .1f }, Projectile.position);
+            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgePumpHit") with { Volume = .2f }, Projectile.position);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
