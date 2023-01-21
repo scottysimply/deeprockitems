@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "deeprockitems/1.0.0": {
+      "myMod/1.0.0": {
         "dependencies": {
           "tModLoader.CodeAssist": "0.1.5",
           "Basic.Reference.Assemblies.Net60": "1.0.0.0",
@@ -58,7 +58,7 @@
           "UtfUnknown": "2.0.0.0"
         },
         "runtime": {
-          "deeprockitems.dll": {}
+          "myMod.dll": {}
         }
       },
       "tModLoader.CodeAssist/0.1.5": {},
@@ -646,7 +646,7 @@
     }
   },
   "libraries": {
-    "deeprockitems/1.0.0": {
+    "myMod/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
