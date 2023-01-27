@@ -18,8 +18,7 @@ namespace deeprockitems.Content.Projectiles
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.aiStyle = 0;
-            Projectile.timeLeft = 60;
-          //  Projectile.hide = true;
+            Projectile.timeLeft = 2;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -28,7 +27,6 @@ namespace deeprockitems.Content.Projectiles
             int owner = Projectile.owner;
             float direction = (Main.MouseWorld - Main.player[owner].Center).ToRotation();
             DrawLaser(texture, direction, owner, Projectile);
-            Main.NewText("Laser should be visible");
             return false;
         }
         public static void DrawLaser(Texture2D texture, float direction, int owner, Projectile projectile)

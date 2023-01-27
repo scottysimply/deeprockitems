@@ -158,10 +158,10 @@ C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\b
 C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\deeprockitems.csproj.CopyComplete
-C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\bin\Debug\net6.0\myMod.deps.json
-C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\bin\Debug\net6.0\myMod.dll
-C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\bin\Debug\net6.0\myMod.pdb
-C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\myMod.dll
-C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\refint\myMod.dll
-C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\myMod.pdb
-C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\ref\myMod.dll
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\bin\Debug\net6.0\deeprockitems.deps.json
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\bin\Debug\net6.0\deeprockitems.dll
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\bin\Debug\net6.0\deeprockitems.pdb
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\deeprockitems.dll
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\refint\deeprockitems.dll
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\deeprockitems.pdb
+C:\Users\scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\obj\Debug\net6.0\ref\deeprockitems.dll
