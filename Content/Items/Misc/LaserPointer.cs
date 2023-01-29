@@ -23,12 +23,14 @@ namespace deeprockitems.Content.Items.Misc
         }
         public override void SetDefaults()
         {
+            Item.rare = ItemRarityID.Green;
             Item.scale = 1.4f;
             Item.holdStyle = 1;
             Item.useStyle = -1;
             Item.useTime = 3;
             Item.useAnimation = 3;
             Item.shootSpeed = 3;
+            Item.value = 60000;
             Item.shoot = ProjectileID.PurificationPowder;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)

@@ -35,6 +35,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shootSpeed = 8f;
             Item.rare = ItemRarityID.Pink;
             Item.scale = .7f;
+            Item.value = 960000;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {

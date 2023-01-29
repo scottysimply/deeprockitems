@@ -38,6 +38,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 18f;
             Item.rare = ItemRarityID.Orange;
+            Item.value = 300000;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
