@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using static deeprockitems.MyFunctions;
 using static System.Math;
 using Terraria.DataStructures;
-using System.Reflection;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -31,17 +30,17 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            // first block is for normal bullets
+            // This block is for the projectile spread.
             int numberProjectiles = 3 + Main.rand.Next(3);
             for (int i = 0; i < numberProjectiles; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(MathHelper.ToRadians(30));
+                Vector2 perturbedSpeed = new Vector2(velocity.X, velocity.Y).RotatedByRandom(PI/7); // around 25 degrees
                 Projectile.NewProjectile(Item.GetSource_FromThis(), position, perturbedSpeed, type, damage, knockback, player.whoAmI);
             } 
 
-            // this block manages the knockback
+            // This block and helper functions below manage the shotgun jump
             Vector2 mousePos = MouseRel(Main.MouseWorld, player);
-            if (Main.MouseWorld.X > player.Center.X) // set player facing the right way before we shotgun jump
+            if (Main.MouseWorld.X > player.Center.X) // Change player's direction to face the gun.
             {
                 player.direction = 1;
             }
@@ -52,13 +51,13 @@ namespace deeprockitems.Content.Items.Weapons
             ShotgunJump(player, mousePos);
             return true;
         }
-        public void ShotgunJump(Player player, Vector2 mousePos)
+        public static void ShotgunJump(Player player, Vector2 mousePos)
         {
             float speedCap = 15f;
             int powderTaken = 0;
-            for (int i = 0; i < 50; i++) // iterating through player's inventory. slots 0-49 start in top left of hotbar to bottom right, above trash can.
+            for (int i = 0; i < 49; i++) // iterating through player's inventory. slots 0-49 start in top left of hotbar to bottom right, above trash can.
             {
-                if ((player.inventory[i].type == ItemID.VilePowder) || (player.inventory[i].type == ItemID.ViciousPowder))
+                if ((player.inventory[i].type == ItemID.VilePowder) || (player.inventory[i].type == ItemID.ViciousPowder)) // Look for either vicious or vile powder.
                 {
                     powderTaken = ConsumePowder(player.inventory[i], powderTaken);
                     if (powderTaken == -1)

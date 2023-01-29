@@ -22,7 +22,7 @@ namespace deeprockitems.Content.Projectiles
         }
         public override void AI()
         {
-            if (Projectile.velocity.Y != 10f) // cap gravity
+            if (Projectile.velocity.Y != 10f) // Set gravity cap (we don't want
             {
                 Projectile.velocity.Y += .5f;
             }
@@ -121,7 +121,6 @@ namespace deeprockitems.Content.Projectiles
         }
         public override void AI()
         {
-
             Player owner = Main.player[Projectile.owner];
             float SHOOT_SPEED = Projectile.velocity.Length();
             if (owner.channel)

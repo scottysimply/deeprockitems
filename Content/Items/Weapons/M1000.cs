@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 using deeprockitems.Content.Projectiles;
-using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -14,6 +14,7 @@ namespace deeprockitems.Content.Items.Weapons
             DisplayName.SetDefault("M1000 Classic");
             Tooltip.SetDefault("'From A to D, skipping B and C!'\n" +
                                "Hold click to fire a focused shot");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

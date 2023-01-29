@@ -1,6 +1,9 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Enums;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 using deeprockitems.Content.Projectiles;
 
@@ -14,6 +17,7 @@ namespace deeprockitems.Content.Items.Weapons
             Tooltip.SetDefault("Fires in a slow moving arc \n" +
                                "Hold click to fire a shot that splatters \n" +
                                "Splattered shots use 50% extra mana");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

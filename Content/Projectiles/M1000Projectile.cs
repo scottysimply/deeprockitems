@@ -117,7 +117,7 @@ namespace deeprockitems.Content.Projectiles
                 SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/M1000Fire") with { Volume = .4f }, owner.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    float projRotation = Projectile.rotation = owner.Center.DirectionTo(Main.MouseWorld).ToRotation();
+                    float projRotation = owner.Center.DirectionTo(Main.MouseWorld).ToRotation();
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Normalize(Main.MouseWorld - owner.Center) * SHOOT_SPEED, ModContent.ProjectileType<M1000Bullet>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, projTimer, projRotation);
                 }
                 Projectile.Kill();
