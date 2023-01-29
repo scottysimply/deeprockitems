@@ -1,12 +1,14 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
-using static deeprockitems.MyFunctions;
 using static System.Math;
 using Terraria.DataStructures;
 using static Humanizer.In;
+using deeprockitems.Content.Projectiles;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace deeprockitems.Content.Items.Misc
 {
@@ -17,6 +19,7 @@ namespace deeprockitems.Content.Items.Misc
             DisplayName.SetDefault("Laser Pointer");
             Tooltip.SetDefault("'Did you borrow my underwear?'\n" +
                                "Puts a marker on whatever you ping");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {
@@ -25,12 +28,23 @@ namespace deeprockitems.Content.Items.Misc
             Item.useStyle = -1;
             Item.useTime = 3;
             Item.useAnimation = 3;
-            //Item.useStyle = ItemUseStyleID.Shoot;
+            Item.shootSpeed = 3;
             Item.shoot = ProjectileID.PurificationPowder;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            type = ModContent.ProjectileType<Projectiles.LaserPointerBeam>();
+            type = ModContent.ProjectileType<Projectiles.LaserPointerPing>();
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            foreach (Projectile proj in Main.projectile)
+            {
+                if (proj.type == ModContent.ProjectileType<LaserPointerPing>())
+                {
+                    proj.Kill();
+                }
+            }
+            return true;
         }
         public override void HoldItem(Player player)
         {
@@ -45,6 +59,7 @@ namespace deeprockitems.Content.Items.Misc
         }
         public override void HoldItemFrame(Player player)
         {
+            // Make the held item aim toward the mouse
             Vector2 mouseRelative = Main.MouseWorld - player.position;
             if (Main.MouseWorld.X < player.Center.X) // cursor is to the left of the player
             {
@@ -63,10 +78,6 @@ namespace deeprockitems.Content.Items.Misc
                 player.direction = 1; // make player face right
                 player.itemRotation = mouseRelative.ToRotation();
             }
-        }
-        public override void UseAnimation(Player player)
-        {
-            Item.position = player.Center;
         }
     }
 }
