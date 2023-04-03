@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 using deeprockitems.Content.Projectiles;
-
+    
 namespace deeprockitems.Content.Items.Weapons
 {
     public class SludgePump : ModItem
@@ -15,8 +15,7 @@ namespace deeprockitems.Content.Items.Weapons
         {
             DisplayName.SetDefault("Sludge Pump");
             Tooltip.SetDefault("Fires in a slow moving arc \n" +
-                               "Hold click to fire a shot that splatters \n" +
-                               "Splattered shots use 50% extra mana");
+                               "Hold click to fire a shot that splatters");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
@@ -30,7 +29,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.width = 100;
             Item.height = 52;
             Item.scale = .85f;
-            Item.mana = 7;
+            Item.mana = 10;
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -38,7 +37,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 18f;
             Item.rare = ItemRarityID.Orange;
-            Item.value = 300000;
+            Item.value = 200000;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {

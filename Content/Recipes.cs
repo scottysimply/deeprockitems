@@ -20,7 +20,7 @@ namespace deeprockitems
             M1k.AddIngredient(ItemID.Musket, 1);
             M1k.AddIngredient(ItemID.IllegalGunParts, 1);
             M1k.AddIngredient(ItemID.HallowedBar, 15);
-            M1k.AddIngredient(ItemID.SoulofFright, 10);
+            M1k.AddIngredient(ItemID.SoulofSight, 10);
             M1k.AddTile(TileID.MythrilAnvil);
             M1k.Register();
 
@@ -28,7 +28,7 @@ namespace deeprockitems
             M1k.AddIngredient(ItemID.TheUndertaker, 1);
             M1k.AddIngredient(ItemID.IllegalGunParts, 1);
             M1k.AddIngredient(ItemID.HallowedBar, 15);
-            M1k.AddIngredient(ItemID.SoulofFright, 10);
+            M1k.AddIngredient(ItemID.SoulofSight, 10);
             M1k.AddTile(TileID.MythrilAnvil);
             M1k.Register();
 

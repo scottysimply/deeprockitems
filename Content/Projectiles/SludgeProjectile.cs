@@ -16,7 +16,7 @@ namespace deeprockitems.Content.Projectiles
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
-            Projectile.rotation = Main.rand.NextFloat(0f, 6.28f);
+            Projectile.rotation = 0;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 5;
         }
@@ -26,6 +26,7 @@ namespace deeprockitems.Content.Projectiles
             {
                 Projectile.velocity.Y += .5f;
             }
+            Projectile.rotation += Projectile.velocity.X / 100;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -71,7 +72,6 @@ namespace deeprockitems.Content.Projectiles
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
             Projectile.timeLeft = 300;
-            Projectile.rotation = Main.rand.NextFloat(0f, 6.28f);
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
         }
@@ -84,6 +84,7 @@ namespace deeprockitems.Content.Projectiles
                     Projectile.velocity.Y += .5f;
                 }
             }
+            Projectile.rotation += Projectile.velocity.X / 100;
         }
         public override void Kill(int timeLeft)
         {

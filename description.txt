@@ -1,1 +1,1 @@
-Deep Rock Items is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+This mod is very incomplete, however it adds 3 weapons from Deep Rock Galactic.

@@ -4,6 +4,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using static System.Math;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using System.IO;
+using static Humanizer.In;
 
 namespace deeprockitems.Content.Projectiles
 {
@@ -24,11 +27,26 @@ namespace deeprockitems.Content.Projectiles
         }
         public override void AI()
         {
-            if (Projectile.ai[0] == M1000Helper.MAX_CHARGE)
+            Lighting.AddLight(Projectile.Center, .5f, .45f, .05f);
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            if (Projectile.ai[0] == 1)
             {
                 Projectile.damage *= 3;
                 Projectile.penetrate = 5;
-                Projectile.ai[0] = -1;
+                if (Main.player[Projectile.owner].HeldItem.ModItem is Items.Weapons.M1000 modItem)
+                {
+                    BitsByte helper = modItem.Upgrades;
+                    if (helper[6] && helper[7])
+                    {
+                        Projectile.tileCollide = false;
+                    }
+                    else if (!helper[6] && helper[7])
+                    {
+                        Projectile.damage *= 2;
+                    }
+                }
             }
             Projectile.rotation = Projectile.ai[1];
         }
@@ -48,9 +66,11 @@ namespace deeprockitems.Content.Projectiles
     }
     public class M1000Helper : ModProjectile
     {
-        public const float MAX_CHARGE = 40f; // This is the time it takes to charge the weapon, in ticks. Due to being a constant, it is in all caps for readability
+        public float MAX_CHARGE = 40f; // This is the time it takes to charge the weapon, in ticks. This is mostly constant.
         public float projTimer = 0f;
         private bool charged = false;
+        private float projRotation;
+        private Vector2 projDirection;
         public override void SetDefaults()
         {
             Projectile.width = 4;
@@ -67,9 +87,22 @@ namespace deeprockitems.Content.Projectiles
         {
             return false;
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            projDirection = Vector2.Normalize(Main.MouseWorld - Main.player[Projectile.owner].Center);
+            projRotation = Main.player[Projectile.owner].Center.DirectionTo(Main.MouseWorld).ToRotation();
+            if (Main.player[Projectile.owner].HeldItem.ModItem is Items.Weapons.M1000 modItem)
+            {
+                BitsByte helper = modItem.Upgrades;
+                if (!helper[6] && helper[7])
+                {
+                    MAX_CHARGE = 60f;
+                }
+            }
+        }
+        public override string GlowTexture => "deeprockitems/Content/Projectiles/M1000Projectile";
         public override void AI()
         {
-            
             Player owner = Main.player[Projectile.owner];
             float SHOOT_SPEED = Projectile.velocity.Length();
             if (owner.channel)
@@ -91,23 +124,8 @@ namespace deeprockitems.Content.Projectiles
                         owner.itemTime = 2;
                         owner.itemAnimation = 2;
                     }
-                    if (Main.MouseWorld.X < owner.Center.X) // cursor is to the left of the player
-                    {
-                        if (Main.MouseWorld.Y < owner.Center.Y) // Mouse is above the player
-                        {
-                            owner.itemRotation = owner.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
-                        }
-                        else
-                        {
-                            owner.itemRotation = owner.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
-                        }
-                        owner.direction = -1; // make player face left
-                    }
-                    else // cursor is to the right of the player
-                    {
-                        owner.itemRotation = owner.DirectionTo(Main.MouseWorld).ToRotation();
-                        owner.direction = 1; // make player face right
-                    }
+                    HoldItemOut(owner); // This method makes the weapon stay held out in front of the player
+
                 }
             }
             else
@@ -116,11 +134,33 @@ namespace deeprockitems.Content.Projectiles
                 SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/M1000Fire") with { Volume = .4f }, owner.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    float projRotation = owner.Center.DirectionTo(Main.MouseWorld).ToRotation();
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Normalize(Main.MouseWorld - owner.Center) * SHOOT_SPEED, ModContent.ProjectileType<M1000Bullet>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, projTimer, projRotation);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projDirection * SHOOT_SPEED, ModContent.ProjectileType<M1000Bullet>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, System.Convert.ToSingle(charged), projRotation);
                 }
                 Projectile.Kill();
             }
+        }
+
+        private void HoldItemOut(Player player)
+        {
+            if (Main.MouseWorld.X < player.Center.X) // cursor is to the left of the player
+            {
+                if (Main.MouseWorld.Y < player.Center.Y) // Mouse is above the player
+                {
+                    player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
+                }
+                else
+                {
+                    player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
+                }
+                player.direction = -1; // make player face left
+            }
+            else // cursor is to the right of the player
+            {
+                player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
+                player.direction = 1; // make player face right
+            }
+            projRotation = player.itemRotation;
+            projDirection = Vector2.Normalize(Main.MouseWorld - player.Center);
         }
     }
 }
