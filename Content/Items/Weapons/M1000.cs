@@ -70,7 +70,7 @@ namespace deeprockitems.Content.Items.Weapons
                 ByteHelper[6] = true;
                 ByteHelper[7] = true;
             }
-            else if ((player.HeldItem.type == ModContent.ItemType<Overclocks.SupercoolOC>()))
+            else if (player.HeldItem.type == ModContent.ItemType<Overclocks.SupercoolOC>())
             {
                 Main.mouseItem.stack -= 1;
                 Main.mouseItem.maxStack = 0;
@@ -170,6 +170,7 @@ namespace deeprockitems.Content.Items.Weapons
                 Item.useTime = 15;
                 Item.useAnimation = 15;
             }
+            Upgrades = ByteHelper;
         }
     }
 }

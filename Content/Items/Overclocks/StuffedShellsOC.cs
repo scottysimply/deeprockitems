@@ -1,29 +1,23 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System.Linq;
-using Humanizer;
 
 namespace deeprockitems.Content.Items.Overclocks
 {
-    public class StuffedShellsOC : ModItem
+    public class StuffedShellsOC : UpgradeTemplate
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Overclock: Stuffed Shells");
-            Tooltip.SetDefault("Right click this item on a Jury-Rigged Boomstick to upgrade the weapon\n" +
-                               "Fires twice as many shells in exchange for heavily increased spread and a lower fire rate\n" +
-                               "Consumable");
-        }
+        public override string ItemName { get => "Stuffed Shells"; set => base.ItemName = value; }
+        public override string ItemTooltip { get => "Doubled pellet count, but lower fire rate and heavily increased spread"; set => base.ItemTooltip = value; }
+        public override int ItemToUpgrade { get => ModContent.ItemType<Weapons.JuryShotgun>(); set => base.ItemToUpgrade = value; }
+        public override bool IsOverclock { get => true; set => base.IsOverclock = value; }
         public override void SetDefaults()
         {
-            Item.rare = ItemRarityID.Lime;
-            Item.height = 30;
-            Item.width = 30;
+            base.SetDefaults();
+            Item.rare = ItemRarityID.Red;
         }
-        public override bool CanStack(Item item2)
+        public override void SetStaticDefaults()
         {
-            return false;
+            base.SetStaticDefaults();
         }
     }
 }

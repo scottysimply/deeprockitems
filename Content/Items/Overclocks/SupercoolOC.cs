@@ -1,29 +1,23 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System.Linq;
-using Humanizer;
 
 namespace deeprockitems.Content.Items.Overclocks
 {
-    public class SupercoolOC : ModItem
+    public class SupercoolOC : UpgradeTemplate
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Overclock: Supercooling Chamber");
-            Tooltip.SetDefault("Right click this item on an M1000 to upgrade the weapon\n" +
-                               "Focus shots deal more damage in exchange for less mobility\n" +
-                               "Consumable");
-        }
+        public override string ItemName { get => "Supercooling Chamber"; set => base.ItemName = value; }
+        public override string ItemTooltip { get => "2x focus shot damage, with slower focus speed and lower normal shot fire rate"; set => base.ItemTooltip = value; }
+        public override int ItemToUpgrade { get => ModContent.ItemType<Weapons.M1000>(); set => base.ItemToUpgrade = value; }
+        public override bool IsOverclock { get => true; set => base.IsOverclock = value; }
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.rare = ItemRarityID.Red;
-            Item.height = 30;
-            Item.width = 30;
         }
-        public override bool CanStack(Item item2)
+        public override void SetStaticDefaults()
         {
-            return false;
+            base.SetStaticDefaults();
         }
     }
 }

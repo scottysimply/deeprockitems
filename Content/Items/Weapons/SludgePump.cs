@@ -6,11 +6,16 @@ using Terraria.ID;
 using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 using deeprockitems.Content.Projectiles;
-    
+using Terraria.ModLoader.IO;
+using System.Collections.Generic;
+
 namespace deeprockitems.Content.Items.Weapons
 {
     public class SludgePump : ModItem
     {
+        public byte Upgrades;
+        public BitsByte ByteHelper;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sludge Pump");
@@ -42,6 +47,48 @@ namespace deeprockitems.Content.Items.Weapons
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             type = ModContent.ProjectileType<SludgeHelper>();
+        }
+        public override void RightClick(Player player)
+        {
+            ByteHelper = Upgrades;
+            Upgrades = ByteHelper;
+
+
+            // Supposedly manage UI here.
+
+
+        }
+        public override bool CanRightClick()
+        {
+            return true;
+        }
+        public override void SaveData(TagCompound tag)
+        {
+            Upgrades = ByteHelper;
+            tag["WeaponUpgrades"] = Upgrades;
+        }
+        public override void LoadData(TagCompound tag)
+        {
+            if (tag.ContainsKey("WeaponUpgrades"))
+            {
+                Upgrades = (byte)tag["WeaponUpgrades"];
+            }
+            else
+            {
+                Upgrades = 0;
+            }
+            ByteHelper = Upgrades;
+            Upgrades = ByteHelper;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+
+
+
+        }
+        private void UpdateUpgrades()
+        {
+            Upgrades = ByteHelper;
         }
     }
 }

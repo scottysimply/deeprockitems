@@ -1,29 +1,23 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using System.Linq;
-using Humanizer;
 
 namespace deeprockitems.Content.Items.Overclocks
 {
-    public class SpecialPowderOC : ModItem
+    public class SpecialPowderOC : UpgradeTemplate
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Overclock: Special Powder");
-            Tooltip.SetDefault("Right click this item on a Jury-Rigged Boomstick to upgrade the weapon\n" +
-                               "Each shot launches you in the opposite direction you aim\n" +
-                               "Consumable");
-        }
+        public override string ItemName { get => "Special Powder"; set => base.ItemName = value; }
+        public override string ItemTooltip { get => "Each shot propels you in the opposite direction you aim"; set => base.ItemTooltip = value; }
+        public override int ItemToUpgrade { get => ModContent.ItemType<Weapons.JuryShotgun>(); set => base.ItemToUpgrade = value; }
+        public override bool IsOverclock { get => true; set => base.IsOverclock = value; }
         public override void SetDefaults()
         {
-            Item.rare = ItemRarityID.Lime;
-            Item.height = 30;
-            Item.width = 30;
+            base.SetDefaults();
+            Item.rare = ItemRarityID.Green;
         }
-        public override bool CanStack(Item item2)
+        public override void SetStaticDefaults()
         {
-            return false;
+            base.SetStaticDefaults();
         }
     }
 }

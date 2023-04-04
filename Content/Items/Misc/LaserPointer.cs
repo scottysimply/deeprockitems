@@ -26,22 +26,22 @@ namespace deeprockitems.Content.Items.Misc
             Item.rare = ItemRarityID.Green;
             Item.scale = 1.4f;
             Item.holdStyle = 1;
-            Item.useStyle = -1;
+            Item.useStyle = 5;
             Item.useTime = 3;
             Item.useAnimation = 3;
-            Item.shootSpeed = 3;
+            Item.shootSpeed = 2;
             Item.value = 60000;
             Item.shoot = ProjectileID.PurificationPowder;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            type = ModContent.ProjectileType<Projectiles.LaserPointerPing>();
+            type = ModContent.ProjectileType<LaserPointerPing>();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             foreach (Projectile proj in Main.projectile)
             {
-                if (proj.type == ModContent.ProjectileType<LaserPointerPing>())
+                if (proj.type == ModContent.ProjectileType<LaserPointerPing>() && Main.player[proj.owner] == player)
                 {
                     proj.Kill();
                 }

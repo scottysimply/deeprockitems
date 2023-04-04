@@ -3,7 +3,6 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
-using static deeprockitems.MyFunctions;
 using static System.Math;
 using Terraria.DataStructures;
 using System.Collections.Generic;
@@ -57,7 +56,7 @@ namespace deeprockitems.Content.Items.Weapons
             }
 
             // This block and helper functions below manage the shotgun jump
-            Vector2 mousePos = MouseRel(Main.MouseWorld, player);
+            Vector2 mousePos = Main.MouseWorld - player.Center;
             if (Main.MouseWorld.X > player.Center.X) // Change player's direction to face the gun.
             {
                 player.direction = 1;
@@ -245,6 +244,7 @@ namespace deeprockitems.Content.Items.Weapons
                 Item.useTime = 39;
                 Item.useAnimation = 39;
             }
+            Upgrades = ByteHelper;
         }
     }
 }
