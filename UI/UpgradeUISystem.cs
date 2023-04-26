@@ -8,21 +8,24 @@ namespace deeprockitems.UI
 {
     public class UpgradeUISystem : ModSystem
     {
-        internal UpgradeUIPanel UIPanel;
-        private UserInterface _uiPanel;
+        public static UpgradeUIPanel UpgradeUIPanel;
+        public static UserInterface Interface;
 
 
         public override void Load()
         {
-            UIPanel = new();
-            UIPanel.Activate();
-            _uiPanel = new();
-            _uiPanel.SetState(UIPanel);
+            UpgradeUIPanel = new();
+            UpgradeUIPanel.Activate();
+            Interface = new();
         }
 
         public override void UpdateUI(GameTime gameTime)
         {
-            _uiPanel?.Update(gameTime);
+            Interface?.Update(gameTime);
+            if (!Main.playerInventory)
+            {
+                Interface.SetState(null);
+            }
 
 
         }
@@ -35,7 +38,7 @@ namespace deeprockitems.UI
                     "YourMod: A Description",
                     delegate
                     {
-                        _uiPanel.Draw(Main.spriteBatch, new GameTime());
+                        Interface.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
                     InterfaceScaleType.UI)

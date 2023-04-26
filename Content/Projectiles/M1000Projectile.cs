@@ -37,12 +37,11 @@ namespace deeprockitems.Content.Projectiles
                 Projectile.penetrate = 5;
                 if (Main.player[Projectile.owner].HeldItem.ModItem is Items.Weapons.M1000 modItem)
                 {
-                    BitsByte helper = modItem.Upgrades;
-                    if (helper[6] && helper[7])
+                    if (((BitsByte)modItem.Upgrades)[1])
                     {
                         Projectile.tileCollide = false;
                     }
-                    else if (!helper[6] && helper[7])
+                    else if (((BitsByte)modItem.Upgrades)[2])
                     {
                         Projectile.damage *= 2;
                     }
@@ -93,14 +92,12 @@ namespace deeprockitems.Content.Projectiles
             projRotation = Main.player[Projectile.owner].Center.DirectionTo(Main.MouseWorld).ToRotation();
             if (Main.player[Projectile.owner].HeldItem.ModItem is Items.Weapons.M1000 modItem)
             {
-                BitsByte helper = modItem.Upgrades;
-                if (!helper[6] && helper[7])
+                if (((BitsByte)modItem.Upgrades)[2])
                 {
                     MAX_CHARGE = 60f;
                 }
             }
         }
-        public override string GlowTexture => "deeprockitems/Content/Projectiles/M1000Projectile";
         public override void AI()
         {
             Player owner = Main.player[Projectile.owner];
@@ -139,6 +136,7 @@ namespace deeprockitems.Content.Projectiles
                 Projectile.Kill();
             }
         }
+
 
         private void HoldItemOut(Player player)
         {

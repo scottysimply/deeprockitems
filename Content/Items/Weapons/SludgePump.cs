@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Enums;
@@ -8,18 +8,16 @@ using Terraria.ModLoader;
 using deeprockitems.Content.Projectiles;
 using Terraria.ModLoader.IO;
 using System.Collections.Generic;
+using deeprockitems.Content.Items.Upgrades;
 
 namespace deeprockitems.Content.Items.Weapons
 {
-    public class SludgePump : ModItem
+    public class SludgePump : UpgradeableItemTemplate
     {
-        public byte Upgrades;
-        public BitsByte ByteHelper;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sludge Pump");
-            Tooltip.SetDefault("Fires in a slow moving arc \n" +
+            Tooltip.SetDefault("Fires toxic waste in a shallow arc \n" +
                                "Hold click to fire a shot that splatters");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
@@ -33,7 +31,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.crit = 4;
             Item.width = 100;
             Item.height = 52;
-            Item.scale = .85f;
+            Item.scale = .6f;
             Item.mana = 10;
             Item.useTime = 15;
             Item.useAnimation = 15;
@@ -43,52 +41,36 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shootSpeed = 18f;
             Item.rare = ItemRarityID.Orange;
             Item.value = 200000;
+            ValidUpgrades[0] = ModContent.ItemType<AntiGravOC>();
+            ValidUpgrades[1] = ModContent.ItemType<SludgeExplosionOC>();
+            ValidUpgrades[2] = ModContent.ItemType<GooSpecialOC>();
+            ValidUpgrades[3] = ModContent.ItemType<DamageUpgrade>();
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             type = ModContent.ProjectileType<SludgeHelper>();
         }
-        public override void RightClick(Player player)
+        public override void IndividualUpgrades()
         {
-            ByteHelper = Upgrades;
-            Upgrades = ByteHelper;
-
-
-            // Supposedly manage UI here.
-
-
-        }
-        public override bool CanRightClick()
-        {
-            return true;
-        }
-        public override void SaveData(TagCompound tag)
-        {
-            Upgrades = ByteHelper;
-            tag["WeaponUpgrades"] = Upgrades;
-        }
-        public override void LoadData(TagCompound tag)
-        {
-            if (tag.ContainsKey("WeaponUpgrades"))
+            if (((BitsByte)Upgrades)[0])
             {
-                Upgrades = (byte)tag["WeaponUpgrades"];
+                CurrentOverclock = "AG Mixture";
+                OverclockPositives = "▶Shots are no longer affected by gravity";
+                OverclockNegatives = "";
             }
-            else
+            else if (((BitsByte)Upgrades)[1])
             {
-                Upgrades = 0;
+                CurrentOverclock = "Waste Ordnance";
+                OverclockPositives = "▶Charge shots explode with a large range";
+                OverclockNegatives = "▶Charge shots don't fragment when destroyed";
             }
-            ByteHelper = Upgrades;
-            Upgrades = ByteHelper;
-        }
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-
-
-
-        }
-        private void UpdateUpgrades()
-        {
-            Upgrades = ByteHelper;
+            else if (((BitsByte)Upgrades)[2])
+            {
+                CurrentOverclock = "Goo Bomber Special";
+                OverclockPositives = "▶Charge shots leave trails behind";
+                OverclockNegatives = "▶Charge shots don't fragment when destroyed\n" +
+                                     "▶Normal shots deal less damage";
+            }
         }
     }
 }

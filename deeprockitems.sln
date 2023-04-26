@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deeprockitems", "C:/Users/scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\deeprockitems.csproj", "{14485B9B-495A-45D5-B1BA-8DD5D11C818B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deeprockitems", "C:/Users/scott\Documents\My Games\Terraria\tModLoader\ModSources\deeprockitems\deeprockitems.csproj", "{3587F29A-5294-4A12-9094-96A0E98A2C2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{14485B9B-495A-45D5-B1BA-8DD5D11C818B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14485B9B-495A-45D5-B1BA-8DD5D11C818B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14485B9B-495A-45D5-B1BA-8DD5D11C818B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14485B9B-495A-45D5-B1BA-8DD5D11C818B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3587F29A-5294-4A12-9094-96A0E98A2C2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3587F29A-5294-4A12-9094-96A0E98A2C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3587F29A-5294-4A12-9094-96A0E98A2C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3587F29A-5294-4A12-9094-96A0E98A2C2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7449DC21-3381-4E2B-8743-430E771C2C92}
+		SolutionGuid = {FF3F7FCC-D08E-4D51-BF38-20F6F1C6E3F2}
 	EndGlobalSection
 EndGlobal

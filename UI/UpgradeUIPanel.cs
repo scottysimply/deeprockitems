@@ -2,16 +2,20 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using deeprockitems.Content.Items.Weapons;
+using System.Linq;
 
 namespace deeprockitems.UI
 {
     public class UpgradeUIPanel : UIState
     {
         public DragablePanel dragPanel;
-        CustomItemSlot UpgradeSlot1;
-        CustomItemSlot UpgradeSlot2;
-        CustomItemSlot UpgradeSlot3;
-        CustomItemSlot OverclockSlot;
+        public static DisplaySlot ParentSlot;
+        public static UpgradeSlot upgradeSlot1;
+        public static UpgradeSlot upgradeSlot2;
+        public static UpgradeSlot upgradeSlot3;
+        public static UpgradeSlot overclockSlot;
 
         public bool IsVisible = false;
         public override void OnInitialize()
@@ -19,46 +23,117 @@ namespace deeprockitems.UI
             dragPanel = new();
             dragPanel.SetPadding(0);
 
-            dragPanel.Left.Set(400, 0);
+            dragPanel.Left.Set(800, 0);
             dragPanel.Top.Set(100, 0);
-            dragPanel.Width.Set(120, 0);
-            dragPanel.Height.Set(240, 0);
+            dragPanel.Width.Set(108, 0);
+            dragPanel.Height.Set(154, 0);
             dragPanel.BackgroundColor = new Color(73, 94, 171);
 
-            UpgradeSlot1 = new();
-            UpgradeSlot1.SetPadding(0);
-            UpgradeSlot1.Left.Set(5, 0);
-            UpgradeSlot1.Top.Set(80, 0);
-            UpgradeSlot1.Width.Set(20, 0);
-            UpgradeSlot1.Height.Set(20, 0);
+            ParentSlot = new DisplaySlot();
+            ParentSlot.SetPadding(0);
+            upgradeSlot1 = new UpgradeSlot();
+            upgradeSlot1.SetPadding(0);
+            upgradeSlot2 = new();
+            upgradeSlot2.SetPadding(0);
+            upgradeSlot3 = new();
+            upgradeSlot3.SetPadding(0);
+            overclockSlot = new();
+            overclockSlot.SetPadding(0);
 
-            UpgradeSlot2 = new();
-            UpgradeSlot2.SetPadding(0);
-            UpgradeSlot2.Left.Set(63, 0);
-            UpgradeSlot2.Top.Set(80, 0);
-            UpgradeSlot2.Width.Set(20, 0);
-            UpgradeSlot2.Height.Set(20, 0);
+            ParentSlot.Left.Set(33, 0);
+            ParentSlot.Top.Set(10, 0);
+            ParentSlot.Width.Set(42, 0);
+            ParentSlot.Height.Set(42, 0);
 
-            UpgradeSlot3 = new();
-            UpgradeSlot3.SetPadding(0);
-            UpgradeSlot3.Left.Set(5, 0);
-            UpgradeSlot3.Top.Set(140, 0);
-            UpgradeSlot3.Width.Set(20, 0);
-            UpgradeSlot3.Height.Set(20, 0);
+            upgradeSlot1.Left.Set(10, 0);
+            upgradeSlot1.Top.Set(56, 0);
+            upgradeSlot1.Width.Set(42, 0);
+            upgradeSlot1.Height.Set(42, 0);
 
-            OverclockSlot = new();
-            OverclockSlot.SetPadding(0);
-            OverclockSlot.Left.Set(63, 0);
-            OverclockSlot.Top.Set(140, 0);
-            OverclockSlot.Width.Set(20, 0);
-            OverclockSlot.Height.Set(20, 0);
+            upgradeSlot2.Left.Set(56, 0);
+            upgradeSlot2.Top.Set(56, 0);
+            upgradeSlot2.Width.Set(42, 0);
+            upgradeSlot2.Height.Set(42, 0);
 
-            dragPanel.Append(UpgradeSlot1);
-            dragPanel.Append(UpgradeSlot2);
-            dragPanel.Append(UpgradeSlot3);
-            dragPanel.Append(OverclockSlot);
+            upgradeSlot3.Left.Set(10, 0);
+            upgradeSlot3.Top.Set(102, 0);
+            upgradeSlot3.Width.Set(42, 0);
+            upgradeSlot3.Height.Set(42, 0);
+
+            overclockSlot.Left.Set(56, 0);
+            overclockSlot.Top.Set(102, 0);
+            overclockSlot.Width.Set(42, 0);
+            overclockSlot.Height.Set(42, 0);
+            overclockSlot.IsOverclockSlot = true;
+
+            dragPanel.Append(ParentSlot);
+            dragPanel.Append(upgradeSlot1);
+            dragPanel.Append(upgradeSlot2);
+            dragPanel.Append(upgradeSlot3);
+            dragPanel.Append(overclockSlot);
 
             Append(dragPanel);
         }
+        public void ClearItems()
+        {
+            ParentSlot.ItemToDisplay = new();
+            upgradeSlot1.ItemInSlot = new();
+            upgradeSlot2.ItemInSlot = new();
+            upgradeSlot3.ItemInSlot = new();
+            overclockSlot.ItemInSlot = new();
+        }
+        public static int[] GetItems()
+        {
+            int[] result = new int[4];
+            result[0] = upgradeSlot1.ItemInSlot.type;
+            result[1] = upgradeSlot2.ItemInSlot.type;
+            result[2] = upgradeSlot3.ItemInSlot.type;
+            result[3] = overclockSlot.ItemInSlot.type;
+            return result;
+        }
+        public void LoadItem_InSlot()
+        {
+            UpgradeableItemTemplate Weapon = (UpgradeableItemTemplate)ParentSlot.ItemToDisplay.ModItem;
+            if (Weapon is not null)
+            {
+                BitsByte Helper = Weapon.Upgrades;
+                for (int u = 0; u < 8; u++)
+                {
+                    if (0 <= u && u <= 2)
+                    {
+                        if (Helper[u])
+                        {
+                            overclockSlot.ItemInSlot = new(Weapon.ValidUpgrades[u]);
+                            u = 2;
+                        }
+                    }
+                    else
+                    {
+                        if (Helper[u])
+                        {
+                            if (upgradeSlot1.ItemInSlot.type == 0)
+                            {
+                                upgradeSlot1.ItemInSlot = new(Weapon.ValidUpgrades[u]);
+                            }
+                            else if (upgradeSlot2.ItemInSlot.type == 0)
+                            {
+                                upgradeSlot2.ItemInSlot = new(Weapon.ValidUpgrades[u]);
+                            }
+                            else if (upgradeSlot3.ItemInSlot.type == 0)
+                            {
+                                upgradeSlot3.ItemInSlot = new(Weapon.ValidUpgrades[u]);
+                            }
+                            else
+                            {
+                                Player player = Main.player[Main.myPlayer];
+                                Item.NewItem(player.GetSource_Misc("PlayerDropItemCheck"), new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), Weapon.ValidUpgrades[u]);
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+
     }
 }
