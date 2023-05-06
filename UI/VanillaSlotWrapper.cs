@@ -10,19 +10,94 @@ using Terraria.GameContent;
 using static System.Formats.Asn1.AsnWriter;
 using Terraria.Audio;
 using static Terraria.ModLoader.PlayerDrawLayer;
+using Terraria.GameContent.UI.Elements;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Content.Items.Upgrades;
 using System.Linq;
 
 namespace deeprockitems.UI
 {
+    /*public class SuperSlotWrapper : UIElement
+    {
+        private Item[] _itemArray;
+
+        private int _itemIndex;
+
+        private int _itemSlotContext;
+
+        private bool IsOverclockSlot;
+
+        public SuperSlotWrapper(Item[] itemArray, int itemIndex, int itemSlotContext)
+        {
+            this._itemArray = itemArray;
+            this._itemIndex = itemIndex;
+            this._itemSlotContext = itemSlotContext;
+            base.Width = new StyleDimension(48f, 0f);
+            base.Height = new StyleDimension(48f, 0f);
+        }
+        public override void Update(GameTime gameTime)
+        {
+            Parentitem
+        }
+
+        private void HandleItemSlotLogic()
+        {
+            if (base.IsMouseHovering)
+            {
+                Main.LocalPlayer.mouseInterface = true;
+                Item inv = this._itemArray[this._itemIndex];
+                ItemSlot.OverrideHover(ref inv, this._itemSlotContext);
+                ItemSlot.MouseHover(ref inv, this._itemSlotContext);
+                this._itemArray[this._itemIndex] = inv;
+            }
+        }
+        public override void Click(UIMouseEvent evt)
+        {
+            base.Click(evt);
+            if (Main.mouseItem.ModItem is UpgradeTemplate Upgrade)
+            {
+                if (!(Upgrade.IsOverclock ^ IsOverclockSlot) && (ParentItem.ValidUpgrades.Contains(Upgrade.Type)))
+                {
+                    int[] CurrentUpgrades = UpgradeUIPanel.GetItems();
+                    if (!CurrentUpgrades.Contains(Upgrade.Type))
+                    {
+                        if (ItemInSlot.type == 0)
+                        {
+                            SaveItem_InSlot(Upgrade, false);
+                            SoundEngine.PlaySound(SoundID.Grab);
+                            ItemInSlot = Main.mouseItem;
+                            Main.mouseItem = new Item();
+                        }
+                    }
+
+                }
+
+            }
+            else if (Main.mouseItem.type == 0)
+            {
+                if (ItemInSlot.ModItem is UpgradeTemplate Upgrade2)
+                {
+                    SaveItem_InSlot(Upgrade2, true);
+                    SoundEngine.PlaySound(SoundID.Grab);
+                    Main.mouseItem = ItemInSlot;
+                    ItemInSlot = new Item();
+                }
+
+            }
+        }
+
+        protected override void DrawSelf(SpriteBatch spriteBatch)
+        {
+            this.HandleItemSlotLogic();
+            Item inv = this._itemArray[this._itemIndex];
+            Vector2 position = base.GetDimensions().Center() + new Vector2(52f, 52f) * -0.5f * Main.inventoryScale;
+            ItemSlot.Draw(spriteBatch, ref inv, this._itemSlotContext, position);
+        }
+    }*/
     public class DisplaySlot : UIElement
     {
-        public Item ItemToDisplay { get; set; }
-        public override void OnInitialize()
-        {
-            ItemToDisplay = new();
-        }
+/*        public Item[] dummy = new Item[1];*/
+        public Item ItemToDisplay { get; set; } = new Item();
         protected override void DrawSelf(SpriteBatch spriteBatch) // TODO: Fix this drawing code
         {
             float _InventoryScale = Main.inventoryScale;
@@ -56,13 +131,25 @@ namespace deeprockitems.UI
                 }
                 ItemLoader.PostDrawInInventory(ItemToDisplay, spriteBatch, ItemDrawPosition, ItemInSlot_Dimensions, ItemToDisplay.GetAlpha(Color.White), ItemToDisplay.GetColor(Color.White), origin, unknownScale * spriteScale);
             }
+
+            if (IsMouseHovering)
+            {
+                Main.LocalPlayer.mouseInterface = true;
+                Main.HoverItem = ItemToDisplay.Clone();
+                Main.hoverItemName= ItemToDisplay.Name;
+            }
         }
         public override void Update(GameTime gameTime)
         {
-            if (ContainsPoint(Main.MouseScreen))
-            {
-                Main.LocalPlayer.mouseInterface = true;
-            }
+            base.Update(gameTime);
+            AdditionalUpdate();
+
+
+
+        }
+        public virtual void AdditionalUpdate()
+        {
+
         }
     }
     public class UpgradeSlot : DisplaySlot
@@ -93,7 +180,7 @@ namespace deeprockitems.UI
             {
                 if (!(Upgrade.IsOverclock ^ IsOverclockSlot) && (ParentItem.ValidUpgrades.Contains(Upgrade.Type)))
                 {
-                    int[] CurrentUpgrades = UpgradeUIPanel.GetItems();
+                    int[] CurrentUpgrades = UpgradeUIState.GetItems();
                     if (!CurrentUpgrades.Contains(Upgrade.Type))
                     {
                         if (ItemInSlot.type == 0)
@@ -120,9 +207,8 @@ namespace deeprockitems.UI
 
             }
         }
-        public override void Update(GameTime gameTime)
+        public override void AdditionalUpdate()
         {
-            base.Update(gameTime);
             ItemToDisplay = ItemInSlot;
 
         }

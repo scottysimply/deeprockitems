@@ -3,13 +3,16 @@ using Terraria;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
-using deeprockitems.Content.Projectiles;
+using static System.Math;
 using deeprockitems.Content.Items.Upgrades;
+using deeprockitems.Content.Projectiles.M1000Projectile;
 
 namespace deeprockitems.Content.Items.Weapons
 {
     public class M1000 : UpgradeableItemTemplate
     {
+        public int oldFireRate = 0;
+        public int newFireRate = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("M1000 Classic");
@@ -19,7 +22,7 @@ namespace deeprockitems.Content.Items.Weapons
 
         }
 
-        public override void SetDefaults()
+        public override void SafeDefaults()
         {
             Item.damage = 75;
             Item.DamageType = DamageClass.Ranged;
@@ -39,10 +42,18 @@ namespace deeprockitems.Content.Items.Weapons
             Item.scale = .5f;
             Item.value = 640000;
             Item.consumable = false;
+
+            oldFireRate = Item.useTime;
+
             ValidUpgrades[0] = ModContent.ItemType<HipsterOC>();
             ValidUpgrades[1] = ModContent.ItemType<DiggingRoundsOC>();
             ValidUpgrades[2] = ModContent.ItemType<SupercoolOC>();
-            ValidUpgrades[3] = ModContent.ItemType<DamageUpgrade>();
+
+            ValidUpgrades[4] = ModContent.ItemType<QuickCharge>();
+            ValidUpgrades[6] = ModContent.ItemType<BumpFire>();
+
+
+            
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
@@ -50,29 +61,26 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void IndividualUpgrades()
         {
-            if (((BitsByte)Upgrades)[0])
+            if (Upgrades[0])
             {
                 Item.channel = false;
-                Item.useTime = 9;
-                Item.useAnimation = 9;
+                newFireRate = 15;
                 CurrentOverclock = "Hipster";
                 OverclockPositives = "▶Increased fire rate for normal shots";
                 OverclockNegatives = "▶You can no longer fire focus shots";
             }
-            else if (((BitsByte)Upgrades)[1])
+            else if (Upgrades[1])
             {
                 Item.channel = true;
-                Item.useTime = 15;
-                Item.useAnimation = 15;
+                newFireRate = 15;
                 CurrentOverclock = "Digging Rounds";
                 OverclockPositives = "▶Focus shots pierce through blocks";
                 OverclockNegatives = "";
             }
-            else if (((BitsByte)Upgrades)[2])
+            else if (Upgrades[2])
             {
                 Item.channel = true;
-                Item.useTime = 20;
-                Item.useAnimation = 20;
+                newFireRate = 20;
                 CurrentOverclock = "Supercooling Chamber";
                 OverclockPositives = "▶Focus shots deal 2x more damage";
                 OverclockNegatives = "▶Focus shots take 33% longer to charge\n" +
@@ -81,8 +89,17 @@ namespace deeprockitems.Content.Items.Weapons
             else
             {
                 Item.channel = true;
-                Item.useTime = 15;
-                Item.useAnimation = 15;
+                newFireRate = 15;
+            }
+            if (Upgrades[6])
+            {
+                Item.useAnimation = (int)Ceiling(newFireRate * .83f);
+                Item.useTime = (int)Ceiling(newFireRate * .83f);
+            }
+            else
+            {
+                Item.useAnimation = oldFireRate;
+                Item.useTime = oldFireRate;
             }
         }
     }

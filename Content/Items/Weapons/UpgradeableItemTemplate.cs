@@ -12,12 +12,27 @@ namespace deeprockitems.Content.Items.Weapons
     public abstract class UpgradeableItemTemplate : ModItem
     {
         public float DamageScale;
-        public virtual byte Upgrades { get; set; }
+        public virtual BitsByte Upgrades { get; set; }
         public virtual string CurrentOverclock { get; set; } = "";
         public virtual string OverclockPositives { get; set; } = "";
         public virtual string OverclockNegatives { get; set; } = "";
-        public static bool UI_Open { get; set; }
         public virtual int[] ValidUpgrades { get; set; } = new int[8];
+        private bool load_flag = false;
+        public virtual void SafeDefaults()
+        {
+
+
+        }
+        public override void SetDefaults()
+        {
+            SafeDefaults();
+
+            ValidUpgrades[3] = ModContent.ItemType<DamageUpgrade>();
+            ValidUpgrades[5] = ModContent.ItemType<ArmorPierce>();
+            ValidUpgrades[7] = ModContent.ItemType<Blowthrough>();
+
+            base.SetDefaults();
+        }
         public override void UpdateInventory(Player player)
         {
             if (!Main.playerInventory)
@@ -29,7 +44,7 @@ namespace deeprockitems.Content.Items.Weapons
         public override void RightClick(Player player)
         {
             Item.stack += 1;
-            if (UpgradeUIPanel.ParentSlot.ItemToDisplay != Item)
+            if (UpgradeUIState.ParentSlot.ItemToDisplay != Item)
             {
                 Open_UI();
             }
@@ -45,7 +60,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void SaveData(TagCompound tag)
         {
-            tag["WeaponUpgrades"] = Upgrades;
+            tag["WeaponUpgrades"] = (byte)Upgrades;
         }
         public override void LoadData(TagCompound tag)
         {
@@ -57,10 +72,15 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 Upgrades = 0;
             }
+            if (!load_flag)
+            {
+                load_flag = true;
+                UpdateUpgrades();
+            }
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (((BitsByte)Upgrades)[0] || ((BitsByte)Upgrades)[1] || ((BitsByte)Upgrades)[2])
+            if (Upgrades[0] || Upgrades[1] || Upgrades[2])
             {
                 TooltipLine line = new(Mod, "Upgrades", string.Format("This weapon has the following overclock: [c/4AB1D3:{0}]", CurrentOverclock));
                 tooltips.Add(line);
@@ -90,7 +110,7 @@ namespace deeprockitems.Content.Items.Weapons
             DamageScale = 1f;
             IndividualUpgrades();
 
-            if (((BitsByte)Upgrades)[3])
+            if (Upgrades[3])
             {
                 Item.damage = (int)Floor(Item.OriginalDamage * DamageScale) + 5;
             }
@@ -102,16 +122,17 @@ namespace deeprockitems.Content.Items.Weapons
 
 
 
+
         }
         public virtual void IndividualUpgrades()
         {
-
+            
         }
         private void Open_UI()
         {
             UpgradeUISystem.UpgradeUIPanel.ClearItems();
             UpgradeUISystem.Interface.SetState(UpgradeUISystem.UpgradeUIPanel);
-            UpgradeUIPanel.ParentSlot.ItemToDisplay = Item;
+            UpgradeUIState.ParentSlot.ItemToDisplay = Item;
             UpgradeSlot.ParentItem = this;
             UpgradeUISystem.UpgradeUIPanel.LoadItem_InSlot();
         }

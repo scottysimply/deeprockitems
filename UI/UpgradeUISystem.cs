@@ -8,8 +8,10 @@ namespace deeprockitems.UI
 {
     public class UpgradeUISystem : ModSystem
     {
-        public static UpgradeUIPanel UpgradeUIPanel;
+        public static UpgradeUIState UpgradeUIPanel;
         public static UserInterface Interface;
+
+        internal static bool BlockItemSlotActionsDetour { get; set; }
 
 
         public override void Load()

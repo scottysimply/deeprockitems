@@ -5,15 +5,17 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
-using deeprockitems.Content.Projectiles;
 using Terraria.ModLoader.IO;
 using System.Collections.Generic;
 using deeprockitems.Content.Items.Upgrades;
+using deeprockitems.Content.Projectiles.SludgeProjectile;
 
 namespace deeprockitems.Content.Items.Weapons
 {
     public class SludgePump : UpgradeableItemTemplate
     {
+        public int TIMER = 0;
+        public static int MAX_TIMER = 30;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sludge Pump");
@@ -22,7 +24,7 @@ namespace deeprockitems.Content.Items.Weapons
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SetDefaults()
+        public override void SafeDefaults()
         {
             Item.damage = 34;
             Item.DamageType = DamageClass.Magic;
@@ -44,7 +46,22 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades[0] = ModContent.ItemType<AntiGravOC>();
             ValidUpgrades[1] = ModContent.ItemType<SludgeExplosionOC>();
             ValidUpgrades[2] = ModContent.ItemType<GooSpecialOC>();
-            ValidUpgrades[3] = ModContent.ItemType<DamageUpgrade>();
+
+            ValidUpgrades[4] = ModContent.ItemType<QuickCharge>();
+            ValidUpgrades[6] = ModContent.ItemType<TracerRounds>();
+
+        }
+        public override void HoldItem(Player player)
+        {
+            if (player == Main.LocalPlayer && Upgrades[6])
+            {
+                Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER);
+            }
+            TIMER++;
+            if (TIMER > MAX_TIMER)
+            {
+                TIMER = 0;
+            }
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
@@ -52,19 +69,19 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void IndividualUpgrades()
         {
-            if (((BitsByte)Upgrades)[0])
+            if (Upgrades[0])
             {
                 CurrentOverclock = "AG Mixture";
                 OverclockPositives = "▶Shots are no longer affected by gravity";
                 OverclockNegatives = "";
             }
-            else if (((BitsByte)Upgrades)[1])
+            else if (Upgrades[1])
             {
                 CurrentOverclock = "Waste Ordnance";
                 OverclockPositives = "▶Charge shots explode with a large range";
                 OverclockNegatives = "▶Charge shots don't fragment when destroyed";
             }
-            else if (((BitsByte)Upgrades)[2])
+            else if (Upgrades[2])
             {
                 CurrentOverclock = "Goo Bomber Special";
                 OverclockPositives = "▶Charge shots leave trails behind";
