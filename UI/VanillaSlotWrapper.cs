@@ -101,9 +101,9 @@ namespace deeprockitems.UI
             tracker = slotnumber;
         }
 
-        public override void Click(UIMouseEvent evt)
+        public override void LeftClick(UIMouseEvent evt)
         {
-            base.Click(evt);
+            base.LeftClick(evt);
             if (Main.mouseItem.ModItem is UpgradeTemplate Upgrade)
             {
                 if (!(Upgrade.IsOverclock ^ (tracker == 0)) && (ParentItem.ValidUpgrades.Contains(Upgrade.Type)))

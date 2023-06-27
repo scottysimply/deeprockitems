@@ -13,9 +13,9 @@ namespace deeprockitems.UI
         {
             
         }
-        public override void MouseDown(UIMouseEvent evt)
+        public override void LeftMouseDown(UIMouseEvent evt)
         {
-            base.MouseDown(evt);
+            base.LeftMouseDown(evt);
             DragStart(evt);
         }
         public void DragStart(UIMouseEvent evt)
@@ -23,9 +23,9 @@ namespace deeprockitems.UI
             offset = new(evt.MousePosition.X - Left.Pixels, evt.MousePosition.Y - Top.Pixels);
             dragging = true;
         }
-        public override void MouseUp(UIMouseEvent evt)
+        public override void LeftMouseUp(UIMouseEvent evt)
         {
-            base.MouseUp(evt);
+            base.LeftMouseUp(evt);
             DragEnd(evt);
         }
         public void DragEnd(UIMouseEvent evt)

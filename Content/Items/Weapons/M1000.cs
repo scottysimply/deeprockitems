@@ -15,9 +15,6 @@ namespace deeprockitems.Content.Items.Weapons
         public int newFireRate = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("M1000 Classic");
-            Tooltip.SetDefault("'From A to D, skipping B and C!'\n" +
-                               "Hold click to fire a focused shot");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 
         }

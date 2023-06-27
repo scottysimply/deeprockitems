@@ -37,13 +37,16 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 int dust = Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dust.SludgeDust>(), Scale: Main.rand.NextFloat(.9f, 1.1f));
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Venom, 60);
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(BuffID.Venom, 30);
+            if (info.PvP)
+            {
+                target.AddBuff(BuffID.Venom, 30);
+            }
         }
     }
 }

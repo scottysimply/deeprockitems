@@ -65,7 +65,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             }
             Projectile.rotation += Projectile.velocity.X / 100;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[0] == 1)
             {
@@ -80,19 +80,22 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 Projectile.damage = (int)Floor(Projectile.damage * .7f);
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (Projectile.ai[0] == 1)
+            if (info.PvP)
             {
-                target.AddBuff(BuffID.Venom, 150);
-            }
-            else
-            {
-                target.AddBuff(BuffID.Venom, 75);
-            }
-            if (parentItem.Upgrades[7])
-            {
-                Projectile.damage = (int)Floor(Projectile.damage * .7f);
+                if (Projectile.ai[0] == 1)
+                {
+                    target.AddBuff(BuffID.Venom, 150);
+                }
+                else
+                {
+                    target.AddBuff(BuffID.Venom, 75);
+                }
+                if (parentItem.Upgrades[7])
+                {
+                    Projectile.damage = (int)Floor(Projectile.damage * .7f);
+                }
             }
         }
         public override void Kill(int timeLeft)

@@ -14,8 +14,6 @@ namespace deeprockitems.Content.Items.Upgrades
         public override void SetStaticDefaults()
         {
             string name = IsOverclock ? "Overclock" : "Upgrade"; // If IsOverclock, item name will prefix with Overclock. If !IsOverclock, item name will prefix with Upgrade
-            DisplayName.SetDefault(string.Format("{0}: {1}", name, ItemName)); // Full item name will be Upgrade/Overclock: Name
-            Tooltip.SetDefault(ItemTooltip);
         }
         public override void SetDefaults()
         {

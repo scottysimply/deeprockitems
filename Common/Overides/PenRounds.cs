@@ -27,7 +27,7 @@ namespace deeprockitems.Common.Overides
                 }
             }
         }
-        public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             if (UpgradeEquipped)
             {

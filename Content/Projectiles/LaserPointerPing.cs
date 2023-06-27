@@ -40,7 +40,7 @@ namespace deeprockitems.Content.Projectiles
                 _ => new(.95f, .95f, .95f, .85f) // No team
             };
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             OnHitAll();
         }

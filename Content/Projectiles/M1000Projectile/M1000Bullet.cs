@@ -54,18 +54,21 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
             }
             Projectile.rotation = Projectile.ai[1];
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (modItem.Upgrades[7])
             {
                 Projectile.damage = (int)Floor(Projectile.damage * .7f);
             }
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (modItem.Upgrades[7])
+            if (info.PvP)
             {
-                Projectile.damage = (int)Floor(Projectile.damage * .7f);
+                if (modItem.Upgrades[7])
+                {
+                    Projectile.damage = (int)Floor(Projectile.damage * .7f);
+                }
             }
         }
         public override void Kill(int timeLeft)

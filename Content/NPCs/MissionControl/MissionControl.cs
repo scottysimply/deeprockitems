@@ -34,7 +34,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
 
             NPC.knockBackResist = 0.5f;
         }
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             if (numTownNPCs > 14 && (NPC.downedBoss3 || Main.hardMode))
             {

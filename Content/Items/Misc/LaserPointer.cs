@@ -16,9 +16,6 @@ namespace deeprockitems.Content.Items.Misc
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser Pointer");
-            Tooltip.SetDefault("'Did you borrow my underwear?'\n" +
-                               "Puts a marker on whatever you ping");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()

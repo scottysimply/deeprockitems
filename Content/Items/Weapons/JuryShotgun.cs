@@ -18,11 +18,7 @@ namespace deeprockitems.Content.Items.Weapons
         public int newFireRate = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jury-Rigged Boomstick");
-            Tooltip.SetDefault("'See ya, suckers!'\n");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-
-
         }
 
         public override void SafeDefaults()

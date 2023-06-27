@@ -21,7 +21,7 @@ namespace deeprockitems.Common.Overides
                 projectile.idStaticNPCHitCooldown = 1;
             }
         }
-        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (UpgradeEquipped)
             {
@@ -29,11 +29,14 @@ namespace deeprockitems.Common.Overides
             }
 
         }
-        public override void OnHitPvp(Projectile projectile, Player target, int damage, bool crit)
+        public override void OnHitPlayer(Projectile projectile, Player target, Player.HurtInfo info)
         {
-            if (UpgradeEquipped)
+            if (info.PvP)
             {
-                projectile.damage = (int)Floor(projectile.damage * .7f);
+                if (UpgradeEquipped)
+                {
+                    projectile.damage = (int)Floor(projectile.damage * .7f);
+                }
             }
         }
     }

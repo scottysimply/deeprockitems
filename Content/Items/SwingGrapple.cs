@@ -9,7 +9,6 @@ namespace deeprockitems.Content.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Swing Grapple");
         }
         public override void SetDefaults()
         {

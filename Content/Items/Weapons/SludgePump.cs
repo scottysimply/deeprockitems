@@ -18,9 +18,6 @@ namespace deeprockitems.Content.Items.Weapons
         public static int MAX_TIMER = 30;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sludge Pump");
-            Tooltip.SetDefault("Fires toxic waste in a shallow arc \n" +
-                               "Hold click to fire a shot that splatters");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 

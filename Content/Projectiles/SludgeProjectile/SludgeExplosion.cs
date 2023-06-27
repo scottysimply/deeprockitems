@@ -23,13 +23,16 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             Main.projFrames[Projectile.type] = 5;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Venom, 300);
         }
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(BuffID.Venom, 150);
+            if (info.PvP)
+            {
+                target.AddBuff(BuffID.Venom, 150);
+            }
         }
         public override void AI()
         {
