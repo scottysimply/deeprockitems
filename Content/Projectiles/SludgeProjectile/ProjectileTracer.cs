@@ -75,7 +75,6 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                     projectile.velocity.Y += projectile.velocity.Y < 30 ? .05f : 0;
                 }
                 Vector2 adjustedPos = position + Main.screenPosition;
-                Vector2 adjustedVel = projectile.velocity;
                 projectile.wet = false;
                 if (Collision.WetCollision(adjustedPos, projectile.width, projectile.height) || Collision.LavaCollision(adjustedPos, projectile.width, projectile.height))
                 {

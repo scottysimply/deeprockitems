@@ -31,13 +31,13 @@ namespace deeprockitems.UI
 
             ParentSlot = new DisplaySlot();
             ParentSlot.SetPadding(0);
-            upgradeSlot1 = new UpgradeSlot();
+            upgradeSlot1 = new(1);
             upgradeSlot1.SetPadding(0);
-            upgradeSlot2 = new();
+            upgradeSlot2 = new(2);
             upgradeSlot2.SetPadding(0);
-            upgradeSlot3 = new();
+            upgradeSlot3 = new(3);
             upgradeSlot3.SetPadding(0);
-            overclockSlot = new();
+            overclockSlot = new(0);
             overclockSlot.SetPadding(0);
 
             ParentSlot.Left.Set(33, 0);
@@ -64,7 +64,6 @@ namespace deeprockitems.UI
             overclockSlot.Top.Set(102, 0);
             overclockSlot.Width.Set(42, 0);
             overclockSlot.Height.Set(42, 0);
-            overclockSlot.IsOverclockSlot = true;
 
             dragPanel.Append(ParentSlot);
             dragPanel.Append(upgradeSlot1);

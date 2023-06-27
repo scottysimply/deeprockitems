@@ -99,6 +99,10 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgePumpHit") with { Volume = .3f }, Projectile.position);
+            for (int i = 0; i < 4; i++)
+            {
+                int dust = Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dust.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
+            }
 
             if (parentItem == null) return;
             if (parentItem.Upgrades[2]) return;

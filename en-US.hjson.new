@@ -1,0 +1,138 @@
+
+Mods: {
+	deeprockitems: {
+		Items: {
+			LaserPointer: {
+				DisplayName: Laser Pointer
+				Tooltip:
+					'''
+					'Did you borrow my underwear?'
+					Puts a marker on whatever you ping
+					'''
+			}
+
+			TestGrapple.DisplayName: Swing Grapple
+
+			AntiGravOC: {
+				DisplayName: Overclock: AG Mixture
+				Tooltip: Shots are no longer affected by gravity
+			}
+
+			ArmorPierce: {
+				DisplayName: Upgrade: Pen Rounds
+				Tooltip: Shots ignore 10 defense
+			}
+
+			Blowthrough: {
+				DisplayName: Upgrade: Blowthrough Rounds
+				Tooltip: Shots pierce enemies
+			}
+
+			BumpFire: {
+				DisplayName: Upgrade: Bump Fire
+				Tooltip: 16% increased fire rate
+			}
+
+			DamageUpgrade: {
+				DisplayName: Upgrade: Small Damage Upgrade
+				Tooltip: +5 base damage
+			}
+
+			DiggingRoundsOC: {
+				DisplayName: Overclock: Digger Rounds
+				Tooltip: Focus shots fire through tiles
+			}
+
+			GooSpecialOC: {
+				DisplayName: Overclock: Goo Bomber Special
+				Tooltip: Charge shots drop goo fragments as they travel
+			}
+
+			HipsterOC: {
+				DisplayName: Overclock: Hipster
+				Tooltip: Heavily increased normal shot fire rate, with an inability to focus
+			}
+
+			PelletAlignmentOC: {
+				DisplayName: Overclock: Magnetic Pellet Alignment
+				Tooltip: Tighter spread
+			}
+
+			QuickCharge: {
+				DisplayName: Upgrade: Quick Charge
+				Tooltip: 25% faster charge speed
+			}
+
+			SludgeExplosionOC: {
+				DisplayName: Overclock: Waste Ordnance
+				Tooltip: Focus shots explode instead of fragmenting
+			}
+
+			SpecialPowderOC: {
+				DisplayName: Overclock: Special Powder
+				Tooltip: Shots propel you backward, but reduced damage
+			}
+
+			StuffedShellsOC: {
+				DisplayName: Overclock: Stuffed Shells
+				Tooltip: Doubled pellet count, but lower fire rate and heavily increased spread
+			}
+
+			SupercoolOC: {
+				DisplayName: Overclock: Supercooling Chamber
+				Tooltip: 2x focus shot damage, with slower focus speed and lower normal shot fire rate
+			}
+
+			TracerRounds: {
+				DisplayName: Upgrade: Tracer Rounds
+				Tooltip: Shows the projectile's trajectory
+			}
+
+			WhitePhosphorous: {
+				DisplayName: Upgrade: White Phosphorous Shells
+				Tooltip: Ignite enemies within 10 feet when you fire!
+			}
+
+			JuryShotgun: {
+				DisplayName: Jury-Rigged Boomstick
+				Tooltip:
+					'''
+					'See ya, suckers!'
+
+					'''
+			}
+
+			M1000: {
+				DisplayName: M1000 Classic
+				Tooltip:
+					'''
+					'From A to D, skipping B and C!'
+					Hold click to fire a focused shot
+					'''
+			}
+
+			SludgePump: {
+				DisplayName: Sludge Pump
+				Tooltip:
+					'''
+					Fires toxic waste in a shallow arc 
+					Hold click to fire a shot that splatters
+					'''
+			}
+		}
+
+		NPCs.MissionControl.DisplayName: Mission Control
+
+		Projectiles: {
+			LaserPointerPing.DisplayName: Laser Pointer Ping
+			M1000Bullet.DisplayName: M1000 Bullet
+			M1000Helper.DisplayName: M1000 Helper
+			ProjectileTracer.DisplayName: Projectile Tracer
+			SludgeBall.DisplayName: Sludge Ball
+			SludgeExplosion.DisplayName: Sludge Explosion
+			SludgeFragment.DisplayName: Sludge Fragment
+			SludgeHelper.DisplayName: Sludge Helper
+			SwingGrapple.DisplayName: Swing Grapple
+		}
+	}
+}
