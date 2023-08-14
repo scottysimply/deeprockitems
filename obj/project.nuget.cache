@@ -1,9 +1,21 @@
 {
   "version": 2,
-  "dgSpecHash": "uQSnYtjACvIbFWvwe8+YO5RO+HtxM5OpwMJZJDEPs/4gwC+YzgxaemKQImud2gseImynPmIVBkLqfFxBvA1rLA==",
+  "dgSpecHash": "EB/BV2V8p41TG44BdDoAPVWpZJG4bIKPnabfGTXbGzdFQZMWp2etIvU2e12zvV7g5WnREogWH+djKE5G0keHLA==",
   "success": true,
   "projectFilePath": "C:\\Users\\scott\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\deeprockitems\\deeprockitems.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\scott\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\smartformat\\3.2.2\\smartformat.3.2.2.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\smartformat.extensions.newtonsoft.json\\3.2.2\\smartformat.extensions.newtonsoft.json.3.2.2.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\smartformat.extensions.system.text.json\\3.2.2\\smartformat.extensions.system.text.json.3.2.2.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\smartformat.extensions.time\\3.2.2\\smartformat.extensions.time.3.2.2.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\smartformat.extensions.xml\\3.2.2\\smartformat.extensions.xml.3.2.2.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\smartformat.net\\3.2.2\\smartformat.net.3.2.2.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\system.text.json\\6.0.2\\system.text.json.6.0.2.nupkg.sha512",
+    "C:\\Users\\scott\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
     "C:\\Users\\scott\\.nuget\\packages\\tmodloader.codeassist\\0.1.5\\tmodloader.codeassist.0.1.5.nupkg.sha512"
   ],
   "logs": []

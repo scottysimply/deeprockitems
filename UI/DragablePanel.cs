@@ -11,11 +11,19 @@ namespace deeprockitems.UI
         public bool dragging;
         public override void OnInitialize()
         {
-            
         }
         public override void LeftMouseDown(UIMouseEvent evt)
         {
             base.LeftMouseDown(evt);
+            
+
+            foreach (var obj in Children)
+            {
+                if (obj is DisplaySlot { Clicked: true })
+                {
+                    return;
+                }
+            }
             DragStart(evt);
         }
         public void DragStart(UIMouseEvent evt)
@@ -26,7 +34,10 @@ namespace deeprockitems.UI
         public override void LeftMouseUp(UIMouseEvent evt)
         {
             base.LeftMouseUp(evt);
-            DragEnd(evt);
+            if (dragging)
+            {
+                DragEnd(evt);
+            }
         }
         public void DragEnd(UIMouseEvent evt)
         {
@@ -58,12 +69,35 @@ namespace deeprockitems.UI
 
             // If the mouse panel manages to get outside the bounds of the screen, put it back inside the screen bounds
             var parentSpace = Parent.GetDimensions().ToRectangle();
-            if (!GetDimensions().ToRectangle().Intersects(parentSpace))
+            if (GetDimensions().ToRectangle().Outside(parentSpace))
             {
                 Left.Pixels = Utils.Clamp(Left.Pixels, 0, parentSpace.Right - Width.Pixels);
                 Top.Pixels = Utils.Clamp(Top.Pixels, 0, parentSpace.Bottom - Height.Pixels);
                 Recalculate();
             }
+        }
+    }
+    static class RectExtension
+    {
+        public static bool Outside(this Rectangle parentRect, Rectangle rect1)
+        {
+            if (parentRect.Left > rect1.Left)
+            {
+                return true;
+            }
+            if (parentRect.Right < rect1.Right)
+            {
+                return true;
+            }
+            if (parentRect.Top > rect1.Left)
+            {
+                return true;
+            }
+            if (parentRect.Bottom < rect1.Bottom)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

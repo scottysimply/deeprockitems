@@ -1,11 +1,12 @@
 ﻿using Terraria;
-using Terraria.ID;
+using deeprockitems.Content.Items.Upgrades;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using static System.Math;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Weapons;
 using Terraria.DataStructures;
+using static Humanizer.In;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -36,9 +37,12 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             entitysource = Main.player[Projectile.owner].GetSource_ItemUse(Main.player[Projectile.owner].HeldItem);
             if (Main.player[Projectile.owner].HeldItem.ModItem is SludgePump modItem)
             {
-                if (modItem.Upgrades[4])
+                foreach (int i in modItem.Upgrades2)
                 {
-                    MAX_CHARGE = (float)(MAX_CHARGE * .75f);
+                    if (i == ModContent.ItemType<QuickCharge>())
+                    {
+                        MAX_CHARGE *= .75f;
+                    }
                 }
             }
         }
@@ -66,23 +70,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                         owner.itemTime = 2;
                         owner.itemAnimation = 2;
                     }
-                    if (Main.MouseWorld.X < owner.Center.X) // cursor is to the left of the player
-                    {
-                        if (Main.MouseWorld.Y < owner.Center.Y) // Mouse is above the player
-                        {
-                            owner.itemRotation = owner.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
-                        }
-                        else
-                        {
-                            owner.itemRotation = owner.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
-                        }
-                        owner.direction = -1; // make player face left
-                    }
-                    else // cursor is to the right of the player
-                    {
-                        owner.itemRotation = owner.DirectionTo(Main.MouseWorld).ToRotation();
-                        owner.direction = 1; // make player face right
-                    }
+                    HoldItemOut(owner);
                 }
             }
             else
@@ -96,6 +84,33 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 }
                 Projectile.Kill();
             }
+        }
+        private void HoldItemOut(Player player)
+        {
+            // So fun fact about the way the game handles rotation: values go from -Pi to +Pi. There is no 0 to 2Pi.
+            // For some god awful reason though, itemRotation doesn't match DirectionTo().ToRotation() of the mouse, but only when the itemRotation is in quadrant 4.
+
+            // If cursor is to the right of the player
+            if (Main.MouseWorld.X > player.Center.X)
+            {
+                // See, this is easy!
+                player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
+                player.direction = 1; // Make the player face right
+                return;
+            }
+            // If cursor is above the player
+            if (Main.MouseWorld.Y < player.Center.Y)
+            {
+                // Here's where it messes up. If the cursor is in quadrant II, it needs to add PI
+                player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
+            }
+            // If cursor is below the player
+            else
+            {
+                // But if the cursor is in Quadrant III, it has to subtract. guh??
+                player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() - (float)PI;
+            }
+            player.direction = -1; // Make the player face left
         }
     }
 }

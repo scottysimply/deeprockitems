@@ -33,28 +33,28 @@ namespace deeprockitems.Content.Items.Weapons
 
             oldFireRate = Item.useTime;
 
-            ValidUpgrades[0] = ModContent.ItemType<PelletAlignmentOC>();
-            ValidUpgrades[1] = ModContent.ItemType<SpecialPowderOC>();
-            ValidUpgrades[2] = ModContent.ItemType<StuffedShellsOC>();
+            ValidUpgrades.Add(ModContent.ItemType<PelletAlignmentOC>());
+            ValidUpgrades.Add(ModContent.ItemType<SpecialPowderOC>());
+            ValidUpgrades.Add(ModContent.ItemType<StuffedShellsOC>());
 
-            ValidUpgrades[4] = ModContent.ItemType<WhitePhosphorous>();
-            ValidUpgrades[6] = ModContent.ItemType<BumpFire>();
+            ValidUpgrades.Add(ModContent.ItemType<WhitePhosphorous>());
+            ValidUpgrades.Add(ModContent.ItemType<BumpFire>());
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int numberProjectiles = 4 + Main.rand.Next(1, 3);
             double spread = PI / 13;
-            if (Upgrades[0]) // Reduced spread
+            if (Overclock == ModContent.ItemType<PelletAlignmentOC>()) // Reduced spread
             {
                 spread *= .5;
             }
-            else if (Upgrades[2]) // twice amount of pellets, much more spread and lower firerate
+            else if (Overclock == ModContent.ItemType<StuffedShellsOC>()) // twice amount of pellets, much more spread and lower firerate
             {
                 numberProjectiles *= 2;
                 spread *= 2;
             }
             // This block is for the projectile spread.
-            float VelocityReducer = Upgrades[0] ? 1f : .8f;
+            float VelocityReducer = (Overclock == ModContent.ItemType<PelletAlignmentOC>()) ? 1f : .8f;
             for (int i = 0; i < numberProjectiles; i++)
             {
                 Vector2 perturbedSpeed = velocity.RotatedByRandom(spread) * Main.rand.NextFloat(VelocityReducer, 1.2f); // random velocity effect
@@ -72,14 +72,18 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 player.direction = -1;
             }
-            if (Upgrades[1])
+            if (Overclock == ModContent.ItemType<SpecialPowderOC>())
             {
                 ShotgunJump(player, mousePos);
             }
-            if (Upgrades[4])
+            foreach (int i in Upgrades2)
             {
-                WPIgnite();
+                if (i == ModContent.ItemType<WhitePhosphorous>())
+                {
+                    WPIgnite();
+                }
             }
+
             return false;
         }
         public static void ShotgunJump(Player player, Vector2 mousePos)
@@ -97,7 +101,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void IndividualUpgrades()
         {
-            if (Upgrades[0])
+            if (Overclock == ModContent.ItemType<PelletAlignmentOC>())
             {
                 DamageScale = 1f;
                 newFireRate = 39;
@@ -105,7 +109,7 @@ namespace deeprockitems.Content.Items.Weapons
                 OverclockPositives = "▶Reduced spread";
                 OverclockNegatives = "";
             }
-            else if (Upgrades[1])
+            else if (Overclock == ModContent.ItemType<SpecialPowderOC>())
             {
                 DamageScale = .75f;
                 newFireRate = 39;
@@ -113,7 +117,7 @@ namespace deeprockitems.Content.Items.Weapons
                 OverclockPositives = "▶Launch yourself with each shot";
                 OverclockNegatives = "▶Lower damage output";
             }
-            else if (Upgrades[2])
+            else if (Overclock == ModContent.ItemType<StuffedShellsOC>())
             {
                 DamageScale = 1f;
                 newFireRate = 50;
@@ -127,16 +131,20 @@ namespace deeprockitems.Content.Items.Weapons
                 DamageScale = 1f;
                 newFireRate = 39;
             }
-            if (Upgrades[6])
+            foreach (int i in Upgrades2)
             {
-                Item.useAnimation = (int)Ceiling(newFireRate * .83f);
-                Item.useTime = (int)Ceiling(newFireRate * .83f);
+                if (i == ModContent.ItemType<BumpFire>())
+                {
+                    Item.useAnimation = (int)Ceiling(newFireRate * .83f);
+                    Item.useTime = (int)Ceiling(newFireRate * .83f);
+                }
+                else
+                {
+                    Item.useAnimation = oldFireRate;
+                    Item.useTime = oldFireRate;
+                }
             }
-            else
-            {
-                Item.useAnimation = oldFireRate;
-                Item.useTime = oldFireRate;
-            }
+
 
         }
         private void WPIgnite()

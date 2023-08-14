@@ -8,10 +8,11 @@
     ".NETCoreApp,Version=v6.0": {
       "deeprockitems/1.0.0": {
         "dependencies": {
+          "SmartFormat.NET": "3.2.2",
           "tModLoader.CodeAssist": "0.1.5",
           "Basic.Reference.Assemblies.Net60": "1.0.0.0",
           "CsvHelper": "2.0.0.0",
-          "FNA": "22.9.1.0",
+          "FNA": "22.7.0.0",
           "Hjson": "1.0.0.0",
           "Humanizer": "2.2.0.0",
           "Ionic.Zip.Reduced": "1.9.1.8",
@@ -29,10 +30,13 @@
           "Mono.Cecil.Mdb": "0.11.4.0",
           "Mono.Cecil.Pdb": "0.11.4.0",
           "Mono.Cecil.Rocks": "0.11.4.0",
-          "MonoMod.RuntimeDetour": "22.5.31.2",
-          "MonoMod.Utils": "22.5.31.2",
+          "MonoMod.Backports": "23.3.22.1",
+          "MonoMod.Core": "23.3.22.1",
+          "MonoMod.Iced": "1.17.0.0",
+          "MonoMod.ILHelpers": "23.3.22.1",
+          "MonoMod.RuntimeDetour": "23.3.22.1",
+          "MonoMod.Utils": "23.3.22.1",
           "MP3Sharp": "1.0.0.0",
-          "Newtonsoft.Json": "12.0.0.0",
           "NVorbis": "0.10.0.3",
           "RailSDK.Net": "1.0.0.0",
           "ReLogic": "1.0.0.0",
@@ -53,7 +57,7 @@
           "System.Security.Permissions": "6.0.0.0",
           "System.Windows.Extensions": "6.0.0.0",
           "TerrariaHooks": "0.0.0.0",
-          "tModLoader": "1.4.3.6",
+          "tModLoader": "1.4.4.9",
           "tModPorter": "1.0.0.0",
           "UtfUnknown": "2.0.0.0"
         },
@@ -61,6 +65,111 @@
           "deeprockitems.dll": {}
         }
       },
+      "Newtonsoft.Json/13.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
+      },
+      "SmartFormat/3.2.2": {
+        "dependencies": {
+          "System.Memory": "4.5.5",
+          "System.ValueTuple": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/SmartFormat.ZString.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.2.2.686"
+          },
+          "lib/netstandard2.1/SmartFormat.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.2.2.686"
+          }
+        }
+      },
+      "SmartFormat.Extensions.Newtonsoft.Json/3.2.2": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1",
+          "SmartFormat": "3.2.2"
+        },
+        "runtime": {
+          "lib/netstandard2.1/SmartFormat.Extensions.Newtonsoft.Json.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.2.2.686"
+          }
+        }
+      },
+      "SmartFormat.Extensions.System.Text.Json/3.2.2": {
+        "dependencies": {
+          "SmartFormat": "3.2.2",
+          "System.Text.Json": "6.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.1/SmartFormat.Extensions.System.Text.Json.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.2.2.686"
+          }
+        }
+      },
+      "SmartFormat.Extensions.Time/3.2.2": {
+        "dependencies": {
+          "SmartFormat": "3.2.2"
+        },
+        "runtime": {
+          "lib/netstandard2.1/SmartFormat.Extensions.Time.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.2.2.686"
+          }
+        }
+      },
+      "SmartFormat.Extensions.Xml/3.2.2": {
+        "dependencies": {
+          "SmartFormat": "3.2.2"
+        },
+        "runtime": {
+          "lib/netstandard2.1/SmartFormat.Extensions.Xml.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.2.2.686"
+          }
+        }
+      },
+      "SmartFormat.NET/3.2.2": {
+        "dependencies": {
+          "SmartFormat": "3.2.2",
+          "SmartFormat.Extensions.Newtonsoft.Json": "3.2.2",
+          "SmartFormat.Extensions.System.Text.Json": "3.2.2",
+          "SmartFormat.Extensions.Time": "3.2.2",
+          "SmartFormat.Extensions.Xml": "3.2.2"
+        },
+        "runtime": {
+          "lib/netstandard2.1/SmartFormat.Net.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.2.2.686"
+          }
+        }
+      },
+      "System.Memory/4.5.5": {},
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
+      "System.Text.Encodings.Web/6.0.0": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        }
+      },
+      "System.Text.Json/6.0.2": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
+          "System.Text.Encodings.Web": "6.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/System.Text.Json.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.222.6406"
+          }
+        }
+      },
+      "System.ValueTuple/4.5.0": {},
       "tModLoader.CodeAssist/0.1.5": {},
       "Basic.Reference.Assemblies.Net60/1.0.0.0": {
         "runtime": {
@@ -78,11 +187,11 @@
           }
         }
       },
-      "FNA/22.9.1.0": {
+      "FNA/22.7.0.0": {
         "runtime": {
           "FNA.dll": {
-            "assemblyVersion": "22.9.1.0",
-            "fileVersion": "22.9.1.0"
+            "assemblyVersion": "22.7.0.0",
+            "fileVersion": "22.7.0.0"
           }
         }
       },
@@ -427,19 +536,51 @@
           }
         }
       },
-      "MonoMod.RuntimeDetour/22.5.31.2": {
+      "MonoMod.Backports/23.3.22.1": {
         "runtime": {
-          "MonoMod.RuntimeDetour.dll": {
-            "assemblyVersion": "22.5.31.2",
-            "fileVersion": "22.5.31.2"
+          "MonoMod.Backports.dll": {
+            "assemblyVersion": "23.3.22.1",
+            "fileVersion": "23.3.22.1"
           }
         }
       },
-      "MonoMod.Utils/22.5.31.2": {
+      "MonoMod.Core/23.3.22.1": {
+        "runtime": {
+          "MonoMod.Core.dll": {
+            "assemblyVersion": "23.3.22.1",
+            "fileVersion": "23.3.22.1"
+          }
+        }
+      },
+      "MonoMod.Iced/1.17.0.0": {
+        "runtime": {
+          "MonoMod.Iced.dll": {
+            "assemblyVersion": "1.17.0.0",
+            "fileVersion": "1.17.0.0"
+          }
+        }
+      },
+      "MonoMod.ILHelpers/23.3.22.1": {
+        "runtime": {
+          "MonoMod.ILHelpers.dll": {
+            "assemblyVersion": "23.3.22.1",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "MonoMod.RuntimeDetour/23.3.22.1": {
+        "runtime": {
+          "MonoMod.RuntimeDetour.dll": {
+            "assemblyVersion": "23.3.22.1",
+            "fileVersion": "23.3.22.1"
+          }
+        }
+      },
+      "MonoMod.Utils/23.3.22.1": {
         "runtime": {
           "MonoMod.Utils.dll": {
-            "assemblyVersion": "22.5.31.2",
-            "fileVersion": "22.5.31.2"
+            "assemblyVersion": "23.3.22.1",
+            "fileVersion": "23.3.22.1"
           }
         }
       },
@@ -448,14 +589,6 @@
           "MP3Sharp.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "Newtonsoft.Json/12.0.0.0": {
-        "runtime": {
-          "Newtonsoft.Json.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.3.23909"
           }
         }
       },
@@ -619,11 +752,11 @@
           }
         }
       },
-      "tModLoader/1.4.3.6": {
+      "tModLoader/1.4.4.9": {
         "runtime": {
           "tModLoader.dll": {
-            "assemblyVersion": "1.4.3.6",
-            "fileVersion": "1.4.3.6"
+            "assemblyVersion": "1.4.4.9",
+            "fileVersion": "1.4.4.9"
           }
         }
       },
@@ -651,6 +784,90 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Newtonsoft.Json/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "path": "newtonsoft.json/13.0.1",
+      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
+    },
+    "SmartFormat/3.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GANcDC4y+1AZRN+A4gV9WiAm8u7B9d7Ho2uzZeh9AoNMGswFcZSpzrp/olMCyTZ89aixRhIEpbGe+6ShbUGsOg==",
+      "path": "smartformat/3.2.2",
+      "hashPath": "smartformat.3.2.2.nupkg.sha512"
+    },
+    "SmartFormat.Extensions.Newtonsoft.Json/3.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5znpoOebHNKwtiL2M5j/WdZi4QDkqmJJEL1H/g/gpEGnGc8vF1IOOJllFvcrIekQvtK2qcqiby2ZvPvYCv83Jg==",
+      "path": "smartformat.extensions.newtonsoft.json/3.2.2",
+      "hashPath": "smartformat.extensions.newtonsoft.json.3.2.2.nupkg.sha512"
+    },
+    "SmartFormat.Extensions.System.Text.Json/3.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PIm6u3rBQukE9r48HnKNmgw0T6/9ZQjiGxn41zeamLFRQ/OZhReSTZpmdOHUFHlT8lIuzl2q2UvXuAC541y9CA==",
+      "path": "smartformat.extensions.system.text.json/3.2.2",
+      "hashPath": "smartformat.extensions.system.text.json.3.2.2.nupkg.sha512"
+    },
+    "SmartFormat.Extensions.Time/3.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EgGPXJWJtt3/mxR9kmKYBz7WNah5NUlQRTKDI3f40hCVR1Ab/xWJBDD8xV8BonYQ/l5NBN5FO3lhbCVQ0zP2Hw==",
+      "path": "smartformat.extensions.time/3.2.2",
+      "hashPath": "smartformat.extensions.time.3.2.2.nupkg.sha512"
+    },
+    "SmartFormat.Extensions.Xml/3.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-G9fgLK0/9z3M2WB+W9aUDoHXrB0LbsYI2+IiOWDU5Mqt3SV+g38TOTuGDMA4LHTwsdSGCi4oCnLS1RnIJdAX3g==",
+      "path": "smartformat.extensions.xml/3.2.2",
+      "hashPath": "smartformat.extensions.xml.3.2.2.nupkg.sha512"
+    },
+    "SmartFormat.NET/3.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-spPhNMwwSeUtb+H6ndUS4MQUF48FUEkjd5QRR+krhUULMp+aUG6oPICEAcg9oNjj1YvAaLPmpQOk9133X/9onQ==",
+      "path": "smartformat.net/3.2.2",
+      "hashPath": "smartformat.net.3.2.2.nupkg.sha512"
+    },
+    "System.Memory/4.5.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw==",
+      "path": "system.memory/4.5.5",
+      "hashPath": "system.memory.4.5.5.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
+      "path": "system.runtime.compilerservices.unsafe/6.0.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    },
+    "System.Text.Encodings.Web/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Vg8eB5Tawm1IFqj4TVK1czJX89rhFxJo9ELqc/Eiq0eXy13RK00eubyU6TJE6y+GQXjyV5gSfiewDUZjQgSE0w==",
+      "path": "system.text.encodings.web/6.0.0",
+      "hashPath": "system.text.encodings.web.6.0.0.nupkg.sha512"
+    },
+    "System.Text.Json/6.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0nE2gwXLn3PTBOPwORLqwuYvWB+Beomt9ZBX+6LmogMNKUvfD1SoDb/ycB1vBntT94rGaB/SvxEyeLu14H6aEg==",
+      "path": "system.text.json/6.0.2",
+      "hashPath": "system.text.json.6.0.2.nupkg.sha512"
+    },
+    "System.ValueTuple/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
+      "path": "system.valuetuple/4.5.0",
+      "hashPath": "system.valuetuple.4.5.0.nupkg.sha512"
+    },
     "tModLoader.CodeAssist/0.1.5": {
       "type": "package",
       "serviceable": true,
@@ -668,7 +885,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "FNA/22.9.1.0": {
+    "FNA/22.7.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -758,22 +975,37 @@
       "serviceable": false,
       "sha512": ""
     },
-    "MonoMod.RuntimeDetour/22.5.31.2": {
+    "MonoMod.Backports/23.3.22.1": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "MonoMod.Utils/22.5.31.2": {
+    "MonoMod.Core/23.3.22.1": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MonoMod.Iced/1.17.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MonoMod.ILHelpers/23.3.22.1": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MonoMod.RuntimeDetour/23.3.22.1": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MonoMod.Utils/23.3.22.1": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "MP3Sharp/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Newtonsoft.Json/12.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -878,7 +1110,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "tModLoader/1.4.3.6": {
+    "tModLoader/1.4.4.9": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

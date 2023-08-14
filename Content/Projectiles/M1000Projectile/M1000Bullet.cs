@@ -4,6 +4,8 @@ using static System.Math;
 using Terraria.DataStructures;
 using Terraria.Audio;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
+using deeprockitems.Content.Items.Upgrades;
 
 namespace deeprockitems.Content.Projectiles.M1000Projectile
 {
@@ -21,7 +23,7 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
             Projectile.extraUpdates = 7;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            DrawOriginOffsetX = -40;
+            DrawOriginOffsetX = -38;
         }
         public override void AI()
         {
@@ -35,11 +37,11 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
                 Projectile.damage *= 3;
                 if (modItem is not null)
                 {
-                    if (modItem.Upgrades[1])
+                    if (modItem.Overclock == ModContent.ItemType<DiggingRoundsOC>())
                     {
                         Projectile.tileCollide = false;
                     }
-                    else if (modItem.Upgrades[2])
+                    else if (modItem.Overclock == ModContent.ItemType<SupercoolOC>())
                     {
                         Projectile.damage *= 2;
                     }
@@ -47,25 +49,21 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
             }
             if (modItem is not null)
             {
-                if (modItem.Upgrades[7])
+                foreach (int i in modItem.Upgrades2)
                 {
-                    Projectile.penetrate = 5;
+                    if (i == ModContent.ItemType<Blowthrough>())
+                    {
+                        Projectile.penetrate = 5;
+                    }
                 }
             }
-            Projectile.rotation = Projectile.ai[1];
+            Projectile.rotation = new Vector2(0, 0).DirectionTo(-Projectile.velocity).ToRotation();
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (modItem.Upgrades[7])
+            foreach (int i in modItem.Upgrades2)
             {
-                Projectile.damage = (int)Floor(Projectile.damage * .7f);
-            }
-        }
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            if (info.PvP)
-            {
-                if (modItem.Upgrades[7])
+                if (i == ModContent.ItemType<Blowthrough>())
                 {
                     Projectile.damage = (int)Floor(Projectile.damage * .7f);
                 }

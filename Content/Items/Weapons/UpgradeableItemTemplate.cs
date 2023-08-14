@@ -6,6 +6,7 @@ using Terraria.ModLoader.IO;
 using static System.Math;
 using deeprockitems.Content.Items.Upgrades;
 using Terraria.Utilities;
+using deeprockitems.UI.UpgradeItem;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -13,10 +14,12 @@ namespace deeprockitems.Content.Items.Weapons
     {
         public float DamageScale;
         public virtual BitsByte Upgrades { get; set; }
+        public int Overclock { get; set; }
+        public int[] Upgrades2 { get; set; }
         public virtual string CurrentOverclock { get; set; } = "";
         public virtual string OverclockPositives { get; set; } = "";
         public virtual string OverclockNegatives { get; set; } = "";
-        public virtual int[] ValidUpgrades { get; set; } = new int[8];
+        public List<int> ValidUpgrades { get; set; }
         private bool load_flag = false;
         public virtual void SafeDefaults()
         {
@@ -25,12 +28,15 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void SetDefaults()
         {
+            Upgrades2 = new int[3];
+            ValidUpgrades = new()
+            {
+                ModContent.ItemType<DamageUpgrade>(),
+                ModContent.ItemType<ArmorPierce>(),
+                ModContent.ItemType<Blowthrough>()
+            
+            };
             SafeDefaults();
-
-            ValidUpgrades[3] = ModContent.ItemType<DamageUpgrade>();
-            ValidUpgrades[5] = ModContent.ItemType<ArmorPierce>();
-            ValidUpgrades[7] = ModContent.ItemType<Blowthrough>();
-
             base.SetDefaults();
         }
         public override void UpdateInventory(Player player)
@@ -44,7 +50,7 @@ namespace deeprockitems.Content.Items.Weapons
         public override void RightClick(Player player)
         {
             Item.stack += 1;
-            if (UpgradeUIState.ParentSlot.ItemToDisplay != Item)
+            if (UpgradeUISystem.UpgradeUIPanel.ParentSlot.ItemToDisplay != Item)
             {
                 Open_UI();
             }
@@ -60,17 +66,15 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void SaveData(TagCompound tag)
         {
-            tag["WeaponUpgrades"] = (byte)Upgrades;
+            tag["Upgrades"] = Upgrades2;
+            tag["Overclock"] = Overclock;
         }
         public override void LoadData(TagCompound tag)
         {
-            if (tag.ContainsKey("WeaponUpgrades"))
+            if (tag.ContainsKey("Upgrades") && tag.ContainsKey("Overclock"))
             {
-                Upgrades = (byte)tag["WeaponUpgrades"];
-            }
-            else
-            {
-                Upgrades = 0;
+                Upgrades2 = (int[])tag["Upgrades"];
+                Overclock = (int)tag["Overclock"];
             }
             if (!load_flag)
             {
@@ -80,7 +84,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (Upgrades[0] || Upgrades[1] || Upgrades[2])
+            if (Overclock != 0)
             {
                 TooltipLine line = new(Mod, "Upgrades", string.Format("This weapon has the following overclock: [c/4AB1D3:{0}]", CurrentOverclock));
                 tooltips.Add(line);
@@ -110,14 +114,18 @@ namespace deeprockitems.Content.Items.Weapons
             DamageScale = 1f;
             IndividualUpgrades();
 
-            if (Upgrades[3])
+            foreach (int i in Upgrades2)
             {
-                Item.damage = (int)Floor(Item.OriginalDamage * DamageScale) + 5;
+                if (i == ModContent.ItemType<DamageUpgrade>())
+                {
+                    Item.damage = (int)Floor(Item.OriginalDamage * DamageScale) + 5;
+                }
+                else
+                {
+                    Item.damage = (int)Floor(Item.OriginalDamage * DamageScale);
+                }
             }
-            else
-            {
-                Item.damage = (int)Floor(Item.OriginalDamage * DamageScale);
-            }
+
 
 
 
@@ -132,7 +140,7 @@ namespace deeprockitems.Content.Items.Weapons
         {
             UpgradeUISystem.UpgradeUIPanel.ClearItems();
             UpgradeUISystem.Interface.SetState(UpgradeUISystem.UpgradeUIPanel);
-            UpgradeUIState.ParentSlot.ItemToDisplay = Item;
+            UpgradeUISystem.UpgradeUIPanel.ParentSlot.ItemToDisplay = Item;
             UpgradeSlot.ParentItem = this;
             UpgradeUISystem.UpgradeUIPanel.LoadItem_InSlot();
         }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Weapons;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
+using deeprockitems.Content.Items.Upgrades;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -53,24 +54,24 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 4 => new(.8f, .8f, .25f, .85f), // Yellow
                 5 => new(.8f, .25f, .75f, .85f), // Pink
                 _ => new(.95f, .95f, .95f, .8f) // No team
-            }; 
-            Vector2 start = Main.player[owner].position + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+            };
+            Vector2 start = Main.player[owner].Center - Main.screenPosition;
             Vector2 drawOrigin = new(1, 1);
             Vector2 position = start;
             int MAX_DISTANCE = 1600;
             for (int i = 0; i < MAX_DISTANCE; i++)
             {
-                if (((i - parentItem.TIMER) % (SludgePump.MAX_TIMER+1)) == parentItem.TIMER)
+                if (((i - parentItem.TIMER) % (SludgePump.MAX_TIMER + 1)) == parentItem.TIMER)
                 {
                     flag = !flag;
                 }
-                position += projectile.wet ? projectile.velocity / 20 : projectile.velocity / 10; 
+                position += projectile.wet ? projectile.velocity / 20 : projectile.velocity / 10;
 
                 if (flag)
                 {
                     Main.EntitySpriteDraw(texture, position, null, teamColor, direction, drawOrigin, 1f, SpriteEffects.None, 0);
                 }
-                if (!parentItem.Upgrades[0])
+                if (Projectile.ai[1] != ModContent.ItemType<AntiGravOC>())
                 {
                     projectile.velocity.Y += projectile.velocity.Y < 30 ? .05f : 0;
                 }

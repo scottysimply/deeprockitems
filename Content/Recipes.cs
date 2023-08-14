@@ -46,6 +46,11 @@ namespace deeprockitems
             JuryShotgun.AddRecipeGroup(nameof(ItemID.VilePowder), 10);
             JuryShotgun.AddTile(TileID.Anvils);
             JuryShotgun.Register();
+
+            var AntiGravOC = Recipe.Create(ModContent.ItemType<Content.Items.Upgrades.AntiGravOC>())
+            .AddIngredient<Content.Items.Misc.MatrixCore>()
+            .AddIngredient(ItemID.Feather, 5)
+            .Register();
         }
     }
 }

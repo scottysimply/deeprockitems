@@ -19,6 +19,14 @@
     <None Remove="obj\**" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Remove="Localization\en-US.hjson" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Content\Items\Misc\MatrixCore.png" />
+    <None Remove="Content\Items\Misc\UpgradeToken.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SmartFormat.NET" Version="3.2.2" />
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>

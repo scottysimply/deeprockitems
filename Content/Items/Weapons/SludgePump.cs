@@ -40,19 +40,22 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shootSpeed = 18f;
             Item.rare = ItemRarityID.Orange;
             Item.value = 200000;
-            ValidUpgrades[0] = ModContent.ItemType<AntiGravOC>();
-            ValidUpgrades[1] = ModContent.ItemType<SludgeExplosionOC>();
-            ValidUpgrades[2] = ModContent.ItemType<GooSpecialOC>();
+            ValidUpgrades.Add(ModContent.ItemType<AntiGravOC>());
+            ValidUpgrades.Add(ModContent.ItemType<SludgeExplosionOC>());
+            ValidUpgrades.Add(ModContent.ItemType<GooSpecialOC>());
 
-            ValidUpgrades[4] = ModContent.ItemType<QuickCharge>();
-            ValidUpgrades[6] = ModContent.ItemType<TracerRounds>();
+            ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
+            ValidUpgrades.Add(ModContent.ItemType<TracerRounds>());
 
         }
         public override void HoldItem(Player player)
         {
-            if (player == Main.LocalPlayer && Upgrades[6])
+            foreach (int i in Upgrades2)
             {
-                Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER);
+                if (player == Main.LocalPlayer && i == ModContent.ItemType<TracerRounds>())
+                {
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER, ai1: Overclock);
+                }
             }
             TIMER++;
             if (TIMER > MAX_TIMER)
@@ -66,19 +69,19 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void IndividualUpgrades()
         {
-            if (Upgrades[0])
+            if (Overclock == ModContent.ItemType<AntiGravOC>())
             {
                 CurrentOverclock = "AG Mixture";
                 OverclockPositives = "▶Shots are no longer affected by gravity";
                 OverclockNegatives = "";
             }
-            else if (Upgrades[1])
+            else if (Overclock == ModContent.ItemType<SludgeExplosionOC>())
             {
                 CurrentOverclock = "Waste Ordnance";
                 OverclockPositives = "▶Charge shots explode with a large range";
                 OverclockNegatives = "▶Charge shots don't fragment when destroyed";
             }
-            else if (Upgrades[2])
+            else if (Overclock == ModContent.ItemType<GooSpecialOC>())
             {
                 CurrentOverclock = "Goo Bomber Special";
                 OverclockPositives = "▶Charge shots leave trails behind";

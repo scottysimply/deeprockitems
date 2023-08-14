@@ -5,6 +5,7 @@ using Terraria.Audio;
 using static System.Math;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Weapons;
+using deeprockitems.Content.Items.Upgrades;
 using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
@@ -29,20 +30,24 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override void OnSpawn(IEntitySource source)
         {
             parentItem = Main.player[Projectile.owner].HeldItem.ModItem as SludgePump;
-            if (parentItem.Upgrades[2] && Projectile.ai[0] != 1)
+            foreach (int i in parentItem.Upgrades2)
             {
-                Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
+                if (parentItem.Overclock == ModContent.ItemType<SludgeExplosionOC>() && Projectile.ai[0] != 1)
+                {
+                    Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
+                }
+                if (i == ModContent.ItemType<Blowthrough>())
+                {
+                    Projectile.penetrate = 5;
+                }
             }
-            if (parentItem.Upgrades[7])
-            {
-                Projectile.penetrate = 5;
-            }
+
         }
         public override void AI()
         {
             if (parentItem == null) return;
 
-            if (parentItem.Upgrades[2] && Projectile.ai[0] == 1) // Drop goo from the projectile if goo bomber is equipped
+            if (parentItem.Overclock == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[0] == 1) // Drop goo from the projectile if goo bomber is equipped
             {
                 if (GooTimer > 0)
                 {
@@ -56,13 +61,14 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             }
 
 
-            if (!parentItem.Upgrades[0]) // If nograv is not equipped:
+            if (!(parentItem.Overclock == ModContent.ItemType<AntiGravOC>())) // If nograv is not equipped:
             {
                 if (Projectile.velocity.Y <= 30f) // Set gravity cap
                 {
                     Projectile.velocity.Y += .5f;
                 }
             }
+
             Projectile.rotation += Projectile.velocity.X / 100;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -75,10 +81,14 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             {
                 target.AddBuff(BuffID.Venom, 150);
             }
-            if (parentItem.Upgrades[7])
+            foreach (int i in parentItem.Upgrades2)
             {
-                Projectile.damage = (int)Floor(Projectile.damage * .7f);
+                if (i == ModContent.ItemType<Blowthrough>())
+                {
+                    Projectile.damage = (int)Floor(Projectile.damage * .7f);
+                }
             }
+
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
@@ -92,10 +102,6 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 {
                     target.AddBuff(BuffID.Venom, 75);
                 }
-                if (parentItem.Upgrades[7])
-                {
-                    Projectile.damage = (int)Floor(Projectile.damage * .7f);
-                }
             }
         }
         public override void Kill(int timeLeft)
@@ -108,8 +114,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             }
 
             if (parentItem == null) return;
-            if (parentItem.Upgrades[2]) return;
-            if (parentItem.Upgrades[1])
+            if (parentItem.Overclock == ModContent.ItemType<GooSpecialOC>()) return;
+            if (parentItem.Overclock == ModContent.ItemType<SludgeExplosionOC>())
             {
                 if (Projectile.ai[0] == 1)
                 {

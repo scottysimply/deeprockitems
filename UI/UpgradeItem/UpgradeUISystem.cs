@@ -4,12 +4,12 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace deeprockitems.UI
+namespace deeprockitems.UI.UpgradeItem
 {
     public class UpgradeUISystem : ModSystem
     {
-        public static UpgradeUIState UpgradeUIPanel;
-        public static UserInterface Interface;
+        public static UpgradeUIState UpgradeUIPanel { get; set; }
+        public static UserInterface Interface { get; set; }
 
         internal static bool BlockItemSlotActionsDetour { get; set; }
 
@@ -25,6 +25,10 @@ namespace deeprockitems.UI
         {
             Interface?.Update(gameTime);
             if (!Main.playerInventory)
+            {
+                Interface.SetState(null);
+            }
+            if (UpgradeUIPanel.ParentSlot.ItemToDisplay.type == 0)
             {
                 Interface.SetState(null);
             }

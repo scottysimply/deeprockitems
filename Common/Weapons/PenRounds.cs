@@ -1,29 +1,28 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using deeprockitems.Content.Items.Weapons;
+using deeprockitems.Content.Items.Upgrades;
 using static System.Math;
 
-namespace deeprockitems.Common.Overides
+namespace deeprockitems.Common.Weapons
 {
     public class PenRounds : GlobalProjectile
     {
         bool UpgradeEquipped;
-        bool Shotgun;
         public override bool InstancePerEntity => true;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             UpgradeEquipped = false;
-            Shotgun = false;
             if (source is EntitySource_ItemUse parent && parent.Item.ModItem is UpgradeableItemTemplate item)
             {
-                if (item.Upgrades[5])
+                foreach (int i in item.Upgrades2)
                 {
-                    UpgradeEquipped = true;
-                }
-                if (item is JuryShotgun)
-                {
-                    Shotgun = true;
+                    if (i == ModContent.ItemType<ArmorPierce>())
+                    {
+                        UpgradeEquipped = true;
+                    }
                 }
             }
         }
@@ -31,25 +30,13 @@ namespace deeprockitems.Common.Overides
         {
             if (UpgradeEquipped)
             {
-                int defense = target.defense;
-                int calc_damage = (int)Floor(damage - defense * .5);
-
-                if (defense <= 10)
+                if (target.defense < 10)
                 {
-                    damage += defense;
+                    modifiers.FinalDamage.Flat += target.defense;
+                    return;
                 }
-                else
-                {
-                    if (Shotgun)
-                    {
-                        damage = (int)(Floor(defense * .5 + 10) / projectile.ai[0]);
-                        return;
-                    }
-                    damage = (int)Floor(defense * .5 + 10);
-                    
-                }
+                modifiers.FinalDamage.Flat += 10;
             }
-
         }
     }
 }

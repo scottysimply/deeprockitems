@@ -3,8 +3,9 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using deeprockitems.Content.Items.Weapons;
 using static System.Math;
+using deeprockitems.Content.Items.Upgrades;
 
-namespace deeprockitems.Common.Overides
+namespace deeprockitems.Common.Weapons
 {
     public class BlowthroughFix : GlobalProjectile
     {
@@ -13,12 +14,18 @@ namespace deeprockitems.Common.Overides
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             UpgradeEquipped = false;
-            if (source is EntitySource_ItemUse_WithAmmo parent && parent.Item.ModItem is JuryShotgun boomstick && boomstick.Upgrades[7])
+            if (source is EntitySource_ItemUse_WithAmmo parent && parent.Item.ModItem is JuryShotgun boomstick)
             {
-                UpgradeEquipped = true;
-                projectile.penetrate = 5;
-                projectile.usesIDStaticNPCImmunity = true;
-                projectile.idStaticNPCHitCooldown = 1;
+                foreach (int i in boomstick.Upgrades2)
+                {
+                    if (i == ModContent.ItemType<Blowthrough>())
+                    {
+                        UpgradeEquipped = true;
+                        projectile.penetrate = 5;
+                        projectile.usesIDStaticNPCImmunity = true;
+                        projectile.idStaticNPCHitCooldown = 1;
+                    }
+                }
             }
         }
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
