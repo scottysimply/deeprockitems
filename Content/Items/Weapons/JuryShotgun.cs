@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Terraria.ModLoader.IO;
 using deeprockitems.UI;
 using deeprockitems.Content.Items.Upgrades;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -44,17 +45,17 @@ namespace deeprockitems.Content.Items.Weapons
         {
             int numberProjectiles = 4 + Main.rand.Next(1, 3);
             double spread = PI / 13;
-            if (Overclock == ModContent.ItemType<PelletAlignmentOC>()) // Reduced spread
+            if (Upgrades.Contains(ModContent.ItemType<PelletAlignmentOC>())) // Reduced spread
             {
                 spread *= .5;
             }
-            else if (Overclock == ModContent.ItemType<StuffedShellsOC>()) // twice amount of pellets, much more spread and lower firerate
+            else if (Upgrades.Contains(ModContent.ItemType<StuffedShellsOC>())) // twice amount of pellets, much more spread and lower firerate
             {
                 numberProjectiles *= 2;
                 spread *= 2;
             }
             // This block is for the projectile spread.
-            float VelocityReducer = (Overclock == ModContent.ItemType<PelletAlignmentOC>()) ? 1f : .8f;
+            float VelocityReducer = (Upgrades.Contains(ModContent.ItemType<PelletAlignmentOC>())) ? 1f : .8f;
             for (int i = 0; i < numberProjectiles; i++)
             {
                 Vector2 perturbedSpeed = velocity.RotatedByRandom(spread) * Main.rand.NextFloat(VelocityReducer, 1.2f); // random velocity effect
@@ -72,16 +73,13 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 player.direction = -1;
             }
-            if (Overclock == ModContent.ItemType<SpecialPowderOC>())
+            if (Upgrades.Contains(ModContent.ItemType<SpecialPowderOC>()))
             {
                 ShotgunJump(player, mousePos);
             }
-            foreach (int i in Upgrades2)
+            if (Upgrades.Contains(ModContent.ItemType<WhitePhosphorous>()))
             {
-                if (i == ModContent.ItemType<WhitePhosphorous>())
-                {
-                    WPIgnite();
-                }
+                WPIgnite();
             }
 
             return false;
@@ -101,7 +99,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void IndividualUpgrades()
         {
-            if (Overclock == ModContent.ItemType<PelletAlignmentOC>())
+            if (Upgrades.Contains(ModContent.ItemType<PelletAlignmentOC>()))
             {
                 DamageScale = 1f;
                 newFireRate = 39;
@@ -109,7 +107,7 @@ namespace deeprockitems.Content.Items.Weapons
                 OverclockPositives = "▶Reduced spread";
                 OverclockNegatives = "";
             }
-            else if (Overclock == ModContent.ItemType<SpecialPowderOC>())
+            else if (Upgrades.Contains(ModContent.ItemType<SpecialPowderOC>()))
             {
                 DamageScale = .75f;
                 newFireRate = 39;
@@ -117,7 +115,7 @@ namespace deeprockitems.Content.Items.Weapons
                 OverclockPositives = "▶Launch yourself with each shot";
                 OverclockNegatives = "▶Lower damage output";
             }
-            else if (Overclock == ModContent.ItemType<StuffedShellsOC>())
+            else if (Upgrades.Contains(ModContent.ItemType<StuffedShellsOC>()))
             {
                 DamageScale = 1f;
                 newFireRate = 50;
@@ -131,7 +129,7 @@ namespace deeprockitems.Content.Items.Weapons
                 DamageScale = 1f;
                 newFireRate = 39;
             }
-            foreach (int i in Upgrades2)
+            foreach (int i in Upgrades)
             {
                 if (i == ModContent.ItemType<BumpFire>())
                 {

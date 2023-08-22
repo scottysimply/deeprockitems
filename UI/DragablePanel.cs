@@ -2,6 +2,7 @@
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using Microsoft.Xna.Framework;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.UI
 {
@@ -75,29 +76,6 @@ namespace deeprockitems.UI
                 Top.Pixels = Utils.Clamp(Top.Pixels, 0, parentSpace.Bottom - Height.Pixels);
                 Recalculate();
             }
-        }
-    }
-    static class RectExtension
-    {
-        public static bool Outside(this Rectangle parentRect, Rectangle rect1)
-        {
-            if (parentRect.Left > rect1.Left)
-            {
-                return true;
-            }
-            if (parentRect.Right < rect1.Right)
-            {
-                return true;
-            }
-            if (parentRect.Top > rect1.Left)
-            {
-                return true;
-            }
-            if (parentRect.Bottom < rect1.Bottom)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

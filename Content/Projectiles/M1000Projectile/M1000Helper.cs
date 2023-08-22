@@ -36,7 +36,7 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
             entitysource = Main.player[Projectile.owner].GetSource_ItemUse(Main.player[Projectile.owner].HeldItem);
             if (Main.player[Projectile.owner].HeldItem.ModItem is Items.Weapons.M1000 modItem)
             {
-                foreach (int i in modItem.Upgrades2)
+                foreach (int i in modItem.Upgrades)
                 {
                     if (i == ModContent.ItemType<SupercoolOC>())
                     {

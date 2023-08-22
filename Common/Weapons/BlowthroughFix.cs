@@ -16,7 +16,7 @@ namespace deeprockitems.Common.Weapons
             UpgradeEquipped = false;
             if (source is EntitySource_ItemUse_WithAmmo parent && parent.Item.ModItem is JuryShotgun boomstick)
             {
-                foreach (int i in boomstick.Upgrades2)
+                foreach (int i in boomstick.Upgrades)
                 {
                     if (i == ModContent.ItemType<Blowthrough>())
                     {

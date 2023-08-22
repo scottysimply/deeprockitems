@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using deeprockitems.Utilities;
 using Terraria.ID;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -139,19 +140,12 @@ namespace deeprockitems.Common.Quests
                 {
                     Text = "Quest complete!",
                     Color = c,
-                    DurationInFrames = 10,
+                    DurationInFrames = 180,
                     Velocity = new(0, -10)
                 };
                 PopupText.NewText(request, player.Center);
             }
         }
     }
-    public static class ListExtension
-    {
-        public static List<T> AddThis<T>(this List<T> list, T item)
-        {
-            list.Add(item);
-            return list;
-        }
-    }
+
 }

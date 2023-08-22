@@ -21,6 +21,12 @@ namespace deeprockitems.UI
 {
     public class DisplaySlot : UIElement
     {
+        protected int _slotID = -1;
+        public DisplaySlot(int ID)
+        {
+            _slotID = ID;
+        }
+
         public bool Clicked { get; private set; } = false;
         public Item ItemToDisplay { get; set; } = new Item();
         protected override void DrawSelf(SpriteBatch spriteBatch) // TODO: Clean up the drawing code. Items in the slots are still roughly 5% bigger than they should be. It's pretty good for now, though :)
@@ -53,34 +59,10 @@ namespace deeprockitems.UI
                 Rectangle dest = new Rectangle((int)Math.Round(DrawPosition.X), (int)Math.Round(DrawPosition.Y), (int)Math.Round(ScaledSize.X), (int)Math.Round(ScaledSize.Y));
                 // spriteBatch.Draw(TextureAssets.MagicPixel.Value, dest, Color.White);
                 spriteBatch.Draw(ItemInSlot_Texture, dest, ItemInSlot_Dimensions, Color.White, 0, new(0, 0), SpriteEffects.None, 0f);
-
-
-                /*float MaxSize = SlotDimensions.Width;
-                float unknownScale = 1f;
-                Color currentColor = color;
-                ItemSlot.GetItemLight(ref currentColor, ref unknownScale, ItemToDisplay.type);
-                float spriteScale = 1f;
-                if (ItemInSlot_Dimensions.Width > 32f || ItemInSlot_Dimensions.Height > 32f)
-                {
-                    spriteScale = ((ItemInSlot_Dimensions.Width <= ItemInSlot_Dimensions.Height) ? (32f / ItemInSlot_Dimensions.Height) : (32f / ItemInSlot_Dimensions.Width));
-                }
-                Vector2 ItemDrawPosition = SlotDimensions.TopLeft() + vector / 2f - ItemInSlot_Dimensions.Size() * (spriteScale * _InventoryScale) / 2f;
-                Vector2 origin = new(0, 0);
-                if (ItemLoader.PreDrawInInventory(ItemToDisplay, spriteBatch, ItemDrawPosition, ItemInSlot_Dimensions, ItemToDisplay.GetAlpha(currentColor), ItemToDisplay.GetColor(color), origin, unknownScale * spriteScale))
-                {
-                    spriteBatch.Draw(ItemInSlot_Texture, ItemDrawPosition, ItemInSlot_Dimensions, ItemToDisplay.GetAlpha(currentColor), 0f, origin, spriteScale * unknownScale, SpriteEffects.None, 0f);
-                    if (ItemToDisplay.color != Color.Transparent)
-                    {
-                        spriteBatch.Draw(ItemInSlot_Texture, ItemDrawPosition, ItemInSlot_Dimensions, ItemToDisplay.GetColor(color), 0f, origin, unknownScale * spriteScale, SpriteEffects.None, 0f);
-                    }
-                }
-                ItemLoader.PostDrawInInventory(ItemToDisplay, spriteBatch, ItemDrawPosition, ItemInSlot_Dimensions, ItemToDisplay.GetAlpha(currentColor), ItemToDisplay.GetColor(color), origin, unknownScale * spriteScale);*/
-
-
             }
             else
             {
-                DrawIconHook(spriteBatch);
+                DrawEmpty(spriteBatch);
             }
 
             if (IsMouseHovering)
@@ -99,137 +81,171 @@ namespace deeprockitems.UI
             Clicked = false;
             base.LeftMouseUp(evt);
         }
-        public virtual void DrawIconHook(SpriteBatch spriteBatch) { }
+        /// <summary>
+        /// Used for drawing the empty slot
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public virtual void DrawEmpty(SpriteBatch spriteBatch) { }
+        public virtual void MoveItems(ref Item item1, ref Item item2) { }
     }
     public class UpgradeSlot : DisplaySlot
     {
-
-        /// <summary>
-        /// The item in the ParentSlot in the UI.
-        /// </summary>
-        public static UpgradeableItemTemplate ParentItem { get; set; }
-
-        /// <summary>
-        /// Tracking which slot goes to which item.
-        /// </summary>
-        private int tracker;
-        public UpgradeSlot(int slotnumber = 1)
+        public UpgradeSlot(int ID) : base(ID)
         {
-            tracker = slotnumber;
+            _slotID = ID;
+        }
+        /// <summary>
+        /// Swaps item1 and item2. 
+        /// </summary>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        public override void MoveItems(ref Item item1, ref Item item2)
+        {
+            Item placeholder = item1.Clone();
+
+            SoundEngine.PlaySound(SoundID.Grab);
+            item1 = item2.Clone();
+            item2 = placeholder;
+        }
+        /// <summary>
+        /// Checks to see if this upgrade is already equipped. Returns true if the upgrade process *should continue*, not if the upgrade is equipped
+        /// </summary>
+        /// <param name="item1"></param>
+        /// <returns>Whether the process of swapping the items should continue</returns>
+        private bool CheckDuplicates(Item item1)
+        {
+            if (UpgradeUISystem.UpgradeUIPanel.GetUpgrades().Contains(item1.type))
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Gets whether the upgrade item is considered a valid upgrade. Returns true if the upgrade if valid
+        /// </summary>
+        /// <param name="item1"></param>
+        /// <returns>Whether the upgrade item is a valid upgrade</returns>
+        private bool CheckValid(Item item1)
+        {
+            if (UpgradeUISystem.UpgradeUIPanel.GetValidUpgrades().Contains(item1.type))
+            {
+                // Only executes if normal upgrade going into upgrade slot, or if is overclock going into the last slot (overclock slot)
+                if (!((item1.ModItem is UpgradeTemplate { IsOverclock: true}) ^ (_slotID == UpgradeUISystem.UpgradeUIPanel.UpgradeSlots.Length - 1)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// Manages swapping item from or into the item slot
+        /// </summary>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        /// <returns>If the method suceeded</returns>
+        public bool SwapItemWithUI(ref Item item1, ref Item item2)
+        {
+            if (item1.ModItem is UpgradeTemplate)
+            {
+                if (CheckDuplicates(item1) && CheckValid(item1))
+                {
+                    // Proceed with swapping the item.
+                    SwapItems(ref item1, ref item2);
+                    return true;
+                }
+            }
+            if (item1.type == 0 && item2.ModItem is UpgradeTemplate)
+            {
+                SwapItems(ref item1, ref item2);
+                return true;
+            }
+
+            return false;
+        }
+        private void SwapItems(ref Item item1, ref Item item2)
+        {
+            if (UpgradeUISystem.UpgradeUIPanel.ParentSlot.ItemToDisplay.ModItem is not UpgradeableItemTemplate parentItem)
+            {
+                return;
+            }
+            Item placeholder = item1.Clone();
+            item1 = item2.Clone();
+            item2 = placeholder;
+            SoundEngine.PlaySound(SoundID.Grab);
+            parentItem.Upgrades[_slotID] = item2.type;
+            UpgradeUISystem.UpgradeUIPanel.ShowItems();
         }
         public override void LeftMouseDown(UIMouseEvent evt)
         {
-            Item mouseItem = Main.mouseItem;
-
-            // If item is being taken from the slot
-            if (mouseItem.IsAir)
+            base.LeftMouseDown(evt);
+            if (UpgradeUISystem.UpgradeUIPanel.UpgradeSlots[_slotID] is UpgradeSlot { ItemToDisplay: Item upgrade})
             {
-                if (!ItemToDisplay.IsAir)
-                {
-
-                    Main.mouseItem = ItemToDisplay.Clone();
-                    ItemToDisplay = new Item();
-                    SoundEngine.PlaySound(SoundID.Grab);
-                    if (tracker == 3)
-                    {
-                        ParentItem.Overclock = 0;
-                    }
-                    else
-                    {
-                        ParentItem.Upgrades2[tracker] = 0;
-                    }
-                    ParentItem.UpdateUpgrades();
-
-                }
+                SwapItemWithUI(ref Main.mouseItem, ref upgrade);
+                
             }
-            else if (mouseItem.ModItem is UpgradeTemplate Upgrade) // If the item being put into the slot is an upgrade
-            {
-                if (ItemToDisplay.IsAir) // If slot is empty
-                {
-                    if (ParentItem.ValidUpgrades.Contains(Upgrade.Type)) // If Upgrade is a valid upgrade
-                    {
-                        // Code will only execute IF item is Overclock being put in an OC slot, or item is normal upgrade in a normal slot.
-                        if (!(Upgrade.IsOverclock ^ tracker == 3))
-                        {
-                            foreach (int i in ParentItem.Upgrades2)
-                            {
-                                if (i == Upgrade.Type) // Stop executing if the item is already a part of the UI. No duplicates!
-                                {
-                                    return;
-                                }
-                            }
+        }
 
+        /*        public override void LeftMouseDown(UIMouseEvent evt)
+                {
+                    Item mouseItem = Main.mouseItem;
+
+                    // If item is being taken from the slot
+                    if (mouseItem.IsAir)
+                    {
+                        if (!ItemToDisplay.IsAir)
+                        {
+
+                            Main.mouseItem = ItemToDisplay.Clone();
+                            ItemToDisplay = new Item();
+                            SoundEngine.PlaySound(SoundID.Grab);
                             if (tracker == 3)
                             {
-                                ParentItem.Overclock = Upgrade.Item.type;
+                                ParentItem.Overclock = 0;
                             }
                             else
                             {
-                                ParentItem.Upgrades2[tracker] = Upgrade.Item.type;
+                                ParentItem.Upgrades2[tracker] = 0;
+                            }
+                            ParentItem.UpdateUpgrades();
 
+                        }
+                    }
+                    else if (mouseItem.ModItem is UpgradeTemplate Upgrade) // If the item being put into the slot is an upgrade
+                    {
+                        if (ItemToDisplay.IsAir) // If slot is empty
+                        {
+                            if (ParentItem.ValidUpgrades.Contains(Upgrade.Type)) // If Upgrade is a valid upgrade
+                            {
+                                // Code will only execute IF item is Overclock being put in an OC slot, or item is normal upgrade in a normal slot.
+                                if (!(Upgrade.IsOverclock ^ tracker == 3))
+                                {
+                                    foreach (int i in ParentItem.Upgrades2)
+                                    {
+                                        if (i == Upgrade.Type) // Stop executing if the item is already a part of the UI. No duplicates!
+                                        {
+                                            return;
+                                        }
+                                    }
+
+                                    if (tracker == 3)
+                                    {
+                                        ParentItem.Overclock = Upgrade.Item.type;
+                                    }
+                                    else
+                                    {
+                                        ParentItem.Upgrades2[tracker] = Upgrade.Item.type;
+
+                                    }
+
+                                    ParentItem.UpdateUpgrades();
+                                    ItemToDisplay = Upgrade.Item;
+                                    SoundEngine.PlaySound(SoundID.Grab);
+                                    Main.mouseItem = new Item();
+                                }
                             }
 
-                            ParentItem.UpdateUpgrades();
-                            ItemToDisplay = Upgrade.Item;
-                            SoundEngine.PlaySound(SoundID.Grab);
-                            Main.mouseItem = new Item();
                         }
                     }
-
-                }
-            }
-        }
-        public void SaveItem_InSlot(UpgradeTemplate Upgrade, bool removed)
-        {
-            UpgradeableItemTemplate Weapon = ParentItem;
-            // If item was removed from the slot
-            if (!removed)
-            {
-                if (Weapon is not null)
-                {
-                    /*BitsByte Helper = Weapon.Upgrades;
-                    for (int u = 0; u < 8; u++)
-                    {
-                        if (Weapon.ValidUpgrades[u] == Upgrade.Type)
-                        {
-                            Helper[u] = true;
-                        }
-                    }
-                    Weapon.Upgrades = Helper;
-                    Weapon.UpdateUpgrades();*/
-                    if (Weapon.Upgrades2[tracker] == 0)
-                    {
-                        Weapon.Upgrades2[tracker] = Upgrade.Item.type;
-                    }
-                    Weapon.UpdateUpgrades();
-                }
-            }
-            // Save removing the item from the slot
-            else
-            {
-                if (Weapon is not null)
-                {
-                    if (Weapon.Upgrades2[tracker] == Upgrade.Item.type)
-                    {
-                        Weapon.Upgrades2[tracker] = 0;
-                    }
-                    Weapon.UpdateUpgrades();
-                }
-            }
-        }
-        public override void DrawIconHook(SpriteBatch spriteBatch)
-        {
-            string background = tracker switch
-            {
-                0 => "UpgradeI",
-                1 => "UpgradeII",
-                2 => "UpgradeIII",
-                _ => "UpgradeIV"
-            };
-            Texture2D texture = ModContent.Request<Texture2D>("deeprockitems/UI/UpgradeItem/" + background).Value;
-            Rectangle rect = GetDimensions().ToRectangle();
-            rect.Inflate(-12, -12);
-            spriteBatch.Draw(texture, rect, Color.White);
-        }
+                }*/
     }
 }

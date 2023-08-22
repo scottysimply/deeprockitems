@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Content.Items.Upgrades;
 using Terraria.DataStructures;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -30,16 +31,13 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override void OnSpawn(IEntitySource source)
         {
             parentItem = Main.player[Projectile.owner].HeldItem.ModItem as SludgePump;
-            foreach (int i in parentItem.Upgrades2)
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()) && Projectile.ai[0] != 1)
             {
-                if (parentItem.Overclock == ModContent.ItemType<SludgeExplosionOC>() && Projectile.ai[0] != 1)
-                {
-                    Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
-                }
-                if (i == ModContent.ItemType<Blowthrough>())
-                {
-                    Projectile.penetrate = 5;
-                }
+                Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
+            }
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<Blowthrough>()))
+            {
+                Projectile.penetrate = 5;
             }
 
         }
@@ -47,7 +45,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             if (parentItem == null) return;
 
-            if (parentItem.Overclock == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[0] == 1) // Drop goo from the projectile if goo bomber is equipped
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()) && Projectile.ai[0] == 1) // Drop goo from the projectile if goo bomber is equipped
             {
                 if (GooTimer > 0)
                 {
@@ -61,7 +59,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             }
 
 
-            if (!(parentItem.Overclock == ModContent.ItemType<AntiGravOC>())) // If nograv is not equipped:
+            if (!(parentItem.Upgrades.Contains(ModContent.ItemType<AntiGravOC>()))) // If nograv is not equipped:
             {
                 if (Projectile.velocity.Y <= 30f) // Set gravity cap
                 {
@@ -81,12 +79,9 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             {
                 target.AddBuff(BuffID.Venom, 150);
             }
-            foreach (int i in parentItem.Upgrades2)
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<Blowthrough>()))
             {
-                if (i == ModContent.ItemType<Blowthrough>())
-                {
-                    Projectile.damage = (int)Floor(Projectile.damage * .7f);
-                }
+                Projectile.damage = (int)Floor(Projectile.damage * .7f);
             }
 
         }
@@ -110,12 +105,12 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgePumpHit") with { Volume = .3f }, Projectile.position);
             for (int i = 0; i < 4; i++)
             {
-                int dust = Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dust.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
+                Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dust.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
             }
 
             if (parentItem == null) return;
-            if (parentItem.Overclock == ModContent.ItemType<GooSpecialOC>()) return;
-            if (parentItem.Overclock == ModContent.ItemType<SludgeExplosionOC>())
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>())) return;
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()))
             {
                 if (Projectile.ai[0] == 1)
                 {

@@ -37,7 +37,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             entitysource = Main.player[Projectile.owner].GetSource_ItemUse(Main.player[Projectile.owner].HeldItem);
             if (Main.player[Projectile.owner].HeldItem.ModItem is SludgePump modItem)
             {
-                foreach (int i in modItem.Upgrades2)
+                foreach (int i in modItem.Upgrades)
                 {
                     if (i == ModContent.ItemType<QuickCharge>())
                     {

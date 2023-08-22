@@ -6,6 +6,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Upgrades;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Projectiles.M1000Projectile
 {
@@ -37,11 +38,11 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
                 Projectile.damage *= 3;
                 if (modItem is not null)
                 {
-                    if (modItem.Overclock == ModContent.ItemType<DiggingRoundsOC>())
+                    if (modItem.Upgrades.Contains(ModContent.ItemType<DiggingRoundsOC>()))
                     {
                         Projectile.tileCollide = false;
                     }
-                    else if (modItem.Overclock == ModContent.ItemType<SupercoolOC>())
+                    else if (modItem.Upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
                     {
                         Projectile.damage *= 2;
                     }
@@ -49,19 +50,16 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
             }
             if (modItem is not null)
             {
-                foreach (int i in modItem.Upgrades2)
+                if (modItem.Upgrades.Contains(ModContent.ItemType<Blowthrough>()))
                 {
-                    if (i == ModContent.ItemType<Blowthrough>())
-                    {
-                        Projectile.penetrate = 5;
-                    }
+                    Projectile.penetrate = 5;
                 }
             }
             Projectile.rotation = new Vector2(0, 0).DirectionTo(-Projectile.velocity).ToRotation();
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            foreach (int i in modItem.Upgrades2)
+            foreach (int i in modItem.Upgrades)
             {
                 if (i == ModContent.ItemType<Blowthrough>())
                 {

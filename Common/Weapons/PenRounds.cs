@@ -17,7 +17,7 @@ namespace deeprockitems.Common.Weapons
             UpgradeEquipped = false;
             if (source is EntitySource_ItemUse parent && parent.Item.ModItem is UpgradeableItemTemplate item)
             {
-                foreach (int i in item.Upgrades2)
+                foreach (int i in item.Upgrades)
                 {
                     if (i == ModContent.ItemType<ArmorPierce>())
                     {

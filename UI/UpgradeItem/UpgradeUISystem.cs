@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using deeprockitems.Content.Items.Weapons;
 
 namespace deeprockitems.UI.UpgradeItem
 {
@@ -35,6 +36,7 @@ namespace deeprockitems.UI.UpgradeItem
 
 
         }
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));

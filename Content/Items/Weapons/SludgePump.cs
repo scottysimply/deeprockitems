@@ -9,6 +9,7 @@ using Terraria.ModLoader.IO;
 using System.Collections.Generic;
 using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.Content.Projectiles.SludgeProjectile;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -50,11 +51,11 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            foreach (int i in Upgrades2)
+            foreach (int i in Upgrades)
             {
                 if (player == Main.LocalPlayer && i == ModContent.ItemType<TracerRounds>())
                 {
-                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER, ai1: Overclock);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER, ai1: Upgrades[^1]);
                 }
             }
             TIMER++;
@@ -69,19 +70,19 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void IndividualUpgrades()
         {
-            if (Overclock == ModContent.ItemType<AntiGravOC>())
+            if (Upgrades.Contains(ModContent.ItemType<AntiGravOC>()))
             {
                 CurrentOverclock = "AG Mixture";
                 OverclockPositives = "▶Shots are no longer affected by gravity";
                 OverclockNegatives = "";
             }
-            else if (Overclock == ModContent.ItemType<SludgeExplosionOC>())
+            else if (Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()))
             {
                 CurrentOverclock = "Waste Ordnance";
                 OverclockPositives = "▶Charge shots explode with a large range";
                 OverclockNegatives = "▶Charge shots don't fragment when destroyed";
             }
-            else if (Overclock == ModContent.ItemType<GooSpecialOC>())
+            else if (Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()))
             {
                 CurrentOverclock = "Goo Bomber Special";
                 OverclockPositives = "▶Charge shots leave trails behind";

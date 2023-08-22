@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using static System.Math;
 using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.Content.Projectiles.M1000Projectile;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -58,7 +59,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void IndividualUpgrades()
         {
-            if (Overclock == ModContent.ItemType<HipsterOC>())
+            if (Upgrades.Contains(ModContent.ItemType<HipsterOC>()))
             {
                 Item.channel = false;
                 newFireRate = 15;
@@ -66,7 +67,7 @@ namespace deeprockitems.Content.Items.Weapons
                 OverclockPositives = "▶Increased fire rate for normal shots";
                 OverclockNegatives = "▶You can no longer fire focus shots";
             }
-            else if (Overclock == ModContent.ItemType<DiggingRoundsOC>())
+            else if (Upgrades.Contains(ModContent.ItemType<DiggingRoundsOC>()))
             {
                 Item.channel = true;
                 newFireRate = 15;
@@ -74,7 +75,7 @@ namespace deeprockitems.Content.Items.Weapons
                 OverclockPositives = "▶Focus shots pierce through blocks";
                 OverclockNegatives = "";
             }
-            else if (Overclock == ModContent.ItemType<SupercoolOC>())
+            else if (Upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
             {
                 Item.channel = true;
                 newFireRate = 20;
@@ -88,7 +89,7 @@ namespace deeprockitems.Content.Items.Weapons
                 Item.channel = true;
                 newFireRate = 15;
             }
-            foreach (int i in Upgrades2)
+            foreach (int i in Upgrades)
             {
                 if (i == ModContent.ItemType<BumpFire>())
                 {
