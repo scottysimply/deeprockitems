@@ -70,6 +70,7 @@ namespace deeprockitems.UI
                 Main.LocalPlayer.mouseInterface = true;
                 Main.HoverItem = ItemToDisplay.Clone();
                 Main.hoverItemName = ItemToDisplay.Name;
+                MouseHoverCursor();
             }
         }
         public override void LeftMouseDown(UIMouseEvent evt)
@@ -86,7 +87,7 @@ namespace deeprockitems.UI
         /// </summary>
         /// <param name="spriteBatch"></param>
         public virtual void DrawEmpty(SpriteBatch spriteBatch) { }
-        public virtual void MoveItems(ref Item item1, ref Item item2) { }
+        public virtual void MouseHoverCursor() { }
     }
     public class UpgradeSlot : DisplaySlot
     {
@@ -94,18 +95,18 @@ namespace deeprockitems.UI
         {
             _slotID = ID;
         }
-        /// <summary>
-        /// Swaps item1 and item2. 
-        /// </summary>
-        /// <param name="item1"></param>
-        /// <param name="item2"></param>
-        public override void MoveItems(ref Item item1, ref Item item2)
+        public override void MouseHoverCursor()
         {
-            Item placeholder = item1.Clone();
-
-            SoundEngine.PlaySound(SoundID.Grab);
-            item1 = item2.Clone();
-            item2 = placeholder;
+            if (ItemSlot.ShiftInUse && ItemToDisplay.type != 0)
+            {
+                for (int i = 49; i > 0; i--)
+                {
+                    if (Main.player[Main.myPlayer].inventory[i].type == 0)
+                    {
+                        Main.cursorOverride = 30;
+                    }
+                }
+            }
         }
         /// <summary>
         /// Checks to see if this upgrade is already equipped. Returns true if the upgrade process *should continue*, not if the upgrade is equipped
@@ -178,74 +179,27 @@ namespace deeprockitems.UI
         public override void LeftMouseDown(UIMouseEvent evt)
         {
             base.LeftMouseDown(evt);
+
+            if (ItemSlot.ShiftInUse)
+            {
+                Player player = Main.player[Main.myPlayer];
+                for (int i = 49; i > 0; i--)
+                {
+                    if (player.inventory[i].type == 0)
+                    {
+                        Item itemToDisplay = ItemToDisplay;
+                        SwapItems(ref player.inventory[i], ref itemToDisplay);
+                        return;
+
+                    }
+                }
+            }
+
             if (UpgradeUISystem.UpgradeUIPanel.UpgradeSlots[_slotID] is UpgradeSlot { ItemToDisplay: Item upgrade})
             {
                 SwapItemWithUI(ref Main.mouseItem, ref upgrade);
                 
             }
         }
-
-        /*        public override void LeftMouseDown(UIMouseEvent evt)
-                {
-                    Item mouseItem = Main.mouseItem;
-
-                    // If item is being taken from the slot
-                    if (mouseItem.IsAir)
-                    {
-                        if (!ItemToDisplay.IsAir)
-                        {
-
-                            Main.mouseItem = ItemToDisplay.Clone();
-                            ItemToDisplay = new Item();
-                            SoundEngine.PlaySound(SoundID.Grab);
-                            if (tracker == 3)
-                            {
-                                ParentItem.Overclock = 0;
-                            }
-                            else
-                            {
-                                ParentItem.Upgrades2[tracker] = 0;
-                            }
-                            ParentItem.UpdateUpgrades();
-
-                        }
-                    }
-                    else if (mouseItem.ModItem is UpgradeTemplate Upgrade) // If the item being put into the slot is an upgrade
-                    {
-                        if (ItemToDisplay.IsAir) // If slot is empty
-                        {
-                            if (ParentItem.ValidUpgrades.Contains(Upgrade.Type)) // If Upgrade is a valid upgrade
-                            {
-                                // Code will only execute IF item is Overclock being put in an OC slot, or item is normal upgrade in a normal slot.
-                                if (!(Upgrade.IsOverclock ^ tracker == 3))
-                                {
-                                    foreach (int i in ParentItem.Upgrades2)
-                                    {
-                                        if (i == Upgrade.Type) // Stop executing if the item is already a part of the UI. No duplicates!
-                                        {
-                                            return;
-                                        }
-                                    }
-
-                                    if (tracker == 3)
-                                    {
-                                        ParentItem.Overclock = Upgrade.Item.type;
-                                    }
-                                    else
-                                    {
-                                        ParentItem.Upgrades2[tracker] = Upgrade.Item.type;
-
-                                    }
-
-                                    ParentItem.UpdateUpgrades();
-                                    ItemToDisplay = Upgrade.Item;
-                                    SoundEngine.PlaySound(SoundID.Grab);
-                                    Main.mouseItem = new Item();
-                                }
-                            }
-
-                        }
-                    }
-                }*/
     }
 }
