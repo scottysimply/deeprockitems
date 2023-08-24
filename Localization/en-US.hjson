@@ -131,6 +131,15 @@ Mods: {
 					Hold click to fire a shot that splatters
 					'''
 			}
+
+			PlasmaPistol: {
+				DisplayName: Plasma Pistol
+				Tooltip:
+					'''
+					Fires a high-velocity plasma bullet
+					Hold click to fire a larger, slow moving projectile
+					'''
+			}
 		}
 
 		NPCs: {
