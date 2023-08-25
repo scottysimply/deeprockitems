@@ -90,33 +90,6 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
 
         
 
-        // So what's going on in this method? Deconstruction time!
-        private void HoldItemOut(Player player)
-        {
-            // So fun fact about the way the game handles rotation: values go from -Pi to +Pi. There is no 0 to 2Pi.
-            // For some god awful reason though, itemRotation doesn't match DirectionTo().ToRotation() of the mouse, but only when the itemRotation is in quadrant 4.
 
-            // If cursor is to the right of the player
-            if (Main.MouseWorld.X > player.Center.X)
-            {
-                // See, this is easy!
-                player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
-                player.direction = 1; // Make the player face right
-                return;
-            }
-            // If cursor is above the player
-            if (Main.MouseWorld.Y < player.Center.Y)
-            {
-                // Here's where it messes up. If the cursor is in quadrant II, it needs to add PI
-                player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() + (float)PI;
-            }
-            // If cursor is below the player
-            else
-            {
-                // But if the cursor is in Quadrant III, it has to subtract. guh??
-                player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() - (float)PI;
-            }
-            player.direction = -1; // Make the player face left
-        }
     }
 }

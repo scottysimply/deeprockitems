@@ -21,11 +21,12 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shoot = ProjectileID.PurificationPowder;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = 10f;
-            Item.UseSound = SoundID.Item8;
+            Item.UseSound = SoundID.Item171;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            type = ModContent.ProjectileType<Content.Projectiles.PlasmaProjectiles.PlasmaBullet>();
+            type = ModContent.ProjectileType<Projectiles.PlasmaProjectiles.PlasmaBullet>();
+
         }
     }
 }
