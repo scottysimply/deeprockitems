@@ -8,14 +8,18 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <AdditionalFiles Remove="Content\Items\Ammo\**" />
     <Compile Remove=".vs\**" />
     <Compile Remove="bin\**" />
+    <Compile Remove="Content\Items\Ammo\**" />
     <Compile Remove="obj\**" />
     <EmbeddedResource Remove=".vs\**" />
     <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="Content\Items\Ammo\**" />
     <EmbeddedResource Remove="obj\**" />
     <None Remove=".vs\**" />
     <None Remove="bin\**" />
+    <None Remove="Content\Items\Ammo\**" />
     <None Remove="obj\**" />
   </ItemGroup>
   <ItemGroup>
@@ -28,9 +32,5 @@
   <ItemGroup>
     <PackageReference Include="SmartFormat.NET" Version="3.2.2" />
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Sounds\Items\" />
-    <Folder Include="Content\Items\Ammo\" />
   </ItemGroup>
 </Project>

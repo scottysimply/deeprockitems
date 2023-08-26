@@ -6,6 +6,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using static System.Math;
+using System.Reflection.Metadata;
 
 namespace deeprockitems.Content.Projectiles;
 /// <summary>
@@ -17,13 +18,13 @@ public abstract class HeldProjectileBase : ModProjectile
     protected float TOTAL_TIME { get; set; } // Not constant, but screaming snake case highlights that this field will almost never change.
     protected SoundStyle Charge_Sound { get; set; }
     protected SoundStyle Fire_Sound { get; set; }
-    private float timer;
     private Player projectileOwner;
+    private const int BUFFER_TIME = 900; // Time in ticks that the weapon should stay charged for. Projectile should despawn after this time.
     public override void SetDefaults()
     {
         Projectile.height = 2;
         Projectile.width = 2;
-
+        Projectile.timeLeft = 2;
     }
     public override void OnSpawn(IEntitySource source)
     {
@@ -41,18 +42,33 @@ public abstract class HeldProjectileBase : ModProjectile
                 TOTAL_TIME *= 1.33f;
             }
         }
+        Projectile.timeLeft = BUFFER_TIME + (int)TOTAL_TIME; // Set timeleft to be 15 seconds + time it takes to charge the projectile
         SpecialOnSpawn(source);
     }
     public virtual void SpecialOnSpawn(IEntitySource source) { }
 
     public override void AI()
     {
-        if (!SpecialAI()) return; // Exit if SpecialAI() returns false!!! Very important!!
+
 
         // Continue as normal
+        if (projectileOwner.channel)
+        {
+            if (Projectile.timeLeft == BUFFER_TIME) // Projectile has been charged, I repeat, projectile has been charged
+            {
+                SoundEngine.PlaySound(Charge_Sound with { PitchVariance = .2f, MaxInstances = 1, Volume = .7f });
+            }
+            else if (Projectile.timeLeft < BUFFER_TIME) // After the projectile is charged
+            {
 
+            }
+        }
+        SpecialAI();
     }
-    public virtual bool SpecialAI() { return true; }
+    /// <summary>
+    /// This hook allows for custom AI. Ran after AI() is called. Override PreAI() to run code before normal AI is called, or to cancel the AI entirely.
+    /// </summary>
+    public virtual void SpecialAI() { }
 
     // This is for when the projectile is killed. Spawn the new projectile, play sound, etc.
     public override void Kill(int timeLeft)
