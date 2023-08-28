@@ -28,6 +28,7 @@
   <ItemGroup>
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
+    <None Remove="Content\Projectiles\PlasmaProjectiles\PlasmaBomb.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SmartFormat.NET" Version="3.2.2" />

@@ -195,6 +195,8 @@ Mods: {
 			SludgeHelper.DisplayName: Sludge Helper
 			SwingGrapple.DisplayName: Swing Grapple
 			PlasmaBullet.DisplayName: Plasma Bullet
+			PlasmaPistolHelper.DisplayName: Plasma Pistol Helper
+			PlasmaBomb.DisplayName: Plasma Bomb
 		}
 	}
 }
