@@ -29,9 +29,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.noMelee = true;
             Item.knockBack = 5;
             Item.crit = 4;
-            Item.width = 100;
-            Item.height = 52;
-            Item.scale = .6f;
+            Item.width = 70;
+            Item.height = 36;
             Item.mana = 10;
             Item.useTime = 15;
             Item.useAnimation = 15;

@@ -31,7 +31,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgePumpHit") with { Volume = .2f }, Projectile.position);
+            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .2f }, Projectile.position);
             for (int i = 0; i < 2; i++)
             {
                 int dust = Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dust.SludgeDust>(), Scale: Main.rand.NextFloat(.9f, 1.1f));

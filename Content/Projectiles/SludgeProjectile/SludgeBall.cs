@@ -8,6 +8,7 @@ using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Content.Items.Upgrades;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
+using Microsoft.CodeAnalysis;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -31,13 +32,9 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override void OnSpawn(IEntitySource source)
         {
             parentItem = Main.player[Projectile.owner].HeldItem.ModItem as SludgePump;
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()) && Projectile.ai[0] != 1)
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()) && Projectile.ai[0] > 900f)
             {
                 Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
-            }
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<Blowthrough>()))
-            {
-                Projectile.penetrate = 5;
             }
 
         }
@@ -71,17 +68,13 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Projectile.ai[0] == 1)
+            if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0)
             {
                 target.AddBuff(BuffID.Venom, 300);
             }
             else
             {
                 target.AddBuff(BuffID.Venom, 150);
-            }
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<Blowthrough>()))
-            {
-                Projectile.damage = (int)Floor(Projectile.damage * .7f);
             }
 
         }
@@ -102,7 +95,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override void Kill(int timeLeft)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgePumpHit") with { Volume = .3f }, Projectile.position);
+            SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .3f }, Projectile.position);
             for (int i = 0; i < 4; i++)
             {
                 Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dust.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
@@ -112,7 +105,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>())) return;
             if (parentItem.Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()))
             {
-                if (Projectile.ai[0] == 1)
+                if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0)
                 {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)Floor(Projectile.damage * .8), Projectile.knockBack, Projectile.owner);
                 }
@@ -120,7 +113,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             }
 
 
-            if (Projectile.ai[0] == 1 && Main.myPlayer == Projectile.owner)
+            if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0 && Main.myPlayer == Projectile.owner)
             {
                 for (int i = 0; i < 10; i++)
                 {

@@ -7,6 +7,7 @@ using static System.Math;
 using deeprockitems.Content.Items.Upgrades;
 using Terraria.Utilities;
 using deeprockitems.UI.UpgradeItem;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -111,16 +112,13 @@ namespace deeprockitems.Content.Items.Weapons
             DamageScale = 1f;
             IndividualUpgrades();
 
-            foreach (int i in Upgrades)
+            if (Upgrades.Contains(ModContent.ItemType<DamageUpgrade>()))
             {
-                if (i == ModContent.ItemType<DamageUpgrade>())
-                {
-                    Item.damage = (int)Floor(Item.OriginalDamage * DamageScale) + 5;
-                }
-                else
-                {
-                    Item.damage = (int)Floor(Item.OriginalDamage * DamageScale);
-                }
+                Item.damage = (int)Floor(Item.OriginalDamage * DamageScale) + 5;
+            }
+            else
+            {
+                Item.damage = (int)Floor(Item.OriginalDamage * DamageScale);
             }
 
 
