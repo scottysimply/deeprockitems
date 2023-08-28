@@ -1,4 +1,4 @@
-﻿using Terraria;
+﻿/*using Terraria;
 using Terraria.ModLoader;
 using static System.Math;
 using Terraria.DataStructures;
@@ -6,13 +6,14 @@ using Terraria.Audio;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Upgrades;
-using deeprockitems.Utilities;
+using deeprockitems.Content.Items.Weapons;
+using System.Linq;
 
 namespace deeprockitems.Content.Projectiles.M1000Projectile
 {
     public class M1000Bullet : ModProjectile
     {
-        public Items.Weapons.M1000 modItem;
+        public UpgradeableItemTemplate modItem;
         public override void SetDefaults()
         {
             Projectile.width = 4;
@@ -32,39 +33,25 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
         }
         public override void OnSpawn(IEntitySource source)
         {
-            modItem = Main.player[Projectile.owner].HeldItem.ModItem as Items.Weapons.M1000;
-            if (Projectile.ai[0] == 1)
+            if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate weaponSource } )
             {
-                Projectile.damage *= 3;
-                if (modItem is not null)
+                if (weaponSource.Upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
                 {
-                    if (modItem.Upgrades.Contains(ModContent.ItemType<DiggingRoundsOC>()))
-                    {
-                        Projectile.tileCollide = false;
-                    }
-                    else if (modItem.Upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
-                    {
-                        Projectile.damage *= 2;
-                    }
+                    Projectile.damage *= 3;
                 }
-            }
-            if (modItem is not null)
-            {
-                if (modItem.Upgrades.Contains(ModContent.ItemType<Blowthrough>()))
+                if (weaponSource.Upgrades.Contains(ModContent.ItemType<Blowthrough>()))
                 {
                     Projectile.penetrate = 5;
                 }
+                modItem = weaponSource;
             }
-            Projectile.rotation = new Vector2(0, 0).DirectionTo(-Projectile.velocity).ToRotation();
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            foreach (int i in modItem.Upgrades)
+            if (modItem.Upgrades.Contains(ModContent.ItemType<Blowthrough>()))
             {
-                if (i == ModContent.ItemType<Blowthrough>())
-                {
-                    Projectile.damage = (int)Floor(Projectile.damage * .7f);
-                }
+                Projectile.damage = (int)(Projectile.damage * .5f);
+                Projectile.penetrate -= 1;
             }
         }
         public override void Kill(int timeLeft)
@@ -74,3 +61,4 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
         }
     }
 }
+*/

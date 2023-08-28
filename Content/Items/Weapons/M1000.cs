@@ -7,6 +7,10 @@ using static System.Math;
 using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.Content.Projectiles.M1000Projectile;
 using deeprockitems.Utilities;
+using Terraria.DataStructures;
+using deeprockitems.Content.Projectiles;
+using System;
+using Microsoft.CodeAnalysis;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -14,6 +18,7 @@ namespace deeprockitems.Content.Items.Weapons
     {
         public int oldFireRate = 0;
         public int newFireRate = 0;
+        private int original_projectile;
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
@@ -22,13 +27,13 @@ namespace deeprockitems.Content.Items.Weapons
 
         public override void SafeDefaults()
         {
-            Item.damage = 75;
+            Item.damage = 45;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.knockBack = 7.75f;
             Item.crit = 17;
-            Item.width = 50;
-            Item.height = 10;
+            Item.width = 60;
+            Item.height = 12;
             Item.useAmmo = AmmoID.Bullet;
             Item.useTime = 15;
             Item.useAnimation = 15;
@@ -37,7 +42,6 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 8f;
             Item.rare = ItemRarityID.Pink;
-            Item.scale = .5f;
             Item.value = 640000;
             Item.consumable = false;
 
@@ -55,11 +59,37 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
+            // Store the projectile that would've been shot.
+            original_projectile = type;
+
+            // Set type to be the "helper" projectile.
             type = ModContent.ProjectileType<M1000Helper>();
         }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback);
+            if (proj.ModProjectile is HeldProjectileBase modProj)
+            {
+                // Make the helper spawn the original projectile when it despawns/dies, to make it look like the original projectile was shot.
+                modProj.ProjectileToSpawn = original_projectile;
+                // Replace musket balls with high-velocity bullet
+                if (original_projectile == ProjectileID.Bullet)
+                {
+                    modProj.ProjectileToSpawn = ProjectileID.BulletHighVelocity;
+                }
+
+                // Sorry, until this weird gravity issue gets fixed: No modded bullets!
+                if (!ModInformation.IsProjectileVanilla(original_projectile) && !ModInformation.IsProjectileMyMod(original_projectile))
+                {
+                    modProj.ProjectileToSpawn = ProjectileID.BulletHighVelocity;
+                }
+            }
+            return false;
+        }
+
         public override void IndividualUpgrades()
         {
-            if (Upgrades.Contains(ModContent.ItemType<HipsterOC>()))
+            if (Overclock == ModContent.ItemType<HipsterOC>())
             {
                 Item.channel = false;
                 newFireRate = 15;
@@ -67,7 +97,7 @@ namespace deeprockitems.Content.Items.Weapons
                 OverclockPositives = "▶Increased fire rate for normal shots";
                 OverclockNegatives = "▶You can no longer fire focus shots";
             }
-            else if (Upgrades.Contains(ModContent.ItemType<DiggingRoundsOC>()))
+            else if (Overclock == ModContent.ItemType<DiggingRoundsOC>())
             {
                 Item.channel = true;
                 newFireRate = 15;
@@ -75,7 +105,7 @@ namespace deeprockitems.Content.Items.Weapons
                 OverclockPositives = "▶Focus shots pierce through blocks";
                 OverclockNegatives = "";
             }
-            else if (Upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
+            else if (Overclock == ModContent.ItemType<SupercoolOC>())
             {
                 Item.channel = true;
                 newFireRate = 20;
@@ -89,18 +119,15 @@ namespace deeprockitems.Content.Items.Weapons
                 Item.channel = true;
                 newFireRate = 15;
             }
-            foreach (int i in Upgrades)
+            if (Upgrades.Contains(ModContent.ItemType<BumpFire>()))
             {
-                if (i == ModContent.ItemType<BumpFire>())
-                {
-                    Item.useAnimation = (int)Ceiling(newFireRate * .83f);
-                    Item.useTime = (int)Ceiling(newFireRate * .83f);
-                }
-                else
-                {
-                    Item.useAnimation = oldFireRate;
-                    Item.useTime = oldFireRate;
-                }
+                Item.useAnimation = (int)Ceiling(newFireRate * .83f);
+                Item.useTime = (int)Ceiling(newFireRate * .83f);
+            }
+            else
+            {
+                Item.useAnimation = oldFireRate;
+                Item.useTime = oldFireRate;
             }
 
         }
