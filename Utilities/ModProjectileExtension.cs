@@ -15,7 +15,11 @@ namespace deeprockitems.Utilities
         {
             foreach (Projectile proj in Main.projectile)
             {
-                if (proj.type == target_ID)
+                if (proj.type != target_ID)
+                {
+                    continue;
+                }
+                if (!proj.active)
                 {
                     continue;
                 }
