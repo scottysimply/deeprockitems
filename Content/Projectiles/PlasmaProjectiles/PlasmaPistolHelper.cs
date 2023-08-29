@@ -13,7 +13,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         {
             ProjectileToSpawn = ModContent.ProjectileType<PlasmaBullet>();
             Cooldown = 3;
-            Spread = PI / 48;
+            Spread = PI / 40;
         }
         // This sound is going to play when the projectile fully charges :)
         public override SoundStyle Charge_Sound => SoundID.Item117;
@@ -27,6 +27,20 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             Spread = 0;
 
             Projectile.Kill();
+        }
+        public override void SpecialAI()
+        {
+            // This section is used for playing a sound to help time the projectile
+            float critical_time = CHARGE_TIME / 3; // This is how often we're going to play the sound effect
+            float charge_timer = Projectile.timeLeft - BUFFER_TIME; // Adjusted timeLeft, just saves us a step.
+
+            // Actually play the sound
+            if (charge_timer % critical_time == 0 && charge_timer < CHARGE_TIME && Projectile.timeLeft != 0)
+            {
+                SoundEngine.PlaySound(SoundID.MaxMana with { Volume = .7f, Pitch = .2f });
+            }
+
+
         }
     }
 }
