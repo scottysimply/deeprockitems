@@ -197,6 +197,7 @@ Mods: {
 			PlasmaBullet.DisplayName: Plasma Bullet
 			PlasmaPistolHelper.DisplayName: Plasma Pistol Helper
 			PlasmaBomb.DisplayName: Plasma Bomb
+			PlasmaExplosion.DisplayName: Plasma Explosion
 		}
 	}
 }
