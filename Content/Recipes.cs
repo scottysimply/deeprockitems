@@ -47,7 +47,7 @@ namespace deeprockitems
             JuryShotgun.AddTile(TileID.Anvils);
             JuryShotgun.Register();
 
-            var AntiGravOC = Recipe.Create(ModContent.ItemType<Content.Items.Upgrades.AntiGravOC>())
+            Recipe AntiGravOC = Recipe.Create(ModContent.ItemType<Content.Items.Upgrades.Overclocks.AntiGravOC>())
             .AddIngredient<Content.Items.Misc.MatrixCore>()
             .AddIngredient(ItemID.Feather, 5)
             .Register();

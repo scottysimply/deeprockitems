@@ -5,10 +5,10 @@ using Terraria.Audio;
 using static System.Math;
 using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Weapons;
-using deeprockitems.Content.Items.Upgrades;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
 using Microsoft.CodeAnalysis;
+using deeprockitems.Content.Items.Upgrades.Overclocks;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {

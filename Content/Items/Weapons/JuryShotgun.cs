@@ -10,6 +10,7 @@ using Terraria.ModLoader.IO;
 using deeprockitems.UI;
 using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.Utilities;
+using deeprockitems.Content.Items.Upgrades.Overclocks;
 
 namespace deeprockitems.Content.Items.Weapons
 {

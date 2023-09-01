@@ -15,7 +15,9 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             Projectile.height = 240;
             Projectile.frame = 0;
             Projectile.tileCollide = false;
-
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.penetrate = -1;
         }
         public override void AI()
         {

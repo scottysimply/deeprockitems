@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using static Humanizer.In;
 using Terraria.ID;
 using Microsoft.CodeAnalysis;
+using deeprockitems.Content.Items.Upgrades.Overclocks;
 
 namespace deeprockitems.Content.Projectiles;
 /// <summary>

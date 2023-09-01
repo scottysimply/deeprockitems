@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades
+namespace deeprockitems.Content.Items.Upgrades.Overclocks
 {
     public class StuffedShellsOC : UpgradeTemplate
     {
