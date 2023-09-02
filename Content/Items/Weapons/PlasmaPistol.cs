@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using deeprockitems.Content.Items.Upgrades;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -23,6 +24,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shootSpeed = 18f;
             Item.channel = true;
             Item.noMelee = true;
+
+            ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
