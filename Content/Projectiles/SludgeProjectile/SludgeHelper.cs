@@ -14,7 +14,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
     public class SludgeHelper : HeldProjectileBase
     {
-        public override float CHARGE_TIME => 50f;
+        public override float CHARGE_TIME { get; set; } = 50f;
         public override SoundStyle Charge_Sound => DRGSoundIDs.SludgePumpFocus with { Volume = .8f, PitchVariance = 1f};
         public override SoundStyle Fire_Sound => DRGSoundIDs.SludgePumpFire with { Volume = .5f, PitchVariance = .75f};
 

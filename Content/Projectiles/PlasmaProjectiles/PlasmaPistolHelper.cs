@@ -18,7 +18,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         // This sound is going to play when the projectile fully charges :)
         public override SoundStyle Charge_Sound => SoundID.Item117;
         public override SoundStyle Fire_Sound => SoundID.Item114;
-        public override float CHARGE_TIME => 75f;
+        public override float CHARGE_TIME { get; set; } = 75f;
         public override void AtFullCharge()
         {
             ProjectileToSpawn = ModContent.ProjectileType<PlasmaBomb>();
@@ -35,7 +35,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             float charge_timer = Projectile.timeLeft - BUFFER_TIME; // Adjusted timeLeft, just saves us a step.
 
             // Actually play the sound
-            if (charge_timer % critical_time == 0 && charge_timer < CHARGE_TIME && Projectile.timeLeft != 0)
+            if (charge_timer % critical_time < 1 && charge_timer < CHARGE_TIME && Projectile.timeLeft != 0)
             {
                 SoundEngine.PlaySound(SoundID.MaxMana with { Volume = .7f, Pitch = .2f });
             }

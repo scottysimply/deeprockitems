@@ -61,7 +61,6 @@ public abstract class HeldProjectileBase : ModProjectile
     public override void OnSpawn(IEntitySource source)
     {
         projectileOwner = Main.player[Projectile.owner];
-        float charge_time = CHARGE_TIME;
 
         // Check for upgrades. Due to my new backend, we don't have to check if this upgrade is valid! So we can run this on any item.
         if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate parent_weapon} )
@@ -69,18 +68,18 @@ public abstract class HeldProjectileBase : ModProjectile
             sourceItem = parent_weapon.Item;
             if (parent_weapon.Upgrades.Contains(ModContent.ItemType<QuickCharge>()))
             {
-                charge_time *= .75f;
+                CHARGE_TIME *= .75f;
             }
             if (parent_weapon.Upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
             {
-                charge_time *= 1.33f;
+                CHARGE_TIME *= 1.33f;
             }
             if (source is EntitySource_ItemUse_WithAmmo { AmmoItemIdUsed: int ammo})
             {
                 ammoUsed = ammo;
             }
         }
-        Projectile.timeLeft = BUFFER_TIME + (int)charge_time; // Set timeleft to be 15 seconds + time it takes to charge the projectile
+        Projectile.timeLeft = BUFFER_TIME + (int)CHARGE_TIME; // Set timeleft to be 15 seconds + time it takes to charge the projectile
         SpecialOnSpawn(source);
     }
     public virtual void SpecialOnSpawn(IEntitySource source) { }
@@ -89,7 +88,6 @@ public abstract class HeldProjectileBase : ModProjectile
     {
 
 
-        // Continue as normal
         if (projectileOwner.channel)
         {
             HoldItemOut(projectileOwner);
@@ -108,6 +106,7 @@ public abstract class HeldProjectileBase : ModProjectile
         {
             Projectile.Kill();
         }
+        // SpecialAI() is post-ai.
         SpecialAI();
     }
     /// <summary>

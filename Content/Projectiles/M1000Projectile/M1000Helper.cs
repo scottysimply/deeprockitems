@@ -12,7 +12,7 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
 {
     public class M1000Helper : HeldProjectileBase
     {
-        public override float CHARGE_TIME => 37.5f;
+        public override float CHARGE_TIME { get; set; } = 37.5f;
         public override SoundStyle Charge_Sound => DRGSoundIDs.M1000Focus;
         public override SoundStyle Fire_Sound => DRGSoundIDs.M1000Fire;
 
