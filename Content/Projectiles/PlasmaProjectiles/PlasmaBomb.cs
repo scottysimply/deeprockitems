@@ -30,7 +30,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
                     // collidingProjectile.active = false;
                     collidingProjectile.Kill();
                     SoundEngine.PlaySound(SoundID.Item14 with { Volume = .5f, Pitch = -.8f }); // Sound of the projectile 
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaProjectiles.PlasmaExplosion>(), Projectile.damage, .1f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), Projectile.damage, .1f);
                     Projectile.Kill();
                 }
             }
