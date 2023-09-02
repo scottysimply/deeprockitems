@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using deeprockitems.Content.Items.Weapons;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
+using deeprockitems.Utilities;
 using deeprockitems.Content.Items.Upgrades.Overclocks;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
@@ -41,20 +42,16 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            if (parentItem is null)
+            {
+                return false;
+            }
             DrawBeam(ModContent.Request<Texture2D>("deeprockitems/Content/Projectiles/SludgeProjectile/ProjectileTracer").Value, 0, Projectile.owner, Projectile);
             return false;
         }
         public void DrawBeam(Texture2D texture, float direction, int owner, Projectile projectile)
         {
-            Color teamColor = Main.player[owner].team switch
-            {
-                1 => new(.9f, .3f, .3f, .85f), // Red
-                2 => new(.3f, .9f, .3f, .85f), // Green
-                3 => new(.4f, .8f, .8f, .8f), // Blue
-                4 => new(.8f, .8f, .25f, .85f), // Yellow
-                5 => new(.8f, .25f, .75f, .85f), // Pink
-                _ => new(.95f, .95f, .95f, .8f) // No team
-            };
+            Color teamColor = DRGData.GetTeamColor(Main.player[owner].team);
             Vector2 start = Main.player[owner].Center - Main.screenPosition;
             Vector2 drawOrigin = new(1, 1);
             Vector2 position = start;

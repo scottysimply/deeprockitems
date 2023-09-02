@@ -51,12 +51,9 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            foreach (int i in Upgrades)
+            if (player == Main.LocalPlayer && player.HeldItem.type == ModContent.ItemType<TracerRounds>())
             {
-                if (player == Main.LocalPlayer && i == ModContent.ItemType<TracerRounds>())
-                {
-                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER, ai1: Upgrades[^1]);
-                }
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), player.Center, Vector2.Normalize(Main.MouseWorld - player.Center) * Item.shootSpeed, ModContent.ProjectileType<ProjectileTracer>(), 0, 0, ai0: TIMER, ai1: Overclock);
             }
             TIMER++;
             if (TIMER > MAX_TIMER)
