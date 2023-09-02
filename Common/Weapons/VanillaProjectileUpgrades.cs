@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using static System.Math;
 using Terraria.ID;
 using deeprockitems.Content.Items.Upgrades;
-using deeprockitems.Content.Items.Upgrades.Overclocks;
+using deeprockitems.Content.Items.Upgrades.Overclocks.M1000;
 
 namespace deeprockitems.Common.Weapons
 {

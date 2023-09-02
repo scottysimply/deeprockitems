@@ -11,7 +11,7 @@ using Terraria.DataStructures;
 using deeprockitems.Content.Projectiles;
 using System;
 using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.Overclocks;
+using deeprockitems.Content.Items.Upgrades.Overclocks.M1000;
 
 namespace deeprockitems.Content.Items.Weapons
 {

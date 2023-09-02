@@ -8,7 +8,7 @@ using deeprockitems.Content.Items.Weapons;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
 using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.Overclocks;
+using deeprockitems.Content.Items.Upgrades.Overclocks.SludgePump;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
