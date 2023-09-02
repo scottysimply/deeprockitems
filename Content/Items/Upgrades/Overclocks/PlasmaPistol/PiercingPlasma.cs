@@ -4,15 +4,15 @@ using Terraria.ID;
 
 namespace deeprockitems.Content.Items.Upgrades.Overclocks
 {
-    public class StuffedShellsOC : UpgradeTemplate
+    public class PiercingPlasma : UpgradeTemplate
     {
-        public override string ItemName { get => "Stuffed Shells"; set => base.ItemName = value; }
-        public override string ItemTooltip { get => "Doubled pellet count, but lower fire rate and heavily increased spread"; set => base.ItemTooltip = value; }
+        public override string ItemName { get => "Digger Rounds"; set => base.ItemName = value; }
+        public override string ItemTooltip { get => "Focus shots fire through tiles"; set => base.ItemTooltip = value; }
         public override bool IsOverclock { get => true; set => base.IsOverclock = value; }
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.Lime;
         }
         public override void SetStaticDefaults()
         {

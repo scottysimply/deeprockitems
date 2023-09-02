@@ -2,12 +2,12 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades.Overclocks
+namespace deeprockitems.Content.Items.Upgrades.Overclocks.SludgePump
 {
-    public class SupercoolOC : UpgradeTemplate
+    public class GooSpecialOC : UpgradeTemplate
     {
-        public override string ItemName { get => "Supercooling Chamber"; set => base.ItemName = value; }
-        public override string ItemTooltip { get => "2x focus shot damage, with slower focus speed and lower normal shot fire rate"; set => base.ItemTooltip = value; }
+        public override string ItemName { get => "Goo Bomber Special"; set => base.ItemName = value; }
+        public override string ItemTooltip { get => "Charge shots drop goo fragments as they travel"; set => base.ItemTooltip = value; }
         public override bool IsOverclock { get => true; set => base.IsOverclock = value; }
         public override void SetDefaults()
         {

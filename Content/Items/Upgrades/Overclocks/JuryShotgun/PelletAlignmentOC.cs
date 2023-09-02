@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades.Overclocks
+namespace deeprockitems.Content.Items.Upgrades.Overclocks.JuryShotgun
 {
     public class PelletAlignmentOC : UpgradeTemplate
     {
