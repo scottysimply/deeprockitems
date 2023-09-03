@@ -1,19 +1,22 @@
-﻿using deeprockitems.UI;
-using System.Collections.Generic;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using static System.Math;
-using deeprockitems.Content.Items.Upgrades;
-using Terraria.Utilities;
+﻿using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.UI.UpgradeItem;
 using deeprockitems.Utilities;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+using Terraria.UI;
+using Terraria.Utilities;
+using static System.Math;
 
 namespace deeprockitems.Content.Items.Weapons
 {
     public abstract class UpgradeableItemTemplate : ModItem
     {
         protected float DamageScale;
+        private int[] saved_upgrades;
         public int[] Upgrades { get; set; }
         public int Overclock { get => Upgrades[^1]; }
         public virtual string CurrentOverclock { get; set; } = "";
@@ -28,6 +31,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void SetDefaults()
         {
+            saved_upgrades = new int[4];
             Upgrades = new int[4];
             ValidUpgrades = new()
             {
@@ -66,13 +70,43 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void SaveData(TagCompound tag)
         {
-            tag["Upgrades"] = Upgrades;
+            for (int upgrade_index = 0; upgrade_index < Upgrades.Length; upgrade_index++)
+            {
+                if (Upgrades[upgrade_index] == 0)
+                {
+                    saved_upgrades[upgrade_index] = -1;
+                    continue;
+                }
+                for (int valid_index = 0; valid_index < ValidUpgrades.Count; valid_index++)
+                {
+                    if (ValidUpgrades[valid_index] == Upgrades[upgrade_index])
+                    {
+                        saved_upgrades[upgrade_index] = valid_index;
+                    }
+                }
+            }
+            tag["Upgrades"] = saved_upgrades;
         }
         public override void LoadData(TagCompound tag)
         {
             if (tag.ContainsKey("Upgrades"))
             {
-                Upgrades = (int[])tag["Upgrades"];
+                saved_upgrades = (int[])tag["Upgrades"];
+                for (int upgrade_index = 0; upgrade_index < saved_upgrades.Length; upgrade_index++)
+                {
+                    if (saved_upgrades[upgrade_index] == -1)
+                    {
+                        Upgrades[upgrade_index] = 0;
+                        continue;
+                    }
+                    for (int valid_index = 0; valid_index < ValidUpgrades.Count; valid_index++)
+                    {
+                        if (saved_upgrades[upgrade_index] == valid_index)
+                        {
+                            Upgrades[upgrade_index] = ValidUpgrades[valid_index];
+                        }
+                    }
+                }
             }
             if (!load_flag)
             {
@@ -80,28 +114,47 @@ namespace deeprockitems.Content.Items.Weapons
                 UpdateUpgrades();
             }
         }
+        private void ConvertSavedUpgradesToUpgrades(int[] saved)
+        {
+
+        }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (Upgrades[^1] != 0)
+            if (ItemSlot.ShiftInUse)
             {
-                TooltipLine line = new(Mod, "Upgrades", string.Format("This weapon has the following overclock: [c/4AB1D3:{0}]", CurrentOverclock));
-                tooltips.Add(line);
-                line = new(Mod, "Positives", OverclockPositives)
+                string upgrades_text = "";
+                for (int u = 0; u < Upgrades.Length; u++)
                 {
-                    OverrideColor = new(35, 223, 26),
+                    UpgradeTemplate upgrade_item = new Item(Upgrades[u]).ModItem as UpgradeTemplate;
+                    if (upgrade_item is null)
+                    {
+                        continue;
+                    }
+                    if (Upgrades[u] == Overclock && Overclock != 0) // If this is the overclock && overclock exists
+                    {
+                        upgrades_text = upgrades_text + Language.GetTextValue("Mods.deeprockitems.Misc.DefaultOverclockText", upgrade_item.DisplayName) + "\n";
+                        upgrades_text = upgrades_text + upgrade_item.GetLocalizedValue("Positives") + "\n";
+                        upgrades_text = upgrades_text + upgrade_item.GetLocalizedValue("Negatives") + "\n";
+                        break;
+                    }
+                    if (Upgrades[u] != 0)
+                    {
+                        upgrades_text = upgrades_text + string.Format("[c/23DF24:▲{0}]", upgrade_item.Tooltip) + "\n";
+                    }
+                }
+                upgrades_text = upgrades_text.TrimEnd('\n');
+                TooltipLine line = new(Mod, "Upgrades", upgrades_text);
+                tooltips.Add(line);
+            }
+            else if (Upgrades.Count(0) < 4)
+            {
+                TooltipLine line = new(Mod, "ShiftToView", "Hold shift to view upgrades")
+                {
+                    OverrideColor = new(74, 177, 211),
                 };
                 tooltips.Add(line);
-                if (OverclockNegatives != "")
-                {
-                    line = new(Mod, "Negatives", OverclockNegatives)
-                    {
-                        OverrideColor = new(240, 19, 24)
-                    };
-                    tooltips.Add(line);
-                }
-
-
             }
+
         }
         public override bool? PrefixChance(int pre, UnifiedRandom rand)
         {
@@ -120,12 +173,6 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 Item.damage = (int)Floor(Item.OriginalDamage * DamageScale);
             }
-
-
-
-
-
-
         }
         public virtual void IndividualUpgrades()
         {

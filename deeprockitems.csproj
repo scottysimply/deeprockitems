@@ -28,9 +28,9 @@
   <ItemGroup>
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
-    <None Remove="Content\Items\Upgrades\Overclocks\PlasmaPistol\DiggingRoundsOC.png" />
-    <None Remove="Content\Items\Upgrades\Overclocks\PlasmaPistol\HipsterOC.png" />
-    <None Remove="Content\Items\Upgrades\Overclocks\PlasmaPistol\SupercoolOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistol\EzBoomOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistol\PiercingPlasmaOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistol\SupercoolOC.png" />
     <None Remove="Content\Projectiles\PlasmaProjectiles\PlasmaBomb.png" />
   </ItemGroup>
   <ItemGroup>

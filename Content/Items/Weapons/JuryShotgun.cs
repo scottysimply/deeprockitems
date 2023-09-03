@@ -10,7 +10,7 @@ using Terraria.ModLoader.IO;
 using deeprockitems.UI;
 using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.Utilities;
-using deeprockitems.Content.Items.Upgrades.Overclocks.JuryShotgun;
+using deeprockitems.Content.Items.Upgrades.JuryShotgun;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -39,7 +39,7 @@ namespace deeprockitems.Content.Items.Weapons
             ValidUpgrades.Add(ModContent.ItemType<SpecialPowderOC>());
             ValidUpgrades.Add(ModContent.ItemType<StuffedShellsOC>());
 
-            ValidUpgrades.Add(ModContent.ItemType<WhitePhosphorous>());
+            ValidUpgrades.Add(ModContent.ItemType<WhitePhosphorus>());
             ValidUpgrades.Add(ModContent.ItemType<BumpFire>());
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -78,7 +78,7 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 ShotgunJump(player, mousePos);
             }
-            if (Upgrades.Contains(ModContent.ItemType<WhitePhosphorous>()))
+            if (Upgrades.Contains(ModContent.ItemType<WhitePhosphorus>()))
             {
                 WPIgnite();
             }

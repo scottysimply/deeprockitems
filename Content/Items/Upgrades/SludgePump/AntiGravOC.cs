@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades.Overclocks.SludgePump
+namespace deeprockitems.Content.Items.Upgrades.SludgePump
 {
     public class AntiGravOC : UpgradeTemplate
     {
@@ -13,10 +13,6 @@ namespace deeprockitems.Content.Items.Upgrades.Overclocks.SludgePump
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Lime;
-        }
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
         }
     }
 }

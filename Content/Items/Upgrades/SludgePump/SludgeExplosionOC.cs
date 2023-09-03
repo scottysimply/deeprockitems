@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades.Overclocks.SludgePump
+namespace deeprockitems.Content.Items.Upgrades.SludgePump
 {
     public class SludgeExplosionOC : UpgradeTemplate
     {
@@ -13,10 +13,6 @@ namespace deeprockitems.Content.Items.Upgrades.Overclocks.SludgePump
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Yellow;
-        }
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
         }
     }
 }

@@ -2,9 +2,9 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades.Overclocks
+namespace deeprockitems.Content.Items.Upgrades.PlasmaPistol
 {
-    public class PiercingPlasma : UpgradeTemplate
+    public class PiercingPlasmaOC : UpgradeTemplate
     {
         public override string ItemName { get => "Digger Rounds"; set => base.ItemName = value; }
         public override string ItemTooltip { get => "Focus shots fire through tiles"; set => base.ItemTooltip = value; }
@@ -13,10 +13,6 @@ namespace deeprockitems.Content.Items.Upgrades.Overclocks
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Lime;
-        }
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
         }
     }
 }

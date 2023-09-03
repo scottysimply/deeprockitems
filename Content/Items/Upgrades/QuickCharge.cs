@@ -14,9 +14,5 @@ namespace deeprockitems.Content.Items.Upgrades
             base.SetDefaults();
             Item.rare = ItemRarityID.Orange;
         }
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
-        }
     }
 }

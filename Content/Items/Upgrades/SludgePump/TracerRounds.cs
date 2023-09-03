@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades
+namespace deeprockitems.Content.Items.Upgrades.SludgePump
 {
     public class TracerRounds : UpgradeTemplate
     {
@@ -13,10 +13,6 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Orange;
-        }
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
         }
     }
 }

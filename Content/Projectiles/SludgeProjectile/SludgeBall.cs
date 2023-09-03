@@ -8,7 +8,7 @@ using deeprockitems.Content.Items.Weapons;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
 using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.Overclocks.SludgePump;
+using deeprockitems.Content.Items.Upgrades.SludgePump;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -32,7 +32,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override void OnSpawn(IEntitySource source)
         {
             parentItem = Main.player[Projectile.owner].HeldItem.ModItem as SludgePump;
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()) && Projectile.ai[0] > 900f)
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()) && Projectile.ai[0] > 900f)
             {
                 Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
             }

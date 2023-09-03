@@ -1,8 +1,8 @@
-﻿using Terraria;
+﻿/*using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades.Overclocks.M1000
+namespace deeprockitems.Content.Items.Upgrades.PlasmaPistol
 {
     public class SupercoolOC : UpgradeTemplate
     {
@@ -14,9 +14,6 @@ namespace deeprockitems.Content.Items.Upgrades.Overclocks.M1000
             base.SetDefaults();
             Item.rare = ItemRarityID.Red;
         }
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
-        }
     }
 }
+*/

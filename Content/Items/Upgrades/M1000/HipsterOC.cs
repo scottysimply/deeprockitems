@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades.Overclocks.M1000
+namespace deeprockitems.Content.Items.Upgrades.M1000
 {
     public class HipsterOC : UpgradeTemplate
     {
@@ -13,10 +13,6 @@ namespace deeprockitems.Content.Items.Upgrades.Overclocks.M1000
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Yellow;
-        }
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
         }
     }
 }

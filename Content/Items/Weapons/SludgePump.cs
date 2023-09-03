@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.Content.Projectiles.SludgeProjectile;
 using deeprockitems.Utilities;
-using deeprockitems.Content.Items.Upgrades.Overclocks.SludgePump;
+using deeprockitems.Content.Items.Upgrades.SludgePump;
 
 namespace deeprockitems.Content.Items.Weapons
 {

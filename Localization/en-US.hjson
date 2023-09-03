@@ -28,10 +28,12 @@ Mods: {
 			AntiGravOC: {
 				DisplayName: Overclock: AG Mixture
 				Tooltip: Shots are no longer affected by gravity
+				Positives: "[c/23DF24:▲Sludge balls are no longer affected by gravity]"
+				Negatives: ""
 			}
 
 			ArmorPierce: {
-				DisplayName: Upgrade: Pen Rounds
+				DisplayName: Upgrade: Penetration Rounds
 				Tooltip: Shots ignore 10 defense
 			}
 
@@ -53,21 +55,33 @@ Mods: {
 			DiggingRoundsOC: {
 				DisplayName: Overclock: Digger Rounds
 				Tooltip: Focus shots fire through tiles
+				Positives: "[c/23DF24:▲Focus shots travel through blocks]"
+				Negatives: ""
 			}
 
 			GooSpecialOC: {
 				DisplayName: Overclock: Goo Bomber Special
-				Tooltip: Charge shots drop goo fragments as they travel
+				Tooltip: Charge shots drop goo fragments as they travel, but no longer fragment on death and normal shots deal less damage
+				Positives: "[c/23DF24:▲Charge shots drop goo fragments while travelling]"
+				Negatives:
+					'''
+					[c/F01318:▼Charge shots no longer fragment on death]
+					[c/F01318:▼Normal shots deal less damage]
+					'''
 			}
 
 			HipsterOC: {
 				DisplayName: Overclock: Hipster
 				Tooltip: Heavily increased normal shot fire rate, with an inability to focus
+				Positives: "[c/23DF24:▲Heavily increased normal shot fire rate]"
+				Negatives: "[c/F01318:▼Inability to focus]"
 			}
 
 			PelletAlignmentOC: {
 				DisplayName: Overclock: Magnetic Pellet Alignment
-				Tooltip: Tighter spread
+				Tooltip: Shots get tighter spread
+				Positives: "[c/23DF24:▲Tighter spread]"
+				Negatives: ""
 			}
 
 			QuickCharge: {
@@ -77,22 +91,38 @@ Mods: {
 
 			SludgeExplosionOC: {
 				DisplayName: Overclock: Waste Ordnance
-				Tooltip: Focus shots explode instead of fragmenting
+				Tooltip: Focus shots produce an explosion instead of fragmenting
+				Positives: "[c/23DF24:▲Focus shots produce an explosion with concussive force]"
+				Negatives: "[c/F01318:▼Focus shots no longer fragment when destroyed]"
 			}
 
 			SpecialPowderOC: {
 				DisplayName: Overclock: Special Powder
 				Tooltip: Recoil from shots propels you, but damage is slightly reduced
+				Positives: "[c/23DF24:▲2x focus shot damage]"
+				Negatives: "[c/F01318:▼Slight damage decrease]"
 			}
 
 			StuffedShellsOC: {
 				DisplayName: Overclock: Stuffed Shells
 				Tooltip: Doubled pellet count, but lower fire rate and heavily increased spread
+				Positives: "[c/23DF24:▲Doubled pellet count]"
+				Negatives:
+					'''
+					[c/F01318:▼Lower fire rate]
+					[c/F01318:▼Heavy spread]
+					'''
 			}
 
 			SupercoolOC: {
 				DisplayName: Overclock: Supercooling Chamber
 				Tooltip: 2x focus shot damage, with slower focus speed and lower normal shot fire rate
+				Positives: "[c/23DF24:▲2x focus shot damage]"
+				Negatives:
+					'''
+					[c/F01318:▼Slower focus speed]
+					[c/F01318:▼Lower normal shot fire rate]
+					'''
 			}
 
 			TracerRounds: {
@@ -100,9 +130,9 @@ Mods: {
 				Tooltip: Shows the projectile's trajectory
 			}
 
-			WhitePhosphorous: {
-				DisplayName: Upgrade: White Phosphorous Shells
-				Tooltip: Ignite enemies within 10 feet when you fire!
+			WhitePhosphorus: {
+				DisplayName: Upgrade: White Phosphorus Shells
+				Tooltip: Ignites enemies that are within 10 feet of the player
 			}
 
 			JuryShotgun: {
@@ -140,7 +170,19 @@ Mods: {
 					Hold click to fire a larger, slow moving projectile
 					'''
 			}
+
+			EzBoomOC: {
+				DisplayName: Ez Boom O C
+				Tooltip: ""
+			}
+
+			PiercingPlasmaOC: {
+				DisplayName: Piercing Plasma O C
+				Tooltip: ""
+			}
 		}
+
+		Misc.DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
 
 		NPCs: {
 			MissionControl: {

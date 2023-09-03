@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace deeprockitems.Content.Items.Upgrades.Overclocks.JuryShotgun
+namespace deeprockitems.Content.Items.Upgrades.JuryShotgun
 {
     public class StuffedShellsOC : UpgradeTemplate
     {
@@ -13,10 +13,6 @@ namespace deeprockitems.Content.Items.Upgrades.Overclocks.JuryShotgun
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Red;
-        }
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
         }
     }
 }
