@@ -66,6 +66,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             {
                 if (upgrades.Contains(ModContent.ItemType<EzBoomOC>()))
                 {
+                    SoundEngine.PlaySound(SoundID.Item14 with { Volume = .5f, Pitch = -.8f });
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), Projectile.damage, .1f);
                 }
             }
