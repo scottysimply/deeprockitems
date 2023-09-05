@@ -38,9 +38,9 @@ public abstract class HeldProjectileBase : ModProjectile
     /// </summary>
     public virtual SoundStyle Fire_Sound { get; set; }
     /// <summary>
-    /// The cooldown (in ticks) that the weapon will take after the charge. Default = 10 ticks (1/6 of a second)
+    /// Used for manually changing the use-time of the weapon. If this is not set, it defaults to the item's use time.
     /// </summary>
-    public int Cooldown { get; set; } = 10;
+    public int Cooldown { get; set; } = -1;
     /// <summary>
     /// The spread (in radians) that the resultant projectile will have. Defaults to no spread.
     /// </summary>
@@ -66,6 +66,10 @@ public abstract class HeldProjectileBase : ModProjectile
         // Check for upgrades. Due to my new backend, we don't have to check if this upgrade is valid! So we can run this on any item.
         if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate parent_weapon} )
         {
+            if (Cooldown == -1)
+            {
+                Cooldown = parent_weapon.Item.useTime;
+            }
             sourceItem = parent_weapon.Item;
             if (parent_weapon.Upgrades.Contains(ModContent.ItemType<QuickCharge>()))
             {
@@ -151,9 +155,6 @@ public abstract class HeldProjectileBase : ModProjectile
 
                 proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - (float)PI / 2; // No sideways projectiles!
 
-
-
-                projectileOwner.itemTime = projectileOwner.itemAnimation = Cooldown;
             }
         }
         SpecialKill(timeLeft);
@@ -183,7 +184,7 @@ public abstract class HeldProjectileBase : ModProjectile
         // For some god awful reason though, when the mouse is in Quadrant IV, itemRotation doesn't match DirectionTo().ToRotation() of the mouse.
 
         // Make sure the player appears to actually hold the projectile.
-        player.itemTime = player.itemAnimation = 2;
+        player.itemTime = player.itemAnimation = Cooldown;
 
         // If cursor is to the right of the player
         if (Main.MouseWorld.X > player.Center.X)
