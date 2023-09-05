@@ -31,6 +31,7 @@
     <None Remove="Content\Items\Upgrades\PlasmaPistol\EzBoomOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistol\MountainMoverOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistol\PiercingPlasmaOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistol\VelocitySpeedup.png" />
     <None Remove="Content\Projectiles\PlasmaProjectiles\BigPlasma.png" />
   </ItemGroup>
   <ItemGroup>
