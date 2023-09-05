@@ -10,7 +10,7 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistol
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Lime;
         }
     }
 }
