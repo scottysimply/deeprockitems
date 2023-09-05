@@ -1,4 +1,5 @@
 ﻿using deeprockitems.Content.Items.Upgrades;
+using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -26,6 +27,10 @@ namespace deeprockitems.Content.Items.Weapons
             Item.noMelee = true;
 
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
+            ValidUpgrades.Remove(ModContent.ItemType<Blowthrough>());
+            ValidUpgrades.Add(ModContent.ItemType<PiercingPlasmaOC>());
+            ValidUpgrades.Add(ModContent.ItemType<EzBoomOC>());
+            ValidUpgrades.Add(ModContent.ItemType<MountainMoverOC>());
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
