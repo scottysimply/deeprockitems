@@ -19,11 +19,8 @@ namespace deeprockitems.Common.Weapons
         private int thisPlayer = 0;
         private bool fromM1000 = false;
         private bool fromModItem = false;
+        private bool? canDamage = null;
         public override bool InstancePerEntity => true;
-        public override void SetDefaults(Projectile entity)
-        {
-            entity.arrow = false;
-        }
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate sourceItem })
@@ -50,16 +47,22 @@ namespace deeprockitems.Common.Weapons
                     {
                         projectile.damage *= 2;
                     }
+                    if (upgrades.Contains(ModContent.ItemType<DiggingRoundsOC>()))
+                    {
+                        projectile.tileCollide = false;
+                    }
                 }
                 if (upgrades.Contains(ModContent.ItemType<Blowthrough>()))
                 {
                     projectile.penetrate = 5;
+                    projectile.maxPenetrate = 5;
                 }
-                if (upgrades.Contains(ModContent.ItemType<DiggingRoundsOC>()))
+                if (upgrades.Contains(ModContent.ItemType<MountainMoverOC>()))
                 {
-                    projectile.tileCollide = false;
+                    canDamage = false;
                 }
             }
+            base.OnSpawn(projectile, source);
         }
         public override void AI(Projectile projectile)
         {
@@ -70,8 +73,8 @@ namespace deeprockitems.Common.Weapons
                 {
                     projectile.velocity.Y -= 0.1f; // You wouldn't understand the gravity of this situation...
                 }
-
             }
+            base.AI(projectile);
         }
         public override void Kill(Projectile projectile, int timeLeft)
         {
@@ -79,6 +82,7 @@ namespace deeprockitems.Common.Weapons
             {
                 
             }
+            base.Kill(projectile, timeLeft);
         }
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -86,13 +90,11 @@ namespace deeprockitems.Common.Weapons
             {
                 projectile.damage = (int)Floor(projectile.damage * .7f);
             }
+            base.OnHitNPC(projectile, target, hit, damageDone);
         }
-        public override void OnHitPlayer(Projectile projectile, Player target, Player.HurtInfo info)
+        public override bool? CanDamage(Projectile projectile)
         {
-            if (fromModItem)
-            {
-                projectile.damage = (int)Floor(projectile.damage * .7f);
-            }
+            return canDamage;
         }
     }
 }
