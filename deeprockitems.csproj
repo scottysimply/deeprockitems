@@ -29,9 +29,9 @@
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistol\EzBoomOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistol\MountainMoverOC.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistol\PiercingPlasmaOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistol\SupercoolOC.png" />
-    <None Remove="Content\Projectiles\PlasmaProjectiles\PlasmaBomb.png" />
+    <None Remove="Content\Projectiles\PlasmaProjectiles\BigPlasma.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SmartFormat.NET" Version="3.2.2" />

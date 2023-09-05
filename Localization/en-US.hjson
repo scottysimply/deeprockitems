@@ -171,14 +171,29 @@ Mods: {
 					'''
 			}
 
+			MountainMoverOC: {
+				DisplayName: Overclock: Mountain Carver
+				Tooltip: The explosion from charged shots can destroy terrain, but the weapon will [c/DC143C:no longer] deal damage
+				Positives: "[c/23DF24:▲Plasma explosions destroy terrain]"
+				Negatives:
+					'''
+					[c/F01318:▼Plasma explosions destroy terrain]
+					[c/F01318:▼The weapon is incapable of dealing damage]
+					'''
+			}
+
 			EzBoomOC: {
-				DisplayName: Ez Boom O C
-				Tooltip: ""
+				DisplayName: Overclock: E-Z Explosion
+				Tooltip: Charged plasma will automatically explode on death
+				Positives: "[c/23DF24:▲Plasma explodes on contact with terrain or enemies]"
+				Negatives: ""
 			}
 
 			PiercingPlasmaOC: {
-				DisplayName: Piercing Plasma O C
-				Tooltip: ""
+				DisplayName: Overclock: Piercing Plasma
+				Tooltip: Charged shots will pass through anything, but will no longer explode
+				Positives: "[c/23DF24:▲Charged plasma will travel through blocks and enemies]"
+				Negatives: "[c/F01318:▼Charged plasma can no longer be manually detonated]"
 			}
 		}
 
@@ -240,6 +255,7 @@ Mods: {
 			PlasmaPistolHelper.DisplayName: Plasma Pistol Helper
 			PlasmaBomb.DisplayName: Plasma Bomb
 			PlasmaExplosion.DisplayName: Plasma Explosion
+			BigPlasma.DisplayName: Big Plasma
 		}
 	}
 }
