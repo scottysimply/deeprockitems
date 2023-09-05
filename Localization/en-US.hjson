@@ -195,6 +195,11 @@ Mods: {
 				Positives: "[c/23DF24:▲Charged plasma will travel through blocks and enemies]"
 				Negatives: "[c/F01318:▼Charged plasma can no longer be manually detonated]"
 			}
+
+			HotPlasma: {
+				DisplayName: Upgrade: Hot Plasma
+				Tooltip: All projectiles will burn targets
+			}
 		}
 
 		Misc.DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"

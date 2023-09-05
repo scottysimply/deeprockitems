@@ -89,6 +89,10 @@ namespace deeprockitems.Common.Weapons
             if (fromModItem)
             {
                 projectile.damage = (int)Floor(projectile.damage * .7f);
+                if (upgrades.Contains(ModContent.ItemType<HotPlasma>()))
+                {
+                    target.AddBuff(BuffID.OnFire, 180);
+                }
             }
             base.OnHitNPC(projectile, target, hit, damageDone);
         }
