@@ -21,7 +21,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         public override float CHARGE_TIME { get; set; } = 75f;
         public override void AtFullCharge()
         {
-            ProjectileToSpawn = ModContent.ProjectileType<PlasmaBomb>();
+            ProjectileToSpawn = ModContent.ProjectileType<BigPlasma>();
             Projectile.velocity *= .4f;
             Projectile.damage *= 4;
             Spread = 0;
