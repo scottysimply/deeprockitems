@@ -15,7 +15,7 @@ namespace deeprockitems.Common.Quests
             type2 = FixOres(i, j, type2);
 
             // Check if quest is mining, and pertains to this tile
-            if (QuestsBase.CurrentQuest[0] == 1 && type2 == QuestsBase.CurrentQuest[1] && !effectOnly)
+            if (QuestsBase.CurrentQuest[0] == 1 && type2 == QuestsBase.CurrentQuest[1] && !effectOnly && !fail)
             {
                 QuestsBase.Progress--;
                 QuestsBase.DecrementProgress();
