@@ -59,6 +59,10 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
                 piercingPlasma = true;
 
             }
+            if (upgrades.Contains(ModContent.ItemType<VelocitySpeedup>()))
+            {
+                Projectile.velocity *= 1.5f;
+            }
         }
         public override void Kill(int timeLeft)
         {
