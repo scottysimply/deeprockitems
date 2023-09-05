@@ -25,8 +25,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.rotation = 0;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 5;
+            
 
         }
         public override void OnSpawn(IEntitySource source)
@@ -42,7 +41,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             if (parentItem == null) return;
 
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()) && Projectile.ai[0] == 1) // Drop goo from the projectile if goo bomber is equipped
+            if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()) && Projectile.ai[0] <= 900f && Projectile.ai[0] > 0) // Drop goo from the projectile if goo bomber is equipped
             {
                 if (GooTimer > 0)
                 {
