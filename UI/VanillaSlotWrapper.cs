@@ -103,7 +103,7 @@ namespace deeprockitems.UI
                 {
                     if (Main.player[Main.myPlayer].inventory[i].type == 0)
                     {
-                        Main.cursorOverride = 30;
+                        Main.cursorOverride = CursorOverrideID.BackInventory;
                     }
                 }
             }
