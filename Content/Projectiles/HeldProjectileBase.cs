@@ -92,8 +92,7 @@ public abstract class HeldProjectileBase : ModProjectile
     public override void AI()
     {
 
-
-        if (projectileOwner.channel)
+        if (Main.LocalPlayer == projectileOwner && projectileOwner.channel)
         {
             HoldItemOut(projectileOwner);
             Projectile.Center = projectileOwner.Center;
