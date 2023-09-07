@@ -6,7 +6,7 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistol
 {
     public class PiercingPlasmaOC : UpgradeTemplate
     {
-        public override bool IsOverclock => false;
+        public override bool IsOverclock => true;
         public override void SetDefaults()
         {
             base.SetDefaults();
