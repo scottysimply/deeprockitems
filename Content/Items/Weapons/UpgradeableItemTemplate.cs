@@ -16,6 +16,11 @@ namespace deeprockitems.Content.Items.Weapons
     public abstract class UpgradeableItemTemplate : ModItem
     {
         protected float DamageScale;
+        protected float useTimeModifier;
+        /// <summary>
+        /// The item useTime before being affected by useTimeModifier.
+        /// </summary>
+        protected int oldUseTime { get; set; }
         private int[] saved_upgrades;
         public int[] Upgrades { get; set; }
         public int Overclock { get => Upgrades[^1]; }
@@ -33,6 +38,7 @@ namespace deeprockitems.Content.Items.Weapons
         {
             saved_upgrades = new int[4];
             Upgrades = new int[4];
+            useTimeModifier = 1f;
             ValidUpgrades = new()
             {
                 ModContent.ItemType<DamageUpgrade>(),
@@ -41,6 +47,7 @@ namespace deeprockitems.Content.Items.Weapons
             
             };
             SafeDefaults();
+            oldUseTime = Item.useTime;
             base.SetDefaults();
         }
         public override void UpdateInventory(Player player)
@@ -114,10 +121,6 @@ namespace deeprockitems.Content.Items.Weapons
                 UpdateUpgrades();
             }
         }
-        private void ConvertSavedUpgradesToUpgrades(int[] saved)
-        {
-
-        }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (ItemSlot.ShiftInUse)
@@ -163,7 +166,8 @@ namespace deeprockitems.Content.Items.Weapons
         public void UpdateUpgrades()
         {
             DamageScale = 1f;
-            IndividualUpgrades();
+            useTimeModifier = 1f;
+            UniqueUpgrades();
 
             if (Upgrades.Contains(ModContent.ItemType<DamageUpgrade>()))
             {
@@ -173,8 +177,13 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 Item.damage = (int)Floor(Item.OriginalDamage * DamageScale);
             }
+            if (Upgrades.Contains(ModContent.ItemType<BumpFire>()))
+            {
+                useTimeModifier *= .83f;
+            }
+            Item.useTime = Item.useAnimation = (int)Ceiling(oldUseTime * useTimeModifier);
         }
-        public virtual void IndividualUpgrades()
+        public virtual void UniqueUpgrades()
         {
             
         }

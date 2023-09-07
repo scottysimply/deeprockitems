@@ -12,7 +12,7 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         public PlasmaPistolHelper()
         {
             ProjectileToSpawn = ModContent.ProjectileType<PlasmaBullet>();
-            Cooldown = 3;
+            Cooldown = 8;
             Spread = PI / 40;
         }
         // This sound is going to play when the projectile fully charges :)

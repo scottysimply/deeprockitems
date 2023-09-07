@@ -10,6 +10,9 @@ using Terraria.ID;
 using deeprockitems.Content.Items.Upgrades;
 using deeprockitems.Content.Items.Upgrades.M1000;
 using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
+using deeprockitems.Content.Projectiles.M1000Projectile;
+using deeprockitems.Content.Projectiles.SludgeProjectile;
+using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 
 namespace deeprockitems.Common.Weapons
 {
@@ -66,7 +69,7 @@ namespace deeprockitems.Common.Weapons
         }
         public override void AI(Projectile projectile)
         {
-            if (fromM1000)
+            if (fromM1000 && projectile.type != ProjectileID.ChlorophyteBullet && projectile.type != ModContent.ProjectileType<M1000Helper>())
             {
 
                 if (projectile.type != ProjectileID.ChlorophyteBullet)
@@ -88,7 +91,11 @@ namespace deeprockitems.Common.Weapons
         {
             if (fromModItem)
             {
-                projectile.damage = (int)Floor(projectile.damage * .7f);
+                if (projectile.type != ModContent.ProjectileType<PlasmaExplosion>() && projectile.type != ModContent.ProjectileType<SludgeExplosion>())
+                {
+                    projectile.damage = (int)Floor(projectile.damage * .7f);
+                }
+
                 if (upgrades.Contains(ModContent.ItemType<HotPlasma>()))
                 {
                     target.AddBuff(BuffID.OnFire, 180);

@@ -65,7 +65,7 @@ namespace deeprockitems.Content.Items.Weapons
         {
             type = ModContent.ProjectileType<SludgeHelper>();
         }
-        public override void IndividualUpgrades()
+        public override void UniqueUpgrades()
         {
             if (Upgrades.Contains(ModContent.ItemType<AntiGravOC>()))
             {

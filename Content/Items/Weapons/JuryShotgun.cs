@@ -98,7 +98,7 @@ namespace deeprockitems.Content.Items.Weapons
                 player.fallStart = (int)player.position.Y / 16;
             }
         }
-        public override void IndividualUpgrades()
+        public override void UniqueUpgrades()
         {
             if (Upgrades.Contains(ModContent.ItemType<PelletAlignmentOC>()))
             {

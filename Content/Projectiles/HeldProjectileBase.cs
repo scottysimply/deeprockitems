@@ -144,6 +144,7 @@ public abstract class HeldProjectileBase : ModProjectile
 
                 float shoot_speed = Projectile.velocity.Distance(new(0, 0)); // This is the magnitude of the velocity
                 Projectile.velocity = shoot_speed * projectileOwner.Center.DirectionTo(Main.MouseWorld); // A vector is just magnitude and direction
+                Main.NewText(Projectile.velocity.Distance(Vector2.Zero));
 
                 Vector2 adjusted_speed = Projectile.velocity.RotatedByRandom(Spread);
 
@@ -151,12 +152,10 @@ public abstract class HeldProjectileBase : ModProjectile
 
                 // Make sure the projectile goes the right direction after charging
 
-
                 proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - (float)PI / 2; // No sideways projectiles!
 
             }
         }
-        SpecialKill(timeLeft);
     }
     /// <summary>
     /// Allows special behavior when the projectile is killed. Return false to override the base class' code.

@@ -18,8 +18,6 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public class M1000 : UpgradeableItemTemplate
     {
-        public int oldFireRate = 0;
-        public int newFireRate = 0;
         private int original_projectile;
         public override void SetStaticDefaults()
         {
@@ -47,7 +45,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.value = 640000;
             Item.consumable = false;
 
-            oldFireRate = Item.useTime;
+
 
             ValidUpgrades.Add(ModContent.ItemType<HipsterOC>());
             ValidUpgrades.Add(ModContent.ItemType<DiggingRoundsOC>());
@@ -89,49 +87,26 @@ namespace deeprockitems.Content.Items.Weapons
             return false;
         }
 
-        public override void IndividualUpgrades()
+        public override void UniqueUpgrades()
         {
             if (Overclock == ModContent.ItemType<HipsterOC>())
             {
                 Item.channel = false;
-                newFireRate = 15;
-                CurrentOverclock = "Hipster";
-                OverclockPositives = "▶Increased fire rate for normal shots";
-                OverclockNegatives = "▶You can no longer fire focus shots";
+                DamageScale *= 1.25f;
             }
             else if (Overclock == ModContent.ItemType<DiggingRoundsOC>())
             {
                 Item.channel = true;
-                newFireRate = 15;
-                CurrentOverclock = "Digging Rounds";
-                OverclockPositives = "▶Focus shots pierce through blocks";
-                OverclockNegatives = "";
             }
             else if (Overclock == ModContent.ItemType<SupercoolOC>())
             {
                 Item.channel = true;
-                newFireRate = 20;
-                CurrentOverclock = "Supercooling Chamber";
-                OverclockPositives = "▶Focus shots deal 2x more damage";
-                OverclockNegatives = "▶Focus shots take 33% longer to charge\n" +
-                                     "▶Decreased fire rate for normal shots";
+                useTimeModifier *= 1.25f;
             }
             else
             {
                 Item.channel = true;
-                newFireRate = 15;
             }
-            if (Upgrades.Contains(ModContent.ItemType<BumpFire>()))
-            {
-                Item.useAnimation = (int)Ceiling(newFireRate * .83f);
-                Item.useTime = (int)Ceiling(newFireRate * .83f);
-            }
-            else
-            {
-                Item.useAnimation = oldFireRate;
-                Item.useTime = oldFireRate;
-            }
-
         }
     }
 }

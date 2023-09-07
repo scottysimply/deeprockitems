@@ -72,9 +72,9 @@ Mods: {
 
 			HipsterOC: {
 				DisplayName: Overclock: Hipster
-				Tooltip: Heavily increased normal shot fire rate, with an inability to focus
-				Positives: "[c/23DF24:▲Heavily increased normal shot fire rate]"
-				Negatives: "[c/F01318:▼Inability to focus]"
+				Tooltip: Increased normal shot damage, with an inability to focus
+				Positives: "[c/23DF24:▲Increased normal shot damage]"
+				Negatives: "[c/F01318:▼Inability to fire focus shots]"
 			}
 
 			PelletAlignmentOC: {
@@ -150,6 +150,7 @@ Mods: {
 					'''
 					'From A to D, skipping B and C!'
 					Hold click to fire a focused shot
+					Focused shots deal 2x damage and travel faster
 					'''
 			}
 
@@ -157,8 +158,9 @@ Mods: {
 				DisplayName: Sludge Pump
 				Tooltip:
 					'''
-					Fires toxic waste in a shallow arc 
-					Hold click to fire a shot that splatters
+					Fires toxic waste in a shallow arc
+					Hold click to fire a charged shot
+					Charged shots splatter on impact
 					'''
 			}
 
