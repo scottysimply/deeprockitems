@@ -28,7 +28,7 @@ namespace deeprockitems.Content.Items.Weapons
         public virtual string OverclockPositives { get; set; } = "";
         public virtual string OverclockNegatives { get; set; } = "";
         public List<int> ValidUpgrades { get; set; }
-        private bool load_flag = false;
+        // private bool load_flag = false;
         public virtual void SafeDefaults()
         {
 
@@ -115,11 +115,11 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 }
             }
-            if (!load_flag)
+            /*if (!load_flag)
             {
                 load_flag = true;
                 UpdateUpgrades();
-            }
+            }*/
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
