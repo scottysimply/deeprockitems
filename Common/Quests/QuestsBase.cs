@@ -5,10 +5,11 @@ using deeprockitems.Utilities;
 using Terraria.ID;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Terraria.ModLoader.IO;
 
 namespace deeprockitems.Common.Quests
 {
-    public static class QuestsBase
+    public class QuestsBase : ModSystem
     {
         public static List<int> MiningQuestTypes { get; set; } = new List<int>();
         public static List<int> MiningQuestAmounts { get; set; } = new List<int>();
@@ -141,10 +142,38 @@ namespace deeprockitems.Common.Quests
                     Text = "Quest complete!",
                     Color = c,
                     DurationInFrames = 180,
-                    Velocity = new(0, -10)
+                    Velocity = new(0, -10),
                 };
                 PopupText.NewText(request, player.Center);
             }
+        }
+        public override void SaveWorldData(TagCompound tag)
+        {
+            tag["CurrentQuest"] = CurrentQuest;
+            tag["QuestProgress"] = Progress;
+        }
+        public override void LoadWorldData(TagCompound tag)
+        {
+            // THIS IS IMPORTANT! This allows the mod to load worlds that don't contain the saved key!
+            // If this wasn't here, the world would be unloadable if the key wasn't found. In fact, it would just prevent any world from being loaded, since all worlds are pre-loaded.
+            if (tag.ContainsKey("CurrentQuest") && tag.ContainsKey("QuestProgress"))
+            {
+                CurrentQuest = (int[])tag["CurrentQuest"];
+                Progress = (int)tag["QuestProgress"];
+            }
+        }
+        public override void SetStaticDefaults()
+        {
+            InitializeQuests();
+        }
+        public override void PostUpdateWorld()
+        {
+            // If it is morning, allow quest to be reset. Can only be reset at NPC, to avoid progress to be gained prematurely.
+            if (Main.dayTime && Main.time == 0)
+            {
+                CurrentQuest[0] = 0;
+            }
+            UpdateQuests();
         }
     }
 
