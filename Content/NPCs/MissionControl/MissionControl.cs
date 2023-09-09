@@ -84,11 +84,13 @@ namespace deeprockitems.Content.NPCs.MissionControl
             }
             else // This is where the magic (quests) happen.
             {
-                // If quest is 99, give rewards, set quest type to inactive (-1)
-                if (QuestsBase.CurrentQuest[0] == 99)
+                // If rewards were not claimed and a quest is not ongoing, odds are rewards are owed.
+                DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
+                if (!modPlayer.PlayerHasClaimedRewards && QuestsBase.CurrentQuest[0] == -1)
                 {
-                    QuestsBase.Progress = 99;
-                    QuestsBase.CurrentQuest[0] = -1;
+                    QuestsRewards.IssueRewards(modPlayer);
+                    modPlayer.PlayerHasClaimedRewards = true;
+                    QuestsBase.Progress = 0;
                     int chat = Main.rand.Next(3);
                     Main.npcChatText = chat switch
                     {
@@ -126,6 +128,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
 
             }
         }
+
         public override void AddShops()
         {
             var npcShop = new NPCShop(Type)
