@@ -46,11 +46,11 @@ namespace deeprockitems.Common.Weapons
                 // If projectile fully charged
                 if (projectile.ai[0] <= 900 && projectile.ai[0] > 0)
                 {
-                    if (upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
+                    if (projectile.ai[2] == ModContent.ItemType<SupercoolOC>())
                     {
                         projectile.damage *= 2;
                     }
-                    if (upgrades.Contains(ModContent.ItemType<DiggingRoundsOC>()))
+                    if (projectile.ai[2] == ModContent.ItemType<DiggingRoundsOC>())
                     {
                         projectile.tileCollide = false;
                     }
@@ -60,7 +60,7 @@ namespace deeprockitems.Common.Weapons
                     projectile.penetrate = 5;
                     projectile.maxPenetrate = 5;
                 }
-                if (upgrades.Contains(ModContent.ItemType<MountainMoverOC>()))
+                if (projectile.ai[2] == ModContent.ItemType<MountainMoverOC>())
                 {
                     canDamage = false;
                 }

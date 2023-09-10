@@ -83,6 +83,7 @@ public abstract class HeldProjectileBase : ModProjectile
             {
                 ammoUsed = ammo;
             }
+            Projectile.ai[2] = parent_weapon.Overclock;
         }
         Projectile.timeLeft = BUFFER_TIME + (int)CHARGE_TIME; // Set timeleft to be 15 seconds + time it takes to charge the projectile
         SpecialOnSpawn(source);
@@ -147,7 +148,7 @@ public abstract class HeldProjectileBase : ModProjectile
 
                 Vector2 adjusted_speed = Projectile.velocity.RotatedByRandom(Spread);
 
-                Projectile proj = Projectile.NewProjectileDirect(projectileOwner.GetSource_ItemUse_WithPotentialAmmo(sourceItem, ammoUsed), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI, timeLeft);
+                Projectile proj = Projectile.NewProjectileDirect(projectileOwner.GetSource_ItemUse_WithPotentialAmmo(sourceItem, ammoUsed), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI, ai0: timeLeft, ai2: Projectile.ai[2]);
 
                 // Make sure the projectile goes the right direction after charging
 

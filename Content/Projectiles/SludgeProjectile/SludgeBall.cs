@@ -30,8 +30,11 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnSpawn(IEntitySource source)
         {
-            parentItem = Main.player[Projectile.owner].HeldItem.ModItem as SludgePump;
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()) && Projectile.ai[0] > 900f)
+            /*if (source is EntitySource_ItemUse { Item.ModItem: SludgePump item })
+            {
+                parentItem = item;
+            }*/
+            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[0] > 900f)
             {
                 Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
             }
@@ -39,9 +42,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void AI()
         {
-            if (parentItem == null) return;
-
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>()) && Projectile.ai[0] <= 900f && Projectile.ai[0] > 0) // Drop goo from the projectile if goo bomber is equipped
+            
+            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[0] <= 900f && Projectile.ai[0] > 0) // Drop goo from the projectile if goo bomber is equipped and timer is charged
             {
                 if (GooTimer > 0)
                 {
@@ -55,7 +57,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             }
 
 
-            if (!(parentItem.Upgrades.Contains(ModContent.ItemType<AntiGravOC>()))) // If nograv is not equipped:
+            if (!(Projectile.ai[2] == ModContent.ItemType<AntiGravOC>())) // If nograv is not equipped:
             {
                 if (Projectile.velocity.Y <= 30f) // Set gravity cap
                 {
@@ -100,9 +102,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
                 Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dust.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
             }
 
-            if (parentItem == null) return;
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<GooSpecialOC>())) return;
-            if (parentItem.Upgrades.Contains(ModContent.ItemType<SludgeExplosionOC>()))
+            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>()) return;
+            if (Projectile.ai[2] == ModContent.ItemType<SludgeExplosionOC>())
             {
                 if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0)
                 {
