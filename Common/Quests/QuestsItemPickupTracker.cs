@@ -11,13 +11,18 @@ namespace deeprockitems.Common.Quests
         public override bool InstancePerEntity => true;
         public override void UpdateInventory(Item item, Player player)
         {
+            // Convert our player to a ModPlayer
+            DRGQuestsModPlayer modPlayer = player.GetModPlayer<DRGQuestsModPlayer>();
+            if (modPlayer is null) return; // Return if null.
+
+
             if (old_stack != item.stack)
             {
                 old_stack = item.stack;
-                if (QuestsBase.CurrentQuest[0] == 2 && QuestsBase.CurrentQuest[1] == item.type)
+                if (modPlayer.CurrentQuestInformation[0] == 2 && modPlayer.CurrentQuestInformation[1] == item.type)
                 {
-                    QuestsBase.Progress = QuestsBase.CurrentQuest[2] - item.stack;
-                    QuestsBase.DecrementProgress();
+                    modPlayer.CurrentQuestInformation[3] = modPlayer.CurrentQuestInformation[2] - item.stack;
+                    QuestsBase.DecrementProgress(modPlayer);
                 }
             }
 

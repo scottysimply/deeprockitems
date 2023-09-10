@@ -8,17 +8,19 @@ namespace deeprockitems.Common.Quests
 {
     public class QuestsKillTracker : GlobalNPC
     {
+        public override bool InstancePerEntity => true;
         public override void OnKill(NPC npc) // Used for fighting quests
         {
-            // Check if quest is fighting, and pertains to this NPC.
-            if (QuestsBase.CurrentQuest[0] == 3 && QuestsBase.CurrentQuest[1] == npc.type)
+            // Convert our player to a ModPlayer
+            DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
+            if (modPlayer is null) return; // Return if null.
+
+            // Check if quest is fighting, if quest pertains to this NPC, and if the client got the kill
+            if (modPlayer.CurrentQuestInformation[0] == 3 && modPlayer.CurrentQuestInformation[1] == npc.type && npc.lastInteraction == Main.myPlayer)
             {
-                // Check if player was responsible for damaging npc.
-                if (npc.lastInteraction != 255) // not 255 means it was a player.
-                {
-                    QuestsBase.Progress--;
-                    QuestsBase.DecrementProgress();
-                }
+                // Decrease progress
+                modPlayer.CurrentQuestInformation[3]--;
+                QuestsBase.DecrementProgress(modPlayer);
             }
         }
     }

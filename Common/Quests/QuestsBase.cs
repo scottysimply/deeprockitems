@@ -19,7 +19,7 @@ namespace deeprockitems.Common.Quests
         public static List<int> FightQuestAmounts { get; set; } = new List<int>();
         /// <summary>
         /// Information regarding the current quest. <br></br>
-        /// CurrentQuest[0] = Quest type. 1 : Mining, 2 : Gather, 3 : Fighting. Additionally, 0 : Quest available, 99 : Quest completed, and rewards available, -1 : Quest unavailable <br></br>
+        /// CurrentQuest[0] = Quest type. 1 : Mining, 2 : Gather, 3 : Fighting. Additionally, 0 : Quest available (time has reset), -1 : Quest unavailable (quest has been completed) <br></br>
         /// CurrentQuest[1] = What ID will be looked for. Quest type 1 : ID will be TileID. Quest type 2 : ItemID. Type 3 : NPCID <br></br>
         /// CurrentQuest[2] = How much of an ID will be required. Presumably, no explanation needed.
         /// </summary>
@@ -82,72 +82,39 @@ namespace deeprockitems.Common.Quests
                 .AddThis(10)
                 .AddThis(15);
         }
-        public static void Talk_CreateQuest()
+        
+        public static void UpdateQuests(DRGQuestsModPlayer modPlayer)
         {
-            // Randomize quest type
-            int quest_type = Main.rand.Next(1, 4);
-            int playercount = Main.player.Take(Main.maxPlayers).Count(p => p.active);
-            switch (quest_type)
+            if (modPlayer.CurrentQuestInformation[3] <= 0 && modPlayer.CurrentQuestInformation[0] > 0)
             {
-                // Mining quest pulled
-                case 1:
-                    CurrentQuest[0] = 1;
-                    quest_type = Main.rand.Next(MiningQuestTypes.Count);
-                    CurrentQuest[1] = MiningQuestTypes[quest_type];
-                    CurrentQuest[2] = MiningQuestAmounts[quest_type] * playercount;
-                    break;
+                modPlayer.CurrentQuestInformation[0] = -1; // Type -1 means no quest is ongoing.
+            }
+        }
+        public static void DecrementProgress(DRGQuestsModPlayer modPlayer)
+        {
+            if (modPlayer is null) return; // Return if null.
 
-                // Gather quest pulled
-                case 2:
-                    CurrentQuest[0] = 2;
-                    quest_type = Main.rand.Next(GatherQuestTypes.Count);
-                    CurrentQuest[1] = GatherQuestTypes[quest_type];
-                    CurrentQuest[2] = GatherQuestAmounts[quest_type] * playercount;
-                    break;
+            Rectangle rect = new Rectangle((int)modPlayer.Player.position.X - 10, (int)modPlayer.Player.position.Y, 40, 10);
+            Color c = new(190, 60, 165);
+            if (modPlayer.CurrentQuestInformation[3] > 0) // If quest was still ongoing
+            {
+                CombatText.NewText(rect, c, string.Format("{0} left!", modPlayer.CurrentQuestInformation[3]));
+                return;
+            }
+            // Else if quest was finished
 
-                // Fighting quest pulled
-                default:
-                    CurrentQuest[0] = 3;
-                    quest_type = Main.rand.Next(FightQuestTypes.Count);
-                    CurrentQuest[1] = FightQuestTypes[quest_type];
-                    CurrentQuest[2] = FightQuestAmounts[quest_type] * playercount;
-                    break;
-            }
-            Progress = CurrentQuest[2];
-        }
-        public static void UpdateQuests()
-        {
-            if (Progress <= 0 && CurrentQuest[0] > 0 && CurrentQuest[0] < 99)
+            AdvancedPopupRequest request = new AdvancedPopupRequest()
             {
-                CurrentQuest[0] = 99; // type 99 indicates completed, this means no quest can be started, and rewards will be given next time Mission Control is talked to.
-            }
+                Text = "Quest complete!",
+                Color = c,
+                DurationInFrames = 180,
+                Velocity = new(0, -20),
+            };
+            PopupText.NewText(request, modPlayer.Player.Center);
+            modPlayer.PlayerHasClaimedRewards = false;
+            modPlayer.CurrentQuestInformation[0] = -1;
         }
-        public static void DecrementProgress()
-        {
-            foreach (Player player in Main.player)
-            {
-                if (!player.active)
-                {
-                    continue;
-                }
-                Rectangle rect = new Rectangle((int)player.position.X - 10, (int)player.position.Y, 40, 10);
-                Color c = new(190, 60, 165);
-                if (Progress > 0)
-                {
-                    CombatText.NewText(rect, c, string.Format("{0} left!", Progress));
-                    continue;
-                }
-                AdvancedPopupRequest request = new AdvancedPopupRequest()
-                {
-                    Text = "Quest complete!",
-                    Color = c,
-                    DurationInFrames = 180,
-                    Velocity = new(0, -10),
-                };
-                PopupText.NewText(request, player.Center);
-            }
-        }
-        public override void SaveWorldData(TagCompound tag)
+        /*public override void SaveWorldData(TagCompound tag)
         {
             tag["CurrentQuest"] = CurrentQuest;
             tag["QuestProgress"] = Progress;
@@ -161,19 +128,62 @@ namespace deeprockitems.Common.Quests
                 CurrentQuest = (int[])tag["CurrentQuest"];
                 Progress = (int)tag["QuestProgress"];
             }
-        }
+        }*/
         public override void SetStaticDefaults()
         {
             InitializeQuests();
         }
         public override void PostUpdateWorld()
         {
+            
+        }
+        public override void PostUpdateTime()
+        {
             // If it is morning, allow quest to be reset. Can only be reset at NPC, to avoid progress to be gained prematurely.
-            if (Main.dayTime && Main.time == 0)
+            if (Main.time == 1)
             {
-                CurrentQuest[0] = 0;
+                foreach (Player player in Main.player)
+                {
+                    if (!player.active) continue;
+                    DRGQuestsModPlayer modPlayer = player.GetModPlayer<DRGQuestsModPlayer>();
+                    modPlayer.PlayerHasClaimedRewards = false;
+                    modPlayer.CurrentQuestInformation[3] = 0; // Reset progress
+                    modPlayer.CurrentQuestInformation[0] = 0; // Reset quest type
+                    Main.NewText(modPlayer);
+                }
             }
-            UpdateQuests();
+        }
+        public static void Talk_CreateQuest(DRGQuestsModPlayer modPlayer)
+        {
+            // Randomize quest type
+            int quest_type = Main.rand.Next(1, 4);
+            switch (quest_type)
+            {
+                // Mining quest pulled
+                case 1:
+                    modPlayer.CurrentQuestInformation[0] = 1;
+                    quest_type = Main.rand.Next(MiningQuestTypes.Count);
+                    modPlayer.CurrentQuestInformation[1] = MiningQuestTypes[quest_type];
+                    modPlayer.CurrentQuestInformation[2] = MiningQuestAmounts[quest_type];
+                    break;
+
+                // Gather quest pulled
+                case 2:
+                    modPlayer.CurrentQuestInformation[0] = 2;
+                    quest_type = Main.rand.Next(GatherQuestTypes.Count);
+                    modPlayer.CurrentQuestInformation[1] = GatherQuestTypes[quest_type];
+                    modPlayer.CurrentQuestInformation[2] = GatherQuestAmounts[quest_type];
+                    break;
+
+                // Fighting quest pulled
+                default:
+                    modPlayer.CurrentQuestInformation[0] = 3;
+                    quest_type = Main.rand.Next(FightQuestTypes.Count);
+                    modPlayer.CurrentQuestInformation[1] = FightQuestTypes[quest_type];
+                    modPlayer.CurrentQuestInformation[2] = FightQuestAmounts[quest_type];
+                    break;
+            }
+            modPlayer.CurrentQuestInformation[3] = modPlayer.CurrentQuestInformation[2];
         }
     }
 
