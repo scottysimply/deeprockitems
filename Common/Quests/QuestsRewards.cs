@@ -40,7 +40,10 @@ namespace deeprockitems.Common.Quests
                 ItemID.GoldenCrate,
                 ItemID.LavaFishingHook,
                 ItemID.ExtendoGrip,
-                ItemID.DiggingMoleMinecart
+                ItemID.DiggingMoleMinecart,
+                ItemID.PaintSprayer,
+                ItemID.BrickLayer,
+                ItemID.PortableCementMixer,
 
             };
             // Common rewards are *always* given.
