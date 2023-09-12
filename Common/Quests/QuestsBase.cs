@@ -11,6 +11,7 @@ namespace deeprockitems.Common.Quests
 {
     public class QuestsBase : ModSystem
     {
+        private static bool oldDay = true;
         public static List<int> MiningQuestTypes { get; set; } = new List<int>();
         public static List<int> MiningQuestAmounts { get; set; } = new List<int>();
         public static List<int> GatherQuestTypes { get; set; } = new List<int>();
@@ -139,8 +140,7 @@ namespace deeprockitems.Common.Quests
         }
         public override void PostUpdateTime()
         {
-            // If it is morning, allow quest to be reset. Can only be reset at NPC, to avoid progress to be gained prematurely.
-            if (Main.time == 1)
+            if (Main.dayTime && !oldDay)
             {
                 foreach (Player player in Main.player)
                 {
@@ -149,9 +149,10 @@ namespace deeprockitems.Common.Quests
                     modPlayer.PlayerHasClaimedRewards = false;
                     modPlayer.CurrentQuestInformation[3] = 0; // Reset progress
                     modPlayer.CurrentQuestInformation[0] = 0; // Reset quest type
-                    Main.NewText(modPlayer);
                 }
             }
+            oldDay = Main.dayTime;
+
         }
         public static void Talk_CreateQuest(DRGQuestsModPlayer modPlayer)
         {
