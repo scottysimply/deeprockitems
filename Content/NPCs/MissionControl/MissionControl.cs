@@ -87,50 +87,53 @@ namespace deeprockitems.Content.NPCs.MissionControl
             }
             else // This is where the magic (quests) happen.
             {
-                // This is the modplayer of the player who talked to the NPC.
-                DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
-                if (modPlayer is null) return; // Return if null.
+                QuestButtonClicked();
+            }
+        }
+        private void QuestButtonClicked()
+        {
+            // This is the modplayer of the player who talked to the NPC.
+            DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
+            if (modPlayer is null) return; // Return if null.
 
-                if (!modPlayer.PlayerHasClaimedRewards && modPlayer.CurrentQuestInformation[0] == -1)
+            if (!modPlayer.PlayerHasClaimedRewards && modPlayer.CurrentQuestInformation[0] == -1)
+            {
+                QuestsRewards.IssueRewards(modPlayer);
+                modPlayer.PlayerHasClaimedRewards = true;
+                modPlayer.CurrentQuestInformation[3] = 0;
+                int chat = Main.rand.Next(3);
+                Main.npcChatText = chat switch
                 {
-                    QuestsRewards.IssueRewards(modPlayer);
-                    modPlayer.PlayerHasClaimedRewards = true;
-                    modPlayer.CurrentQuestInformation[3] = 0;
-                    int chat = Main.rand.Next(3);
-                    Main.npcChatText = chat switch
-                    {
-                        0 => Language.GetTextValue(location + "QuestCompleted1"),
-                        1 => Language.GetTextValue(location + "QuestCompleted2"),
-                        _ => Language.GetTextValue(location + "QuestCompleted3")
-                    };
-                }
-                else if (modPlayer.CurrentQuestInformation[0] == -1)
+                    0 => Language.GetTextValue(location + "QuestCompleted1"),
+                    1 => Language.GetTextValue(location + "QuestCompleted2"),
+                    _ => Language.GetTextValue(location + "QuestCompleted3")
+                };
+            }
+            else if (modPlayer.CurrentQuestInformation[0] == -1)
+            {
+                int chat = Main.rand.Next(3);
+                Main.npcChatText = chat switch
                 {
-                    int chat = Main.rand.Next(3);
-                    Main.npcChatText = chat switch
-                    {
-                        0 => Language.GetTextValue(location + "QuestInactive1"),
-                        1 => Language.GetTextValue(location + "QuestInactive2"),
-                        _ => Language.GetTextValue(location + "QuestInactive3")
-                    };
-                }
-                else
+                    0 => Language.GetTextValue(location + "QuestInactive1"),
+                    1 => Language.GetTextValue(location + "QuestInactive2"),
+                    _ => Language.GetTextValue(location + "QuestInactive3")
+                };
+            }
+            else
+            {
+                if (modPlayer.CurrentQuestInformation[0] == 0)
                 {
-                    if (modPlayer.CurrentQuestInformation[0] == 0)
-                    {
-                        QuestsBase.Talk_CreateQuest(modPlayer);
-                    }
-                    bool chat = !Main.rand.NextBool(2);
-                    // This is messy, but this just plays the appropriate dialogue based on which quest was chosen.
-                    Main.npcChatText = modPlayer.CurrentQuestInformation[0] switch
-                    {
-                        // LOOOONG lines. this is just further randomizing between two options to add flavor.
-                        1 => chat ? Language.GetTextValue(location + "QuestStartMining1", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartMining2", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer(),
-                        2 => chat ? Language.GetTextValue(location + "QuestStartGather1", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartGather2", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer(),
-                        _ => chat ? Language.GetTextValue(location + "QuestStartSlay1", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartSlay2", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer()
-                    };
+                    QuestsBase.Talk_CreateQuest(modPlayer);
                 }
-
+                bool chat = !Main.rand.NextBool(2);
+                // This is messy, but this just plays the appropriate dialogue based on which quest was chosen.
+                Main.npcChatText = modPlayer.CurrentQuestInformation[0] switch
+                {
+                    // LOOOONG lines. this is just further randomizing between two options to add flavor.
+                    1 => chat ? Language.GetTextValue(location + "QuestStartMining1", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartMining2", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer(),
+                    2 => chat ? Language.GetTextValue(location + "QuestStartGather1", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartGather2", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer(),
+                    _ => chat ? Language.GetTextValue(location + "QuestStartSlay1", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartSlay2", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer()
+                };
             }
         }
 
