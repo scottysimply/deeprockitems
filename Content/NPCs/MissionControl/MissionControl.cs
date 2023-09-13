@@ -96,37 +96,41 @@ namespace deeprockitems.Content.NPCs.MissionControl
             DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
             if (modPlayer is null) return; // Return if null.
 
+            // If quest is inactive (completed or otherwise) and player is owed rewards
             if (!modPlayer.PlayerHasClaimedRewards && modPlayer.CurrentQuestInformation[0] == -1)
             {
-                QuestsRewards.IssueRewards(modPlayer);
-                modPlayer.PlayerHasClaimedRewards = true;
-                modPlayer.CurrentQuestInformation[3] = 0;
+                QuestsRewards.IssueRewards(modPlayer); // Give the player the rewards they're owed
+                modPlayer.PlayerHasClaimedRewards = true; // Don't let the player claim any more rewards
+                modPlayer.CurrentQuestInformation[3] = 0; // Quest progress reset to 0, in case it got lowered below zero by mistake
                 int chat = Main.rand.Next(3);
-                Main.npcChatText = chat switch
+                Main.npcChatText = chat switch // Congratulatory messages
                 {
                     0 => Language.GetTextValue(location + "QuestCompleted1"),
                     1 => Language.GetTextValue(location + "QuestCompleted2"),
                     _ => Language.GetTextValue(location + "QuestCompleted3")
                 };
             }
+            // If a quest is completed
             else if (modPlayer.CurrentQuestInformation[0] == -1)
             {
                 int chat = Main.rand.Next(3);
-                Main.npcChatText = chat switch
+                Main.npcChatText = chat switch // Messages telling the player that no quests are available
                 {
                     0 => Language.GetTextValue(location + "QuestInactive1"),
                     1 => Language.GetTextValue(location + "QuestInactive2"),
                     _ => Language.GetTextValue(location + "QuestInactive3")
                 };
             }
+            // A quest is ongoing or needs to be created
             else
             {
+                // If a quest needs to be created, create the quest
                 if (modPlayer.CurrentQuestInformation[0] == 0)
                 {
                     QuestsBase.Talk_CreateQuest(modPlayer);
                 }
                 bool chat = !Main.rand.NextBool(2);
-                // This is messy, but this just plays the appropriate dialogue based on which quest was chosen.
+                // This is messy, but I wanted two available messages for quests. Since they rely on templates, I wanted the messages to be less same-y
                 Main.npcChatText = modPlayer.CurrentQuestInformation[0] switch
                 {
                     // LOOOONG lines. this is just further randomizing between two options to add flavor.
