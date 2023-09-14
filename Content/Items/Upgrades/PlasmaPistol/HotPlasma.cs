@@ -12,5 +12,14 @@ namespace deeprockitems.Content.Items.Upgrades.PlasmaPistol
             base.SetDefaults();
             Item.rare = ItemRarityID.Orange;
         }
+        public override void AddRecipes()
+        {
+            Recipe upgrade = Recipe.Create(ModContent.ItemType<HotPlasma>())
+            .AddIngredient<Misc.UpgradeToken>()
+            .AddIngredient(ItemID.HellstoneBar, 15)
+            .AddIngredient(ItemID.Fireblossom, 10)
+            .AddTile(TileID.Anvils);
+            upgrade.Register();
+        }
     }
 }

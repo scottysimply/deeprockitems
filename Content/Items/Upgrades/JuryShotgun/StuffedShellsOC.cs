@@ -14,5 +14,23 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgun
             base.SetDefaults();
             Item.rare = ItemRarityID.Red;
         }
+        public override void AddRecipes()
+        {
+            Recipe upgrade = Recipe.Create(ModContent.ItemType<StuffedShellsOC>())
+            .AddIngredient<Misc.MatrixCore>()
+            .AddIngredient(ItemID.MythrilBar, 10)
+            .AddRecipeGroup(nameof(ItemID.VilePowder), 25)
+            .AddIngredient(ItemID.MusketBall, 100)
+            .AddTile(TileID.MythrilAnvil);
+            upgrade.Register();
+
+            upgrade = Recipe.Create(ModContent.ItemType<StuffedShellsOC>())
+            .AddIngredient<Misc.MatrixCore>()
+            .AddIngredient(ItemID.OrichalcumBar, 10)
+            .AddRecipeGroup(nameof(ItemID.VilePowder), 25)
+            .AddIngredient(ItemID.MusketBall, 100)
+            .AddTile(TileID.MythrilAnvil);
+            upgrade.Register();
+        }
     }
 }

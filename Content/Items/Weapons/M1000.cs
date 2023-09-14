@@ -86,6 +86,24 @@ namespace deeprockitems.Content.Items.Weapons
             }
             return false;
         }
+        public override void AddRecipes()
+        {
+            Recipe M1k = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.M1000>());
+            M1k.AddIngredient(ItemID.Musket, 1);
+            M1k.AddIngredient(ItemID.IllegalGunParts, 1);
+            M1k.AddIngredient(ItemID.HallowedBar, 15);
+            M1k.AddIngredient(ItemID.SoulofSight, 10);
+            M1k.AddTile(TileID.MythrilAnvil);
+            M1k.Register();
+
+            M1k = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.M1000>());
+            M1k.AddIngredient(ItemID.TheUndertaker, 1);
+            M1k.AddIngredient(ItemID.IllegalGunParts, 1);
+            M1k.AddIngredient(ItemID.HallowedBar, 15);
+            M1k.AddIngredient(ItemID.SoulofSight, 10);
+            M1k.AddTile(TileID.MythrilAnvil);
+            M1k.Register();
+        }
 
         public override void UniqueUpgrades()
         {

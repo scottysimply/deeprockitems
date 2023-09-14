@@ -85,6 +85,16 @@ namespace deeprockitems.Content.Items.Weapons
 
             return false;
         }
+        public override void AddRecipes()
+        {
+            Recipe JuryShotgun = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.JuryShotgun>());
+            JuryShotgun.AddIngredient(ItemID.Boomstick, 1);
+            JuryShotgun.AddRecipeGroup(nameof(ItemID.GoldBar), 8);
+            JuryShotgun.AddIngredient(ItemID.Bone, 10);
+            JuryShotgun.AddRecipeGroup(nameof(ItemID.VilePowder), 10);
+            JuryShotgun.AddTile(TileID.Anvils);
+            JuryShotgun.Register();
+        }
         public static void ShotgunJump(Player player, Vector2 mousePos)
         {
             float speedCap = 15f;

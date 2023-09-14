@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using deeprockitems.Content.Items.Upgrades.SludgePump;
 
 namespace deeprockitems.Content.Items.Upgrades.M1000
 {
@@ -13,6 +14,16 @@ namespace deeprockitems.Content.Items.Upgrades.M1000
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Yellow;
+        }
+        public override void AddRecipes()
+        {
+            Recipe upgrade = Recipe.Create(ModContent.ItemType<HipsterOC>())
+            .AddIngredient<Misc.MatrixCore>()
+            .AddIngredient(ItemID.ChlorophyteBar, 25)
+            .AddIngredient(ItemID.MusketBall, 150)
+            .AddIngredient(ItemID.IllegalGunParts)
+            .AddTile(TileID.MythrilAnvil);
+            upgrade.Register();
         }
     }
 }

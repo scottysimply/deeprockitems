@@ -14,5 +14,14 @@ namespace deeprockitems.Content.Items.Upgrades
             base.SetDefaults();
             Item.rare = ItemRarityID.Orange;
         }
+        public override void AddRecipes()
+        {
+            Recipe upgrade = Recipe.Create(ModContent.ItemType<BumpFire>())
+            .AddIngredient<Misc.UpgradeToken>()
+            .AddIngredient(ItemID.HellstoneBar, 15)
+            .AddIngredient(ItemID.IllegalGunParts)
+            .AddTile(TileID.Anvils);
+            upgrade.Register();
+        }
     }
 }

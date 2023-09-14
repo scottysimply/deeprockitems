@@ -14,5 +14,23 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePump
             base.SetDefaults();
             Item.rare = ItemRarityID.Orange;
         }
+        public override void AddRecipes()
+        {
+            Recipe upgrade = Recipe.Create(ModContent.ItemType<TracerRounds>())
+            .AddIngredient<Misc.UpgradeToken>()
+            .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
+            .AddIngredient(ItemID.Gel, 10)
+            .AddIngredient(ItemID.RottenChunk, 5)
+            .AddTile(TileID.Anvils);
+            upgrade.Register();
+
+            upgrade = Recipe.Create(ModContent.ItemType<TracerRounds>())
+            .AddIngredient<Misc.UpgradeToken>()
+            .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
+            .AddIngredient(ItemID.Gel, 10)
+            .AddIngredient(ItemID.Vertebrae, 10)
+            .AddTile(TileID.Anvils);
+            upgrade.Register();
+        }
     }
 }

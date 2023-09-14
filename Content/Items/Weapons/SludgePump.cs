@@ -65,6 +65,15 @@ namespace deeprockitems.Content.Items.Weapons
         {
             type = ModContent.ProjectileType<SludgeHelper>();
         }
+        public override void AddRecipes()
+        {
+            Recipe SludgePump = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.SludgePump>());
+            SludgePump.AddIngredient(ItemID.HellstoneBar, 15);
+            SludgePump.AddIngredient(ItemID.Gel, 50);
+            SludgePump.AddIngredient(ItemID.Bone, 15);
+            SludgePump.AddTile(TileID.Solidifier);
+            SludgePump.Register();
+        }
         public override void UniqueUpgrades()
         {
             if (Upgrades.Contains(ModContent.ItemType<AntiGravOC>()))
