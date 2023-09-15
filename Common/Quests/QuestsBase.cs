@@ -12,12 +12,9 @@ namespace deeprockitems.Common.Quests
     public class QuestsBase : ModSystem
     {
         private static bool oldDay = true;
-        public static List<int> MiningQuestTypes { get; set; } = new List<int>();
-        public static List<int> MiningQuestAmounts { get; set; } = new List<int>();
-        public static List<int> GatherQuestTypes { get; set; } = new List<int>();
-        public static List<int> GatherQuestAmounts { get; set; } = new List<int>();
-        public static List<int> FightQuestTypes { get; set; } = new List<int>();
-        public static List<int> FightQuestAmounts { get; set; } = new List<int>();
+        public static Dictionary<int, int> MiningQuestInformation { get; set; } = new Dictionary<int, int>();
+        public static Dictionary<int, int> GatherQuestInformation { get; set; } = new Dictionary<int, int>();
+        public static Dictionary<int, int> FightingQuestInformation { get; set; } = new Dictionary<int, int>();
         /// <summary>
         /// Information regarding the current quest. <br></br>
         /// CurrentQuest[0] = Quest type. 1 : Mining, 2 : Gather, 3 : Fighting. Additionally, 0 : Quest available (time has reset), -1 : Quest unavailable (quest has been completed) <br></br>
@@ -28,60 +25,127 @@ namespace deeprockitems.Common.Quests
         public static int Progress { get; set; }
         public static void InitializeQuests()
         {
-            // Mining quest TileIDs
-            MiningQuestTypes.AddThis(TileID.Copper)
-                .AddThis(TileID.Iron)
-                .AddThis(TileID.Silver)
-                .AddThis(TileID.Gold)
-                .AddThis(TileID.Amethyst)
-                .AddThis(TileID.Topaz)
-                .AddThis(TileID.Emerald)
-                .AddThis(TileID.Sapphire)
-                .AddThis(TileID.Ruby)
-                .AddThis(TileID.Diamond);
-            // Mining quest amounts
-            MiningQuestAmounts.AddThis(200)
-                .AddThis(150)
-                .AddThis(125)
-                .AddThis(100)
-                .AddThis(20)
-                .AddThis(20)
-                .AddThis(15)
-                .AddThis(15)
-                .AddThis(10)
-                .AddThis(5);
+            MiningQuestInformation.Clear();
+            GatherQuestInformation.Clear();
+            FightingQuestInformation.Clear();
+            /*int[] newAndShinyOres = { TileID.Tin, TileID.Lead, TileID.Tungsten, TileID.Platinum, TileID.Crimtane, TileID.Palladium, TileID.Orichalcum, TileID.Titanium };
+            BitsByte hasNewAndShinyOres = new();
+            for (int i = 0; i < Main.tile.Width; i++)
+            {
+                for (int j = 0; j < Main.tile.Height; j++)
+                {
+                    for (int x = 0; x < newAndShinyOres.Length; x++)
+                    {
+                        if (!hasNewAndShinyOres[x] && Main.tile[i, j].TileType == newAndShinyOres[x])
+                        {
+                            hasNewAndShinyOres[x] = true;
+                        }
+                    }
+                }
+            }*/
 
-            // Gather quest ItemIDs
-            GatherQuestTypes.AddThis(ItemID.SkyBlueFlower)
+            // IMPORTANT INFORMATION: These first 3 major blocks of code are set after skeletron has been defeated.
+            
+
+            // SavedOreTiers is essentially just the TileID of the current ore in the world.
+            MiningQuestInformation.AddThis(WorldGen.SavedOreTiers.Copper, 100)
+                .AddThis(WorldGen.SavedOreTiers.Iron, 85)
+                .AddThis(WorldGen.SavedOreTiers.Silver, 75)
+                .AddThis(WorldGen.SavedOreTiers.Gold, 75)
+                .AddThis(TileID.Amethyst, 20)
+                .AddThis(TileID.Topaz, 15)
+                .AddThis(TileID.Sapphire, 13)
+                .AddThis(TileID.Emerald, 8)
+                .AddThis(TileID.Ruby, 5)
+                .AddThis(TileID.Diamond, 3);
+            // Pre-hardmode gather quests, mostly dye ingredients, plants, misc crafting materials, etc.
+            GatherQuestInformation.AddThis(ItemID.SkyBlueFlower)
                 .AddThis(ItemID.OrangeBloodroot)
-                .AddThis(ItemID.YellowMarigold)
-                .AddThis(ItemID.Sluggy)
-                .AddThis(ItemID.Cobweb)
-                .AddThis(ItemID.Bomb)
-                .AddThis(ItemID.Daybloom)
-                .AddThis(ItemID.Moonglow)
-                .AddThis(ItemID.Blinkroot);
-            // Gather quest amounts
-            GatherQuestAmounts.AddThis(3)
-                .AddThis(3)
-                .AddThis(3)
-                .AddThis(10)
-                .AddThis(50)
-                .AddThis(25)
-                .AddThis(10)
-                .AddThis(10)
-                .AddThis(10);
+                .AddThis(ItemID.YellowMarigold, 3)
+                .AddThis(ItemID.LimeKelp)
+                .AddThis(ItemID.Mushroom, 20)
+                .AddThis(ItemID.Bomb, 20)
+                .AddThis(ItemID.ScarabBomb, 10)
+                .AddThis(ItemID.Daybloom, 10)
+                .AddThis(ItemID.Waterleaf, 10)
+                .AddThis(ItemID.Shiverthorn, 10)
+                .AddThis(ItemID.Deathweed, 10)
+                .AddThis(ItemID.Blinkroot, 10)
+                .AddThis(ItemID.Moonglow, 10)
+                .AddThis(ItemID.Fireblossom, 10)
+                .AddThis(ItemID.FallenStar, 15);
+            // Pre-hardmode fighting-type quests. Check QuestKillTracker to see how i deal with 'variants'.
+            FightingQuestInformation.AddThis(NPCID.Skeleton, 25)
+                .AddThis(NPCID.GreekSkeleton, 15)
+                .AddThis(NPCID.GraniteGolem, 10)
+                .AddThis(NPCID.GraniteFlyer, 10)
+                .AddThis(NPCID.Zombie, 20)
+                .AddThis(NPCID.DemonEye, 10)
+                .AddThis(NPCID.GoblinScout, 3)
+                .AddThis(NPCID.Nymph, 1)
+                .AddThis(NPCID.Tim, 1)
+                .AddThis(NPCID.Gnome, 3);
+            if (WorldGen.crimson) // if world is crimson
+            {
+                MiningQuestInformation.AddThis(TileID.Crimtane, 50);
+                GatherQuestInformation.AddThis(ItemID.ViciousMushroom, 10);
+                FightingQuestInformation.AddThis(NPCID.BloodCrawler, 8)
+                    .AddThis(NPCID.FaceMonster, 8)
+                    .AddThis(NPCID.Crimera, 8);
+            }
+            else
+            {
+                MiningQuestInformation.AddThis(TileID.Demonite, 50);
+                GatherQuestInformation.AddThis(ItemID.VileMushroom, 10);
+                FightingQuestInformation.AddThis(NPCID.EaterofSouls, 10)
+                    .AddThis(NPCID.DevourerHead, 5);
+            }
+            if (Main.hardMode) // If world is in hardmode
+            {
+                // Generic hardmode types:
+                FightingQuestInformation.AddThis(NPCID.ChaosElemental, 5)
+                    .AddThis(NPCID.EnchantedSword, 5)
+                    .AddThis(NPCID.GiantBat, 15)
+                    .AddThis(NPCID.ArmoredSkeleton, 15)
+                    .AddThis(NPCID.SkeletonArcher, 15)
+                    .AddThis(NPCID.BigMimicHallow);
 
-            // Fighting quest NPCIDs
-            FightQuestTypes.AddThis(NPCID.Skeleton)
-                .AddThis(NPCID.GraniteGolem)
-                .AddThis(NPCID.GraniteFlyer)
-                .AddThis(NPCID.GreekSkeleton);
-            // Fighting quest amounts
-            FightQuestAmounts.AddThis(20)
-                .AddThis(10)
-                .AddThis(10)
-                .AddThis(15);
+
+                if (WorldGen.crimson) // if world is crimson
+                {
+                    FightingQuestInformation.AddThis(NPCID.FloatyGross, 5)
+                        .AddThis(NPCID.CrimsonAxe, 5)
+                        .AddThis(NPCID.BigMimicCrimson);
+                }
+                else
+                {
+                    FightingQuestInformation.AddThis(NPCID.CursedHammer, 10)
+                        .AddThis(NPCID.Clinger, 10)
+                        .AddThis(NPCID.Corruptor, 10)
+                        .AddThis(NPCID.BigMimicCorruption);
+                }
+                if (WorldGen.SavedOreTiers.Cobalt != -1)
+                {
+                    MiningQuestInformation.Add(WorldGen.SavedOreTiers.Cobalt, 50);
+                }
+                if (WorldGen.SavedOreTiers.Mythril != -1)
+                {
+                    MiningQuestInformation.Add(WorldGen.SavedOreTiers.Mythril, 45);
+                }
+                if (WorldGen.SavedOreTiers.Adamantite != -1)
+                {
+                    MiningQuestInformation.Add(WorldGen.SavedOreTiers.Adamantite, 30);
+                }
+            }
+            if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+            {
+                MiningQuestInformation.Add(TileID.Chlorophyte, 25);
+            }
+            if (NPC.downedPlantBoss)
+            {
+                FightingQuestInformation.AddThis(NPCID.LihzahrdCrawler, 10)
+                    .AddThis(NPCID.FlyingSnake, 10);
+            }
         }
         
         public static void UpdateQuests(DRGQuestsModPlayer modPlayer)
@@ -130,7 +194,7 @@ namespace deeprockitems.Common.Quests
                 Progress = (int)tag["QuestProgress"];
             }
         }*/
-        public override void SetStaticDefaults()
+        public override void OnWorldLoad()
         {
             InitializeQuests();
         }
@@ -163,25 +227,25 @@ namespace deeprockitems.Common.Quests
                 // Mining quest pulled
                 case 1:
                     modPlayer.CurrentQuestInformation[0] = 1;
-                    quest_type = Main.rand.Next(MiningQuestTypes.Count);
-                    modPlayer.CurrentQuestInformation[1] = MiningQuestTypes[quest_type];
-                    modPlayer.CurrentQuestInformation[2] = MiningQuestAmounts[quest_type];
+                    quest_type = Main.rand.Next(MiningQuestInformation.Keys.ToList());
+                    modPlayer.CurrentQuestInformation[1] = quest_type;
+                    modPlayer.CurrentQuestInformation[2] = MiningQuestInformation[quest_type];
                     break;
 
                 // Gather quest pulled
                 case 2:
                     modPlayer.CurrentQuestInformation[0] = 2;
-                    quest_type = Main.rand.Next(GatherQuestTypes.Count);
-                    modPlayer.CurrentQuestInformation[1] = GatherQuestTypes[quest_type];
-                    modPlayer.CurrentQuestInformation[2] = GatherQuestAmounts[quest_type];
+                    quest_type = Main.rand.Next(GatherQuestInformation.Keys.ToList());
+                    modPlayer.CurrentQuestInformation[1] = quest_type;
+                    modPlayer.CurrentQuestInformation[2] = GatherQuestInformation[quest_type];
                     break;
 
                 // Fighting quest pulled
                 default:
                     modPlayer.CurrentQuestInformation[0] = 3;
-                    quest_type = Main.rand.Next(FightQuestTypes.Count);
-                    modPlayer.CurrentQuestInformation[1] = FightQuestTypes[quest_type];
-                    modPlayer.CurrentQuestInformation[2] = FightQuestAmounts[quest_type];
+                    quest_type = Main.rand.Next(FightingQuestInformation.Keys.ToList());
+                    modPlayer.CurrentQuestInformation[1] = quest_type;
+                    modPlayer.CurrentQuestInformation[2] = FightingQuestInformation[quest_type];
                     break;
             }
             modPlayer.CurrentQuestInformation[3] = modPlayer.CurrentQuestInformation[2];

@@ -14,12 +14,28 @@ namespace deeprockitems.Common.Quests
             DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
             if (modPlayer is null) return; // Return if null.
 
-            // Fixing all mismatches here
-            int type2 = type;
-            type2 = FixOres(i, j, type2);
 
+            // If quest type is mining and player is in interaction range:
+            if (modPlayer.CurrentQuestInformation[0] == 1 && modPlayer.Player.IsInTileInteractionRange(i, j, Terraria.DataStructures.TileReachCheckSettings.Pylons))
+            {
+                // Fixing all gem migraines in this section of code
+                int subID = FixGems(i, j, modPlayer.CurrentQuestInformation[1]);
+                if (subID > -1 && Main.tile[i, j].TileType == TileID.ExposedGems && Main.tile[i, j].TileFrameX > 16 * subID && Main.tile[i, j].TileFrameX < 16 * (subID + 1) && !effectOnly && !fail)
+                {
+                    modPlayer.CurrentQuestInformation[3]--;
+                    QuestsBase.DecrementProgress(modPlayer);
+                    return;
+                }
+                else if (modPlayer.CurrentQuestInformation[1] == type && !effectOnly && !fail) // Well. It wasn't the gem, or at least, not the correct one. Continue as normal
+                {
+                    modPlayer.CurrentQuestInformation[3]--;
+                    QuestsBase.DecrementProgress(modPlayer);
+                    return;
+                }
+                
 
-            // Trying anything I can to make sure this player is the one destroying the tile.
+            }
+            /*// Trying anything I can to make sure this player is the one destroying the tile.
             if (modPlayer.Player.IsInTileInteractionRange(i, j, Terraria.DataStructures.TileReachCheckSettings.Pylons))
             {
                 // Check if quest is mining, and pertains to this tile
@@ -28,46 +44,23 @@ namespace deeprockitems.Common.Quests
                     modPlayer.CurrentQuestInformation[3]--;
                     QuestsBase.DecrementProgress(modPlayer);
                 }
-            }
+            }*/
 
 
         }
-        public int FixOres(int i, int j, int type)
+        private static int FixGems(int i, int j, int questType)
         {
-            switch (type)
+            return (questType) switch
             {
-                case TileID.Tin:
-                    type = TileID.Copper;
-                    break;
-
-                case TileID.Lead:
-                    type = TileID.Iron;
-                    break;
-
-                case TileID.Tungsten:
-                    type = TileID.Silver;
-                    break;
-
-                case TileID.Platinum:
-                    type = TileID.Gold;
-                    break;
-
-                case TileID.Palladium:
-                    type = TileID.Cobalt;
-                    break;
-
-                case TileID.Orichalcum:
-                    type = TileID.Mythril;
-                    break;
-
-                case TileID.Titanium:
-                    type = TileID.Adamantite;
-                    break;
-
-                default:
-                    break;
+                TileID.Amethyst => 0,
+                TileID.Topaz => 1,
+                TileID.Sapphire => 2,
+                TileID.Emerald=> 3,
+                TileID.Ruby => 4,
+                TileID.Diamond => 5,
+                TileID.AmberStoneBlock => 6,
+                _ => -1,
             };
-            return type;
         }
     }
    /* public class MiningDetour : ModSystem
