@@ -33,7 +33,7 @@ namespace deeprockitems.Common.Quests
         }
         public override void OnWorldLoad()
         {
-            // Rarest tier of rewards, at roughly 1 in 15 quests. The odds never change. Only 1 item will be given of each since the majority of them are unstackable
+            // Rarest tier of rewards, at roughly 1 in 15 quests. Only 1 item will be given of each since the majority of them are unstackable
             UniqueRewards = new List<int>()
             {
                 ItemID.LeprechaunHat,
