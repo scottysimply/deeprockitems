@@ -18,14 +18,23 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         private bool piercingPlasma = false;
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = 16;
+            Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.timeLeft = 600;
+            DrawOffsetX = -8;
+            DrawOriginOffsetY = -8;
+        }
+        public override string GlowTexture => "deeprockitems/Content/Projectiles/PlasmaProjectile/BigPlasma";
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Lighting.AddLight(Projectile.Center, new Vector3(100, 30, 120).RGBToVector3());
+            return true;
         }
         public override void AI()
         {
+
             if (piercingPlasma)
             {
                 return;

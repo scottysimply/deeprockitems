@@ -4,6 +4,7 @@ using Terraria.DataStructures;
 using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
+using Microsoft.Xna.Framework;
 
 namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {
@@ -24,6 +25,12 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.penetrate = -1;
+        }
+        public override string GlowTexture => "deeprockitems/Content/Projectiles/PlasmaProjectile/PlasmaExplosion";
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Lighting.AddLight(Projectile.Center, new Vector3(100, 30, 120).RGBToVector3());
+            return true;
         }
         public override void AI()
         {

@@ -51,7 +51,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public void DrawBeam(Texture2D texture, float direction, int owner, Projectile projectile)
         {
-            Color teamColor = DRGData.GetTeamColor(Main.player[owner].team);
+            Color teamColor = DRGHelpers.GetTeamColor(Main.player[owner].team);
             Vector2 start = Main.player[owner].Center - Main.screenPosition;
             Vector2 drawOrigin = new(1, 1);
             Vector2 position = start;

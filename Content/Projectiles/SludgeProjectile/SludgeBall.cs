@@ -99,7 +99,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             SoundEngine.PlaySound(new SoundStyle("deeprockitems/Assets/Sounds/Projectiles/SludgeBallHit") with { Volume = .3f }, Projectile.position);
             for (int i = 0; i < 4; i++)
             {
-                Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dust.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
+                Terraria.Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.SludgeDust>(), Scale: Main.rand.NextFloat(1.1f, 1.5f));
             }
 
             if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>()) return;

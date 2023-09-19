@@ -14,6 +14,7 @@ using Terraria.ID;
 using Microsoft.CodeAnalysis;
 using deeprockitems.Content.Items.Upgrades.M1000;
 using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Projectiles;
 /// <summary>
@@ -90,6 +91,7 @@ public abstract class HeldProjectileBase : ModProjectile
     }
     public virtual void SpecialOnSpawn(IEntitySource source) { }
 
+    private int shakeTimer = 0;
     public override void AI()
     {
 
@@ -105,6 +107,20 @@ public abstract class HeldProjectileBase : ModProjectile
             else if (Projectile.timeLeft < BUFFER_TIME)
             {
                 WhileHeldAtCharge();
+
+                if (shakeTimer % 2 == 0)
+                {
+                    projectileOwner.itemLocation = projectileOwner.ShakeWeapon();
+                }
+                if (shakeTimer % 25 == 0)
+                {
+                    float dustSpeedX = Main.rand.NextFloat(-.1f, .1f);
+                    float dustSpeedY = Main.rand.NextFloat(-.1f, .1f);
+                    Terraria.Dust dust = Terraria.Dust.NewDustDirect(projectileOwner.position, projectileOwner.width, projectileOwner.height, DustID.Obsidian, dustSpeedX, dustSpeedY);
+                    //dust.noGravity = true;
+                }
+
+                shakeTimer++;
             }
         }
         else
