@@ -11,7 +11,7 @@ namespace deeprockitems.Utilities
         /// <param name="projectile"></param>
         /// <param name="target_ID"></param>
         /// <returns>Returns the instance of the colliding projectile. Returns null if no collision occured.</returns>
-        public static Projectile? IsCollidingWithProjectile(this Projectile projectile, int target_ID)
+        public static Projectile IsCollidingWithProjectile(this Projectile projectile, int target_ID)
         {
             foreach (Projectile proj in Main.projectile)
             {
