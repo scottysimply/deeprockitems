@@ -7,49 +7,105 @@ using Terraria.Utilities;
 using deeprockitems.Common.Quests;
 using Terraria.Map;
 using System;
-using System.Linq;
+using deeprockitems.Content.Buffs;
+using Terraria.GameContent.Personalities;
+using deeprockitems.Content.Projectiles.MissionControlAttack;
 
 namespace deeprockitems.Content.NPCs.MissionControl
 {
+    [AutoloadHead]
     public class MissionControl : ModNPC
     {
         readonly string location = "Mods.deeprockitems.Dialogue.MissionControl.";
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[Type] = 14;
+            Main.npcFrameCount[Type] = 23;
 
-            NPCID.Sets.ExtraFramesCount[Type] = 0;
-            NPCID.Sets.AttackFrameCount[Type] = 0;
-            NPCID.Sets.DangerDetectRange[Type] = 700; // The amount of pixels away from the center of the npc that it tries to attack enemies.
-            NPCID.Sets.AttackType[Type] = 0;
+            NPCID.Sets.ExtraFramesCount[Type] = 8;
+            NPCID.Sets.AttackFrameCount[Type] = 4;
+            NPCID.Sets.DangerDetectRange[Type] = 400; // The amount of pixels away from the center of the npc that it tries to attack enemies.
+            NPCID.Sets.AttackType[Type] = 1;
             NPCID.Sets.AttackTime[Type] = 90; // The amount of time it takes for the NPC's attack animation to be over once it starts.
             NPCID.Sets.AttackAverageChance[Type] = 30;
             NPCID.Sets.HatOffsetY[Type] = 4; // For when a party is active, the party hat spawns at a Y offset.
+            NPCID.Sets.AttackTime[Type] = 120;
+
+            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1f,
+                Direction = 1
+            };
+
+
+            NPC.Happiness
+                .SetBiomeAffection<Common.Interfaces.SpaceBiome>(AffectionLevel.Love)
+                .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate);
+            foreach (int id in NPCID.Sets.TownNPCBestiaryPriority)
+            {
+                AffectionLevel level = AffectionLevel.Dislike;
+                if (id == NPCID.GoblinTinkerer)
+                {
+                    level = AffectionLevel.Love;
+                }
+                if (id == NPCID.TaxCollector)
+                {
+                    level = AffectionLevel.Love;
+                }
+                if (id == NPCID.Steampunker)
+                {
+                    level = AffectionLevel.Like;
+                }
+                if (id == NPCID.Stylist)
+                {
+                    level = AffectionLevel.Hate;
+                }
+                if (id == NPCID.Princess)
+                {
+                    level = AffectionLevel.Like;
+                }
+                NPC.Happiness.SetNPCAffection(id, level);
+            }
+
         }
         public override void SetDefaults()
         {
-            NPC.width = 34;
-            NPC.height = 42;
+            
+            NPC.width = 18;
+            NPC.height = 40;
             NPC.townNPC = NPC.friendly = true;
             NPC.aiStyle = 7;
             NPC.defense = 15;
             NPC.lifeMax = 250;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            
+            AnimationType = NPCID.Princess;
+            DrawOffsetY = 2;
 
-            AnimationType = NPCID.Nymph;
 
             NPC.knockBackResist = 0.5f;
         }
         public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
-            if (numTownNPCs > 8 && (NPC.downedBoss3 || Main.hardMode))
+            if (numTownNPCs > 5 && NPC.downedBoss1 && NPC.downedSlimeKing)
             {
                 return true;
             }
-
             return false;
+        }
+        public override bool CheckConditions(int left, int right, int top, int bottom)
+        {
+            return true;
+        }
+        public override void TownNPCAttackCooldown(ref int cooldown, ref int randExtraCooldown)
+        {
+            cooldown = 480;
+            randExtraCooldown = 120;
+        }
+        public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
+        {
+            projType = ModContent.ProjectileType<ResupplyPodMarker>();
+            attackDelay = 0;
         }
         public override string GetChat()
         {
@@ -75,17 +131,12 @@ namespace deeprockitems.Content.NPCs.MissionControl
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
-            button = Language.GetTextValue("LegacyInterface.28");
-            button2 = Language.GetTextValue("LegacyInterface.64");
+            button = Language.GetTextValue("LegacyInterface.64");
         }
         public override void OnChatButtonClicked(bool firstButton, ref string shop)
         {
-            // Clicked on "shop"
+            // Quest logic!! It's its own method because i thought it was unreadable
             if (firstButton)
-            {
-                shop = "Shop";
-            }
-            else // This is where the magic (quests) happen.
             {
                 QuestButtonClicked();
             }
@@ -131,6 +182,21 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 }
                 bool chat = !Main.rand.NextBool(2);
                 // This is messy, but I wanted two available messages for quests. Since they rely on templates, I wanted the messages to be less same-y
+                switch (modPlayer.CurrentQuestInformation[0])
+                {   // LOOOONG lines. this is just further randomizing between two options to add flavor.
+                    case 1:
+                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartMining1", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartMining2", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer();
+                        Main.npcChatCornerItem = ItemID.IronPickaxe;
+                        break;
+                    case 2:
+                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartGather1", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartGather2", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer();
+                        Main.npcChatCornerItem = ItemID.StaffofRegrowth;
+                        break;
+                    default:
+                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartSlay1", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartSlay2", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer();
+                        Main.npcChatCornerItem = ItemID.CopperShortsword;
+                        break;
+                }
                 Main.npcChatText = modPlayer.CurrentQuestInformation[0] switch
                 {
                     // LOOOONG lines. this is just further randomizing between two options to add flavor.
@@ -139,15 +205,6 @@ namespace deeprockitems.Content.NPCs.MissionControl
                     _ => chat ? Language.GetTextValue(location + "QuestStartSlay1", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartSlay2", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer()
                 };
             }
-        }
-
-        public override void AddShops()
-        {
-            var npcShop = new NPCShop(Type)
-            .Add<Items.Misc.UpgradeToken>()
-            .Add<Items.Misc.MatrixCore>();
-            ;
-            npcShop.Register();
         }
     }
     public static class Extensions

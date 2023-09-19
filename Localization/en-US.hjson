@@ -216,14 +216,21 @@ Mods: {
 				DisplayName: Mission Control
 
 				TownNPCMood: {
-					Content: I am content.
-					NoHome: I hate not having a home.
-					FarFromHome: I am too far from home.
-					LoveSpace: I love having so much space.
-					DislikeCrowded: I dislike how crowded I am.
-					HateCrowded: I hate how crowded I am.
-					LikeNPC_Princess: I like {NPCName}.
-					Princess_LovesNPC: I like {NPCName}.
+					Content: This is... fine. Better than the surface of Hoxxes!
+					NoHome: Just because I'm a dwarf doesn't mean I'll go live in a cave!
+					FarFromHome: Where... am I?
+					LoveSpace: Ah, I love the alone time I get! No one bothering me--except you I guess.
+					DislikeCrowded: I miss the days of having the space rig to myself.
+					HateCrowded: Get me out of here! I feel like a dwarf in a glyphid storm.
+					LikeNPC_Princess: Have you seen {NPCName}? She has a certain charm around her...
+					Princess_LovesNPC: "{NPCName} may keep to himself, but he's a pretty stand-up guy!"
+					LikeNPC: I feel I really understand {NPCName}. She's pretty talented.
+					LoveNPC: Me and {NPCName} see eye to eye. I could do with seeing his mug more.
+					DislikeNPC: "{NPCName} pries on me too much."
+					HateNPC: If I have to sit here with {NPCName} one more time and hear one more bald joke, I'm going to lose it.
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: I like {BiomeName}.
+					HateBiome: I hate {BiomeName}.
 				}
 			}
 		}
@@ -268,6 +275,15 @@ Mods: {
 			PlasmaBomb.DisplayName: Plasma Bomb
 			PlasmaExplosion.DisplayName: Plasma Explosion
 			BigPlasma.DisplayName: Big Plasma
+			ResupplyPodDrills.DisplayName: Resupply Pod Drills
+			ResupplyPodMarker.DisplayName: Resupply Pod Marker
+		}
+
+		Buffs: {
+			TargettedByMC: {
+				DisplayName: Calling in a resupply!
+				Description: Look up.
+			}
 		}
 	}
 }
