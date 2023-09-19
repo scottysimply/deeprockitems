@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace deeprockitems.Content.Dust
+namespace deeprockitems.Content.Dusts
 {
     public class SludgeDust : ModDust
     {
