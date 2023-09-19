@@ -12,10 +12,10 @@ namespace deeprockitems.Content.Items.Weapons
     {
         public override void SafeDefaults()
         {
-            Item.damage = 10;
+            Item.damage = 15;
             Item.rare = ItemRarityID.Green;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 4;
+            Item.mana = 7;
             Item.knockBack = 4;
             Item.crit = 4;
             Item.useTime = 7;
@@ -25,6 +25,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shootSpeed = 18f;
             Item.channel = true;
             Item.noMelee = true;
+            Item.height = 28;
+            Item.width = 30;
 
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
             ValidUpgrades.Remove(ModContent.ItemType<Blowthrough>());
@@ -37,7 +39,14 @@ namespace deeprockitems.Content.Items.Weapons
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             type = ModContent.ProjectileType<Projectiles.PlasmaProjectiles.PlasmaPistolHelper>();
-
+        }
+        public override void AddRecipes()
+        {
+            Recipe plasmaPistol = Recipe.Create(ModContent.ItemType<PlasmaPistol>())
+                .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
+                .AddIngredient(ItemID.Amethyst, 8)
+                .AddIngredient(ItemID.FallenStar, 5);
+            plasmaPistol.Register();
         }
     }
 }

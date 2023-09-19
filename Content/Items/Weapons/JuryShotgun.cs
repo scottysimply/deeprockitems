@@ -87,10 +87,10 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void AddRecipes()
         {
-            Recipe JuryShotgun = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.JuryShotgun>());
+            Recipe JuryShotgun = Recipe.Create(ModContent.ItemType<JuryShotgun>());
             JuryShotgun.AddIngredient(ItemID.Boomstick, 1);
-            JuryShotgun.AddRecipeGroup(nameof(ItemID.GoldBar), 8);
-            JuryShotgun.AddIngredient(ItemID.Bone, 10);
+            JuryShotgun.AddIngredient(ItemID.IllegalGunParts);
+            JuryShotgun.AddRecipeGroup(nameof(ItemID.DemoniteBar), 8);
             JuryShotgun.AddRecipeGroup(nameof(ItemID.VilePowder), 10);
             JuryShotgun.AddTile(TileID.Anvils);
             JuryShotgun.Register();
@@ -110,30 +110,20 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void UniqueUpgrades()
         {
-            if (Upgrades.Contains(ModContent.ItemType<PelletAlignmentOC>()))
+            if (Overclock == ModContent.ItemType<PelletAlignmentOC>())
             {
                 DamageScale = 1f;
                 newFireRate = 39;
-                CurrentOverclock = "Magnetic Pellet Alignment";
-                OverclockPositives = "▶Reduced spread";
-                OverclockNegatives = "";
             }
-            else if (Upgrades.Contains(ModContent.ItemType<SpecialPowderOC>()))
+            else if (Overclock == ModContent.ItemType<SpecialPowderOC>())
             {
                 DamageScale = .75f;
                 newFireRate = 39;
-                CurrentOverclock = "Special Powder";
-                OverclockPositives = "▶Launch yourself with each shot";
-                OverclockNegatives = "▶Lower damage output";
             }
-            else if (Upgrades.Contains(ModContent.ItemType<StuffedShellsOC>()))
+            else if (Overclock == ModContent.ItemType<StuffedShellsOC>())
             {
                 DamageScale = 1f;
                 newFireRate = 50;
-                CurrentOverclock = "Stuffed Shells";
-                OverclockPositives = "▶Each shot produces twice as many shells";
-                OverclockNegatives = "▶Heavily increased spread\n" +
-                                     "▶Lower fire rate";
             }
             else
             {

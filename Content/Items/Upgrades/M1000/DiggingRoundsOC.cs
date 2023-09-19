@@ -25,7 +25,7 @@ namespace deeprockitems.Content.Items.Upgrades.M1000
             .AddTile(TileID.MythrilAnvil);
             upgrade.Register();
 
-            upgrade = Recipe.Create(ModContent.ItemType<SludgeExplosionOC>())
+            upgrade = Recipe.Create(ModContent.ItemType<DiggingRoundsOC>())
             .AddIngredient<Misc.MatrixCore>()
             .AddIngredient(ItemID.OrichalcumBar, 10)
             .AddIngredient(ItemID.MusketBall, 30)

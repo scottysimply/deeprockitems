@@ -28,7 +28,7 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePump
             .AddIngredient<Misc.UpgradeToken>()
             .AddRecipeGroup(nameof(ItemID.GoldBar), 10)
             .AddIngredient(ItemID.Gel, 10)
-            .AddIngredient(ItemID.Vertebrae, 10)
+            .AddIngredient(ItemID.Vertebrae, 5)
             .AddTile(TileID.Anvils);
             upgrade.Register();
         }
