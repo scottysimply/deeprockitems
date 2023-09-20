@@ -23,12 +23,12 @@ namespace deeprockitems.Content.NPCs.MissionControl
 
             NPCID.Sets.ExtraFramesCount[Type] = 8;
             NPCID.Sets.AttackFrameCount[Type] = 4;
-            NPCID.Sets.DangerDetectRange[Type] = 400; // The amount of pixels away from the center of the npc that it tries to attack enemies.
+            NPCID.Sets.DangerDetectRange[Type] = 700; // The amount of pixels away from the center of the npc that it tries to attack enemies.
             NPCID.Sets.AttackType[Type] = 1;
+            NPCID.Sets.PrettySafe[Type] = 400;
             NPCID.Sets.AttackTime[Type] = 90; // The amount of time it takes for the NPC's attack animation to be over once it starts.
             NPCID.Sets.AttackAverageChance[Type] = 30;
             NPCID.Sets.HatOffsetY[Type] = 4; // For when a party is active, the party hat spawns at a Y offset.
-            NPCID.Sets.AttackTime[Type] = 120;
 
             NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -97,6 +97,15 @@ namespace deeprockitems.Content.NPCs.MissionControl
         {
             return true;
         }
+        public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
+        {
+            multiplier = 1f;
+        }
+        public override void TownNPCAttackStrength(ref int damage, ref float knockback)
+        {
+            damage = 1;
+            knockback = 0f;
+        }
         public override void TownNPCAttackCooldown(ref int cooldown, ref int randExtraCooldown)
         {
             cooldown = 480;
@@ -105,7 +114,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
             projType = ModContent.ProjectileType<ResupplyPodMarker>();
-            attackDelay = 0;
+            attackDelay = 1;
         }
         public override string GetChat()
         {

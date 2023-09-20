@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using System;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using Terraria.ID;
 
 namespace deeprockitems.Content.Projectiles.MissionControlAttack
 {
@@ -17,9 +19,9 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
             Projectile.friendly = true;
             Projectile.velocity = new(0, 10);
             Projectile.aiStyle = -1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 360;
             Projectile.penetrate = -1;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
         }
         public override void SetStaticDefaults()
         {
@@ -43,23 +45,29 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
         {
             if (Projectile.ai[1] == 0) // ai[1] will determine if the projectile has hit anything since we want it to sync
             {
+                // Velocity will always equal 10, unless digging (we set it to 6)
+                Projectile.velocity = new(0, 10);
+                Point tileCoords = Projectile.Bottom.ToTileCoordinates();
+                if (WorldGen.SolidTile(tileCoords))
+                {
+                    // Draw dust when the projectile "drills"
+                    for (int i = 0; i < 2; i++)
+                    {
+                        WorldGen.KillTile(tileCoords.X, tileCoords.Y, fail: true, effectOnly: true);
+                    }
+                    if (Projectile.frameCounter % 2 == 0)
+                    {
+                        SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+                    }
+                    Projectile.velocity *= .3f;
+                }
                 // If the projectile has fallen below the desired NPC's height
-                if (Projectile.Center.Y >= Projectile.ai[0])
+                if (Projectile.ai[0] <= Projectile.Center.Y)
                 {
                     Projectile.tileCollide = true; // The projectile will now die on contact with its next tile.
                 }
-                // Velocity will always equal 10, unless digging (we set it to 6)
-                Projectile.velocity = new(0, 10);
-                Point tileCoords = Projectile.Center.ToTileCoordinates();
-                if (Main.tile[tileCoords].HasUnactuatedTile)
-                {   
-                    // Draw dust when the projectile "drills"
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Collision.HitTiles(Projectile.position, new Vector2(0, 500), Projectile.width, Projectile.height);
-                    }
-                    Projectile.velocity = new(0, 6);
-                }
+
+                
                 if (Projectile.frameCounter++ % 4 == 0)
                 {
                     Projectile.frame = ++Projectile.frame % 3;
@@ -67,10 +75,6 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
             }
             else
             {
-                if (Projectile.frameCounter > 180)
-                {
-                    Projectile.Kill();
-                }
                 Projectile.Opacity *= .97f;
             }
         }
