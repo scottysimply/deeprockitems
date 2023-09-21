@@ -59,7 +59,7 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
                     {
                         SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
                     }
-                    Projectile.velocity *= .3f;
+                    // Projectile.velocity *= .3f;
                 }
                 // If the projectile has fallen below the desired NPC's height
                 if (Projectile.ai[0] <= Projectile.Center.Y)

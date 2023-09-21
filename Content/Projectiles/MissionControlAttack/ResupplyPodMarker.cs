@@ -22,6 +22,9 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
             Projectile.timeLeft = 360;
             Main.projFrames[Type] = 1;
         }
+        /// <summary>
+        /// This is a copy
+        /// </summary>
         private NPC target;
         private NPC predicted_target;
         public override bool? CanDamage()
@@ -41,7 +44,7 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
                 foreach (NPC npc in Main.npc)
                 {
                     // If NPC is a valid NPC (in range, hostile, targettable by minions)
-                    if (npc.active && npc.chaseable && !npc.friendly && npc.Distance(missionControl.NPC.Center) < NPCID.Sets.DangerDetectRange[missionControl.Type])
+                    if (npc.active && npc.chaseable && !Main.npcCatchable[npc.type] && !npc.friendly && npc.Distance(missionControl.NPC.Center) < NPCID.Sets.DangerDetectRange[missionControl.Type])
                     {
                         target = npc; 
                         break;

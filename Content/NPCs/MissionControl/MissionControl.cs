@@ -79,7 +79,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
             NPC.lifeMax = 250;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            AnimationType = NPCID.Princess;
+            AnimationType = NPCID.Dryad;
             DrawOffsetY = 2;
 
 
