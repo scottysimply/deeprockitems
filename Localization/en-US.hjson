@@ -207,6 +207,11 @@ Mods: {
 				DisplayName: Upgrade: Overtuned Nozzle
 				Tooltip: Increases the velocity of charge shots by 1.5x
 			}
+
+			ChunkOfNitra: {
+				DisplayName: Chunk Of Nitra
+				Tooltip: ""
+			}
 		}
 
 		Misc.DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
@@ -277,12 +282,18 @@ Mods: {
 			BigPlasma.DisplayName: Big Plasma
 			ResupplyPodDrills.DisplayName: Resupply Pod Drills
 			ResupplyPodMarker.DisplayName: Resupply Pod Marker
+			MollyPetProjectile.DisplayName: Molly Pet Projectile
 		}
 
 		Buffs: {
 			TargettedByMC: {
 				DisplayName: Calling in a resupply!
 				Description: Look up.
+			}
+
+			MollyPetBuff: {
+				DisplayName: Molly Pet Buff
+				Description: Mods.deeprockitems.Buffs.MollyPetBuff.Description
 			}
 		}
 	}
