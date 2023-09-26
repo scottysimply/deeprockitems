@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using deeprockitems.Common.Quests;
+using deeprockitems.Common.Items;
 
 namespace deeprockitems.Common.Quests
 {

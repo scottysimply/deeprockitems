@@ -6,6 +6,7 @@ using Terraria.ID;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader.IO;
+using deeprockitems.Common.Items;
 
 namespace deeprockitems.Common.Quests
 {

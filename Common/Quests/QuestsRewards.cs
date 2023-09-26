@@ -8,6 +8,8 @@ using Terraria.ModLoader.IO;
 using Terraria.Utilities;
 using MonoMod.Utils;
 using System;
+using deeprockitems.Content.Pets.Molly;
+using deeprockitems.Common.Items;
 
 namespace deeprockitems.Common.Quests
 {
