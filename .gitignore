@@ -3,3 +3,8 @@ obj
 *.user
 App.config
 .vs/
+/Content/Items/Misc/LaserPointer.cs
+/Content/Items/Misc/LaserPointer.png
+/Assets/Images/LaserPointerBeam.png
+/Assets/Text/LaserText.cs
+/Common/Weapons/Old/BlowthroughFix.cs
