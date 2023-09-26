@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace deeprockitems.Content.Pets
+namespace deeprockitems.Content.Pets.Molly
 {
     public class MollyPetBuff : ModBuff
     {

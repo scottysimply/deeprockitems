@@ -3,14 +3,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace deeprockitems.Content.Pets
+namespace deeprockitems.Content.Pets.Molly
 {
     public class ChunkOfNitra : ModItem
     {
         // Names and descriptions of all ExamplePetX classes are defined using .hjson files in the Localization folder
         public override void SetDefaults()
         {
-            Item.CloneDefaults(ItemID.ZephyrFish); // Copy the Defaults of the Zephyr Fish Item.
+            Item.CloneDefaults(ItemID.SpiderEgg); // Copy the Defaults of the Zephyr Fish Item.
             Item.width = 24;
             Item.height = 24;
 
