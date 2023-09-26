@@ -656,11 +656,11 @@ namespace deeprockitems.Content.Pets.Molly
             {
                 return 0;
             }
-            Matrix matrix = Matrix.Invert(Main.GameViewMatrix.ZoomMatrix);
+            /*Matrix matrix = Matrix.Invert(Main.GameViewMatrix.ZoomMatrix);
             Vector2 position = Main.ReverseGravitySupport(Main.MouseScreen);
             Vector2.Transform(Main.screenPosition, matrix);
-            Vector2 v = Vector2.Transform(position, matrix) + Main.screenPosition;
-            bool flag2 = proj.Hitbox.Contains(v.ToPoint());
+            Vector2 v = Vector2.Transform(position, matrix) + Main.screenPosition;*/
+            bool flag2 = proj.Hitbox.Contains(Main.MouseWorld.ToPoint());
             if (!((flag2 || Main.SmartInteractProj == proj.whoAmI) & !localPlayer.lastMouseInterface))
             {
                 if (!flag)
