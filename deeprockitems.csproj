@@ -34,7 +34,12 @@
     <None Remove="Content\Items\Upgrades\PlasmaPistol\VelocitySpeedup.png" />
     <None Remove="Content\Items\Weapons\Zhukovs.png" />
     <None Remove="Content\NPCs\MissionControl\MissionControl_Head.png" />
-    <None Remove="Content\Pets\MollyHindLegs.png" />
+    <None Remove="Content\Pets\Molly\ChunkOfNitra.png" />
+    <None Remove="Content\Pets\Molly\MollyPetBuff.png" />
+    <None Remove="Content\Pets\Molly\Old\MollyBody.png" />
+    <None Remove="Content\Pets\Molly\Old\MollyFrontLegs.png" />
+    <None Remove="Content\Pets\Molly\Old\MollyHindLegs.png" />
+    <None Remove="Content\Pets\Molly\Old\MollyTopLegs.png" />
     <None Remove="Content\Projectiles\PlasmaProjectiles\BigPlasma.png" />
   </ItemGroup>
   <ItemGroup>
