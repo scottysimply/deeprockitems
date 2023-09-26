@@ -31,27 +31,19 @@ namespace deeprockitems.Content.Pets.Molly
             Projectile.aiStyle = -1;
             Projectile.width = 36;
             Projectile.height = 36;
+
             DrawOffsetX = -10;
-            DrawOriginOffsetY = -14;
+            DrawOriginOffsetY = -10;
+            DrawOriginOffsetX = 0;
         }
 
-        public override bool PreAI()
-        {
-            return true;
-        }
         private float CurrentState { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
         private float SitTimer { get => Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public override void AI()
         {
 
-            // Testing time!
-            MollyModPlayer modPlayer;
-            if (!Main.LocalPlayer.TryGetModPlayer<MollyModPlayer>(out modPlayer)) return;
-
-
-            // Function as safe logic.
             Main.CurrentFrameFlags.HadAnActiveInteractibleProjectile = true; // This is required to make the projectile be considered "interactible"
-                                                                             // Kill other instaces of Molly if not the owner.
+            // Kill other instaces of Molly if not the owner.
             if (Main.myPlayer == Projectile.owner)
             {
                 foreach (Projectile proj in Main.projectile)
@@ -181,6 +173,14 @@ namespace deeprockitems.Content.Pets.Molly
                 }
                 // Manage animations, etc.
                 Projectile.rotation = Projectile.velocity.X * .15f;
+                if (Projectile.velocity.X > 0f)
+                {
+                    Projectile.direction = Projectile.spriteDirection = -1;
+                }
+                if (Projectile.velocity.X < 0f)
+                {
+                    Projectile.direction = Projectile.spriteDirection = 1;
+                }
                 Projectile.frameCounter = 0;
                 Projectile.frame = 11;
                 // Spawn the dust
@@ -312,7 +312,6 @@ namespace deeprockitems.Content.Pets.Molly
                         }
                     }
                 }
-
                 if (Projectile.velocity.X > max_running_velocity)
                 {
                     Projectile.velocity.X = max_running_velocity;
@@ -321,53 +320,37 @@ namespace deeprockitems.Content.Pets.Molly
                 {
                     Projectile.velocity.X = 0f - max_running_velocity;
                 }
-                if (Projectile.velocity.X < 0f)
-                {
-                    Projectile.direction = -1;
-                }
-                if (Projectile.velocity.X > 0f)
-                {
-                    Projectile.direction = 1;
-                }
-                if (Projectile.velocity.X > running_acceleration && isLeftOfPlayer)
-                {
-                    Projectile.direction = 1;
-                }
-                if (Projectile.velocity.X < 0f - running_acceleration && isRightOfPlayer)
-                {
-                    Projectile.direction = -1;
-                }
+                
 
+
+
+                // Vanilla spider egg code, since this pet behaves identically aside from functioning as a safe.
                 Spider_egg_AI();
-
-
-                        
-
             }
         }
         // Just the vanilla code
         private void Spider_egg_AI()
         {
-            bool flag7 = Projectile.position.X - Projectile.oldPosition.X == 0f;
-            int i3 = (int)(Projectile.Center.X / 16f);
-            int num98 = (int)(Projectile.Center.Y / 16f);
-            int num100 = 0;
-            Tile tileSafely2 = Framing.GetTileSafely(i3, num98);
-            Tile tileSafely3 = Framing.GetTileSafely(i3, num98 - 1);
-            Tile tileSafely4 = Framing.GetTileSafely(i3, num98 + 1);
-            if (tileSafely2.WallType > 0)
+            bool stationary = Projectile.position.X - Projectile.oldPosition.X == 0f;
+            int tileX = (int)(Projectile.Center.X / 16f);
+            int tileY = (int)(Projectile.Center.Y / 16f);
+            int backgroundWallCounter = 0;
+            Tile tileBelow = Framing.GetTileSafely(tileX, tileY);
+            Tile tileLeft = Framing.GetTileSafely(tileX, tileY - 1);
+            Tile tileRight = Framing.GetTileSafely(tileX, tileY + 1);
+            if (tileBelow.WallType > 0)
             {
-                num100++;
+                backgroundWallCounter++;
             }
-            if (tileSafely3.WallType > 0)
+            if (tileLeft.WallType > 0)
             {
-                num100++;
+                backgroundWallCounter++;
             }
-            if (tileSafely4.WallType > 0)
+            if (tileRight.WallType > 0)
             {
-                num100++;
+                backgroundWallCounter++;
             }
-            if (num100 > 1)
+            if (backgroundWallCounter > 1)
             {
                 Vector2 vector5 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                 float num101 = Main.player[Projectile.owner].Center.X - vector5.X;
@@ -425,17 +408,21 @@ namespace deeprockitems.Content.Pets.Molly
             else
             {
                 Projectile.rotation = 0f;
-                if (Projectile.direction == -1)
+                if (!stationary)
                 {
-                    Projectile.spriteDirection = 1;
+                    if (Projectile.direction == -1)
+                    {
+                        Projectile.spriteDirection = 1;
+                    }
+                    if (Projectile.direction == 1)
+                    {
+                        Projectile.spriteDirection = -1;
+                    }
                 }
-                if (Projectile.direction == 1)
-                {
-                    Projectile.spriteDirection = -1;
-                }
+                
                 if (Projectile.velocity.Y >= 0f && (double)Projectile.velocity.Y <= 0.8)
                 {
-                    if (flag7)
+                    if (stationary)
                     {
                         Projectile.frame = 0;
                         Projectile.frameCounter = 0;
@@ -516,10 +503,6 @@ namespace deeprockitems.Content.Pets.Molly
             On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
             On_Main.DrawProj_Inner_DoDrawProj += DrawProjectiles;
             On_Player.clientClone += On_Player_clientClone;
-
-            // On_Player.ctor += PlayerConstructor;
-
-            // On_Main.TryInteractingWithMoneyTrough += On_Main_TryInteractingWithMoneyTrough;
             On_Player.IsProjectileInteractibleAndInInteractionRange += IsInteractible;
         }
         public bool IsInteractible(On_Player.orig_IsProjectileInteractibleAndInInteractionRange orig, Player self, Projectile proj, ref Vector2 compareSpot)
@@ -582,12 +565,14 @@ namespace deeprockitems.Content.Pets.Molly
 
 
                     // manually draw projectile
-                    float xOriginOffset = proj.ModProjectile.DrawOriginOffsetX;
-                    int yOriginOffset = proj.ModProjectile.DrawOriginOffsetY;
-                    int xOffset = (int)((texture.Width - proj.width) * 0.5f + proj.width * 0.5f);
 
-                    ProjectileLoader.DrawOffset(proj, ref xOffset, ref yOriginOffset, ref xOriginOffset);
+                    int xOffset = 0;
+                    int yOffset = 0;
 
+                    float xOrigin = (float)(texture.Width - proj.width) * 0.5f + (float)proj.width * 0.5f;
+
+
+                    ProjectileLoader.DrawOffset(proj, ref xOffset, ref yOffset, ref xOrigin);
 
                     int frameSize = texture.Height / Main.projFrames[proj.type];
                     int frameY = frameSize * proj.frame;
@@ -598,16 +583,15 @@ namespace deeprockitems.Content.Pets.Molly
                         spriteEffects = SpriteEffects.FlipHorizontally;
                     }
 
-
                     Vector2 DrawPosition = new()
                     {
-                        X = proj.position.X - Main.screenPosition.X + xOriginOffset + xOffset,
-                        Y = proj.position.Y - Main.screenPosition.Y + (proj.height / 2) + proj.gfxOffY
+                        X = proj.position.X - Main.screenPosition.X + xOffset + xOrigin,
+                        Y = proj.position.Y - Main.screenPosition.Y + proj.gfxOffY + proj.height/2,
                     };
                     Vector2 DrawOrigin = new()
                     {
-                        X = xOriginOffset,
-                        Y = proj.height / 2 + yOriginOffset,
+                        X = xOrigin,
+                        Y = proj.height/2 + yOffset,
                     };
                     Rectangle Frame = new()
                     {
@@ -616,8 +600,6 @@ namespace deeprockitems.Content.Pets.Molly
                         Width = texture.Width,
                         Height = frameSize - 1,
                     };
-
-
 
                     // Draw the projectile itself
                     Color colorAffectcedByLight = proj.GetAlpha(lightColor);
