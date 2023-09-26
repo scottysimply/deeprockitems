@@ -210,7 +210,11 @@ Mods: {
 
 			ChunkOfNitra: {
 				DisplayName: Chunk Of Nitra
-				Tooltip: ""
+				Tooltip:
+					'''
+					Summons a pet M.U.L.E to store your items
+					'We fight, for rock and stone!'
+					'''
 			}
 		}
 
@@ -292,8 +296,8 @@ Mods: {
 			}
 
 			MollyPetBuff: {
-				DisplayName: Molly Pet Buff
-				Description: Mods.deeprockitems.Buffs.MollyPetBuff.Description
+				DisplayName: Pet M.U.L.E
+				Description: Molly is following you
 			}
 		}
 	}
