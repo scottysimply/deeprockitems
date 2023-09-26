@@ -8,3 +8,8 @@ App.config
 /Assets/Images/LaserPointerBeam.png
 /Assets/Text/LaserText.cs
 /Common/Weapons/Old/BlowthroughFix.cs
+/Content/Projectiles/ZhukovProjectile.cs
+/Content/Projectiles/Swing_Grapple.cs
+/Content/Projectiles/SwingGrapple.png
+/Content/Projectiles/LaserPointerPing.png
+/Content/Projectiles/LaserPointerPing.cs
