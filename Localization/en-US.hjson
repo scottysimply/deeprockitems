@@ -237,9 +237,9 @@ Mods: {
 					LoveNPC: Me and {NPCName} see eye to eye. I could do with seeing his mug more.
 					DislikeNPC: "{NPCName} pries on me too much."
 					HateNPC: If I have to sit here with {NPCName} one more time and hear one more bald joke, I'm going to lose it.
-					LoveBiome: I love {BiomeName}.
-					LikeBiome: I like {BiomeName}.
-					HateBiome: I hate {BiomeName}.
+					LoveBiome: I love space, I love being able to watch from above. Safer up here than down there.
+					LikeBiome: "{BiomeName} really makes me feel at home. I am contempt here."
+					HateBiome: I really hate it here.
 				}
 			}
 		}
