@@ -7,14 +7,14 @@ namespace deeprockitems.Common.Interfaces
     public class SpaceBiome : IShoppingBiome, ILoadable
     {
         public string NameKey { get; set; }
-        SpaceBiome()
+        public SpaceBiome()
         {
-            NameKey = "Space";
+            NameKey = "Space Biome";
         }
 
         public bool IsInBiome(Player player)
         {
-            return player.ZoneSkyHeight;
+            return player.position.Y / 16f < Main.worldSurface * .4f;
         }
 
         void ILoadable.Load(Mod mod)
