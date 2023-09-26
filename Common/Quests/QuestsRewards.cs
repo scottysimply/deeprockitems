@@ -35,10 +35,9 @@ namespace deeprockitems.Common.Quests
         }
         public override void OnWorldLoad()
         {
-            // Rarest tier of rewards, at roughly 1 in 15 quests. Only 1 item will be given of each since the majority of them are unstackable
+            // Rarest tier of rewards, the odds of pulling one increases with the amount of quests completed per session. Only 1 item will be given of each since the majority of them are unstackable
             UniqueRewards = new List<int>()
             {
-                ItemID.LeprechaunHat,
                 ItemID.GoldenCrate,
                 ItemID.LavaFishingHook,
                 ItemID.ExtendoGrip,
@@ -131,6 +130,11 @@ namespace deeprockitems.Common.Quests
                 modPlayer.Player.QuickSpawnItem(NPC.GetSource_NaturalSpawn(), ModContent.ItemType<UpgradeToken>());
             }
 
+            if (modPlayer.QuestsCompleted > 10)
+            {
+                UniqueRewards.Add(ModContent.ItemType<ChunkOfNitra>());
+            }
+
             // Generate items
             double weird_number = Math.Log(RewardsTier * 2 / 3 + 1.7); // This is just an overly complex variable
             int numCommonRewards = (int)Math.Floor(Math.Log(weird_number)) + Main.rand.Next(1, 3); // between 1 and 5 common rewards. I felt like using a complex generator :>
@@ -176,6 +180,10 @@ namespace deeprockitems.Common.Quests
             {
                 int valueToTake = Main.rand.Next(UniqueRewards);
                 modPlayer.Player.QuickSpawnItem(NPC.GetSource_NaturalSpawn(), valueToTake);
+            }
+            if (modPlayer.QuestsCompleted == 10)
+            {
+                modPlayer.Player.QuickSpawnItem(NPC.GetSource_NaturalSpawn(), ModContent.ItemType<Content.Pets.Molly.ChunkOfNitra>());
             }
 
             // Convert rewards dictionary to items:
