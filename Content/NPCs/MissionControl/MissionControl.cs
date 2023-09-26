@@ -39,6 +39,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
 
 
             NPC.Happiness
+                .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love)
                 .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate);
             foreach (int id in NPCID.Sets.TownNPCBestiaryPriority)
