@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using System;
 
-namespace deeprockitems.Common.Quests
+namespace deeprockitems.Common.Items
 {
     public class DRGQuestsModPlayer : ModPlayer
     {
