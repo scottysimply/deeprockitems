@@ -9,8 +9,9 @@ namespace deeprockitems.Common.Interfaces
         public string NameKey { get; set; }
         public SpaceBiome()
         {
-            NameKey = "Space Biome";
+            NameKey = "Space";
         }
+        
 
         public bool IsInBiome(Player player)
         {
