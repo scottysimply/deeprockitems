@@ -30,10 +30,7 @@ namespace deeprockitems.Content.Items.Weapons
         public virtual string OverclockNegatives { get; set; } = "";
         public List<int> ValidUpgrades { get; set; }
         // private bool load_flag = false;
-        public virtual void SafeDefaults()
-        {
-            
-        }
+        public virtual void SafeDefaults() { }
         public override void SetDefaults()
         {
             saved_upgrades = new int[4];
@@ -43,8 +40,7 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 ModContent.ItemType<DamageUpgrade>(),
                 ModContent.ItemType<ArmorPierce>(),
-                ModContent.ItemType<Blowthrough>()
-            
+                ModContent.ItemType<Blowthrough>()   
             };
             SafeDefaults();
             oldUseTime = Item.useTime;
@@ -147,7 +143,7 @@ namespace deeprockitems.Content.Items.Weapons
             }
             else if (Upgrades.Count(0) < 4)
             {
-                TooltipLine line = new(Mod, "ShiftToView", "Hold shift to view upgrades")
+                TooltipLine line = new(Mod, "ShiftToView", Language.GetTextValue("Mods.deeprockitems.Misc.UpgradeShiftTooltip"))
                 {
                     OverrideColor = new(74, 177, 211),
                 };

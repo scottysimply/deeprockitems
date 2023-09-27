@@ -42,6 +42,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love)
                 .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
                 .SetBiomeAffection<SnowBiome>(AffectionLevel.Hate);
+
             foreach (int id in NPCID.Sets.TownNPCBestiaryPriority)
             {
                 AffectionLevel level = AffectionLevel.Dislike;
