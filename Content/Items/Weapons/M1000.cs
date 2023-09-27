@@ -27,7 +27,7 @@ namespace deeprockitems.Content.Items.Weapons
 
         public override void SafeDefaults()
         {
-            Item.damage = 45;
+            Item.damage = 65;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.knockBack = 7.75f;
@@ -35,14 +35,14 @@ namespace deeprockitems.Content.Items.Weapons
             Item.width = 60;
             Item.height = 12;
             Item.useAmmo = AmmoID.Bullet;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 8f;
             Item.rare = ItemRarityID.Pink;
-            Item.value = 640000;
+            Item.value = Item.sellPrice(0, 7, 50, 0);
             Item.consumable = false;
 
 
@@ -88,21 +88,19 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void AddRecipes()
         {
-            Recipe M1k = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.M1000>());
-            M1k.AddIngredient(ItemID.Musket, 1);
-            M1k.AddIngredient(ItemID.IllegalGunParts, 1);
-            M1k.AddIngredient(ItemID.HallowedBar, 15);
-            M1k.AddIngredient(ItemID.SoulofSight, 10);
-            M1k.AddTile(TileID.MythrilAnvil);
-            M1k.Register();
+            Recipe M1k = Recipe.Create(ModContent.ItemType<M1000>())
+            .AddIngredient(ItemID.Musket, 1)
+            .AddIngredient(ItemID.IllegalGunParts, 1)
+            .AddRecipeGroup(nameof(ItemID.CobaltBar), 20)
+            .AddIngredient(ItemID.SoulofNight, 15)
+            .Register();
 
-            M1k = Recipe.Create(ModContent.ItemType<Content.Items.Weapons.M1000>());
-            M1k.AddIngredient(ItemID.TheUndertaker, 1);
-            M1k.AddIngredient(ItemID.IllegalGunParts, 1);
-            M1k.AddIngredient(ItemID.HallowedBar, 15);
-            M1k.AddIngredient(ItemID.SoulofSight, 10);
-            M1k.AddTile(TileID.MythrilAnvil);
-            M1k.Register();
+            M1k = Recipe.Create(ModContent.ItemType<M1000>())
+            .AddIngredient(ItemID.TheUndertaker, 1)
+            .AddIngredient(ItemID.IllegalGunParts, 1)
+            .AddRecipeGroup(nameof(ItemID.CobaltBar), 20)
+            .AddIngredient(ItemID.SoulofNight, 15)
+            .Register();
         }
 
         public override void UniqueUpgrades()
