@@ -8,7 +8,7 @@ using deeprockitems.Content.Items.Weapons;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
 using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.SludgePump;
+using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -19,13 +19,16 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 
         public override void SetDefaults()
         {
-            Projectile.width = 32;
-            Projectile.height = 32;
+            Projectile.width = 20;
+            Projectile.height = 20;
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.rotation = 0;
-            
+
+            DrawOffsetX = -8;
+            DrawOriginOffsetY = -8;
+
 
         }
         public override void OnSpawn(IEntitySource source)

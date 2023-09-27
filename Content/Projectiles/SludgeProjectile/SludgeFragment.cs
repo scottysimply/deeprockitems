@@ -13,13 +13,16 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
     {
         public override void SetDefaults()
         {
-            Projectile.width = 16;
-            Projectile.height = 16;
+            Projectile.width = 10;
+            Projectile.height = 10;
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
             Projectile.timeLeft = 300;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
+
+            DrawOffsetX = -4;
+            DrawOriginOffsetY = -4;
         }
         public override void AI()
         {
