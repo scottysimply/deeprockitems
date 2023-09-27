@@ -11,6 +11,7 @@ using deeprockitems.Content.Buffs;
 using Terraria.GameContent.Personalities;
 using deeprockitems.Content.Projectiles.MissionControlAttack;
 using deeprockitems.Common.Items;
+using Terraria.GameContent.Bestiary;
 
 namespace deeprockitems.Content.NPCs.MissionControl
 {
@@ -85,6 +86,15 @@ namespace deeprockitems.Content.NPCs.MissionControl
 
 
             NPC.knockBackResist = 0.5f;
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+
+                new FlavorTextBestiaryInfoElement("Mission Control may be short, but he's also bald. He gives quests to enhance the unique weapons found around the time of his arrival."),
+            });
         }
         public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
