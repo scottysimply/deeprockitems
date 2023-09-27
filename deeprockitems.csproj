@@ -28,10 +28,10 @@
   <ItemGroup>
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistol\EzBoomOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistol\MountainMoverOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistol\PiercingPlasmaOC.png" />
-    <None Remove="Content\Items\Upgrades\PlasmaPistol\VelocitySpeedup.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\EzBoomOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\MountainMoverOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\PiercingPlasmaOC.png" />
+    <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\VelocitySpeedup.png" />
     <None Remove="Content\Items\Weapons\Zhukovs.png" />
     <None Remove="Content\NPCs\MissionControl\MissionControl_Head.png" />
     <None Remove="Content\Pets\Molly\ChunkOfNitra.png" />

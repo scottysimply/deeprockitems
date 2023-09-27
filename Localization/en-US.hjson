@@ -218,7 +218,12 @@ Mods: {
 			}
 		}
 
-		Misc.DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
+		Misc: {
+			DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
+			ValidUpgradesText: "{ItemName} can upgrade the following weapons:"
+			WeaponShiftTooltip: "Hold {0} to show what weapons this upgrade can affect"
+			UpgradeShiftTooltip: "Hold {0} to show the currently equipped upgrades"
+		}
 
 		NPCs: {
 			MissionControl: {
@@ -235,9 +240,9 @@ Mods: {
 					Princess_LovesNPC: "{NPCName} may keep to himself, but he's a pretty stand-up guy!"
 					LikeNPC: I feel I really understand {NPCName}. She's pretty talented.
 					LoveNPC: Me and {NPCName} see eye to eye. I could do with seeing his mug more.
-					DislikeNPC: "{NPCName} pries on me too much."
+					DislikeNPC: "{NPCName} pries on me too much. So what if I need a lot of gunk seeds?"
 					HateNPC: If I have to sit here with {NPCName} one more time and hear one more bald joke, I'm going to lose it.
-					LoveBiome: I love space, I love being able to watch from above. Safer up here than down there.
+					LoveBiome: I love the upper atmosphere; I love being able to watch from above. Safer up here than down there.
 					LikeBiome: "{BiomeName} really makes me feel at home. I am contempt here."
 					HateBiome: I really hate it here.
 				}
