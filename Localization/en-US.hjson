@@ -150,7 +150,7 @@ Mods: {
 					'''
 					'From A to D, skipping B and C!'
 					Hold click to fire a focused shot
-					Focused shots deal 2x damage and travel faster
+					Focused shots are stronger, but take time to charge
 					'''
 			}
 
@@ -220,9 +220,9 @@ Mods: {
 
 		Misc: {
 			DefaultOverclockText: "[c/4AB1D3:{0}] has given this weapon the following effects:"
-			ValidUpgradesText: "{ItemName} can upgrade the following weapons:"
-			WeaponShiftTooltip: "Hold {0} to show what weapons this upgrade can affect"
-			UpgradeShiftTooltip: "Hold {0} to show the currently equipped upgrades"
+			ValidUpgradesText: "{0} can upgrade the following weapons:"
+			WeaponShiftTooltip: Hold Left Shift to show what weapons this upgrade can affect
+			UpgradeShiftTooltip: Hold Left Shift to show the currently equipped upgrades
 		}
 
 		NPCs: {
