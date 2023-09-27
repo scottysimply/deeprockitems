@@ -33,17 +33,17 @@ namespace deeprockitems.Content.Pets.Molly
             Projectile.height = 36;
 
             DrawOffsetX = -10;
-            DrawOriginOffsetY = -10;
+            DrawOriginOffsetY = -14;
             DrawOriginOffsetX = 0;
         }
 
         private float CurrentState { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
         private float SitTimer { get => Projectile.ai[1]; set => Projectile.ai[1] = value; }
+        private float CurrentFrame { get => Projectile.ai[2]; set => Projectile.ai[2] = value; }
         public override void AI()
         {
-
             Main.CurrentFrameFlags.HadAnActiveInteractibleProjectile = true; // This is required to make the projectile be considered "interactible"
-            // Kill other instaces of Molly if not the owner.
+            // Kill other instaces of Molly owned by this player
             if (Main.myPlayer == Projectile.owner)
             {
                 foreach (Projectile proj in Main.projectile)
@@ -62,9 +62,6 @@ namespace deeprockitems.Content.Pets.Molly
                     }
                 }
             }
-
-
-
 
 
 
@@ -478,22 +475,6 @@ namespace deeprockitems.Content.Pets.Molly
             }
             return frame;
         }
-        private bool IsAnyPlayerTrackingMolly()
-        {
-            foreach (Player player in Main.player)
-            {
-                if (!player.TryGetModPlayer(out MollyModPlayer modPlayer))
-                {
-                    continue;
-                }
-                if (player.active && modPlayer.MULEInventoryProjTracker.IsTracking(Projectile))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
     }
     public class MollyDetours : ModSystem
     {
@@ -601,16 +582,17 @@ namespace deeprockitems.Content.Pets.Molly
                         Height = frameSize - 1,
                     };
 
+
                     // Draw the projectile itself
                     Color colorAffectcedByLight = proj.GetAlpha(lightColor);
-                    Main.EntitySpriteDraw(texture, DrawPosition, Frame, colorAffectcedByLight, proj.rotation, DrawOrigin , proj.scale, spriteEffects, 0);
+                    Main.EntitySpriteDraw(texture, DrawPosition, Frame, colorAffectcedByLight, proj.rotation, DrawOrigin, proj.scale, spriteEffects, 0);
 
-                    // Draw the "glow" around the projectile when smart cursor is enabled and the player is nearby.
                     int trackedResult = TryInteractingWithMULE(proj);
                     if (trackedResult == 0)
                     {
                         return;
                     }
+
                     int colorResult = (lightColor.R + lightColor.G + lightColor.B) / 3;
                     if (colorResult > 10)
                     {
@@ -693,6 +675,7 @@ namespace deeprockitems.Content.Pets.Molly
                     Main.playerInventory = true;
                     SoundEngine.PlaySound(in SoundID.MenuOpen);
                     Recipe.FindRecipes();
+                    proj.ai[2] = 13;
                 }
             }
             if (!Main.SmartCursorIsUsed && !PlayerInput.UsingGamepad)
@@ -714,7 +697,6 @@ namespace deeprockitems.Content.Pets.Molly
                 orig(self);
                 return;
             }
-
             if (self.chest != -1)
             {
                 if (self.chest != -2)
