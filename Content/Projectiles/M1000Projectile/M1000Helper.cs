@@ -23,8 +23,8 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
 
         public override void AtFullCharge()
         {
-            Projectile.velocity *= 2f;
             Projectile.damage *= 2;
+            Projectile.velocity *= 2f;
         }
     }
 }
