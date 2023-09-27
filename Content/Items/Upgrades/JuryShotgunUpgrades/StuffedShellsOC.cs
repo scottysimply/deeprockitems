@@ -1,14 +1,18 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using deeprockitems.Content.Items.Weapons;
+using System.Collections.Generic;
 
-namespace deeprockitems.Content.Items.Upgrades.JuryShotgun
+namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
     public class StuffedShellsOC : UpgradeTemplate
     {
-        public override string ItemName { get => "Stuffed Shells"; set => base.ItemName = value; }
-        public override string ItemTooltip { get => "Doubled pellet count, but lower fire rate and heavily increased spread"; set => base.ItemTooltip = value; }
-        public override bool IsOverclock { get => true; set => base.IsOverclock = value; }
+        public override bool IsOverclock => true;
+        public override List<int> ValidWeapons => new List<int>()
+        {
+            ModContent.ItemType<JuryShotgun>(),
+        };
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -7,7 +7,7 @@ using Terraria.ID;
 using System;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
+using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
 
 namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
 {

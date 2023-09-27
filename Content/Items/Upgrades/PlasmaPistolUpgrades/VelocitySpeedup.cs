@@ -1,12 +1,18 @@
-﻿using Terraria;
+﻿using deeprockitems.Content.Items.Weapons;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace deeprockitems.Content.Items.Upgrades.PlasmaPistol
+namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
     public class VelocitySpeedup : UpgradeTemplate
     {
         public override bool IsOverclock => false;
+        public override List<int> ValidWeapons => new List<int>()
+        {
+            ModContent.ItemType<PlasmaPistol>(),
+        };
         public override void SetDefaults()
         {
             Item.rare = ItemRarityID.Orange;

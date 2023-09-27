@@ -11,8 +11,8 @@ using Terraria.DataStructures;
 using deeprockitems.Content.Projectiles;
 using System;
 using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.M1000;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
+using deeprockitems.Content.Items.Upgrades.M1000Upgrades;
+using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
 
 namespace deeprockitems.Content.Items.Weapons
 {

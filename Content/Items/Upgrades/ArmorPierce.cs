@@ -1,15 +1,22 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
+using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
+using deeprockitems.Content.Items.Weapons;
+using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
     public class ArmorPierce : UpgradeTemplate
     {
-        public override string ItemName { get => "Pen Rounds"; set => base.ItemName = value; }
-        public override string ItemTooltip { get => "Shots ignore 10 defense"; set => base.ItemTooltip = value; }
-        public override bool IsOverclock { get => false; set => base.IsOverclock = value; }
+        public override bool IsOverclock => false;
+        public override List<int> ValidWeapons => new List<int>()
+        {
+            ModContent.ItemType<M1000>(),
+            ModContent.ItemType<SludgePump>(),
+            ModContent.ItemType<JuryShotgun>(),
+            ModContent.ItemType<PlasmaPistol>(),
+        };
         public override void SetDefaults()
         {
             base.SetDefaults();

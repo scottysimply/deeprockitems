@@ -1,16 +1,20 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using deeprockitems.Content.Items.Upgrades.M1000;
-using deeprockitems.Content.Items.Upgrades.SludgePump;
+using deeprockitems.Content.Items.Upgrades.M1000Upgrades;
+using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
+using deeprockitems.Content.Items.Weapons;
+using System.Collections.Generic;
 
-namespace deeprockitems.Content.Items.Upgrades.JuryShotgun
+namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
 {
     public class PelletAlignmentOC : UpgradeTemplate
     {
-        public override string ItemName { get => "Magnetic Pellet Alignment"; set => base.ItemName = value; }
-        public override string ItemTooltip { get => "Tighter spread"; set => base.ItemTooltip = value; }
-        public override bool IsOverclock { get => true; set => base.IsOverclock = value; }
+        public override bool IsOverclock => true;
+        public override List<int> ValidWeapons => new List<int>()
+        {
+            ModContent.ItemType<JuryShotgun>(),
+        };
         public override void SetDefaults()
         {
             base.SetDefaults();

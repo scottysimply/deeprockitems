@@ -1,14 +1,20 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using deeprockitems.Content.Items.Weapons;
+using System.Collections.Generic;
 
 namespace deeprockitems.Content.Items.Upgrades
 {
     public class QuickCharge : UpgradeTemplate
     {
-        public override string ItemName { get => "Quick Charge"; set => base.ItemName = value; }
-        public override string ItemTooltip { get => "25% faster charge speed"; set => base.ItemTooltip = value; }
-        public override bool IsOverclock { get => false; set => base.IsOverclock = value; }
+        public override bool IsOverclock => false;
+        public override List<int> ValidWeapons => new List<int>()
+        {
+            ModContent.ItemType<M1000>(),
+            ModContent.ItemType<SludgePump>(),
+            ModContent.ItemType<PlasmaPistol>(),
+        };
         public override void SetDefaults()
         {
             base.SetDefaults();

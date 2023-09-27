@@ -1,5 +1,5 @@
 ﻿using deeprockitems.Content.Items.Upgrades;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
+using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;

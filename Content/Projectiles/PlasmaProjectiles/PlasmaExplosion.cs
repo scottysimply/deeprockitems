@@ -1,7 +1,7 @@
 ﻿using Terraria.ModLoader;
 using Terraria;
 using Terraria.DataStructures;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
+using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;

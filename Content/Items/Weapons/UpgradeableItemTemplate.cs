@@ -4,6 +4,7 @@ using deeprockitems.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -31,8 +32,7 @@ namespace deeprockitems.Content.Items.Weapons
         // private bool load_flag = false;
         public virtual void SafeDefaults()
         {
-
-
+            
         }
         public override void SetDefaults()
         {
@@ -56,6 +56,7 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 Close_UI();
             }
+            UpdateUpgrades();
         }
 
         public override void RightClick(Player player)
@@ -115,11 +116,6 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 }
             }
-            /*if (!load_flag)
-            {
-                load_flag = true;
-                UpdateUpgrades();
-            }*/
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

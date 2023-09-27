@@ -12,8 +12,8 @@ using Microsoft.Xna.Framework;
 using static Humanizer.In;
 using Terraria.ID;
 using Microsoft.CodeAnalysis;
-using deeprockitems.Content.Items.Upgrades.M1000;
-using deeprockitems.Content.Items.Upgrades.PlasmaPistol;
+using deeprockitems.Content.Items.Upgrades.M1000Upgrades;
+using deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades;
 using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Projectiles;

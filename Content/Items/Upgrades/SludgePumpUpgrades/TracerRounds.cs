@@ -1,14 +1,18 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using deeprockitems.Content.Items.Weapons;
+using System.Collections.Generic;
 
-namespace deeprockitems.Content.Items.Upgrades.SludgePump
+namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
 {
     public class TracerRounds : UpgradeTemplate
     {
-        public override string ItemName { get => "Tracer Rounds"; set => base.ItemName = value; }
-        public override string ItemTooltip { get => "Shows the projectile's trajectory"; set => base.ItemTooltip = value; }
-        public override bool IsOverclock { get => false; set => base.IsOverclock = value; }
+        public override bool IsOverclock => false;
+        public override List<int> ValidWeapons => new List<int>()
+        {
+            ModContent.ItemType<SludgePump>(),
+        };
         public override void SetDefaults()
         {
             base.SetDefaults();

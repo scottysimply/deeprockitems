@@ -1,15 +1,19 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using deeprockitems.Content.Items.Upgrades.SludgePump;
+using deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades;
+using deeprockitems.Content.Items.Weapons;
+using System.Collections.Generic;
 
-namespace deeprockitems.Content.Items.Upgrades.M1000
+namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
 {
     public class DiggingRoundsOC : UpgradeTemplate
     {
-        public override string ItemName { get => "Digger Rounds"; set => base.ItemName = value; }
-        public override string ItemTooltip { get => "Focus shots fire through tiles"; set => base.ItemTooltip = value; }
-        public override bool IsOverclock { get => true; set => base.IsOverclock = value; }
+        public override bool IsOverclock => true;
+        public override List<int> ValidWeapons => new List<int>()
+        {
+            ModContent.ItemType<M1000>(),
+        };
         public override void SetDefaults()
         {
             base.SetDefaults();

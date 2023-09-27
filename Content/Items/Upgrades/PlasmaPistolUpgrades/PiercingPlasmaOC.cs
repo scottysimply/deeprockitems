@@ -1,12 +1,18 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using deeprockitems.Content.Items.Weapons;
+using System.Collections.Generic;
 
-namespace deeprockitems.Content.Items.Upgrades.PlasmaPistol
+namespace deeprockitems.Content.Items.Upgrades.PlasmaPistolUpgrades
 {
     public class PiercingPlasmaOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;
+        public override List<int> ValidWeapons => new List<int>()
+        {
+            ModContent.ItemType<PlasmaPistol>(),
+        };
         public override void SetDefaults()
         {
             base.SetDefaults();
