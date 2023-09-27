@@ -27,7 +27,7 @@ namespace deeprockitems.Content.Items.Weapons
 
         public override void SafeDefaults()
         {
-            Item.damage = 65;
+            Item.damage = 45;
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.knockBack = 7.75f;
@@ -35,8 +35,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.width = 60;
             Item.height = 12;
             Item.useAmmo = AmmoID.Bullet;
-            Item.useTime = 10;
-            Item.useAnimation = 10;
+            Item.useTime = 17;
+            Item.useAnimation = 17;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.shoot = ProjectileID.PurificationPowder;

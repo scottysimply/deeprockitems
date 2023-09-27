@@ -54,6 +54,12 @@ namespace deeprockitems.Common.Weapons
                     {
                         projectile.tileCollide = false;
                     }
+                    if (fromM1000 && projectile.maxPenetrate < 5)
+                    {
+                        projectile.penetrate += 2;
+                        projectile.maxPenetrate += 2;
+                    }
+
                 }
                 if (upgrades.Contains(ModContent.ItemType<Blowthrough>()))
                 {
@@ -64,6 +70,8 @@ namespace deeprockitems.Common.Weapons
                 {
                     canDamage = false;
                 }
+
+
             }
             base.OnSpawn(projectile, source);
         }
