@@ -130,9 +130,13 @@ namespace deeprockitems.Common.Quests
                 modPlayer.Player.QuickSpawnItem(NPC.GetSource_NaturalSpawn(), ModContent.ItemType<UpgradeToken>());
             }
 
-            if (modPlayer.QuestsCompleted > 10)
+            if (modPlayer.QuestsCompleted > 15)
             {
                 UniqueRewards.Add(ModContent.ItemType<ChunkOfNitra>());
+            }
+            else if (modPlayer.QuestsCompleted == 15)
+            {
+                modPlayer.Player.QuickSpawnItem(NPC.GetSource_NaturalSpawn(), ModContent.ItemType<ChunkOfNitra>());
             }
 
             // Generate items
@@ -180,10 +184,6 @@ namespace deeprockitems.Common.Quests
             {
                 int valueToTake = Main.rand.Next(UniqueRewards);
                 modPlayer.Player.QuickSpawnItem(NPC.GetSource_NaturalSpawn(), valueToTake);
-            }
-            if (modPlayer.QuestsCompleted == 10)
-            {
-                modPlayer.Player.QuickSpawnItem(NPC.GetSource_NaturalSpawn(), ModContent.ItemType<Content.Pets.Molly.ChunkOfNitra>());
             }
 
             // Convert rewards dictionary to items:
