@@ -12,6 +12,8 @@ using Terraria.GameContent.Personalities;
 using deeprockitems.Content.Projectiles.MissionControlAttack;
 using deeprockitems.Common.Items;
 using Terraria.GameContent.Bestiary;
+using System.Collections.Generic;
+using Humanizer;
 
 namespace deeprockitems.Content.NPCs.MissionControl
 {
@@ -205,39 +207,55 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 switch (modPlayer.CurrentQuestInformation[0])
                 {   // LOOOONG lines. this is just further randomizing between two options to add flavor.
                     case 1:
-                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartMining1", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartMining2", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer();
+                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartMining1", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]).Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]) : Language.GetTextValue(location + "QuestStartMining2", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]).Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]);
                         Main.npcChatCornerItem = ItemID.IronPickaxe;
                         break;
                     case 2:
-                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartGather1", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartGather2", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer();
+                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartGather1", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]).ToString().Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]) : Language.GetTextValue(location + "QuestStartGather2", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]).ToString().Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]);
                         Main.npcChatCornerItem = ItemID.StaffofRegrowth;
                         break;
                     default:
-                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartSlay1", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartSlay2", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer();
+                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartSlay1", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]).ToString().Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]) : Language.GetTextValue(location + "QuestStartSlay2", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]).ToString().Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]);
                         Main.npcChatCornerItem = ItemID.CopperShortsword;
                         break;
                 }
-                Main.npcChatText = modPlayer.CurrentQuestInformation[0] switch
-                {
-                    // LOOOONG lines. this is just further randomizing between two options to add flavor.
-                    1 => chat ? Language.GetTextValue(location + "QuestStartMining1", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartMining2", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]), modPlayer.CurrentQuestInformation[3]).Pluralizer(),
-                    2 => chat ? Language.GetTextValue(location + "QuestStartGather1", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartGather2", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer(),
-                    _ => chat ? Language.GetTextValue(location + "QuestStartSlay1", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer() : Language.GetTextValue(location + "QuestStartSlay2", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]), modPlayer.CurrentQuestInformation[3]).Pluralizer()
-                };
             }
         }
     }
     public static class Extensions
     {
-        public static string Pluralizer(this string str)
+        private static List<string> ores = new List<string>()
         {
-            if (str.ToLower().Contains(" ore"))
+            "copper",
+            "iron",
+            "silver",
+            "gold",
+            "tin",
+            "lead",
+            "tungsten",
+            "platinum",
+            "demonite",
+            "crimtane",
+            "cobalt",
+            "mythril",
+            "adamantite",
+            "palladium",
+            "orichalcum",
+            "titanium",
+            "chlorophyte",
+        };
+        public static string Pluralizer(this string str, int count)
+        {
+            if (ores.Contains(str.ToLower()))
+            {
+                return str + " Ore";
+            }
+            if (count == 1)
             {
                 return str;
             }
-            string[] words = str.Split(" ");
-            string sentence = "";
-            for (int i = 0; i < words.Length; i++)
+            return str + "s";
+            /*for (int i = 0; i < words.Length; i++)
             {
                 if (int.TryParse(words[i], out int n))
                 {
@@ -259,7 +277,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
             {
                 sentence += words[x] + " ";
             }
-            return sentence.TrimEnd();
+            return sentence.TrimEnd();*/
         }
     }
 }
