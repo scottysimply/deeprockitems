@@ -4,5 +4,5 @@ Ghost Ship Games owns Deep Rock Galactic as an IP. This mod is partially my own 
 
 This mod adds 4 weapons from the game with many upgrades for each, a unique pet, and Mission Control himself.
 
-[c/D30b09:This mod is in very early access. Although I've added most (or all) of the content I want to add, there will be bugs, especially in multiplayer. It is HIGHLY recommended that you create a new player and world to experience this mod, and play singleplayer only.]
+[c/D30B09:This mod is in very early access. Although I've added most (or all) of the content I want to add, there will be bugs, especially in multiplayer. It is HIGHLY recommended that you create a new player and world to experience this mod, and play singleplayer only.]
 If you would like to help contribute to the mod to add items or fix bugs, feel free to do so. The mod is open source at https://https://github.com/scottysimply/deeprockitems.
