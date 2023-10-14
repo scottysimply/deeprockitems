@@ -205,7 +205,7 @@ public abstract class HeldProjectileBase : ModProjectile
         {
             // See, this is easy!
             player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
-            player.direction = 1; // Make the player face right
+            player.ChangeDir(1); // Make the player face right
             return;
         }
         // If cursor is above the player
@@ -220,7 +220,8 @@ public abstract class HeldProjectileBase : ModProjectile
             // But if the cursor is in Quadrant III, it has to subtract. guh??
             player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() - (float)PI;
         }
-        player.direction = -1; // Make the player face left
+        // Make the player face left
+        player.ChangeDir(-1);
 
     }
 }
