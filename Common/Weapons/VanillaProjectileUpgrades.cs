@@ -87,14 +87,6 @@ namespace deeprockitems.Common.Weapons
             }
             base.AI(projectile);
         }
-        public override void Kill(Projectile projectile, int timeLeft)
-        {
-            if (fromModItem)
-            {
-                
-            }
-            base.Kill(projectile, timeLeft);
-        }
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (fromModItem)
