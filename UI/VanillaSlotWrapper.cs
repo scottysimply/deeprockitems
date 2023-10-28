@@ -202,32 +202,5 @@ namespace deeprockitems.UI
                 
             }
         }
-        public override void DrawEmpty(SpriteBatch spriteBatch)
-        {
-            string textureToRequest;
-
-            string PATH = "deeprockitems/UI/UpgradeItem/";
-
-            switch (_slotID)
-            {
-                case 0:
-                    textureToRequest = "UpgradeI";
-                    break;
-                case 1:
-                    textureToRequest = "UpgradeII";
-                    break;
-                case 2:
-                    textureToRequest = "UpgradeIII";
-                    break;
-                case 3:
-                    textureToRequest = "UpgradeIV";
-                    break;
-                default:
-                    return;
-            }
-            Texture2D texture = ModContent.Request<Texture2D>(PATH + textureToRequest).Value;
-
-            spriteBatch.Draw(texture, GetDimensions().ToRectangle(), Color.White);
-        }
     }
 }
