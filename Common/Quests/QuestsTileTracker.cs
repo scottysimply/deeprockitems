@@ -15,7 +15,6 @@ namespace deeprockitems.Common.Quests
             DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
             if (modPlayer is null) return; // Return if null.
 
-
             // If quest type is mining and player is in interaction range:
             if (modPlayer.CurrentQuestInformation[0] == 1 && modPlayer.Player.IsInTileInteractionRange(i, j, Terraria.DataStructures.TileReachCheckSettings.Pylons))
             {
@@ -29,7 +28,7 @@ namespace deeprockitems.Common.Quests
                     noItem = true;
                     return;
                 }
-                else if (modPlayer.CurrentQuestInformation[1] == type && !effectOnly && !fail) // Well. It wasn't the gem, or at least, not the correct one. Continue as normal
+                else if (modPlayer.CurrentQuestInformation[1] == type && !effectOnly && !fail) // If the current quest tile is this tile, and the tile was mined, and the tile was killed.
                 {
                     modPlayer.CurrentQuestInformation[3]--;
                     QuestsBase.DecrementProgress(modPlayer);
