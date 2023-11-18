@@ -16,6 +16,7 @@ namespace deeprockitems.Content.Items.Misc
             Item.width = 15;
             Item.height = 15;
             Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(0, 1, 50, 0);
         }
     }
 }

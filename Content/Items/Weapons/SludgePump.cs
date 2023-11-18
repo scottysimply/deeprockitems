@@ -40,7 +40,9 @@ namespace deeprockitems.Content.Items.Weapons
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 18f;
             Item.rare = ItemRarityID.Orange;
-            Item.value = 200000;
+
+            Item.value = Item.sellPrice(0, 5, 30, 0);
+
             ValidUpgrades.Add(ModContent.ItemType<AntiGravOC>());
             ValidUpgrades.Add(ModContent.ItemType<SludgeExplosionOC>());
             ValidUpgrades.Add(ModContent.ItemType<GooSpecialOC>());

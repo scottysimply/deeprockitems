@@ -28,6 +28,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.height = 28;
             Item.width = 30;
 
+            Item.value = Item.sellPrice(0, 1, 60, 0);
+
             ValidUpgrades.Add(ModContent.ItemType<QuickCharge>());
             ValidUpgrades.Remove(ModContent.ItemType<Blowthrough>());
             ValidUpgrades.Add(ModContent.ItemType<PiercingPlasmaOC>());
