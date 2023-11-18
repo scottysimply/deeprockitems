@@ -223,6 +223,7 @@ Mods: {
 			ValidUpgradesText: "{0} can upgrade the following weapons:"
 			WeaponShiftTooltip: Hold Left Shift to show what weapons this upgrade can affect
 			UpgradeShiftTooltip: Hold Left Shift to show the currently equipped upgrades
+			HowToOpenMenu: Right click on this weapon to open the upgrade menu
 		}
 
 		NPCs: {

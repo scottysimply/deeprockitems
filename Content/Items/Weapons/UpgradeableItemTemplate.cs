@@ -147,13 +147,21 @@ namespace deeprockitems.Content.Items.Weapons
             }
             else if (Upgrades.Count(0) < 4)
             {
-                TooltipLine line = new(Mod, "ShiftToView", "Hold shift to view upgrades")
+                TooltipLine line = new(Mod, "ShiftToView", Language.GetTextValue("Mods.deeprockitems.Misc.UpgradeShiftTooltip"))
                 {
                     OverrideColor = new(74, 177, 211),
                 };
                 tooltips.Add(line);
             }
-
+            if (UpgradeUISystem.Interface.CurrentState is null)
+            {
+                // How to open the upgrade menu?
+                TooltipLine line = new(Mod, "HowToOpenMenu", Language.GetTextValue("Mods.deeprockitems.Misc.HowToOpenMenu"))
+                {
+                    OverrideColor = new(74, 177, 211),
+                };
+                tooltips.Add(line);
+            }
         }
         public override bool? PrefixChance(int pre, UnifiedRandom rand)
         {

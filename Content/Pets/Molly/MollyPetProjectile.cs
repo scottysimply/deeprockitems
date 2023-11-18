@@ -63,13 +63,6 @@ namespace deeprockitems.Content.Pets.Molly
                 }
             }
 
-
-
-
-
-
-
-
             // Kill projectile if the buff isn't equipped
             if (!Main.player[Projectile.owner].buffType.Contains(ModContent.BuffType<MollyPetBuff>()))
             {
@@ -81,6 +74,7 @@ namespace deeprockitems.Content.Pets.Molly
                 Projectile.timeLeft = 2;
             }
 
+            // These variables are only handled on this frame.
             Vector2 deltaPlayerPosition = Main.player[Projectile.owner].Center - Projectile.Center;
             float distance = deltaPlayerPosition.Length();
             bool isLeftOfPlayer = false;
@@ -463,148 +457,71 @@ namespace deeprockitems.Content.Pets.Molly
                 {
                     Projectile.velocity.Y = 10f;
                 }
-
             }
-
         }
-        private static int TryToIterateFrame(int framecounter, int frame)
+        public override bool PreDraw(ref Color lightColor)
         {
-            if (framecounter % 2 == 0)
+            // Molly's texture
+            Texture2D texture = ModContent.Request<Texture2D>("deeprockitems/Content/Pets/Molly/MollyPetProjectile").Value;
+
+            // manually draw projectile
+            int xOffset = 0;
+            int yOffset = 0;
+
+            float xOrigin = (texture.Width - Projectile.width) * 0.5f + Projectile.width * 0.5f;
+
+
+            ProjectileLoader.DrawOffset(Projectile, ref xOffset, ref yOffset, ref xOrigin);
+
+            int frameSize = texture.Height / Main.projFrames[Projectile.type];
+            int frameY = frameSize * Projectile.frame;
+
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
             {
-                return frame++;
+                spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            return frame;
-        }
-    }
-    public class MollyDetours : ModSystem
-    {
-        public override void Load()
-        {
-            On_Projectile.TryGetContainerIndex += On_Projectile_TryGetContainerIndex;
-            On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
-            On_Main.DrawProj_Inner_DoDrawProj += DrawProjectiles;
-            On_Player.clientClone += On_Player_clientClone;
-            On_Player.IsProjectileInteractibleAndInInteractionRange += IsInteractible;
-        }
-        public bool IsInteractible(On_Player.orig_IsProjectileInteractibleAndInInteractionRange orig, Player self, Projectile proj, ref Vector2 compareSpot)
-        {
-            if (!proj.active)
+
+            Vector2 DrawPosition = new()
+            {
+                X = Projectile.position.X - Main.screenPosition.X + xOffset + xOrigin,
+                Y = Projectile.position.Y - Main.screenPosition.Y + Projectile.gfxOffY + Projectile.height / 2,
+            };
+            Vector2 DrawOrigin = new()
+            {
+                X = xOrigin,
+                Y = Projectile.height / 2 + yOffset,
+            };
+            Rectangle Frame = new()
+            {
+                X = 0,
+                Y = frameY,
+                Width = texture.Width,
+                Height = frameSize - 1,
+            };
+
+
+            // Draw the projectile itself
+            Color colorAffectcedByLight = Projectile.GetAlpha(lightColor);
+            Main.EntitySpriteDraw(texture, DrawPosition, Frame, colorAffectcedByLight, Projectile.rotation, DrawOrigin, Projectile.scale, spriteEffects, 0);
+
+            int trackedResult = TryInteractingWithMULE(Projectile); // This is taken directly from Vanilla code, modified to work with the safe.
+            if (trackedResult == 0)
             {
                 return false;
             }
-            if (!proj.IsInteractible() && proj.type != ModContent.ProjectileType<MollyPetProjectile>())
+
+            int colorResult = (lightColor.R + lightColor.G + lightColor.B) / 3;
+            if (colorResult > 10)
             {
-                return false;
+                // Draw the outline
+                Texture2D outline = ModContent.Request<Texture2D>("deeprockitems/Content/Pets/Molly/MollyPetOutline").Value;
+                Color selectionGlowColor = Colors.GetSelectionGlowColor(trackedResult == 2, colorResult);
+                Main.EntitySpriteDraw(outline, DrawPosition, Frame, selectionGlowColor, Projectile.rotation, DrawOrigin, Projectile.scale, spriteEffects, 0);
             }
-            Point point = proj.Hitbox.ClosestPointInRect(compareSpot).ToTileCoordinates();
-            if (!self.IsInTileInteractionRange(point.X, point.Y, TileReachCheckSettings.Simple))
-            {
-                return false;
-            }
-            return true;
+            ProjectileLoader.PostDraw(Projectile, lightColor);
+            return false;
         }
-
-        /*private void PlayerConstructor(On_Player.orig_ctor orig, Player self)
-        {
-            if (self is null)
-            {
-                orig(self);
-            }
-            if (self.TryGetModPlayer(out MollyModPlayer modPlayer))
-            {
-                modPlayer.MULEInventoryProjTracker.Clear();
-            }
-            orig(self);
-            return;
-        }*/
-
-        private Player On_Player_clientClone(On_Player.orig_clientClone orig, Player self)
-        {
-            Player player = orig(self);
-            if (self.TryGetModPlayer(out MollyModPlayer modPlayerParent) && player.TryGetModPlayer(out MollyModPlayer modPlayerClone))
-            {
-                modPlayerClone.MULEInventoryProjTracker = modPlayerParent.MULEInventoryProjTracker;
-                return modPlayerClone.Player;
-            }
-            return player;
-        }
-
-        private void DrawProjectiles(On_Main.orig_DrawProj_Inner_DoDrawProj orig, Main main, Projectile proj, Vector2 mountedCenter, float polePosX, float polePosY)
-        {
-            if (proj.type != ModContent.ProjectileType<MollyPetProjectile>())
-            {
-                orig(main, proj, mountedCenter, polePosX, polePosY);
-                return;
-            }
-            else
-            {
-                Color lightColor = Lighting.GetColor(proj.Center.ToTileCoordinates());
-                if (ProjectileLoader.PreDraw(proj, ref lightColor))
-                {
-                    Texture2D texture = ModContent.Request<Texture2D>("deeprockitems/Content/Pets/Molly/MollyPetProjectile").Value;
-
-
-
-                    // manually draw projectile
-
-                    int xOffset = 0;
-                    int yOffset = 0;
-
-                    float xOrigin = (float)(texture.Width - proj.width) * 0.5f + (float)proj.width * 0.5f;
-
-
-                    ProjectileLoader.DrawOffset(proj, ref xOffset, ref yOffset, ref xOrigin);
-
-                    int frameSize = texture.Height / Main.projFrames[proj.type];
-                    int frameY = frameSize * proj.frame;
-
-                    SpriteEffects spriteEffects = SpriteEffects.None;
-                    if (proj.spriteDirection == -1)
-                    {
-                        spriteEffects = SpriteEffects.FlipHorizontally;
-                    }
-
-                    Vector2 DrawPosition = new()
-                    {
-                        X = proj.position.X - Main.screenPosition.X + xOffset + xOrigin,
-                        Y = proj.position.Y - Main.screenPosition.Y + proj.gfxOffY + proj.height/2,
-                    };
-                    Vector2 DrawOrigin = new()
-                    {
-                        X = xOrigin,
-                        Y = proj.height/2 + yOffset,
-                    };
-                    Rectangle Frame = new()
-                    {
-                        X = 0,
-                        Y = frameY,
-                        Width = texture.Width,
-                        Height = frameSize - 1,
-                    };
-
-
-                    // Draw the projectile itself
-                    Color colorAffectcedByLight = proj.GetAlpha(lightColor);
-                    Main.EntitySpriteDraw(texture, DrawPosition, Frame, colorAffectcedByLight, proj.rotation, DrawOrigin, proj.scale, spriteEffects, 0);
-
-                    int trackedResult = TryInteractingWithMULE(proj);
-                    if (trackedResult == 0)
-                    {
-                        return;
-                    }
-
-                    int colorResult = (lightColor.R + lightColor.G + lightColor.B) / 3;
-                    if (colorResult > 10)
-                    {
-                        Texture2D outline = ModContent.Request<Texture2D>("deeprockitems/Content/Pets/Molly/MollyPetOutline").Value;
-                        Color selectionGlowColor = Colors.GetSelectionGlowColor(trackedResult == 2, colorResult);
-                        Main.EntitySpriteDraw(outline, DrawPosition, Frame, selectionGlowColor, proj.rotation, DrawOrigin, proj.scale, spriteEffects, 0);
-                    }
-                }
-                ProjectileLoader.PostDraw(proj, lightColor);
-            }
-        }
-
         private static int TryInteractingWithMULE(Projectile proj)
         {
             if (Main.gamePaused || Main.gameMenu)
@@ -614,7 +531,7 @@ namespace deeprockitems.Content.Pets.Molly
             bool flag = !Main.SmartCursorIsUsed && !PlayerInput.UsingGamepad;
             Player localPlayer = Main.LocalPlayer;
             if (!localPlayer.TryGetModPlayer(out MollyModPlayer modPlayer)) return 0;
-            Microsoft.Xna.Framework.Point point = proj.Center.ToTileCoordinates();
+            Point point = proj.Center.ToTileCoordinates();
             Vector2 compareSpot = localPlayer.Center;
             if (!localPlayer.IsProjectileInteractibleAndInInteractionRange(proj, ref compareSpot))
             {
@@ -688,8 +605,44 @@ namespace deeprockitems.Content.Pets.Molly
             }
             return 0;
         }
+    }
+    public class MollyDetours : ModSystem
+    {
+        public override void Load()
+        {
+            On_Projectile.TryGetContainerIndex += On_Projectile_TryGetContainerIndex;
+            On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
+            On_Player.clientClone += On_Player_clientClone;
+            On_Player.IsProjectileInteractibleAndInInteractionRange += IsInteractible;
+        }
+        public bool IsInteractible(On_Player.orig_IsProjectileInteractibleAndInInteractionRange orig, Player self, Projectile proj, ref Vector2 compareSpot)
+        {
+            if (!proj.active)
+            {
+                return false;
+            }
+            if (!proj.IsInteractible() && proj.type != ModContent.ProjectileType<MollyPetProjectile>())
+            {
+                return false;
+            }
+            Point point = proj.Hitbox.ClosestPointInRect(compareSpot).ToTileCoordinates();
+            if (!self.IsInTileInteractionRange(point.X, point.Y, TileReachCheckSettings.Simple))
+            {
+                return false;
+            }
+            return true;
+        }
 
-
+        private Player On_Player_clientClone(On_Player.orig_clientClone orig, Player self)
+        {
+            Player player = orig(self);
+            if (self.TryGetModPlayer(out MollyModPlayer modPlayerParent) && player.TryGetModPlayer(out MollyModPlayer modPlayerClone))
+            {
+                modPlayerClone.MULEInventoryProjTracker = modPlayerParent.MULEInventoryProjTracker;
+                return modPlayerClone.Player;
+            }
+            return player;
+        }
         private void On_Player_HandleBeingInChestRange(On_Player.orig_HandleBeingInChestRange orig, Player self)
         {
             if (!self.TryGetModPlayer(out MollyModPlayer modPlayer))
