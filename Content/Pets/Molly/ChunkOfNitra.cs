@@ -13,6 +13,8 @@ namespace deeprockitems.Content.Pets.Molly
             Item.width = 24;
             Item.height = 24;
 
+            Item.value = Item.sellPrice(0, 10, 0, 0);
+
             Item.shoot = ModContent.ProjectileType<MollyPetProjectile>(); // Spawn molly
             Item.buffType = ModContent.BuffType<MollyPetBuff>(); // Give pet buff
         }

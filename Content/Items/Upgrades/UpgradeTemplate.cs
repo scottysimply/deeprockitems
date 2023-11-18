@@ -22,6 +22,7 @@ namespace deeprockitems.Content.Items.Upgrades
         {
             Item.rare = ItemRarityID.Pink;
             Item.width = Item.height = 30;
+            Item.value = IsOverclock ? Item.buyPrice(0, 5, 0, 0) : Item.buyPrice(0, 3, 0, 0);
         }
         public override bool CanStack(Item item2)
         {

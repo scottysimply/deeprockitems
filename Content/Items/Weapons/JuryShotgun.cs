@@ -31,7 +31,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.height = 16;
             Item.useTime = 39;
             Item.useAnimation = 39;
-            Item.value = 150000;
+            Item.value = Item.sellPrice(0, 3, 0, 0);
 
             oldFireRate = Item.useTime;
 
