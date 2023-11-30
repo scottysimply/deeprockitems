@@ -12,10 +12,9 @@ namespace deeprockitems.Utilities
     {
         public static int AmmoID_GetProjectileID(int itemID)
         {
-            Dictionary<int, Item> Items = ContentSamples.ItemsByType;
+            // Retrieve the item that coorespondes to the ItemID of the ammo type.
             Item AmmoUsed = ContentSamples.ItemsByType[itemID];
-
-            return AmmoUsed.shoot;
+            return AmmoUsed.shoot; // Return the AmmoID.
         }
     }
 }
