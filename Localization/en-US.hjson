@@ -216,6 +216,11 @@ Mods: {
 					'We fight, for rock and stone!'
 					'''
 			}
+
+			Zhukovs: {
+				DisplayName: Zhukovs
+				Tooltip: ""
+			}
 		}
 
 		Misc: {
