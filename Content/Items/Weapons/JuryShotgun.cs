@@ -151,7 +151,7 @@ namespace deeprockitems.Content.Items.Weapons
             foreach (NPC npc in Main.npc)
             {
                 if (npc.friendly) { continue; }
-                if (Vector2.DistanceSquared(Main.player[Main.myPlayer].position, npc.position) <= 10000)
+                if (Vector2.DistanceSquared(Main.player[Main.myPlayer].Center, npc.Center) <= 10000)
                 {
                     npc.AddBuff(BuffID.OnFire, 360);
                 }
