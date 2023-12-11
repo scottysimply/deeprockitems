@@ -12,16 +12,12 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
 {
     public class M1000Helper : HeldProjectileBase
     {
-        public override float CHARGE_TIME { get; set; } = 37.5f;
-        public override SoundStyle Charge_Sound => DRGSoundIDs.M1000Focus;
-        public override SoundStyle Fire_Sound => DRGSoundIDs.M1000Fire;
+        public override float ChargeTime { get; set; } = 37.5f;
+        public override int ProjectileToSpawn { get; set; } = ProjectileID.BulletHighVelocity;
+        public override SoundStyle? ChargeSound => DRGSoundIDs.M1000Focus;
+        public override SoundStyle? FireSound => DRGSoundIDs.M1000Fire;
 
-        public M1000Helper()
-        {
-            ProjectileToSpawn = ProjectileID.BulletHighVelocity;
-        }
-
-        public override void AtFullCharge()
+        public override void WhenReachedFullCharge()
         {
             Projectile.damage *= 2;
             Projectile.velocity *= 2f;

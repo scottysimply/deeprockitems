@@ -14,16 +14,12 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
     public class SludgeHelper : HeldProjectileBase
     {
-        public override float CHARGE_TIME { get; set; } = 50f;
-        public override SoundStyle Charge_Sound => DRGSoundIDs.SludgePumpFocus with { Volume = .8f, PitchVariance = 1f};
-        public override SoundStyle Fire_Sound => DRGSoundIDs.SludgePumpFire with { Volume = .5f, PitchVariance = .75f};
+        public override int ProjectileToSpawn { get; set; } = ModContent.ProjectileType<SludgeBall>();
+        public override float ChargeTime { get; set; } = 50f;
+        public override SoundStyle? ChargeSound => DRGSoundIDs.SludgePumpFocus with { Volume = .8f, PitchVariance = 1f};
+        public override SoundStyle? FireSound => DRGSoundIDs.SludgePumpFire with { Volume = .5f, PitchVariance = .75f};
 
-        public SludgeHelper()
-        {
-            ProjectileToSpawn = ModContent.ProjectileType<SludgeBall>();
-        }
-
-        public override void AtFullCharge()
+        public override void WhenReachedFullCharge()
         {
             Projectile.damage = (int)Floor(Projectile.damage * 1.35f);
         }
