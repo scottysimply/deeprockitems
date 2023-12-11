@@ -429,15 +429,6 @@ namespace deeprockitems.Content.Items.Weapons
                 // MY CODE
                         if (num == ModContent.ItemType<Zhukovs>())
                         {
-                            Vector2 textureCenter = new Vector2(itemDrawFrame.Width / 2f, itemDrawFrame.Height / 2f);
-                            Vector2 drawOffset = new Vector2(0f, 16f * drawinfo.drawPlayer.gravDir);
-                            int drawOffX = (int)drawOffset.X;
-                            textureCenter.Y = drawOffset.Y;
-                            Vector2 drawOrigin = new Vector2(-1f * (float)drawOffX, itemDrawFrame.Height / 2f);
-                            if (drawinfo.drawPlayer.direction == -1)
-                            {
-                                drawOrigin = new Vector2(itemDrawFrame.Width + drawOffX, itemDrawFrame.Height / 2f);
-                            }
                             Texture2D zhukovsSprite;
                             try
                             {
@@ -446,19 +437,29 @@ namespace deeprockitems.Content.Items.Weapons
                             catch
                             {
                                 Mod drg = ModContent.GetInstance<deeprockitems>();
-                                drg.Logger.Warn("Unable to retrieve Zhukovs' held item texture. Zhukovs will not draw properly.");
+                                drg.Logger.Warn("Unable to retrieve Zhukovs' held item texture. Zhukovs will draw like a regular item.");
                                 return;
                             }
+                            Vector2 textureCenter = new Vector2((int)(zhukovsSprite.Width / 2f), (int)(zhukovsSprite.Height / 2f));
+                            Vector2 drawOffset = new(-2f, (int)(zhukovsSprite.Height / 2f) + (int)(drawinfo.drawPlayer.gravDir * -4f));
+                            int drawOffX = (int)drawOffset.X;
+                            textureCenter.Y = drawOffset.Y;
+                            Vector2 drawOrigin = new Vector2(-1f * drawOffX, zhukovsSprite.Height / 2f);
+                            if (drawinfo.drawPlayer.direction == -1)
+                            {
+                                drawOrigin = new Vector2(zhukovsSprite.Width + drawOffX, zhukovsSprite.Height / 2f);
+                            }
+
 
                             DualWieldPlayer modPlayer = drawinfo.drawPlayer.GetModPlayer<DualWieldPlayer>();
 
                             float offhandScale = 0.8f;
                             // Offhand first since it's in the back.
-                            item = new DrawData(zhukovsSprite, new Vector2(modPlayer.offHandItemLocation.X - Main.screenPosition.X + textureCenter.X, modPlayer.offHandItemLocation.Y - Main.screenPosition.Y + textureCenter.Y), new Rectangle?(itemDrawFrame), heldItem.GetAlpha(drawinfo.itemColor), modPlayer.offHandItemRotation, drawOrigin, adjustedItemScale * offhandScale, drawinfo.itemEffect, 0f);
+                            item = new DrawData(zhukovsSprite, new Vector2((int)(modPlayer.OffHandItemLocation.X - Main.screenPosition.X + textureCenter.X), (int)(modPlayer.OffHandItemLocation.Y - Main.screenPosition.Y + textureCenter.Y)), new Rectangle?(itemDrawFrame), heldItem.GetAlpha(drawinfo.itemColor), modPlayer.OffHandItemRotation, drawOrigin, adjustedItemScale * offhandScale, drawinfo.itemEffect, 0f);
                             drawinfo.DrawDataCache.Add(item);
 
                             // Mainhand in the front.
-                            item = new DrawData(zhukovsSprite, new Vector2(drawinfo.ItemLocation.X - Main.screenPosition.X + textureCenter.X, drawinfo.ItemLocation.Y - Main.screenPosition.Y + textureCenter.Y), new Rectangle?(itemDrawFrame), heldItem.GetAlpha(drawinfo.itemColor), drawinfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale, drawinfo.itemEffect, 0f);
+                            item = new DrawData(zhukovsSprite, new Vector2((int)(drawinfo.ItemLocation.X - Main.screenPosition.X + textureCenter.X), (int)(drawinfo.ItemLocation.Y - Main.screenPosition.Y + textureCenter.Y)), new Rectangle?(itemDrawFrame), heldItem.GetAlpha(drawinfo.itemColor), drawinfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale, drawinfo.itemEffect, 0f);
                             drawinfo.DrawDataCache.Add(item);
                     return;
                         }
