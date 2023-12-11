@@ -23,34 +23,37 @@ namespace deeprockitems.Content.Projectiles;
 public abstract class HeldProjectileBase : ModProjectile
 {
     /// <summary>
-    /// This is the projectile that the held projectile will spawn on death (when the player stops charging)
+    /// This is the projectile that the held projectile will spawn on death (when the player stops charging).
     /// </summary>
-    public int ProjectileToSpawn { get; set; }
+    public abstract int ProjectileToSpawn { get; set; }
     /// <summary>
     /// This is the time it will take to charge the projectile, in ticks.
     /// </summary>
-    public virtual float CHARGE_TIME { get; set; } // This is mostly constant per each projectile type, so the screaming snake case stays.
+    public abstract float ChargeTime { get; set; }
     /// <summary>
     /// The sound the projectile will make when the projectile reaches max charge.
     /// </summary>
-    public virtual SoundStyle Charge_Sound { get; set; }
+    public virtual SoundStyle? ChargeSound { get; set; } = null;
     /// <summary>
     /// The sound the projectile will make upon being fired / spawned by the held projectile
     /// </summary>
-    public virtual SoundStyle Fire_Sound { get; set; }
+    public virtual SoundStyle? FireSound { get; set; } = null;
     /// <summary>
     /// Used for manually changing the use-time of the weapon. If this is not set, it defaults to the item's use time.
     /// </summary>
-    public int Cooldown { get; set; } = -1;
+    public virtual int? Cooldown { get; set; } = null;
     /// <summary>
     /// The spread (in radians) that the resultant projectile will have. Defaults to no spread.
     /// </summary>
-    public double Spread { get; set; } = 0;
+    public virtual double Spread { get; set; } = 0;
 
     protected Player projectileOwner;
     protected Item sourceItem;
     protected int ammoUsed = 0;
-    protected const int BUFFER_TIME = 900; // Time in ticks that the weapon should stay charged for. Projectile should despawn after this time.
+    /// <summary>
+    /// The time that this projectile will live for after reaching
+    /// </summary>
+    public virtual int ProjectileTime { get; set; } = 15*60;
     public override void SetDefaults()
     {
         Projectile.height = 2;
@@ -67,18 +70,18 @@ public abstract class HeldProjectileBase : ModProjectile
         // Check for upgrades. Due to my new backend, we don't have to check if this upgrade is valid! So we can run this on any item.
         if (source is EntitySource_ItemUse { Item.ModItem: UpgradeableItemTemplate parent_weapon} )
         {
-            if (Cooldown == -1)
+            if (Cooldown is null)
             {
                 Cooldown = parent_weapon.Item.useTime;
             }
             sourceItem = parent_weapon.Item;
             if (parent_weapon.Upgrades.Contains(ModContent.ItemType<QuickCharge>()))
             {
-                CHARGE_TIME *= .75f;
+                ChargeTime *= .75f;
             }
             if (parent_weapon.Upgrades.Contains(ModContent.ItemType<SupercoolOC>()))
             {
-                CHARGE_TIME *= 1.33f;
+                ChargeTime *= 1.33f;
             }
             if (source is EntitySource_ItemUse_WithAmmo { AmmoItemIdUsed: int ammo})
             {
@@ -86,7 +89,7 @@ public abstract class HeldProjectileBase : ModProjectile
             }
             Projectile.ai[2] = parent_weapon.Overclock;
         }
-        Projectile.timeLeft = BUFFER_TIME + (int)CHARGE_TIME; // Set timeleft to be 15 seconds + time it takes to charge the projectile
+        Projectile.timeLeft = (int)ProjectileTime + (int)ChargeTime; // Set timeleft to be 15 seconds + time it takes to charge the projectile
         SpecialOnSpawn(source);
     }
     public virtual void SpecialOnSpawn(IEntitySource source) { }
@@ -99,12 +102,15 @@ public abstract class HeldProjectileBase : ModProjectile
         {
             HoldItemOut(projectileOwner);
             Projectile.Center = projectileOwner.Center;
-            if (Projectile.timeLeft == BUFFER_TIME) // Projectile has been charged, I repeat, projectile has been charged
+            if (Projectile.timeLeft == ProjectileTime) // Projectile has been charged, I repeat, projectile has been charged
             {
-                AtFullCharge();
-                SoundEngine.PlaySound(Charge_Sound with { PitchVariance = .2f, MaxInstances = 1, Volume = .7f });
+                WhenReachedFullCharge();
+                if (ChargeSound is not null)
+                {
+                    SoundEngine.PlaySound((SoundStyle)ChargeSound with { PitchVariance = .2f, MaxInstances = 1, Volume = .7f });
+                }
             }
-            else if (Projectile.timeLeft < BUFFER_TIME)
+            else if (Projectile.timeLeft < ProjectileTime)
             {
                 WhileHeldAtCharge();
 
@@ -116,8 +122,7 @@ public abstract class HeldProjectileBase : ModProjectile
                 {
                     float dustSpeedX = Main.rand.NextFloat(-.1f, .1f);
                     float dustSpeedY = Main.rand.NextFloat(-.1f, .1f);
-                    Terraria.Dust dust = Terraria.Dust.NewDustDirect(projectileOwner.position, projectileOwner.width, projectileOwner.height, DustID.Obsidian, dustSpeedX, dustSpeedY);
-                    //dust.noGravity = true;
+                    Dust.NewDust(projectileOwner.position, projectileOwner.width, projectileOwner.height, DustID.Obsidian, dustSpeedX, dustSpeedY);
                 }
 
                 shakeTimer++;
@@ -137,7 +142,7 @@ public abstract class HeldProjectileBase : ModProjectile
     /// <summary>
     /// This hook is for enabling special functionality when the projectile becomes charged. Only called once, when the projectile is fully charged
     /// </summary>
-    public virtual void AtFullCharge() { }
+    public virtual void WhenReachedFullCharge() { }
     /// <summary>
     /// This hook is for enabling special functionality while the projectile is fully charged. Called every frame that the projectile is being channeled and at max charge.
     /// </summary>
@@ -157,7 +162,10 @@ public abstract class HeldProjectileBase : ModProjectile
             if (Main.myPlayer == Projectile.owner)
             {
                 // Play the sound the projectile makes when the bullet spawns
-                SoundEngine.PlaySound(Fire_Sound with { PitchVariance = .1f, MaxInstances = 5, Volume = .4f });
+                if (FireSound is not null)
+                {
+                    SoundEngine.PlaySound((SoundStyle)FireSound with { PitchVariance = .1f, MaxInstances = 5, Volume = .4f });
+                }
 
                 float shoot_speed = Projectile.velocity.Distance(new(0, 0)); // This is the magnitude of the velocity
                 Projectile.velocity = shoot_speed * projectileOwner.Center.DirectionTo(Main.MouseWorld); // A vector is just magnitude and direction
@@ -195,10 +203,10 @@ public abstract class HeldProjectileBase : ModProjectile
     private void HoldItemOut(Player player)
     {
         // So fun fact about the way the game handles rotation: values go from -Pi to +Pi. There is no 0 to 2Pi.
-        // For some god awful reason though, when the mouse is in Quadrant IV, itemRotation doesn't match DirectionTo().ToRotation() of the mouse.
+        // For some god awful reason though, when the mouse is in Quadrant II, itemRotation doesn't match DirectionTo().ToRotation() of the mouse.
 
         // Make sure the player appears to actually hold the projectile.
-        player.itemTime = player.itemAnimation = Cooldown;
+        player.itemTime = player.itemAnimation = Cooldown is not null ? (int)Cooldown : 0;
 
         // If cursor is to the right of the player
         if (Main.MouseWorld.X > player.Center.X)
