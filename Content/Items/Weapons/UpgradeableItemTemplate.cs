@@ -16,12 +16,17 @@ namespace deeprockitems.Content.Items.Weapons
 {
     public abstract class UpgradeableItemTemplate : ModItem
     {
+        protected int original_damage;
         protected float DamageScale;
         protected float useTimeModifier;
         /// <summary>
         /// The item useTime before being affected by useTimeModifier.
         /// </summary>
-        protected int oldUseTime { get; set; }
+        protected int oldUseTime;
+        /// <summary>
+        /// The item useAnimation before being affected by useTimeModifier.
+        /// </summary>
+        protected int oldUseAnimation;
         private int[] saved_upgrades;
         public int[] Upgrades { get; set; }
         public int Overclock { get => Upgrades[^1]; }
@@ -48,6 +53,8 @@ namespace deeprockitems.Content.Items.Weapons
             };
             SafeDefaults();
             oldUseTime = Item.useTime;
+            oldUseAnimation = Item.useAnimation;
+            original_damage = Item.damage;
             base.SetDefaults();
         }
         public override void UpdateInventory(Player player)
@@ -175,17 +182,18 @@ namespace deeprockitems.Content.Items.Weapons
 
             if (Upgrades.Contains(ModContent.ItemType<DamageUpgrade>()))
             {
-                Item.damage = (int)Floor(Item.OriginalDamage * DamageScale) + 5;
+                Item.damage = (int)Floor(original_damage * DamageScale) + 5;
             }
             else
             {
-                Item.damage = (int)Floor(Item.OriginalDamage * DamageScale);
+                Item.damage = (int)Floor(original_damage * DamageScale);
             }
             if (Upgrades.Contains(ModContent.ItemType<BumpFire>()))
             {
                 useTimeModifier *= .83f;
             }
-            Item.useTime = Item.useAnimation = (int)Ceiling(oldUseTime * useTimeModifier);
+            Item.useTime = (int)Ceiling(oldUseTime * useTimeModifier);
+            Item.useAnimation = (int)Ceiling(oldUseAnimation * useTimeModifier);
         }
         public virtual void UniqueUpgrades()
         {
