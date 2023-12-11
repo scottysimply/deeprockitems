@@ -298,6 +298,7 @@ Mods: {
 			ResupplyPodDrills.DisplayName: Resupply Pod Drills
 			ResupplyPodMarker.DisplayName: Resupply Pod Marker
 			MollyPetProjectile.DisplayName: Molly Pet Projectile
+			ZhukovHelper.DisplayName: Zhukov Helper
 		}
 
 		Buffs: {
