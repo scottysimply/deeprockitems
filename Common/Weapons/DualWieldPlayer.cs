@@ -1,6 +1,9 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
+using System.Collections.Generic;
 
 namespace deeprockitems.Common.Weapons
 {
@@ -35,7 +38,35 @@ namespace deeprockitems.Common.Weapons
                     // Set the rotation of the offhand item
                     OffHandItemRotation += MathHelper.Pi;
                 }
+                // Gotta keep the rotation looking at least _somewhat_ nice.
+                float distance = Main.MouseWorld.DistanceSQ(_offHandOriginOffset);
+                if (distance < 4000)
+                {
+                    OffHandItemRotation = OffHandItemRotation + ((OffHandItemRotation - Player.itemRotation) % MathHelper.TwoPi) * (distance / 4000);
+                }
+                // Stepup? Good bird, apollo!
+                int height_difference = (int)(Player.Bottom.Y - _offHandItemLocation.Y);
+                int width_left = (int)(_offHandItemLocation.X - Player.Left.X);
+                int width_right = (int)(Player.Right.X - _offHandItemLocation.X);
+                float dummy_step = Player.stepSpeed;
+                float dummy_gfxoffy = Player.gfxOffY;
+                // If player is travelling left:
+                if (Player.velocity.X < 0)
+                {
+                    Collision.StepUp(ref _offHandItemLocation, ref Player.velocity, width_left, height_difference, ref dummy_step, ref dummy_gfxoffy);
+                }
+                else if (Player.velocity.X > 0)
+                {
+                    Collision.StepUp(ref _offHandItemLocation, ref Player.velocity, width_right, height_difference, ref dummy_step, ref dummy_gfxoffy);
+                }
             }
+        }
+        public override void HideDrawLayers(PlayerDrawSet drawInfo)
+        {
+            if (!drawInfo.drawPlayer.ItemAnimationActive) return;
+            if (drawInfo.heldItem.type != ModContent.ItemType<Content.Items.Weapons.Zhukovs>()) return;
+
+            PlayerDrawLayers.HeldItem.Hide();
         }
     }
 }
