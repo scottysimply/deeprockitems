@@ -150,7 +150,7 @@ namespace deeprockitems.Content.Items.Weapons
                 }
                 upgrades_text = upgrades_text.TrimEnd('\n');
                 TooltipLine line = new(Mod, "Upgrades", upgrades_text);
-                TooltipHelpers.InsertTooltip(tooltips, line, "Material");
+                TooltipHelpers.InsertTooltip(tooltips, line, "OneDropLogo");
             }
             else if (Upgrades.Count(0) < 4)
             {
@@ -158,7 +158,7 @@ namespace deeprockitems.Content.Items.Weapons
                 {
                     OverrideColor = new(74, 177, 211),
                 };
-                TooltipHelpers.InsertTooltip(tooltips, line, "Material");
+                TooltipHelpers.InsertTooltip(tooltips, line, "OneDropLogo");
             }
             if (UpgradeUISystem.Interface.CurrentState is null)
             {
@@ -167,7 +167,7 @@ namespace deeprockitems.Content.Items.Weapons
                 {
                     OverrideColor = new(74, 177, 211),
                 };
-                TooltipHelpers.InsertTooltip(tooltips, line, "Material");
+                TooltipHelpers.InsertTooltip(tooltips, line, "OneDropLogo");
             }
         }
         public override bool? PrefixChance(int pre, UnifiedRandom rand)
