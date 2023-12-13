@@ -11,7 +11,7 @@ namespace deeprockitems.Common.Weapons
 {
     public class ZhukovsRearLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.OffhandAcc, PlayerDrawLayers.Torso);
+        public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.BalloonAcc, PlayerDrawLayers.Skin);
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
@@ -20,6 +20,7 @@ namespace deeprockitems.Common.Weapons
 
             // Set Draw Info defaults
             drawInfo.heldItem = drawInfo.drawPlayer.HeldItem;
+            drawInfo.ItemLocation = drawInfo.drawPlayer.itemLocation;
             drawInfo.itemColor = Lighting.GetColor((int)((double)drawInfo.Position.X + (double)drawInfo.drawPlayer.width * 0.5) / 16, (int)(((double)drawInfo.Position.Y + (double)drawInfo.drawPlayer.height * 0.5) / 16.0));
             float adjustedItemScale = drawInfo.drawPlayer.GetAdjustedItemScale(drawInfo.heldItem);
 
@@ -38,7 +39,7 @@ namespace deeprockitems.Common.Weapons
                     drg.Logger.Warn("Unable to retrieve Zhukovs' held item texture. Zhukovs will draw like a regular item.");
                     return;
                 }
-                Vector2 textureCenter = new Vector2((int)(zhukovsSprite.Width / 2f), (int)(zhukovsSprite.Height / 2f));
+                Vector2 textureCenter = new Vector2((int)(drawInfo.heldItem.width / 2f), (int)(drawInfo.heldItem.height / 2f));
                 Vector2 drawOffset = new(2f, (int)(zhukovsSprite.Height / 2f) + (int)(drawInfo.drawPlayer.gravDir * -4f));
 
                 int drawOffX = (int)drawOffset.X;
@@ -51,9 +52,13 @@ namespace deeprockitems.Common.Weapons
 
                 DualWieldPlayer modPlayer = drawInfo.drawPlayer.GetModPlayer<DualWieldPlayer>();
 
+                // Set offhand position
+                Vector2 offHandItemPosition = new(drawInfo.ItemLocation.X, drawInfo.ItemLocation.Y - 6);
+                offHandItemPosition.X += drawInfo.drawPlayer.direction == 1 ? 6f : -6f;
+
+                // Draw the offhand!
                 float offhandScale = 0.8f;
-                // Offhand first since it's in the back.
-                item = new DrawData(zhukovsSprite, new Vector2((int)(modPlayer.OffHandItemLocation.X - Main.screenPosition.X + textureCenter.X), (int)(modPlayer.OffHandItemLocation.Y - Main.screenPosition.Y + textureCenter.Y)), zhukovsSprite.Bounds, drawInfo.heldItem.GetAlpha(new(drawInfo.itemColor.ToVector3() * 0.75f)), drawInfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale * offhandScale, drawInfo.itemEffect, 0f);
+                item = new DrawData(zhukovsSprite, new Vector2((int)(offHandItemPosition.X - Main.screenPosition.X + textureCenter.X), (int)(offHandItemPosition.Y - Main.screenPosition.Y + textureCenter.Y)), zhukovsSprite.Bounds, drawInfo.heldItem.GetAlpha(new(drawInfo.itemColor.ToVector3() * 0.75f)), drawInfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale * offhandScale, drawInfo.itemEffect, 0f);
                 drawInfo.DrawDataCache.Add(item);
                 return;
             }

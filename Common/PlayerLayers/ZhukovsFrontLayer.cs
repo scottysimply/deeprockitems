@@ -10,7 +10,7 @@ namespace deeprockitems.Common.PlayerLayers
 {
     public class ZhukovsFrontLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.HeldItem, PlayerDrawLayers.ArmOverItem);
+        public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.SolarShield, PlayerDrawLayers.ArmOverItem);
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
@@ -19,6 +19,7 @@ namespace deeprockitems.Common.PlayerLayers
 
             // Set Draw Info defaults
             drawInfo.heldItem = drawInfo.drawPlayer.HeldItem;
+            drawInfo.ItemLocation = drawInfo.drawPlayer.itemLocation;
             drawInfo.itemColor = Lighting.GetColor((int)(drawInfo.Position.X + drawInfo.drawPlayer.width * 0.5) / 16, (int)((drawInfo.Position.Y + drawInfo.drawPlayer.height * 0.5) / 16.0));
             float adjustedItemScale = drawInfo.drawPlayer.GetAdjustedItemScale(drawInfo.heldItem);
 
@@ -37,7 +38,7 @@ namespace deeprockitems.Common.PlayerLayers
                     drg.Logger.Warn("Unable to retrieve Zhukovs' held item texture. Zhukovs will draw like a regular item.");
                     return;
                 }
-                Vector2 textureCenter = new Vector2((int)(zhukovsSprite.Width / 2f), (int)(zhukovsSprite.Height / 2f));
+                Vector2 textureCenter = new Vector2((int)(drawInfo.heldItem.width / 2f), (int)(drawInfo.heldItem.height / 2f));
                 Vector2 drawOffset = new(2f, (int)(zhukovsSprite.Height / 2f) + (int)(drawInfo.drawPlayer.gravDir * -4f));
 
                 int drawOffX = (int)drawOffset.X;
@@ -47,8 +48,6 @@ namespace deeprockitems.Common.PlayerLayers
                 {
                     drawOrigin = new Vector2(zhukovsSprite.Width + drawOffX, zhukovsSprite.Height / 2f);
                 }
-
-                DualWieldPlayer modPlayer = drawInfo.drawPlayer.GetModPlayer<DualWieldPlayer>();
 
                 // Mainhand in the front.
                 item = new DrawData(zhukovsSprite, new Vector2((int)(drawInfo.ItemLocation.X - Main.screenPosition.X + textureCenter.X), (int)(drawInfo.ItemLocation.Y - Main.screenPosition.Y + textureCenter.Y)), zhukovsSprite.Bounds, drawInfo.heldItem.GetAlpha(drawInfo.itemColor), drawInfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect, 0f);
