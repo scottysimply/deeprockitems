@@ -5,12 +5,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
 using System;
+using deeprockitems.Common.PlayerLayers;
 
 namespace deeprockitems.Common.Weapons
 {
-    public class ZhukovsLayer : PlayerDrawLayer
+    public class ZhukovsRearLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Torso);
+        public override Position GetDefaultPosition() => new Between(PlayerDrawLayers.OffhandAcc, PlayerDrawLayers.Torso);
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
@@ -54,10 +55,6 @@ namespace deeprockitems.Common.Weapons
                 // Offhand first since it's in the back.
                 item = new DrawData(zhukovsSprite, new Vector2((int)(modPlayer.OffHandItemLocation.X - Main.screenPosition.X + textureCenter.X), (int)(modPlayer.OffHandItemLocation.Y - Main.screenPosition.Y + textureCenter.Y)), zhukovsSprite.Bounds, drawInfo.heldItem.GetAlpha(new(drawInfo.itemColor.ToVector3() * 0.75f)), drawInfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale * offhandScale, drawInfo.itemEffect, 0f);
                 drawInfo.DrawDataCache.Add(item);
-
-                // Mainhand in the front.
-                // item = new DrawData(zhukovsSprite, new Vector2((int)(drawinfo.ItemLocation.X - Main.screenPosition.X + textureCenter.X), (int)(drawinfo.ItemLocation.Y - Main.screenPosition.Y + textureCenter.Y)), zhukovsSprite.Bounds, heldItem.GetAlpha(drawinfo.itemColor), drawinfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale, drawinfo.itemEffect, 0f);
-                // drawinfo.DrawDataCache.Add(item);
                 return;
             }
         }

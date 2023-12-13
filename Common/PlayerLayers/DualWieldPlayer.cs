@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using System.Collections.Generic;
 
-namespace deeprockitems.Common.Weapons
+namespace deeprockitems.Common.PlayerLayers
 {
     public class DualWieldPlayer : ModPlayer
     {
@@ -42,7 +42,7 @@ namespace deeprockitems.Common.Weapons
                 float distance = Main.MouseWorld.DistanceSQ(_offHandOriginOffset);
                 if (distance < 4000)
                 {
-                    OffHandItemRotation = OffHandItemRotation + ((OffHandItemRotation - Player.itemRotation) % MathHelper.TwoPi) * (distance / 4000);
+                    OffHandItemRotation = OffHandItemRotation + (OffHandItemRotation - Player.itemRotation) % MathHelper.TwoPi * (distance / 4000);
                 }
                 // Stepup? Good bird, apollo!
                 int height_difference = (int)(Player.Bottom.Y - _offHandItemLocation.Y);
@@ -65,7 +65,7 @@ namespace deeprockitems.Common.Weapons
         {
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
             if (drawInfo.heldItem.type != ModContent.ItemType<Content.Items.Weapons.Zhukovs>()) return;
-
+            
             PlayerDrawLayers.HeldItem.Hide();
         }
     }
