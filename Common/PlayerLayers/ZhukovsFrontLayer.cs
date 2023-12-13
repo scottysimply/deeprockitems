@@ -38,11 +38,11 @@ namespace deeprockitems.Common.PlayerLayers
                     drg.Logger.Warn("Unable to retrieve Zhukovs' held item texture. Zhukovs will draw like a regular item.");
                     return;
                 }
-                Vector2 textureCenter = new Vector2((int)(drawInfo.heldItem.width / 2f), (int)(drawInfo.heldItem.height / 2f));
+                Vector2 hitBoxCenter = new Vector2((int)(drawInfo.heldItem.width / 2f), (int)(drawInfo.heldItem.height / 2f));
                 Vector2 drawOffset = new(2f, (int)(zhukovsSprite.Height / 2f) + (int)(drawInfo.drawPlayer.gravDir * -4f));
 
                 int drawOffX = (int)drawOffset.X;
-                textureCenter.Y = drawOffset.Y;
+                hitBoxCenter.Y = drawOffset.Y;
                 Vector2 drawOrigin = new Vector2((float)-(float)drawOffX, zhukovsSprite.Height / 2f);
                 if (drawInfo.drawPlayer.direction == -1)
                 {
@@ -50,7 +50,7 @@ namespace deeprockitems.Common.PlayerLayers
                 }
 
                 // Mainhand in the front.
-                item = new DrawData(zhukovsSprite, new Vector2((int)(drawInfo.ItemLocation.X - Main.screenPosition.X + textureCenter.X), (int)(drawInfo.ItemLocation.Y - Main.screenPosition.Y + textureCenter.Y)), zhukovsSprite.Bounds, drawInfo.heldItem.GetAlpha(drawInfo.itemColor), drawInfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect, 0f);
+                item = new DrawData(zhukovsSprite, new Vector2((int)(drawInfo.ItemLocation.X - Main.screenPosition.X + hitBoxCenter.X), (int)(drawInfo.ItemLocation.Y - Main.screenPosition.Y + hitBoxCenter.Y)), zhukovsSprite.Bounds, drawInfo.heldItem.GetAlpha(drawInfo.itemColor), drawInfo.drawPlayer.itemRotation, drawOrigin, adjustedItemScale, drawInfo.itemEffect, 0f);
                 drawInfo.DrawDataCache.Add(item);
                 return;
             }
