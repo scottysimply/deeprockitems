@@ -28,31 +28,58 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectile
         }
         public override string Texture => "Terraria/Images/MagicPixel";
         public override bool? CanDamage() => false;
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override bool ShouldUpdatePosition() => false;
         public int ProjectileToSpawn { get; set; } = ProjectileID.Bullet;
-        private float _bulletTimer { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
+        private float bulletTimer { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
         private Player _projectileOwner { get => Main.player[Projectile.owner]; set => Main.player[Projectile.owner] = value; }
         private int _ammo;
 
         private int _timeBetweenShots = 25;
         public override void AI()
         {
+            // Adjust spawning location
             Projectile.Center = _projectileOwner.Center;
+            Projectile.position.Y -= 8f;
+
             if (!_projectileOwner.channel)
             {
                 Projectile.Kill();
             }
-            if (_bulletTimer % _timeBetweenShots == 0 || _bulletTimer % _timeBetweenShots == 5)
+            // Spawnlocation fixing
+            Vector2 spawn_location = Projectile.Center;
+            // spawn_location = new()
+
+            if (bulletTimer % _timeBetweenShots == 0)
             {
+                // Play shoot sound
                 SoundEngine.PlaySound(SoundID.Item41);
 
+                // Fix velocity
                 float shoot_speed = Projectile.velocity.Distance(new(0, 0)); // This is the magnitude of the velocity
                 Projectile.velocity = shoot_speed * _projectileOwner.Center.DirectionTo(Main.MouseWorld); // A vector is just magnitude and direction
 
+                // Spawn projectile
                 Projectile proj = Projectile.NewProjectileDirect(_projectileOwner.GetSource_ItemUse_WithPotentialAmmo(_projectileOwner.HeldItem, _ammo), Projectile.Center, Projectile.velocity, ProjectileToSpawn, Projectile.damage, Projectile.knockBack);
                 proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2; // No sideways projectiles!
             }
-            _bulletTimer++;
+            if (bulletTimer % _timeBetweenShots == 5)
+            {
+                // Play shoot sound
+                SoundEngine.PlaySound(SoundID.Item41);
+
+                // Fix velocity
+                float shoot_speed = Projectile.velocity.Distance(new(0, 0)); // This is the magnitude of the velocity
+                Projectile.velocity = shoot_speed * _projectileOwner.Center.DirectionTo(Main.MouseWorld); // A vector is just magnitude and direction
+
+                // Get spawn offset
+                Vector2 offset = _projectileOwner.itemLocation - _projectileOwner.GetModPlayer<Common.PlayerLayers.DualWieldPlayer>().OffHandItemLocation;
+                
+                // Spawn with offset
+                Projectile proj = Projectile.NewProjectileDirect(_projectileOwner.GetSource_ItemUse_WithPotentialAmmo(_projectileOwner.HeldItem, _ammo), Projectile.Center + offset, Projectile.velocity, ProjectileToSpawn, Projectile.damage, Projectile.knockBack);
+                proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2; // No sideways projectiles!
+            }
+            bulletTimer++;
             HoldItemOut(_projectileOwner);
 
         }

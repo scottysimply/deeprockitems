@@ -19,7 +19,6 @@ namespace deeprockitems.Common.PlayerLayers
 
             // Set Draw Info defaults
             drawInfo.heldItem = drawInfo.drawPlayer.HeldItem;
-            drawInfo.ItemLocation = drawInfo.drawPlayer.itemLocation;
             drawInfo.itemColor = Lighting.GetColor((int)(drawInfo.Position.X + drawInfo.drawPlayer.width * 0.5) / 16, (int)((drawInfo.Position.Y + drawInfo.drawPlayer.height * 0.5) / 16.0));
             float adjustedItemScale = drawInfo.drawPlayer.GetAdjustedItemScale(drawInfo.heldItem);
 
