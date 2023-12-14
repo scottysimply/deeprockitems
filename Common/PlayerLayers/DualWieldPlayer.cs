@@ -65,7 +65,7 @@ namespace deeprockitems.Common.PlayerLayers
         {
             if (!drawInfo.drawPlayer.ItemAnimationActive) return;
             if (drawInfo.heldItem.type != ModContent.ItemType<Content.Items.Weapons.Zhukovs>()) return;
-            
+
             PlayerDrawLayers.HeldItem.Hide();
         }
     }
