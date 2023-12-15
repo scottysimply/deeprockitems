@@ -107,5 +107,15 @@ namespace deeprockitems.Common.Weapons
         {
             return canDamage;
         }
+        public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
+        {
+            if (fromModItem)
+            {
+                Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<Content.Projectiles.ZhukovProjectiles.CryoMineletProjectile>(), projectile.damage, 0f, projectile.owner, ai0: 40f);
+                proj.Center = new Vector2((int)(projectile.Center.X) / 16, (int)(projectile.Center.Y) / 16).ToWorldCoordinates();
+                proj.tileCollide = false;
+            }
+            return true;
+        }
     }
 }
