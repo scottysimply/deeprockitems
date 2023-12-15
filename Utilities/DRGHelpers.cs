@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using deeprockitems.Common.PlayerLayers;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -38,6 +39,23 @@ namespace deeprockitems.Utilities
             }
 
             return new Vector2(targetX, targetY);
+        }
+        /// <summary>
+        /// A genericized version of <see cref="ShakeWeapon"/>. Allows any position to be used for shaking.
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="multiplier"></param>
+        public static Vector2 ShakePosition(this Vector2 origin, float multiplier = 1f)
+        {
+            float targetX = origin.X + multiplier * Main.rand.NextFloat(-2.5f, 2.5f);
+            float targetY = origin.Y + multiplier * Main.rand.NextFloat(-2.5f, 2.5f);
+
+            if (multiplier == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(multiplier), $"Multiplier cannot be zero.");
+            }
+
+            return new(targetX, targetY);
         }
     }
 }

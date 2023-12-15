@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using deeprockitems.Utilities;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
 {
@@ -16,6 +17,7 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
             Projectile.tileCollide = false;
         }
         private Point _collidedTile;
+        private float currentState { get => Projectile.ai[1]; set => Projectile.ai[1] = value; }
         private float armingTimer { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
         public override void OnSpawn(IEntitySource source)
         {
@@ -24,6 +26,16 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
         }
         public override void AI()
         {
+            if (currentState == 1f)
+            {
+                if (armingTimer-- > 0) return;
+                // Freeze all enemies in range!
+                FreezeAllNPCsInRange();
+                SpawnNiceDust();
+                Projectile.Kill();
+                return;
+            }
+            // time to arm the projectile normally
             if (armingTimer-- > 0) return;
 
             // Kill projectile if its embedded tile was removed.
@@ -36,14 +48,12 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
             // Detect if any enemy is in close range:
             foreach (var npc in Main.npc)
             {
-                if (npc.friendly) continue;
-                if (Projectile.Center.DistanceSQ(npc.Center) <= 2500 && CollisionHelpers.CanHitLine(Projectile, npc))
+                if (npc.friendly || npc.CountsAsACritter) continue;
+                if (Projectile.Center.DistanceSQ(npc.Center) <= 5000)
                 {
-                    // Freeze all enemies in range!
-                    FreezeAllNPCsInRange();
-                    SpawnNiceDust();
-                    Projectile.Kill();
-                    return;
+                    // Set current state. We'll wait a short while before freezing enemies.
+                    currentState = 1f;
+                    armingTimer = 10f; // Time to wait (in ticks).
                 }
             }
 
@@ -56,7 +66,7 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
             // If enemies are nearby
             foreach (var npc in Main.npc)
             {
-                if (Projectile.Center.DistanceSQ(npc.Center) <= 2500)
+                if (Projectile.Center.DistanceSQ(npc.Center) <= 5000)
                 {
                     // Apply frostburn as a test.
                     npc.AddBuff(BuffID.Frostburn, 120);
@@ -72,6 +82,7 @@ namespace deeprockitems.Content.Projectiles.ZhukovProjectiles
             {
                 Dust.NewDust(new Vector2(Projectile.Center.X - WIDTH / 2, Projectile.Center.Y - HEIGHT / 2), WIDTH, HEIGHT, DustID.SnowflakeIce, SpeedX: Main.rand.NextFloat(-2f, +2f), SpeedY: Main.rand.NextFloat(-0.5f, 2f), Scale: Main.rand.NextFloat(0.75f, 1.75f));
             }
+            SoundEngine.PlaySound(SoundID.DeerclopsIceAttack, position: Projectile.Center);
         }
     }
 }

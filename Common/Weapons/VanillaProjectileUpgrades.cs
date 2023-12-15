@@ -112,28 +112,29 @@ namespace deeprockitems.Common.Weapons
             if (fromModItem)
             {
                 Point spawnTile = projectile.Center.ToTileCoordinates();
-                // Move projectile left
-                if (oldVelocity.X > projectile.velocity.X)
-                {
-                    spawnTile.X--;
-                }
                 // Move projectile right
-                if (oldVelocity.X < projectile.velocity.X)
+                if (oldVelocity.X > projectile.velocity.X)
                 {
                     spawnTile.X++;
                 }
-                // Move projectile up
-                if (oldVelocity.Y > projectile.velocity.Y)
+                // Move projectile left
+                if (oldVelocity.X < projectile.velocity.X)
                 {
-                    spawnTile.Y--;
+                    spawnTile.X--;
                 }
                 // Move projectile down
-                if (oldVelocity.Y < projectile.velocity.Y)
+                if (oldVelocity.Y > projectile.velocity.Y)
                 {
                     spawnTile.Y++;
                 }
+                // Move projectile up
+                if (oldVelocity.Y < projectile.velocity.Y)
+                {
+                    spawnTile.Y--;
+                }
                 // Spawn projectile at this new position.
                 Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<Content.Projectiles.ZhukovProjectiles.CryoMineletProjectile>(), projectile.damage, 0f, projectile.owner, ai0: 40f, ai1: spawnTile.X, ai2: spawnTile.Y);
+                proj.position += projectile.velocity * 2f;
             }
             return true;
         }
