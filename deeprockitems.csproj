@@ -41,6 +41,7 @@
     <None Remove="Content\Pets\Molly\Old\MollyHindLegs.png" />
     <None Remove="Content\Pets\Molly\Old\MollyTopLegs.png" />
     <None Remove="Content\Projectiles\PlasmaProjectiles\BigPlasma.png" />
+    <None Remove="Content\Projectiles\ZhukovProjectiles\CryoMineletProjectile.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SmartFormat.NET" Version="3.2.2" />
