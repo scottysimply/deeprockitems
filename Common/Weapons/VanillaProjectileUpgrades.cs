@@ -1,6 +1,5 @@
 ﻿using Terraria.ModLoader;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.DataStructures;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
@@ -109,7 +108,7 @@ namespace deeprockitems.Common.Weapons
         }
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
-            if (fromModItem)
+            if (upgrades.Contains(ModContent.ItemType<Content.Items.Upgrades.ZhukovsUpgrades.CryoMineletsOC>()))
             {
                 Point spawnTile = projectile.Center.ToTileCoordinates();
                 // Move projectile right
