@@ -139,8 +139,8 @@ Mods: {
 				DisplayName: Jury-Rigged Boomstick
 				Tooltip:
 					'''
+					Fires a spread of bullets
 					'See ya, suckers!'
-
 					'''
 			}
 
@@ -148,9 +148,8 @@ Mods: {
 				DisplayName: M1000 Classic
 				Tooltip:
 					'''
+					Shots can be charged by holding click
 					'From A to D, skipping B and C!'
-					Hold click to fire a focused shot
-					Focused shots are stronger, but take time to charge
 					'''
 			}
 
@@ -158,17 +157,16 @@ Mods: {
 				DisplayName: Sludge Pump
 				Tooltip:
 					'''
-					Fires toxic waste in a shallow arc
-					Hold click to fire a charged shot
-					Charged shots splatter on impact
+					Shots can be charged by holding click
+					'It's a goo sack!'
 					'''
 			}
 
 			PlasmaPistol: {
-				DisplayName: Plasma Pistol
+				DisplayName: Experimental Plasma Charger
 				Tooltip:
 					'''
-					Fires a high-velocity plasma bullet
+					'Do you eat rocks for breakfast?'
 					Hold click to fire a larger, slow moving projectile
 					'''
 			}
@@ -218,8 +216,19 @@ Mods: {
 			}
 
 			Zhukovs: {
-				DisplayName: Zhukovs
-				Tooltip: ""
+				DisplayName: Zhukov NUK17
+				Tooltip:
+					'''
+					Shoots a volley of 2 bullets
+					'Eat lead!'
+					'''
+			}
+
+			CryoMineletsOC: {
+				DisplayName: Overclock: Cryo Minelets
+				Tooltip: Shots will produce frostburn mines on the ground, but shots deal half damage
+				Positives: "[c/23DF24:▲Shoot the ground to create a frostburn mine!]"
+				Negatives: "[c/F01318:▼0.5x damage]"
 			}
 		}
 
