@@ -49,7 +49,6 @@ namespace deeprockitems.Content.Items.Weapons
                 ModContent.ItemType<DamageUpgrade>(),
                 ModContent.ItemType<ArmorPierce>(),
                 ModContent.ItemType<Blowthrough>()
-            
             };
             SafeDefaults();
             oldUseTime = Item.useTime;
