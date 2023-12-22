@@ -9,10 +9,6 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
     public class TracerRounds : UpgradeTemplate
     {
         public override bool IsOverclock => false;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<SludgePump>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();

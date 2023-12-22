@@ -9,11 +9,6 @@ namespace deeprockitems.Content.Items.Upgrades
     public class BumpFire : UpgradeTemplate
     {
         public override bool IsOverclock => false;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<M1000>(),
-            ModContent.ItemType<JuryShotgun>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();

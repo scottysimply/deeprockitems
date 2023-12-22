@@ -9,10 +9,6 @@ namespace deeprockitems.Content.Items.Upgrades.SludgePumpUpgrades
     public class SludgeExplosionOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<SludgePump>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();

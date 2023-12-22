@@ -10,10 +10,6 @@ namespace deeprockitems.Content.Items.Upgrades.M1000Upgrades
     public class SupercoolOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<M1000>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();

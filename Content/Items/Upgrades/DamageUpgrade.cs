@@ -9,13 +9,6 @@ namespace deeprockitems.Content.Items.Upgrades
     public class DamageUpgrade : UpgradeTemplate
     {
         public override bool IsOverclock => false;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<M1000>(),
-            ModContent.ItemType<SludgePump>(),
-            ModContent.ItemType<JuryShotgun>(),
-            ModContent.ItemType<PlasmaPistol>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();

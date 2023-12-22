@@ -9,10 +9,6 @@ namespace deeprockitems.Content.Items.Upgrades.JuryShotgunUpgrades
     public class StuffedShellsOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<JuryShotgun>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();

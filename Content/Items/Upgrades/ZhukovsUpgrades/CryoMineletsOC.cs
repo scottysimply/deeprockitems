@@ -10,10 +10,6 @@ namespace deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades
     public class CryoMineletsOC : UpgradeTemplate
     {
         public override bool IsOverclock => true;
-        public override List<int> ValidWeapons => new List<int>()
-        {
-            ModContent.ItemType<Zhukovs>(),
-        };
         public override void SetDefaults()
         {
             base.SetDefaults();
