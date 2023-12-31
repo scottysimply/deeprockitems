@@ -26,6 +26,7 @@
     <AdditionalFiles Remove="Localization\en-US.hjson" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Textures\SlotOutline.png" />
     <None Remove="Content\Items\Misc\MatrixCore.png" />
     <None Remove="Content\Items\Misc\UpgradeToken.png" />
     <None Remove="Content\Items\Upgrades\PlasmaPistolUpgrades\EzBoomOC.png" />
