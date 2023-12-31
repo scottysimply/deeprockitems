@@ -43,7 +43,7 @@ namespace deeprockitems.Common.Weapons
             if (fromModItem)
             {
                 // If projectile fully charged
-                if (projectile.ai[0] <= 900 && projectile.ai[0] > 0)
+                if (projectile.ai[1] <= 900 && projectile.ai[1] > 0)
                 {
                     if (projectile.ai[2] == ModContent.ItemType<SupercoolOC>())
                     {
@@ -70,20 +70,20 @@ namespace deeprockitems.Common.Weapons
                     canDamage = false;
                 }
 
-
+                projectile.ai[0] = 0f;
             }
             base.OnSpawn(projectile, source);
         }
         public override void AI(Projectile projectile)
         {
-            if (fromM1000 && projectile.type != ProjectileID.ChlorophyteBullet && projectile.type != ModContent.ProjectileType<M1000Helper>())
+            /*if (fromM1000 && projectile.type != ProjectileID.ChlorophyteBullet && projectile.type != ModContent.ProjectileType<M1000Helper>())
             {
 
                 if (projectile.type != ProjectileID.ChlorophyteBullet)
                 {
                     projectile.velocity.Y -= 0.1f; // You wouldn't understand the gravity of this situation...
                 }
-            }
+            }*/
             base.AI(projectile);
         }
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
