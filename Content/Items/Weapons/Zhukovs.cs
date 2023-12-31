@@ -1,5 +1,6 @@
 ﻿using deeprockitems.Common.PlayerLayers;
 using deeprockitems.Common.Weapons;
+using deeprockitems.Content.Items.Upgrades.ZhukovsUpgrades;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,7 +31,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.knockBack = 0.4f;
 
             Item.shoot = ProjectileID.PurificationPowder;
-            Item.shootSpeed = 5;
+            Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Bullet;
 
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -39,19 +40,11 @@ namespace deeprockitems.Content.Items.Weapons
             Item.autoReuse = true;
 
             Item.value = Item.sellPrice(0, 6, 50, 0);
+            ValidUpgrades.Add(ModContent.ItemType<CryoMineletsOC>());
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             SoundEngine.PlaySound(SoundID.Item41, player.Center);
-            if (player.ItemAnimationJustStarted)
-            {
-                player.itemLocation = player.itemLocation.ShakePosition();
-            }
-            else
-            {
-                DualWieldPlayer modPlayer = player.GetModPlayer<DualWieldPlayer>();
-                modPlayer.OffHandItemLocation = modPlayer.OffHandItemLocation.ShakePosition();
-            }
             return true;
         }
     }
