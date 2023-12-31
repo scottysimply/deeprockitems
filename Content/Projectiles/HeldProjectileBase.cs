@@ -168,11 +168,11 @@ public abstract class HeldProjectileBase : ModProjectile
                 }
 
                 float shoot_speed = Projectile.velocity.Distance(new(0, 0)); // This is the magnitude of the velocity
-                Projectile.velocity = shoot_speed * projectileOwner.Center.DirectionTo(Main.MouseWorld); // A vector is just magnitude and direction
+                Vector2 velocity = shoot_speed * projectileOwner.Center.DirectionTo(Main.MouseWorld); // A vector is just magnitude and direction
 
-                Vector2 adjusted_speed = Projectile.velocity.RotatedByRandom(Spread);
+                Vector2 adjusted_speed = velocity.RotatedByRandom(Spread);
 
-                Projectile proj = Projectile.NewProjectileDirect(projectileOwner.GetSource_ItemUse_WithPotentialAmmo(sourceItem, ammoUsed), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI, ai0: timeLeft, ai2: Projectile.ai[2]);
+                Projectile proj = Projectile.NewProjectileDirect(projectileOwner.GetSource_ItemUse_WithPotentialAmmo(sourceItem, ammoUsed), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI, ai0: 0f, ai1: timeLeft, ai2: Projectile.ai[2]);
 
                 // Make sure the projectile goes the right direction after charging
 

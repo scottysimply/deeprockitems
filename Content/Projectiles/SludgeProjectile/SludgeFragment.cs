@@ -19,7 +19,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             Projectile.friendly = true;
             Projectile.timeLeft = 300;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.idStaticNPCHitCooldown = 1;
+            Projectile.appliesImmunityTimeOnSingleHits = true;
 
             DrawOffsetX = -4;
             DrawOriginOffsetY = -4;

@@ -37,7 +37,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             {
                 parentItem = item;
             }*/
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[0] > 900f)
+            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[1] > 900f)
             {
                 Projectile.damage = (int)Ceiling(Projectile.damage * .8f);
             }
@@ -46,7 +46,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override void AI()
         {
             
-            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[0] <= 900f && Projectile.ai[0] > 0) // Drop goo from the projectile if goo bomber is equipped and timer is charged
+            if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>() && Projectile.ai[1] <= 900f && Projectile.ai[1] > 0) // Drop goo from the projectile if goo bomber is equipped and timer is charged
             {
                 if (GooTimer > 0)
                 {
@@ -72,7 +72,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0)
+            if (Projectile.ai[1] <= 900 && Projectile.ai[0] > 0)
             {
                 target.AddBuff(BuffID.Venom, 300);
             }
@@ -86,7 +86,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             if (info.PvP)
             {
-                if (Projectile.ai[0] == 1)
+                if (Projectile.ai[1] == 1)
                 {
                     target.AddBuff(BuffID.Venom, 150);
                 }
@@ -108,7 +108,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             if (Projectile.ai[2] == ModContent.ItemType<GooSpecialOC>()) return;
             if (Projectile.ai[2] == ModContent.ItemType<SludgeExplosionOC>())
             {
-                if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0)
+                if (Projectile.ai[1] <= 900 && Projectile.ai[1] > 0)
                 {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)Floor(Projectile.damage * .8), Projectile.knockBack, Projectile.owner);
                 }
@@ -116,7 +116,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             }
 
 
-            if (Projectile.ai[0] <= 900 && Projectile.ai[0] > 0 && Main.myPlayer == Projectile.owner)
+            if (Projectile.ai[1] <= 900 && Projectile.ai[1] > 0 && Main.myPlayer == Projectile.owner)
             {
                 for (int i = 0; i < 10; i++)
                 {
