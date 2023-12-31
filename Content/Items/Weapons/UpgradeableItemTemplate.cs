@@ -207,6 +207,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         private void Close_UI()
         {
+            UpgradeUISystem.UpgradeUIPanel.ParentSlot.ItemToDisplay = null;
             UpgradeUISystem.UpgradeUIPanel.ClearItems();
             UpgradeUISystem.Interface.SetState(null);
         }
