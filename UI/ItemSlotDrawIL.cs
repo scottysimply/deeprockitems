@@ -82,7 +82,6 @@ namespace deeprockitems.UI
                 // Begin drawing slot outline
                 c.Index += 17;
                 var drawOutlineLabel = c.DefineLabel();
-                c.MoveAfterLabels();
 
                 c.Emit(OpCodes.Ldarg_1); // Inventory array
                 c.Emit(OpCodes.Ldarg_3); // Slot number
