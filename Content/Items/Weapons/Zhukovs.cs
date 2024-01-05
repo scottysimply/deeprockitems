@@ -24,11 +24,11 @@ namespace deeprockitems.Content.Items.Weapons
             Item.height = 46;
             Item.rare = ItemRarityID.Cyan;
 
-            Item.damage = 12;
+            Item.damage = 21;
             Item.noMelee = true;
             Item.DamageType = DamageClass.Ranged;
-            Item.crit = 46;
-            Item.knockBack = 0.4f;
+            Item.crit = 12;
+            Item.knockBack = 1f;
 
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 12f;
