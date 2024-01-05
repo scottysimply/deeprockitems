@@ -42,6 +42,17 @@ namespace deeprockitems.Content.Items.Weapons
             Item.value = Item.sellPrice(0, 6, 50, 0);
             ValidUpgrades.Add(ModContent.ItemType<CryoMineletsOC>());
         }
+        public override void UniqueUpgrades()
+        {
+            if (Upgrades.Contains(ModContent.ItemType<CryoMineletsOC>()))
+            {
+                DamageScale = 0.75f;
+            }
+            else
+            {
+                DamageScale = 1;
+            }
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             SoundEngine.PlaySound(SoundID.Item41, player.Center);
