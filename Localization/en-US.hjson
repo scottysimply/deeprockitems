@@ -228,7 +228,23 @@ Mods: {
 				DisplayName: Overclock: Cryo Minelets
 				Tooltip: Shots will produce frostburn mines on the ground, but shots deal half damage
 				Positives: "[c/23DF24:▲Shoot the ground to create a frostburn mine!]"
-				Negatives: "[c/F01318:▼0.5x damage]"
+				Negatives: "[c/F01318:▼0.75x damage]"
+			}
+
+			EmbdeddedDetsOC: {
+				DisplayName: Overclock: Embedded Detonators
+				Tooltip: Shoot an enemy to tag them, right click to let it rip! Detonating costs mana and bullet damage is reduced
+				Positives: "[c/23DF24:▲Shooting an enemy attaches a mine. Right clicking detonates it.]"
+				Negatives:
+					'''
+					[c/F01318:▼Detonating mines costs mana]
+					[c/F01318:▼0.5x bullet damage]
+					'''
+			}
+
+			EmbeddedDetsOC: {
+				DisplayName: Embedded Dets O C
+				Tooltip: ""
 			}
 		}
 

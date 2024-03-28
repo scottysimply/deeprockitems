@@ -41,6 +41,7 @@ namespace deeprockitems.Content.Items.Weapons
 
             Item.value = Item.sellPrice(0, 6, 50, 0);
             ValidUpgrades.Add(ModContent.ItemType<CryoMineletsOC>());
+            ValidUpgrades.Add(ModContent.ItemType<EmbeddedDetsOC>());
         }
         public override void UniqueUpgrades()
         {
@@ -55,8 +56,21 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            SoundEngine.PlaySound(SoundID.Item41, player.Center);
+            if (player.altFunctionUse == 1)
+            {
+                SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, position: player.Center);
+                ExplodeDetonators(player);
+                return false;
+            }
+            else
+            {
+                SoundEngine.PlaySound(SoundID.Item41, player.Center);
+            }
             return true;
+        }
+        private static void ExplodeDetonators(Player player)
+        {
+
         }
     }
 }
