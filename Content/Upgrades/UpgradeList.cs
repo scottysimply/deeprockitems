@@ -5,12 +5,13 @@ namespace deeprockitems.Content.Upgrades
 {
     public class UpgradeList : IEnumerable<UpgradeTier>
     {
-        public UpgradeList(string parentName, params UpgradeTier[] data)
+        public UpgradeList(string parentName, params UpgradeTier[] upgradeTiers)
         {
             _parentName = parentName;
-            _innerArray = data;
+            _innerArray = new UpgradeTier[5];
+            for (int i = 0; i < upgradeTiers.Length)
             // Set localization keys
-            foreach (var tier in data)
+            foreach (var tier in upgradeTiers)
             {
                 foreach (var upgrade in tier)
                 {
