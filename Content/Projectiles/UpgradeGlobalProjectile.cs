@@ -69,7 +69,7 @@ namespace deeprockitems.Content.Projectiles
             {
                 if (upgrade.Behavior.Projectile_ModifyHitNPCHook == null) continue;
                 
-                modifiers = upgrade.Behavior.Projectile_ModifyHitNPCHook.Invoke(projectile, target, modifiers);
+                upgrade.Behavior.Projectile_ModifyHitNPCHook.Invoke(projectile, target, ref modifiers);
             }
         }
         public override bool PreDraw(Projectile projectile, ref Color lightColor) {
