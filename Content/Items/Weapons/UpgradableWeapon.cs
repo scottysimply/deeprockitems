@@ -227,7 +227,7 @@ namespace deeprockitems.Content.Items.Weapons
                 // Activate upgrades if equipped
                 foreach (var upgrade in GetEquippedUpgrades())
                 {
-                    upgrade.Behavior.Item_OnShoot?.Invoke(Item, player, newSource, spawnedProj);
+                    upgrade.Behavior.Item_OnShootHook?.Invoke(Item, player, newSource, spawnedProj);
                 }
             }
             // Mess with the cooldown

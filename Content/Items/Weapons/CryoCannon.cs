@@ -8,11 +8,23 @@ using deeprockitems.Content.Buffs;
 using System.Linq;
 using System.Collections.Generic;
 using Terraria.Audio;
+using static deeprockitems.Content.Upgrades.UpgradeBehavior;
 
 namespace deeprockitems.Content.Items.Weapons
 {
     public class CryoCannon : UpgradableWeapon
     {
+        private Dictionary<int, List<Upgrade>> upgrades;
+        public override void NewSetStaticDefaults() {
+            upgrades = UpgradeFactory.CreateUpgradeList("test")
+                        .WithTier(1)
+                            .WithUpgrade("ExampleUpgrade", Assets.Upgrades.Damage.Value)
+                                .WithBehavior<ProjectilePreKill>((Projectile projectile, int timeLeft) => {
+                                    Main.NewText("test");
+                                    return true;
+                                }).SealUpgrade()
+                        .Seal();
+        }
         public override void NewSetDefaults()
         {
             Item.width = 40;
@@ -146,7 +158,7 @@ namespace deeprockitems.Content.Items.Weapons
                 new UpgradeTier(5,
                     new Upgrade("ColdRadiance", Assets.Upgrades.Cryo.Value) {
                         Behavior = {
-                            Item_OnShoot = (item, player, source, projectile) => {
+                            Item_OnShootHook = (item, player, source, projectile) => {
                                 // Query for enemies nearby the player (5 tiles)
                                 var npcs = Main.npc.Where(npc => npc.active && npc.Center.DistanceSQ(player.Center) <= 6400);
                                 foreach (var npc in npcs)

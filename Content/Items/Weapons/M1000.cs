@@ -128,9 +128,8 @@ namespace deeprockitems.Content.Items.Weapons
                     },
                     new Upgrade("ArmorPiercing", Assets.Upgrades.ArmorBreak.Value) {
                         Behavior = {
-                            Projectile_ModifyHitNPCHook = (projectile, npc, inModifiers) => {
-                                inModifiers.ScalingArmorPenetration += 0.25f;
-                                return inModifiers;
+                            Projectile_ModifyHitNPCHook = (Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
+                                modifiers.ScalingArmorPenetration += 0.25f;
                             }
                         },
                         Recipe = new UpgradeRecipe()

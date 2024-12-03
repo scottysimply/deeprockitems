@@ -120,7 +120,7 @@ namespace deeprockitems.Content.Items.Weapons
                     },
                     new Upgrade("Shockwave", Assets.Upgrades.Heat.Value) {
                         Behavior = {
-                            Item_OnShoot = (item, player, source, projectile) => {
+                            Item_OnShootHook = (item, player, source, projectile) => {
                                 // Find enemies around the player
                                 foreach (var npc in Main.ActiveNPCs)
                                 {
