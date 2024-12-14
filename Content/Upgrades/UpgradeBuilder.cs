@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace deeprockitems.Content.Upgrades
 {
-    public class UpgradeFactory
+    public class UpgradeBuilder
     {
-        private UpgradeFactory() {
+        private UpgradeBuilder() {
 
         }
         int _currentTierAddingTo = 0;
@@ -19,11 +19,11 @@ namespace deeprockitems.Content.Upgrades
         string _internalName;
         Dictionary<int, List<Upgrade>> _innerUpgrades;
         /// <summary>
-        /// Creates a factory to construct a new upgrade list. 
+        /// Creates a builder to construct a new upgrade list. 
         /// </summary>
         /// <param name="name">The internal name of the upgrade list, which will be used for localization</param>
         /// <returns></returns>
-        public static UpgradeFactory CreateUpgradeList(string name) {
+        public static UpgradeBuilder CreateUpgradeList(string name) {
             return new() { _innerUpgrades = [], _internalName = name};
         }
         /// <summary>
@@ -31,7 +31,7 @@ namespace deeprockitems.Content.Upgrades
         /// </summary>
         /// <param name="tier"></param>
         /// <returns></returns>
-        public UpgradeFactory WithTier(int tier) {
+        public UpgradeBuilder WithTier(int tier) {
             if (_currentUpgradeAddingTo != null)
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
@@ -45,7 +45,7 @@ namespace deeprockitems.Content.Upgrades
         /// Defines a new upgrade tier for this upgrade list without a specified tier.
         /// </summary>
         /// <returns></returns>
-        public UpgradeFactory WithTier() {
+        public UpgradeBuilder WithTier() {
             if (_currentUpgradeAddingTo != null)
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
@@ -61,7 +61,7 @@ namespace deeprockitems.Content.Upgrades
         /// <param name="name"></param>
         /// <param name="texture"></param>
         /// <returns></returns>
-        public UpgradeFactory WithUpgrade(string name, Asset<Texture2D> texture) {
+        public UpgradeBuilder WithUpgrade(string name, Asset<Texture2D> texture) {
             if (_currentUpgradeAddingTo != null)
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
@@ -78,7 +78,7 @@ namespace deeprockitems.Content.Upgrades
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public UpgradeFactory WithBehavior<T>(T action) where T : Delegate {
+        public UpgradeBuilder WithBehavior<T>(T action) where T : Delegate {
             if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(WithUpgrade)} must be invoked before invoking {nameof(WithBehavior)}");
             var query = _currentUpgradeAddingTo.Behavior.GetType().GetProperties().Where(info => info.PropertyType == typeof(T));
 
@@ -96,7 +96,7 @@ namespace deeprockitems.Content.Upgrades
         /// <param name="amount"></param>
         /// <returns></returns>
         /// <exception cref="NotSupportedException"></exception>
-        public UpgradeFactory WithIngredient(int[] candidateItemIDs, int amount) {
+        public UpgradeBuilder WithIngredient(int[] candidateItemIDs, int amount) {
             if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(WithUpgrade)} must be invoked before adding a recipe.");
             _currentUpgradeAddingTo.Recipe ??= new();
 
@@ -104,7 +104,7 @@ namespace deeprockitems.Content.Upgrades
             return this;
         }
         /// <summary>
-        /// Finishes defining this upgrade list and removes references to this factory.
+        /// Finishes defining this upgrade list and removes references to this builder.
         /// </summary>
         /// <returns></returns>
         public UpgradeList Seal() {
