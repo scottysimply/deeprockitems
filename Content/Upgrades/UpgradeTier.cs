@@ -22,7 +22,7 @@ namespace deeprockitems.Content.Upgrades
             SelectedUpgradeIndex = index;
         }
         private Upgrade[] _innerArray;
-        public int Tier;
+        public int Tier { get; set; }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return new UpgradeEnumerator(_innerArray);

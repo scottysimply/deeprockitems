@@ -88,7 +88,7 @@ namespace deeprockitems.UI.UpgradeUI
             // Draw upgrade icon
             float scale = 0.7f * HoverScale;
             Rectangle destination = new((int)(ScaledDimensions.Center.X - ScaledDimensions.Width * 0.5f), (int)(ScaledDimensions.Center.Y - ScaledDimensions.Height * 0.5f), (int)ScaledDimensions.Width, (int)ScaledDimensions.Height);
-            spriteBatch.Draw(Upgrade.Texture, destination, Color.White);
+            spriteBatch.Draw(Upgrade.Texture.Value, destination, Color.White);
 
             // Draw outline if equipped
             if (Upgrade.UpgradeState.IsEquipped)

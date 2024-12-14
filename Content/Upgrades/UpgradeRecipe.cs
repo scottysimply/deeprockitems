@@ -10,7 +10,7 @@ namespace deeprockitems.Content.Upgrades
             ItemsAndAmounts = [];
         }
         public UpgradeRecipe AddIngredient(int type, int stack) {
-            ItemsAndAmounts.Add(new RecipeBinding(type, stack));
+            ItemsAndAmounts.Add(new RecipeBinding([type], stack));
             return this;
         }
         public UpgradeRecipe AddCandidateIngredient(int[] types, int stack) {

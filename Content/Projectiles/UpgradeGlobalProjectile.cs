@@ -36,7 +36,7 @@ namespace deeprockitems.Content.Projectiles
             _cameFromUpgradableWeapon = true;
 
             // Get list of equipped upgrades
-            _equippedUpgrades = GetEquippedUpgrades(newSource.Item.UpgradeMasterList);
+            _equippedUpgrades = newSource.Item.GetEquippedUpgrades();
 
             foreach (var upgrade in _equippedUpgrades)
             {
@@ -119,20 +119,6 @@ namespace deeprockitems.Content.Projectiles
             }
             if (!callBase) return false;
             return base.OnTileCollide(projectile, oldVelocity);
-        }
-        static Upgrade[] GetEquippedUpgrades(UpgradeList upgrades)
-        {
-            List<Upgrade> equippedUpgrades = new();
-            foreach (var tiers in upgrades)
-            {
-                foreach (var upgrade in tiers)
-                {
-                    if (!upgrade.UpgradeState.IsEquipped) continue;
-
-                    equippedUpgrades.Add(upgrade);
-                }
-            }
-            return [.. equippedUpgrades];
         }
     }
 }

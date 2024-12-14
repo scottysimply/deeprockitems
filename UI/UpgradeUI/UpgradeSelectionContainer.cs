@@ -26,7 +26,7 @@ namespace deeprockitems.UI.UpgradeUI
                 return;
             }
 
-            upgradeSelectors = upgrades.Select(tiers => new UpgradeSelectionTier(tiers, (int)Height.Pixels)).ToArray();
+            upgradeSelectors = upgrades.Select(tier => new UpgradeSelectionTier(tier.Value, (int)Height.Pixels)).ToArray();
             const int GAP = 4;
             int computedWidth = (int)((Width.Pixels - upgradeSelectors.Length * GAP) / (float)upgradeSelectors.Length);
             for (int i = 0; i < upgradeSelectors.Length; i++)

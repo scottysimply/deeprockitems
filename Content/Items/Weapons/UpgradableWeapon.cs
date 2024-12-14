@@ -43,7 +43,7 @@ namespace deeprockitems.Content.Items.Weapons
         public override void HoldItem(Player player) {
             foreach (var tier in UpgradeMasterList)
             {
-                foreach (var upgrade in tier)
+                foreach (var upgrade in tier.Value)
                 {
                     if (upgrade.UpgradeState.IsEquipped)
                     {
@@ -116,29 +116,26 @@ namespace deeprockitems.Content.Items.Weapons
         }
         #region Saving and loading upgrades
         public override void SaveData(TagCompound tag) {
-            // Serialize each tag with the key being the upgrade name, and the data being the UpgradeState
+            if (UpgradeMasterList is null) return;
             foreach (var tier in UpgradeMasterList)
             {
-                foreach (var upgrade in tier)
+                foreach (var upgrade in tier.Value)
                 {
-                    // Save each upgrade state
-                    tag.Add($"{upgrade.InternalName}.{tier.Tier}.State", upgrade.UpgradeState);
+                    // Of note: instead of serializing everything to do with these upgrades, i'm serializing whether the upgrade is both equipped and unlocked.
+                    tag.Add($"{upgrade.InternalName}.{tier.Key}.State", upgrade.UpgradeState);
                 }
             }
         }
         public override void LoadData(TagCompound tag) {
-            // Set upgrades' states
+            if (UpgradeMasterList is null) return;
             foreach (var tier in UpgradeMasterList)
             {
-                foreach (var upgrade in tier)
+                foreach (var upgrade in tier.Value)
                 {
-                    // Early continue ensures that this upgrade must exist.
-                    if (!tag.ContainsKey($"{upgrade.InternalName}.{tier.Tier}.State")) continue;
-                    // If this upgrade name matches the key, then we can safely set that upgrade's state
-                    upgrade.UpgradeState = tag.Get<UpgradeStateBinding>($"{upgrade.InternalName}.{tier.Tier}.State");
+                    if (!tag.ContainsKey($"{upgrade.InternalName}.{tier.Key}.State")) continue;
+                    upgrade.UpgradeState = tag.Get<UpgradeStateBinding>($"{upgrade.InternalName}.{tier.Key}.State");
                 }
             }
-            // Apply stat upgrades
             ApplyStatUpgrades();
         }
         #endregion
@@ -173,9 +170,9 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useAnimation = _oldUseAnimation;
             ResetStats();
             NewSetDefaults();
-            foreach (var upgradeTier in UpgradeMasterList)
+            foreach (var tier in UpgradeMasterList)
             {
-                foreach (var upgrade in upgradeTier)
+                foreach (var upgrade in tier.Value)
                 {
                     if (upgrade.UpgradeState.IsEquipped)
                     {
@@ -184,11 +181,17 @@ namespace deeprockitems.Content.Items.Weapons
                 }
             }
         }
-        private Upgrade[] GetEquippedUpgrades() {
-            return (from upgradeTier in UpgradeMasterList
-                    from upgrade in upgradeTier
-                    where upgrade.UpgradeState.IsEquipped
-                    select upgrade).ToArray();
+        public Upgrade[] GetEquippedUpgrades() {
+            List<Upgrade> upgrades = [];
+            foreach (var values in UpgradeMasterList.Values)
+            {
+                foreach (var upgrade in values)
+                {
+                    if (!upgrade.UpgradeState.IsEquipped) continue;
+                    upgrades.Add(upgrade);
+                }
+            }
+            return [..upgrades];
         }
         public override void Load() {
             _ = InitializeUpgrades();

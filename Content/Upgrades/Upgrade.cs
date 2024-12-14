@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria.Localization;
 
 namespace deeprockitems.Content.Upgrades
 {
     public class Upgrade {
-        public Upgrade(string internalName, Texture2D sprite) {
+        public Upgrade(string internalName, Asset<Texture2D> sprite) {
             InternalName = internalName;
             Texture = sprite;
             Behavior = new();
@@ -15,7 +16,7 @@ namespace deeprockitems.Content.Upgrades
             };
         }
         public readonly string InternalName;
-        public Texture2D Texture { get; set; }
+        public Asset<Texture2D> Texture { get; set; }
         public string LocalizedKey { get; set; }
         public LocalizedText DisplayName { get => Language.GetOrRegister($"{LocalizedKey}.DisplayName", () => InternalName); }
         public LocalizedText HoverText { get => Language.GetOrRegister($"{LocalizedKey}.HoverText", () => "Hover text"); }
