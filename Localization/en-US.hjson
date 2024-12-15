@@ -522,8 +522,8 @@ Mods: {
 				}
 
 				FireRate: {
-					DisplayName: FireRate
-					HoverText: Increased the fire rate of cooling particles
+					DisplayName: Wider Nozzle
+					HoverText: Increased the flow rate of cooling particles
 				}
 
 				ColdRadiance: {
@@ -532,7 +532,7 @@ Mods: {
 				}
 
 				ReversedEntropy: {
-					DisplayName: ReversedEntropy
+					DisplayName: Reversed Entropy
 					HoverText: Enemies above 25% freeze will spread to nearby enemies
 				}
 
