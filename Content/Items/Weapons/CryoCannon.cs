@@ -8,7 +8,6 @@ using deeprockitems.Content.Buffs;
 using System.Linq;
 using System.Collections.Generic;
 using Terraria.Audio;
-using static deeprockitems.Content.Upgrades.UpgradeBehavior;
 using Terraria.DataStructures;
 using deeprockitems.Common.EntitySources;
 
