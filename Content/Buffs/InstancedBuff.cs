@@ -70,7 +70,7 @@ namespace deeprockitems.Content.Buffs
             return true;
         }
         /// <summary>
-        /// Attempts to add an instanced buff to this NPC. 
+        /// Attempts to add an instanced buff to this NPC. Outs the instance of the buff for manipulation.
         /// </summary>
         /// <typeparam name="T">The instanced buff</typeparam>
         /// <param name="npc"></param>
@@ -79,20 +79,18 @@ namespace deeprockitems.Content.Buffs
         /// <param name="quiet"></param>
         /// <returns></returns>
         public static bool AddInstancedBuff<T>(this NPC npc, int time, out T instancedBuff, bool quiet = false) where T : InstancedBuff, new() {
-            // Get global npc
             InstancedNPC globalNpc = npc.GetGlobalNPC<InstancedNPC>();
-            // Search for the buff type
             int buffIndex = -1;
             int buffType = ModContent.BuffType<T>();
             T buff;
             buffIndex = npc.FindBuffIndex(buffType);
-            // If this buff isn't on the NPC yet, add it
+            // If the buff isn't on the NPC yet, add it.
             if (buffIndex == -1)
             {
-                // Add buff
                 npc.AddBuff(buffType, time, quiet);
                 buffIndex = npc.FindBuffIndex(buffType);
-                if (buffIndex == -1) // This is rare, but in case the enemy can't receive the buff, we need to exit anyway.
+                // If the buff couldn't be added (immunity or max buffs), stop.
+                if (buffIndex == -1)
                 {
                     instancedBuff = null;
                     return false;
@@ -100,7 +98,7 @@ namespace deeprockitems.Content.Buffs
                 // Create an instance of the buff with buff parameters
                 buff = new T() {
                     InstancedType = buffType,
-                    // TimeLeft = time,
+                    //TimeLeft = time,
                     BuffIndex = buffIndex,
                     ThisNPC = npc
                 };
@@ -108,9 +106,9 @@ namespace deeprockitems.Content.Buffs
                 instancedBuff = buff;
                 return true;
             }
-            // Buff exists on NPC, reapply.
+            // Buff exists on NPC, so the buff will reset time
             int instancedIndex = globalNpc.InstancedBuffs.FindIndex(buff => buff.InstancedType == buffType);
-            if (instancedIndex == -1) // Add the instanced buff, realistically should never happen
+            if (instancedIndex == -1) // This should never be called, but it emergency adds the buff.
             {
                 buff = new() {
                     InstancedType = buffType,
@@ -120,14 +118,12 @@ namespace deeprockitems.Content.Buffs
                 globalNpc.InstancedBuffs.Add(buff);
                 instancedIndex = globalNpc.InstancedBuffs.FindIndex(b => b == buff);
             }
-            // Now we can grab the instanced of this buff
             buff = (T)globalNpc.InstancedBuffs[instancedIndex];
-            // Actually reapply the buff!
+            // Reapply methods dictate whether the buff should be reapplied.
             if (buff.ReapplyNPC(npc))
             {
                 npc.buffTime[buffIndex] = time;
             }
-            // Set outputs
             instancedBuff = buff;
             return true;
         }
@@ -164,7 +160,7 @@ namespace deeprockitems.Content.Buffs
         public override bool InstancePerEntity => true;
         public List<InstancedBuff> InstancedBuffs = new();
         public override void UpdateLifeRegen(NPC npc, ref int damage) {
-            // Update each buff. We are removing buffs as we iterate, so we have to loop backwards
+            // Update each buff. Since buffs may get deleted, it's better to iterate backwards
             for (int i = InstancedBuffs.Count - 1; i >= 0; i--)
             {
                 // Remove any buffs that have buff time less than 0.
