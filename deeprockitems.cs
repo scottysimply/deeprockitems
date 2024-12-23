@@ -4,6 +4,6 @@ namespace deeprockitems
 {
     public class deeprockitems : Mod
 	{
-		public static bool DebugMode { get => false; }
+		public static bool DebugMode { get => true; }
     }
 }
