@@ -2,10 +2,12 @@
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace deeprockitems.Content.Projectiles
 {
@@ -21,6 +23,12 @@ namespace deeprockitems.Content.Projectiles
         /// <returns></returns>
         public bool IsUpgradeEquipped(string name) {
             return _equippedUpgrades.Any(upgrade => upgrade.InternalName == name);
+        }
+        public override void SetDefaults(Projectile entity) {
+            foreach (var upgrade in _equippedUpgrades)
+            {
+                upgrade.Behavior.Projectile_SetDefaultsHook?.Invoke(entity);
+            }
         }
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
@@ -119,6 +127,12 @@ namespace deeprockitems.Content.Projectiles
             }
             if (!callBase) return false;
             return base.OnTileCollide(projectile, oldVelocity);
+        }
+        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter) {
+            base.SendExtraAI(projectile, bitWriter, binaryWriter);
+        }
+        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader) {
+            base.ReceiveExtraAI(projectile, bitReader, binaryReader);
         }
     }
 }
