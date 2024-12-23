@@ -93,14 +93,21 @@ namespace deeprockitems.Content.Upgrades
         /// Adds an ingredient (or candidacy of ingredients) to the recipe of the current upgrade.
         /// </summary>
         /// <param name="candidateItemIDs"></param>
-        /// <param name="amount"></param>
+        /// <param name="stack"></param>
         /// <returns></returns>
         /// <exception cref="NotSupportedException"></exception>
-        public UpgradeBuilder WithIngredient(int[] candidateItemIDs, int amount) {
+        public UpgradeBuilder WithIngredient(int[] candidateItemIDs, int stack = 1) {
             if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(WithUpgrade)} must be invoked before adding a recipe.");
             _currentUpgradeAddingTo.Recipe ??= new();
 
-            _currentUpgradeAddingTo.Recipe.AddCandidateIngredient(candidateItemIDs, amount);
+            _currentUpgradeAddingTo.Recipe.AddCandidateIngredient(candidateItemIDs, stack);
+            return this;
+        }
+        public UpgradeBuilder WithIngredient(int itemID, int stack = 1) {
+            if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(WithUpgrade)} must be invoked before adding a recipe.");
+            _currentUpgradeAddingTo.Recipe ??= new();
+
+            _currentUpgradeAddingTo.Recipe.AddIngredient(itemID, stack);
             return this;
         }
         /// <summary>
