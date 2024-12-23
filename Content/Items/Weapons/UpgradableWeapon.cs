@@ -1,4 +1,5 @@
 ﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using System;
@@ -223,24 +224,24 @@ namespace deeprockitems.Content.Items.Weapons
             }
             // Now begin doing shoot logic
             var newSource = new EntitySource_FromUpgradableWeapon(player, this, source.AmmoItemIdUsed, source.Context);
-            if (NewShoot(player, newSource, position2, spreadVelocity, type2, damage2, knockback2))
+            if (!Item.channel)
             {
-                spreadVelocity = spreadVelocity.RotatedByRandom(spread);
-                Projectile spawnedProj = Projectile.NewProjectileDirect(newSource, position2, spreadVelocity, type2, damage2, knockback2, owner: player.whoAmI);
-                // Activate upgrades if equipped
-                foreach (var upgrade in GetEquippedUpgrades())
-                {
-                    upgrade.Behavior.Item_OnShootHook?.Invoke(Item, player, newSource, spawnedProj);
-                }
+                AddCooldownOnShoot();
             }
-            // Mess with the cooldown
-            AddCooldownOnShoot();
+            if (!NewShoot(player, newSource, position2, spreadVelocity, type2, damage2, knockback2))
+            {
+                return false;
+            }
+            spreadVelocity = spreadVelocity.RotatedByRandom(spread);
+            Projectile spawnedProj = Projectile.NewProjectileDirect(newSource, position2, spreadVelocity, type2, damage2, knockback2, owner: player.whoAmI);
+            foreach (var upgrade in GetEquippedUpgrades())
+            {
+                upgrade.Behavior.Item_OnShootHook?.Invoke(Item, player, newSource, spawnedProj);
+            }
             return false;
         }
-        private void AddCooldownOnShoot() {
-            // Add to cooldown
-            OverheatCooldown += COOLDOWN_THRESHOLD / ShotsUntilCooldown;
-            // Add to cooldown use timer
+        public void AddCooldownOnShoot(float multiplier = 1f) {
+            OverheatCooldown += multiplier * COOLDOWN_THRESHOLD / ShotsUntilCooldown;
             _passiveCooldownTimer = 30 + Item.useTime;
             // Disable weapon if cooldown gets too high
             if (IsWeaponEnabledByCooldown && OverheatCooldown >= COOLDOWN_THRESHOLD)
