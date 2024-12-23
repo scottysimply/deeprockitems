@@ -1,4 +1,6 @@
-﻿using MonoMod.Cil;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +40,9 @@ namespace deeprockitems.Content.Buffs
 
         }
         public virtual bool ReapplyNPC(NPC npc) => true;
+        public virtual void PostDrawNPC(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
+
+        }
         #endregion
     }
     public static class Extensions
@@ -178,6 +183,12 @@ namespace deeprockitems.Content.Buffs
                 {
                     damage = newDamage;
                 }
+            }
+        }
+        public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
+            foreach (var buff in InstancedBuffs)
+            {
+                buff.PostDrawNPC(npc, spriteBatch, screenPos, drawColor);
             }
         }
     }
