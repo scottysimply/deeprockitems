@@ -19,7 +19,7 @@ namespace deeprockitems.Content.Projectiles
         /// <summary>
         /// This is the projectile that the held projectile will spawn on death (when the player stops charging).
         /// </summary>
-        public abstract int ProjectileToSpawn { get; set; }
+        public virtual int ProjectileToSpawn { get; set; }
         /// <summary>
         /// This is the time it will take to charge the projectile, in ticks.
         /// </summary>
@@ -179,20 +179,19 @@ namespace deeprockitems.Content.Projectiles
                     Vector2 adjusted_speed = velocity.RotatedByRandom(Spread);
 
                     Projectile proj = Projectile.NewProjectileDirect(new EntitySource_FromHeldProjectile(projectileOwner, sourceItem, ammoUsed, this), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI);
+                    proj.penetrate = Projectile.penetrate;
+                    proj.maxPenetrate = Projectile.maxPenetrate;
                     // Make sure projectile is _right_ on the center
                     proj.Center = projectileOwner.Center;
 
                     // Make sure the projectile goes the right direction after charging
                     proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2; // No sideways projectiles!
 
-                    // Add overheat in case the projectile was fully charged
-                    if (TimeSinceSpawning >= (int)(ChargeTime * ChargeTimeMultiplier))
-                    {
-                        sourceItem.OverheatCooldown += (float)Math.Ceiling((ChargeShotCooldownMultiplier - 1f) * UpgradableWeapon.COOLDOWN_THRESHOLD / sourceItem.ShotsUntilCooldown);
-                    }
+                    float multiplier = HasReachedFullCharge ? ChargeShotCooldownMultiplier : 1f;
+                    sourceItem.AddCooldownOnShoot(multiplier);
 
-                    // Modify projectile after spawning
                     ModifyProjectileAfterSpawning(proj);
+
                 }
             }
         }
@@ -205,43 +204,31 @@ namespace deeprockitems.Content.Projectiles
         public virtual bool SpecialKill(int timeLeft) { return true; }
 
         public override bool? CanDamage() {
-            return false; // This weapon is invisible and intangible. We don't want the player to know it exists.
+            return false;
         }
         public override bool ShouldUpdatePosition() {
-            return false; // We want this projectile to stay on the player, which will be done manually.
+            return false;
         }
-
-
-
-        // So what's going on in this method? Deconstruction time!
         private void HoldItemOut(Player player) {
             // So fun fact about the way the game handles rotation: values go from -Pi to +Pi. There is no 0 to 2Pi.
             // For some god awful reason though, when the mouse is in Quadrant II, itemRotation doesn't match DirectionTo().ToRotation() of the mouse.
 
-            // Make sure the player appears to actually hold the projectile.
             player.itemTime = player.itemAnimation = Cooldown is not null ? (int)Cooldown : 0;
 
-            // If cursor is to the right of the player
             if (Main.MouseWorld.X > player.Center.X)
             {
-                // See, this is easy!
                 player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation();
-                player.ChangeDir(1); // Make the player face right
+                player.ChangeDir(1);
                 return;
             }
-            // If cursor is above the player
             if (Main.MouseWorld.Y < player.Center.Y)
             {
-                // Here's where it messes up. If the cursor is in quadrant II, it needs to add PI
                 player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() + MathHelper.Pi;
             }
-            // If cursor is below the player
             else
             {
-                // But if the cursor is in Quadrant III, it has to subtract. guh??
                 player.itemRotation = player.DirectionTo(Main.MouseWorld).ToRotation() - MathHelper.Pi;
             }
-            // Make the player face left
             player.ChangeDir(-1);
 
         }
