@@ -12,9 +12,13 @@
     <None Remove="Assets\CooldownUIBackground.png" />
     <None Remove="Assets\Tiles\SludgeTiles.png" />
     <None Remove="Assets\UI\UpgradeStationHover.png" />
+    <None Remove="Content\Buffs\Irradiated.png" />
     <None Remove="Content\Buffs\Sludge.png" />
   </ItemGroup>
   <ItemGroup>
 	<PackageReference Include="AssGen" OutputItemType="Analyzer" ReferenceOutputAssembly="false" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\NPCs\" />
   </ItemGroup>
 </Project>
