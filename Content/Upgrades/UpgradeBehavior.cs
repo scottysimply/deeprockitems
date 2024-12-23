@@ -9,6 +9,7 @@ namespace deeprockitems.Content.Upgrades
     #region Delegates for upgrade behavior
     public delegate void ItemStatChange(Item item);
     public delegate void ItemHoldItem(Item item, Player player);
+    public delegate void ProjectileSetDefaults(Projectile projectile);
     public delegate void ProjectileOnSpawn(Projectile projectile, IEntitySource source);
     public delegate void ProjectileAI(Projectile projectile);
     public delegate void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone);
@@ -24,6 +25,7 @@ namespace deeprockitems.Content.Upgrades
         #region Handlers for upgrade behavior
         public ItemStatChange Item_ModifyStats { get; set; }
         public ItemHoldItem Item_HoldItemHook { get; set; }
+        public ProjectileSetDefaults Projectile_SetDefaultsHook { get; set; }
         public ProjectileOnSpawn Projectile_OnSpawnHook { get; set; }
         public ProjectileAI Projectile_AIHook { get; set; }
         public ProjectileOnHitNPC Projectile_OnHitNPCHook { get; set; }
