@@ -36,7 +36,7 @@ namespace deeprockitems.Content.Items.Weapons
             this.ShotsUntilCooldown = 12f;
             this.TimeToEndCooldown = 75f;
         }
-        public override UpgradeList InitializeUpgrades() {
+/*        public override UpgradeList InitializeUpgrades() {
             return new UpgradeList("PlasmaPistol",
                 new UpgradeTier(1,
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
@@ -195,7 +195,7 @@ namespace deeprockitems.Content.Items.Weapons
                 )
             );
         }
-        public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
+*/        public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
             type = ModContent.ProjectileType<Projectiles.PlasmaProjectiles.PlasmaPistolHelper>();
         }
         public override void AddRecipes() {

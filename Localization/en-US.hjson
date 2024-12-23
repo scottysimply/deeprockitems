@@ -227,6 +227,11 @@ Mods: {
 				DisplayName: Fearing Confused
 				Description: Mods.deeprockitems.Buffs.FearingConfused.Description
 			}
+
+			Irradiated: {
+				DisplayName: Irradiated
+				Description: Mods.deeprockitems.Buffs.Irradiated.Description
+			}
 		}
 
 		Upgrades: {

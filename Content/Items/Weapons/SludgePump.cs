@@ -42,7 +42,7 @@ namespace deeprockitems.Content.Items.Weapons
             TimeToEndCooldown = 110f;
             ShotsUntilCooldown = 24f;
         }
-        public override UpgradeList InitializeUpgrades() {
+        /*public override UpgradeList InitializeUpgrades() {
             return new UpgradeList("SludgePump",
                 new UpgradeTier(1,
                     new Upgrade("VisualCalculus", Assets.Upgrades.Focus.Value) {
@@ -103,7 +103,7 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 ),
                 new UpgradeTier(3,
-                    /*new Upgrade("LingeringSludge", Assets.Upgrades.Damage.Value) {
+                    *//*new Upgrade("LingeringSludge", Assets.Upgrades.Damage.Value) {
                         Behavior = {
                             Projectile_OnTileCollideHook = (proj, oldVelocity) => {
                                 // get instance of modsystem
@@ -155,7 +155,7 @@ namespace deeprockitems.Content.Items.Weapons
                                 }
                                 return true; // Continue vanilla behavior.
                             }
-                        }*/
+                        }*//*
                     new Upgrade("SpreadingSludge", Assets.Upgrades.GooBall.Value) {
                         Recipe = new UpgradeRecipe()
                                     .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
@@ -216,7 +216,7 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 )
             );
-        }
+        }*/
         public override void AddRecipes() {
             Recipe.Create(ModContent.ItemType<SludgePump>())
             .AddIngredient(ItemID.HellstoneBar, 15)

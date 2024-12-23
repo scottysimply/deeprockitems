@@ -37,7 +37,7 @@ namespace deeprockitems.Content.Items.Weapons
         /// </summary>
         public float VelocityLowerBound { get; set; } = 0.8f;
         public int PelletCount { get; set; } = 3;
-        public override UpgradeList InitializeUpgrades() {
+/*        public override UpgradeList InitializeUpgrades() {
             return new UpgradeList("JuryShotgun",
                 new UpgradeTier(1,
                     new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
@@ -171,7 +171,7 @@ namespace deeprockitems.Content.Items.Weapons
                 )
             );
         }
-        public override void ResetStats() {
+*/        public override void ResetStats() {
             PelletCount = 3;
             Item.damage = Item.OriginalDamage;
             TimeToEndCooldown = 75f;
