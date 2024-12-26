@@ -145,8 +145,7 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                                 {
                                     float angle = projectile.AngleTo(npc.Center);
-                                    projectile.velocity = projectile.velocity.Length() * projectile.Center.DirectionTo(npc.Center);
-                                    //projectile.position += projectile.velocity;
+                                    projectile.velocity = oldVelocity.Length() * projectile.Center.DirectionTo(npc.Center);
                                     projectile.penetrate--;
                                     return false;
                                 }
