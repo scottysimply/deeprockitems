@@ -21,7 +21,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.crit = 4;
             Item.useTime = 14;
             Item.useAnimation = 14;
-            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shoot = ModContent.ProjectileType<PlasmaPistolHelper>();
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = 18f;
             Item.channel = true;
@@ -196,7 +196,7 @@ namespace deeprockitems.Content.Items.Weapons
             );
         }
 */        public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
-            type = ModContent.ProjectileType<Projectiles.PlasmaProjectiles.PlasmaPistolHelper>();
+            spread = MathHelper.Pi / 64f;
         }
         public override void AddRecipes() {
             Recipe.Create(ModContent.ItemType<PlasmaPistol>())

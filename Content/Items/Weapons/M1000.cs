@@ -40,7 +40,9 @@ namespace deeprockitems.Content.Items.Weapons
             Item.autoReuse = true;
             this.ShotsUntilCooldown = 16f;
             this.TimeToEndCooldown = 80f;
+            _smartBulletPenetrate = 1;
         }
+        int _smartBulletPenetrate = 1;
         public override UpgradeList InitializeUpgrades() {
             bool smartBullet = false;
             return UpgradeBuilder.CreateUpgradeList("M1000")
@@ -126,13 +128,13 @@ namespace deeprockitems.Content.Items.Weapons
                             if (source is EntitySource_FromHeldProjectile { SourceProjectile.HasReachedFullCharge: true})
                             {
                                 smartBullet = true;
+                                _smartBulletPenetrate += 2;
                             }
                             else
                             {
                                 smartBullet = false;
+                                _smartBulletPenetrate = 1;
                             }
-                            projectile.penetrate += 2;
-                            projectile.maxPenetrate += 2;
                             projectile.ai[2] = 0;
                         })
                         .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
@@ -143,7 +145,7 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                                 {
                                     float angle = projectile.AngleTo(npc.Center);
-                                    projectile.velocity = projectile.velocity.Length() * new Vector2(MathF.Cos(angle), MathF.Sin(angle));
+                                    projectile.velocity = projectile.velocity.Length() * projectile.Center.DirectionTo(npc.Center);
                                     //projectile.position += projectile.velocity;
                                     projectile.penetrate--;
                                     return false;
@@ -160,7 +162,7 @@ namespace deeprockitems.Content.Items.Weapons
                                 if (Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                                 {
                                     float angle = projectile.AngleTo(npc.Center);
-                                    projectile.velocity = projectile.velocity.Length() * new Vector2(MathF.Cos(angle), MathF.Sin(angle));
+                                    projectile.velocity = projectile.velocity.Length() * projectile.Center.DirectionTo(npc.Center);
                                     return;
                                 }
                             }
@@ -266,7 +268,7 @@ namespace deeprockitems.Content.Items.Weapons
                                 Recipe = new UpgradeRecipe()
                                             .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 6)
                                             .AddIngredient(ItemID.SoulofNight, 4)
-                            },
+                            },  
                             new Upgrade("ArmorPiercing", Assets.Upgrades.ArmorBreak.Value) {
                                 Behavior = {
                                     Projectile_ModifyHitNPCHook = (Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
@@ -333,7 +335,7 @@ namespace deeprockitems.Content.Items.Weapons
             // Set type to be the "helper" projectile.
             type = ModContent.ProjectileType<M1000Helper>();
         }
-        public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread)
         {
             Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback);
             if (proj.ModProjectile is HeldProjectileBase modProj)
@@ -342,7 +344,7 @@ namespace deeprockitems.Content.Items.Weapons
                 modProj.ProjectileToSpawn = original_projectile;
                 if (modProj.ProjectileToSpawn == ProjectileID.Bullet)
                 {
-                    proj.penetrate = proj.maxPenetrate = 1;
+                    proj.penetrate = proj.maxPenetrate = _smartBulletPenetrate;
                     modProj.ProjectileToSpawn = ProjectileID.BulletHighVelocity;
                 }
 

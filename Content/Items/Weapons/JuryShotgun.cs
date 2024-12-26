@@ -178,7 +178,10 @@ namespace deeprockitems.Content.Items.Weapons
             ShotsUntilCooldown = 2f;
             SpreadMultiplier = 1f;
         }
-        public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
+            spread = MathHelper.Pi / 13;
+        }
+        public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread)
         {
             // Change player's direction to face the cursor
             if (Main.MouseWorld.X > player.Center.X)
@@ -192,7 +195,6 @@ namespace deeprockitems.Content.Items.Weapons
 
             // Shoot logic
             int numberProjectiles = PelletCount + Main.rand.Next(0, 1);
-            double spread = Math.PI / 13;
 
             // This block is for the projectile spread.
             int projectilesWithMultiplier = (int)Math.Floor(ProjectileMultiplier * numberProjectiles);

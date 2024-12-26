@@ -220,7 +220,7 @@ namespace deeprockitems.Content.Items.Weapons
             NewModifyShootStats(player, ref position2, ref spreadVelocity, ref type2, ref damage2, ref knockback2, ref spread);
             foreach (var upgrade in GetEquippedUpgrades())
             {
-                upgrade.Behavior.Item_ModifyShootStatsHook?.Invoke(Item, player, ref position, ref velocity, ref type, ref damage, ref knockback, ref spread);
+                upgrade.Behavior.Item_ModifyShootStatsHook?.Invoke(Item, player, ref position2, ref spreadVelocity, ref type2, ref damage2, ref knockback2, ref spread);
             }
             // Now begin doing shoot logic
             var newSource = new EntitySource_FromUpgradableWeapon(player, this, source.AmmoItemIdUsed, source.Context);
@@ -228,15 +228,19 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 AddCooldownOnShoot();
             }
-            if (!NewShoot(player, newSource, position2, spreadVelocity, type2, damage2, knockback2))
-            {
-                return false;
-            }
-            spreadVelocity = spreadVelocity.RotatedByRandom(spread);
-            Projectile spawnedProj = Projectile.NewProjectileDirect(newSource, position2, spreadVelocity, type2, damage2, knockback2, owner: player.whoAmI);
+            bool upgradeReturn = true;
             foreach (var upgrade in GetEquippedUpgrades())
             {
-                upgrade.Behavior.Item_OnShootHook?.Invoke(Item, player, newSource, spawnedProj);
+                upgradeReturn &= upgrade.Behavior.Item_OnShootHook?.Invoke(Item, player, newSource, position2, spreadVelocity, type2, damage2, knockback2, spread) ?? true;
+            }
+            if (upgradeReturn && NewShoot(player, newSource, position2, spreadVelocity, type2, damage2, knockback2, spread))
+            {
+                spreadVelocity = spreadVelocity.RotatedByRandom(spread);
+                Projectile spawnedProj = Projectile.NewProjectileDirect(newSource, position2, spreadVelocity, type2, damage2, knockback2, owner: player.whoAmI);
+                if (spawnedProj.ModProjectile is HeldProjectileBase helper)
+                {
+                    helper.Spread = spread;
+                }
             }
             return false;
         }
@@ -256,7 +260,7 @@ namespace deeprockitems.Content.Items.Weapons
 
         }
         public virtual void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) { }
-        public virtual bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => true;
+        public virtual bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => true;
         public override bool? PrefixChance(int pre, UnifiedRandom rand) {
             return false;
         }

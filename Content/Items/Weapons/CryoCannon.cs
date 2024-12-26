@@ -104,13 +104,14 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient([ItemID.FallenStar], 5)
                 .WithTier()
                     .WithUpgrade("ColdRadiance", Assets.Upgrades.Cryo)
-                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Projectile projectile) => {
+                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
                             // Query for enemies nearby the player (5 tiles)
                             var npcs = Main.npc.Where(npc => npc.active && npc.Center.DistanceSQ(player.Center) <= 6400);
                             foreach (var npc in npcs)
                             {
                                 npc.ChangeTemperature(-8, player.whoAmI);
                             }
+                            return true;
                         })
                         .WithIngredient([ItemID.ChlorophyteBar], 8)
                         .WithIngredient([ItemID.InfernoPotion], 3)
