@@ -15,7 +15,7 @@ namespace deeprockitems.Content.Upgrades
     public delegate void ProjectileOnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone);
     public delegate bool ProjectilePreDraw(Projectile projectile, Color lightColor);
     public delegate void ProjectileModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers);
-    public delegate void ItemOnShoot(Item item, Player player, EntitySource_FromUpgradableWeapon source, Projectile projectile);
+    public delegate bool ItemOnShoot(Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread);
     public delegate bool ProjectilePreKill(Projectile projectile, int timeLeft);
     public delegate bool ProjectileOnTileCollide(Projectile projectile, Vector2 oldVelocity);
     public delegate void ItemModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread);
