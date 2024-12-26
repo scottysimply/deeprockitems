@@ -40,7 +40,7 @@ namespace deeprockitems.Content.Projectiles
         /// <summary>
         /// The spread (in radians) that the resultant projectile will have. Defaults to no spread.
         /// </summary>
-        public virtual double Spread { get; set; } = 0;
+        public virtual float Spread { get; set; } = 0;
         public float ChargeShotCooldownMultiplier { get; set; } = 1f;
 
         protected Player projectileOwner;
@@ -155,6 +155,10 @@ namespace deeprockitems.Content.Projectiles
             }
         }
         private int _heldChargeTimer = 0;
+        public virtual void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
+
+        }
+        public virtual bool Shoot(Item item, Player player, EntitySource_FromHeldProjectile source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => true;
         // This is for when the projectile is killed. Spawn the new projectile, play sound, etc.
         public override void OnKill(int timeLeft) {
 
@@ -165,33 +169,31 @@ namespace deeprockitems.Content.Projectiles
             }
             else
             {
+                if (FireSound is not null)
+                {
+                    SoundEngine.PlaySound((SoundStyle)FireSound with { PitchVariance = .1f, MaxInstances = 5, Volume = .4f });
+                }
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    // Play the sound the projectile makes when the bullet spawns
-                    if (FireSound is not null)
+                    Vector2 position = projectileOwner.Center;
+                    Vector2 velocity = Projectile.velocity.Length() * projectileOwner.Center.DirectionTo(Main.MouseWorld);
+                    int type = ProjectileToSpawn;
+                    int damage = Projectile.damage;
+                    float knockback = Projectile.knockBack;
+                    float spread = Spread;
+                    ModifyShootStats(sourceItem.Item, projectileOwner, ref position, ref velocity, ref type, ref damage, ref knockback, ref spread);
+                    EntitySource_FromHeldProjectile source = new(projectileOwner, sourceItem, ammoUsed, this);
+                    if (Shoot(sourceItem.Item, projectileOwner, source, position, velocity, type, damage, knockback, spread))
                     {
-                        SoundEngine.PlaySound((SoundStyle)FireSound with { PitchVariance = .1f, MaxInstances = 5, Volume = .4f });
+                        Vector2 adjusted_speed = velocity.RotatedByRandom(spread);
+                        Projectile proj = Projectile.NewProjectileDirect(source, position, adjusted_speed, type, damage, knockback, projectileOwner.whoAmI);
+                        proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2; // No sideways projectiles!
+                        proj.penetrate = Projectile.penetrate;
+                        proj.maxPenetrate = Projectile.maxPenetrate;
+                        ModifyProjectileAfterSpawning(proj);
                     }
-
-                    float shoot_speed = Projectile.velocity.Distance(new(0, 0)); // This is the magnitude of the velocity
-                    Vector2 velocity = shoot_speed * projectileOwner.Center.DirectionTo(Main.MouseWorld); // A vector is just magnitude and direction
-
-                    Vector2 adjusted_speed = velocity.RotatedByRandom(Spread);
-
-                    Projectile proj = Projectile.NewProjectileDirect(new EntitySource_FromHeldProjectile(projectileOwner, sourceItem, ammoUsed, this), projectileOwner.Center, adjusted_speed, ProjectileToSpawn, Projectile.damage, Projectile.knockBack, projectileOwner.whoAmI);
-                    proj.penetrate = Projectile.penetrate;
-                    proj.maxPenetrate = Projectile.maxPenetrate;
-                    // Make sure projectile is _right_ on the center
-                    proj.Center = projectileOwner.Center;
-
-                    // Make sure the projectile goes the right direction after charging
-                    proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2; // No sideways projectiles!
-
                     float multiplier = HasReachedFullCharge ? ChargeShotCooldownMultiplier : 1f;
                     sourceItem.AddCooldownOnShoot(multiplier);
-
-                    ModifyProjectileAfterSpawning(proj);
-
                 }
             }
         }
