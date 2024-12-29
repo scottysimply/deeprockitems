@@ -127,15 +127,17 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (source is EntitySource_FromHeldProjectile { SourceProjectile.HasReachedFullCharge: true})
                             {
+                                var newSource = (source as EntitySource_FromHeldProjectile);
                                 smartBullet = true;
-                                _smartBulletPenetrate += 2;
+                                if (newSource.SourceProjectile.ProjectileToSpawn == ProjectileID.Bullet)
+                                {
+                                    projectile.maxPenetrate = projectile.penetrate = 3;
+                                }
                             }
                             else
                             {
                                 smartBullet = false;
-                                _smartBulletPenetrate = 1;
                             }
-                            projectile.ai[2] = 0;
                         })
                         .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
                             if (!smartBullet) return true;
@@ -328,10 +330,8 @@ namespace deeprockitems.Content.Items.Weapons
         */
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread)
         {
-            // Store the projectile that would've been shot.
+            // original_projectile will get passed into the helper in NewShoot()
             original_projectile = type;
-
-            // Set type to be the "helper" projectile.
             type = ModContent.ProjectileType<M1000Helper>();
         }
         public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread)
@@ -339,19 +339,7 @@ namespace deeprockitems.Content.Items.Weapons
             Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback);
             if (proj.ModProjectile is HeldProjectileBase modProj)
             {
-                // Make the helper spawn the original projectile when it despawns/dies, to make it look like the original projectile was shot.
                 modProj.ProjectileToSpawn = original_projectile;
-                if (modProj.ProjectileToSpawn == ProjectileID.Bullet)
-                {
-                    proj.penetrate = proj.maxPenetrate = _smartBulletPenetrate;
-                    modProj.ProjectileToSpawn = ProjectileID.BulletHighVelocity;
-                }
-
-                // Sorry, until this weird gravity issue gets fixed: No modded bullets!
-                if (!ModInformation.IsProjectileVanilla(original_projectile) && !ModInformation.IsProjectileMyMod(original_projectile))
-                {
-                    modProj.ProjectileToSpawn = ProjectileID.BulletHighVelocity;
-                }
             }
             return false;
         }
