@@ -4,6 +4,7 @@ using Terraria.Audio;
 using deeprockitems.Audio;
 using Microsoft.Xna.Framework;
 using deeprockitems.Common.EntitySources;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.Content.Projectiles.M1000Projectile
 {
@@ -20,13 +21,16 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
             {
                 type = ProjectileID.BulletHighVelocity;
             }
+            if (!ModInformation.IsProjectileVanilla(type) && !ModInformation.IsProjectileMyMod(type))
+            {
+                type = ProjectileID.BulletHighVelocity;
+            }
         }
         public override void ModifyProjectileAfterSpawning(Projectile projectile) {
-            /*if (ProjectileToSpawn == ProjectileID.Bullet)
+            if (ProjectileToSpawn == ProjectileID.Bullet)
             {
-                ProjectileToSpawn = ProjectileID.BulletHighVelocity;
                 projectile.penetrate = projectile.maxPenetrate = 1;
-            }*/
+            }
         }
         public override void WhenReachedFullCharge()
         {
