@@ -58,6 +58,7 @@ namespace deeprockitems.Content.Projectiles
             Projectile.timeLeft = 2;
             Projectile.hide = true;
             Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
             NewSetDefaults();
         }
         public override string Texture => "Terraria/Images/MagicPixel";
@@ -188,8 +189,6 @@ namespace deeprockitems.Content.Projectiles
                         Vector2 adjusted_speed = velocity.RotatedByRandom(spread);
                         Projectile proj = Projectile.NewProjectileDirect(source, position, adjusted_speed, type, damage, knockback, projectileOwner.whoAmI);
                         proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2; // No sideways projectiles!
-                        proj.penetrate = Projectile.penetrate;
-                        proj.maxPenetrate = Projectile.maxPenetrate;
                         ModifyProjectileAfterSpawning(proj);
                     }
                     float multiplier = HasReachedFullCharge ? ChargeShotCooldownMultiplier : 1f;
