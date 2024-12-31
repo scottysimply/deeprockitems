@@ -222,7 +222,6 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 upgrade.Behavior.Item_ModifyShootStatsHook?.Invoke(Item, player, ref position2, ref spreadVelocity, ref type2, ref damage2, ref knockback2, ref spread);
             }
-            // Now begin doing shoot logic
             var newSource = new EntitySource_FromUpgradableWeapon(player, this, source.AmmoItemIdUsed, source.Context);
             if (!Item.channel)
             {
@@ -231,7 +230,7 @@ namespace deeprockitems.Content.Items.Weapons
             bool upgradeReturn = true;
             foreach (var upgrade in GetEquippedUpgrades())
             {
-                upgradeReturn &= upgrade.Behavior.Item_OnShootHook?.Invoke(Item, player, newSource, position2, spreadVelocity, type2, damage2, knockback2, spread) ?? true;
+                upgradeReturn &= upgrade.Behavior.Item_ShootHook?.Invoke(Item, player, newSource, position2, spreadVelocity, type2, damage2, knockback2, spread) ?? true;
             }
             if (upgradeReturn && NewShoot(player, newSource, position2, spreadVelocity, type2, damage2, knockback2, spread))
             {

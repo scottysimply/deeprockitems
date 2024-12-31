@@ -25,6 +25,10 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
             {
                 type = ProjectileID.BulletHighVelocity;
             }
+            if (!HasReachedFullCharge)
+            {
+                spread = MathHelper.Pi / 32;
+            }
         }
         public override void ModifyProjectileAfterSpawning(Projectile projectile) {
             if (ProjectileToSpawn == ProjectileID.Bullet)

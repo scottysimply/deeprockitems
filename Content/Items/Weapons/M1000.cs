@@ -120,27 +120,21 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient(ItemID.MusketBall, 99)
 
                 .WithTier()
-                    .WithUpgrade("Something", Assets.Upgrades.Penetrate)
-
+                    .WithUpgrade("WhereItHurts", Assets.Upgrades.SpecialStar)
+                        .WithBehavior<ProjectileModifyHitNPC>((Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
+                            
+                        })
                     // This upgrade functions like magic bullets for the bulldog in drg: focused bullets rebound automatically to targets
-                    .WithUpgrade("MagicBullets", Assets.Upgrades.SpecialStar)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
-                            if (source is EntitySource_FromHeldProjectile { SourceProjectile.HasReachedFullCharge: true})
+                    .WithUpgrade("MagicBullets", Assets.Upgrades.Penetrate)
+                        .WithBehavior<HeldProjectilePostSpawn>((EntitySource_FromHeldProjectile source, Projectile projectile) => {
+                            if (source.SourceProjectile.HasReachedFullCharge)
                             {
-                                var newSource = (source as EntitySource_FromHeldProjectile);
-                                smartBullet = true;
-                                if (newSource.SourceProjectile.ProjectileToSpawn == ProjectileID.Bullet)
-                                {
-                                    projectile.maxPenetrate = projectile.penetrate = 3;
-                                }
+                                projectile.penetrate += 2;
                             }
-                            else
-                            {
-                                smartBullet = false;
-                            }
+                            projectile.penetrate += 2;
+
                         })
                         .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
-                            if (!smartBullet) return true;
                             var query = Main.npc.Where(n => n.active && !n.friendly && !n.immortal).OrderBy(n => n.Center.DistanceSQ(projectile.Center));
                             foreach (var npc in query)
                             {
@@ -155,8 +149,7 @@ namespace deeprockitems.Content.Items.Weapons
                             return true;
                         })
                         .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
-                            if (!smartBullet) return;
-                            var query = Main.npc.Where(n => n.active && !n.friendly && !n.immortal).OrderBy(n => n.Center.DistanceSQ(projectile.Center));
+                            var query = Main.npc.Where(n => n.active && !n.friendly && !n.immortal && n.immune[projectile.owner] < 10).OrderBy(n => n.Center.DistanceSQ(projectile.Center));
                             foreach (var npc in query)
                             {
                                 if (target.whoAmI == npc.whoAmI) continue;
@@ -169,7 +162,6 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         })
                         .WithBehavior<ProjectilePreDraw>((Projectile projectile, Color lightColor) => {
-                            if (!smartBullet) return true;
                             int textureWidth = TextureAssets.Projectile[projectile.type].Value.Width;
                             var query = Main.npc.Where(n => n.active && projectile.Center.DistanceSQ(n.Center) <= textureWidth * textureWidth);
                             foreach (var npc in query)

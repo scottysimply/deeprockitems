@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Mono.CompilerServices.SymbolWriter.CodeBlockEntry;
 
 namespace deeprockitems.Content.Projectiles
 {
@@ -183,13 +184,27 @@ namespace deeprockitems.Content.Projectiles
                     float knockback = Projectile.knockBack;
                     float spread = Spread;
                     ModifyShootStats(sourceItem.Item, projectileOwner, ref position, ref velocity, ref type, ref damage, ref knockback, ref spread);
+                    foreach (var upgrade in sourceItem.GetEquippedUpgrades())
+                    {
+                        upgrade.Behavior.HeldProjectile_ModifyShootStatsHook?.Invoke(this, sourceItem.Item, projectileOwner, ref position, ref velocity, ref type, ref damage, ref knockback, ref spread);
+                    }
                     EntitySource_FromHeldProjectile source = new(projectileOwner, sourceItem, ammoUsed, this);
-                    if (Shoot(sourceItem.Item, projectileOwner, source, position, velocity, type, damage, knockback, spread))
+                    bool upgradeReturn = true;
+                    foreach (var upgrade in sourceItem.GetEquippedUpgrades())
+                    {
+                        upgradeReturn &= upgrade.Behavior.HeldProjectile_ShootHook?.Invoke(this, sourceItem.Item, projectileOwner, source, position, velocity, type, damage, knockback, spread) ?? true;
+                    }
+                    if (upgradeReturn && Shoot(sourceItem.Item, projectileOwner, source, position, velocity, type, damage, knockback, spread))
                     {
                         Vector2 adjusted_speed = velocity.RotatedByRandom(spread);
                         Projectile proj = Projectile.NewProjectileDirect(source, position, adjusted_speed, type, damage, knockback, projectileOwner.whoAmI);
-                        proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2; // No sideways projectiles!
+                        // This stops projectiles from coming out sideways
+                        proj.rotation = new Vector2(0, 0).DirectionTo(proj.velocity).ToRotation() - MathHelper.Pi / 2;
                         ModifyProjectileAfterSpawning(proj);
+                        foreach (var upgrade in sourceItem.GetEquippedUpgrades())
+                        {
+                            upgrade.Behavior.HeldProjectile_PostSpawnHook?.Invoke(source, proj);
+                        }
                     }
                     float multiplier = HasReachedFullCharge ? ChargeShotCooldownMultiplier : 1f;
                     sourceItem.AddCooldownOnShoot(multiplier);
