@@ -141,7 +141,7 @@ namespace deeprockitems.Content.Upgrades
     /// <returns></returns>
     public delegate bool HeldProjectileShoot(HeldProjectileBase projectile, Item item, Player player, EntitySource_FromHeldProjectile source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread);
     ///<summary>
-    /// Called immediately after <i>held projectile</i> when the upgrade is equipped AND the projectile was fired manually. Only called if the original projectile shot by the item inherited from <see cref="HeldProjectileBase"></see>.<br/>
+    /// Called immediately after the projectile is spawned on the <i>held projectile</i> when the upgrade is equipped AND the Shoot() returned true. Only called if the original projectile shot by the item inherited from <see cref="HeldProjectileBase"></see>.<br/>
     /// </summary>
     /// <param name="source"></param>
     /// <param name="projectile"></param>
