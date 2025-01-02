@@ -1,6 +1,7 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Buffs;
 using deeprockitems.Content.Projectiles;
+using deeprockitems.Content.Projectiles.Globals;
 using deeprockitems.Content.Projectiles.M1000Projectile;
 using deeprockitems.Content.Upgrades;
 using deeprockitems.Utilities;
@@ -122,8 +123,17 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithTier()
                     .WithUpgrade("WhereItHurts", Assets.Upgrades.SpecialStar)
                         .WithBehavior<ProjectileModifyHitNPC>((Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
-                            
+                            if (projectile.GetSource() is not EntitySource_FromHeldProjectile { SourceProjectile.HasReachedFullCharge: true }) return;
+
+                            modifiers.ModifyHitInfo += (ref NPC.HitInfo info) => {
+                                if (target.immortal || !target.active) return;
+                                if (info.Damage >= target.lifeMax * 0.05f) return;
+
+                                info.Damage = (int)(target.lifeMax * 0.05f);
+                            };
                         })
+                        .WithIngredient(ItemID.ChlorophyteBar, 8)
+                        .WithIngredient(ItemID.FragmentVortex, 6)
                     // This upgrade functions like magic bullets for the bulldog in drg: focused bullets rebound automatically to targets
                     .WithUpgrade("MagicBullets", Assets.Upgrades.Penetrate)
                         .WithBehavior<HeldProjectilePostSpawn>((EntitySource_FromHeldProjectile source, Projectile projectile) => {
