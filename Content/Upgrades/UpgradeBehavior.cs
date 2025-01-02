@@ -145,7 +145,7 @@ namespace deeprockitems.Content.Upgrades
     /// </summary>
     /// <param name="source"></param>
     /// <param name="projectile"></param>
-    public delegate void HeldProjectilePostSpawn(EntitySource_FromHeldProjectile source, Projectile projectile);
+    public delegate void HeldProjectilePostSpawn(Projectile projectile, EntitySource_FromHeldProjectile source);
     
     #endregion
     public class UpgradeBehavior

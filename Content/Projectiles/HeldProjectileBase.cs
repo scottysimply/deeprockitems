@@ -203,7 +203,7 @@ namespace deeprockitems.Content.Projectiles
                         ModifyProjectileAfterSpawning(proj);
                         foreach (var upgrade in sourceItem.GetEquippedUpgrades())
                         {
-                            upgrade.Behavior.HeldProjectile_PostSpawnHook?.Invoke(source, proj);
+                            upgrade.Behavior.HeldProjectile_PostSpawnHook?.Invoke(proj, source);
                         }
                     }
                     float multiplier = HasReachedFullCharge ? ChargeShotCooldownMultiplier : 1f;

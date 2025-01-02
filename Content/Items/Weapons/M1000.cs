@@ -136,7 +136,7 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient(ItemID.FragmentVortex, 6)
                     // This upgrade functions like magic bullets for the bulldog in drg: focused bullets rebound automatically to targets
                     .WithUpgrade("MagicBullets", Assets.Upgrades.Penetrate)
-                        .WithBehavior<HeldProjectilePostSpawn>((EntitySource_FromHeldProjectile source, Projectile projectile) => {
+                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (source.SourceProjectile.HasReachedFullCharge)
                             {
                                 projectile.penetrate += 2;
