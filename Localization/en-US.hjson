@@ -96,8 +96,8 @@ Mods: {
 
 		Misc: {
 			UsefulWords: {
-				$parentVal: Recipe: "Recipe:"
 				Recipe: Recipe:
+				Upgradable: Upgradable at an Upgrade Station
 			}
 		}
 
@@ -289,6 +289,26 @@ Mods: {
 				EfficientCharge: {
 					DisplayName: Efficient Coils
 					HoverText: Charge shots only consume 1 ammo
+				}
+
+				UmaniteBullets: {
+					DisplayName: Umanite Bullets
+					HoverText: Causes a short damage debuff that increases with shots landed
+				}
+
+				HighDamageUpgrade: {
+					DisplayName: The Gustav
+					HoverText: Increased damage by 75%
+				}
+
+				WhereItHurts: {
+					DisplayName: Hitting Where It Hurts
+					HoverText: Focus shots will always deal at least 5% of the target's health!
+				}
+
+				MagicBullets: {
+					DisplayName: Magic Bullets
+					HoverText: Bullets will automatically rebound to the nearest target
 				}
 			}
 

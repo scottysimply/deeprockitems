@@ -1,6 +1,7 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Upgrades;
+using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Utilities;
@@ -145,8 +147,14 @@ namespace deeprockitems.Content.Items.Weapons
             return null;
         }*/
         public override void ModifyTooltips(List<TooltipLine> tooltips) {
-            // Remove the crit line
+            // Remove the crit line, add "upgradable"
             tooltips.Find(tl => tl.FullName == "Terraria/CritChance")?.Hide();
+            int desiredIndex = tooltips.FindLastIndex(tooltip => tooltip.Name.StartsWith("Tooltip"));
+            if (desiredIndex == -1)
+            {
+                desiredIndex = tooltips.FindIndex(tooltip => tooltip.Name == "Knockback");
+            }
+            tooltips.Insert(desiredIndex + 1, new TooltipLine(Mod, "Upgradable", Language.GetTextValue("Mods.deeprockitems.Misc.UsefulWords.Upgradable")));
         }
         public override bool CanUseItem(Player player) {
             return IsWeaponEnabledByCooldown;

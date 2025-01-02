@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.Localization;
 
 namespace deeprockitems.Content.Upgrades
 {
@@ -121,9 +122,15 @@ namespace deeprockitems.Content.Upgrades
                 _currentUpgradeAddingTo = null;
             }
             UpgradeList upgrades = new(_internalName);
-            foreach (var tier in _innerUpgrades)
+            foreach (var kvp in _innerUpgrades)
             {
-                UpgradeTier upgradeTier = new(tier.Key, [..tier.Value]);
+                foreach (var upgrade in kvp.Value)
+                {
+                    upgrade.LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{upgrade.InternalName}";
+                    _ = upgrade.DisplayName;
+                    _ = upgrade.HoverText;
+                }
+                UpgradeTier upgradeTier = new(kvp.Key, [..kvp.Value]);
                 upgrades.Add(upgradeTier.Tier, upgradeTier);
             }
             return upgrades;
