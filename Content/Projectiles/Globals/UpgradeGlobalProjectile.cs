@@ -9,7 +9,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace deeprockitems.Content.Projectiles
+namespace deeprockitems.Content.Projectiles.Globals
 {
     public class UpgradeGlobalProjectile : GlobalProjectile
     {
@@ -21,10 +21,12 @@ namespace deeprockitems.Content.Projectiles
         /// </summary>
         /// <param name="name">The internal name of the upgrade</param>
         /// <returns></returns>
-        public bool IsUpgradeEquipped(string name) {
+        public bool IsUpgradeEquipped(string name)
+        {
             return _equippedUpgrades.Any(upgrade => upgrade.InternalName == name);
         }
-        public override void SetDefaults(Projectile entity) {
+        public override void SetDefaults(Projectile entity)
+        {
             foreach (var upgrade in _equippedUpgrades)
             {
                 upgrade.Behavior.Projectile_SetDefaultsHook?.Invoke(entity);
@@ -32,13 +34,14 @@ namespace deeprockitems.Content.Projectiles
         }
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            // Pass entitySource
+            // Pass upgrades to spawned projectiles
             if (source is EntitySource_Parent { Entity: Projectile newProj })
             {
                 var global = newProj.GetGlobalProjectile<UpgradeGlobalProjectile>();
                 _equippedUpgrades = global._equippedUpgrades;
                 return;
             }
+
             if (source is not EntitySource_FromUpgradableWeapon newSource) return;
 
             _cameFromUpgradableWeapon = true;
@@ -65,7 +68,8 @@ namespace deeprockitems.Content.Projectiles
                 upgrade.Behavior.Projectile_OnHitNPCHook?.Invoke(projectile, target, hit, damageDone);
             }
         }
-        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) {
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
+        {
             if (_cameFromUpgradableWeapon)
             {
                 // First of all, disable damage variance. Evil!
@@ -76,11 +80,12 @@ namespace deeprockitems.Content.Projectiles
             foreach (var upgrade in _equippedUpgrades)
             {
                 if (upgrade.Behavior.Projectile_ModifyHitNPCHook == null) continue;
-                
+
                 upgrade.Behavior.Projectile_ModifyHitNPCHook.Invoke(projectile, target, ref modifiers);
             }
         }
-        public override bool PreDraw(Projectile projectile, ref Color lightColor) {
+        public override bool PreDraw(Projectile projectile, ref Color lightColor)
+        {
             bool callBase = true;
             foreach (var upgrade in _equippedUpgrades)
             {
@@ -96,7 +101,8 @@ namespace deeprockitems.Content.Projectiles
             if (!callBase) return false;
             return base.PreDraw(projectile, ref lightColor);
         }
-        public override bool PreKill(Projectile projectile, int timeLeft) {
+        public override bool PreKill(Projectile projectile, int timeLeft)
+        {
             bool callBase = true;
             foreach (var upgrade in _equippedUpgrades)
             {
@@ -112,7 +118,8 @@ namespace deeprockitems.Content.Projectiles
             if (!callBase) return false;
             return base.PreKill(projectile, timeLeft);
         }
-        public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity) {
+        public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
+        {
             bool callBase = true;
             foreach (var upgrade in _equippedUpgrades)
             {
@@ -128,10 +135,12 @@ namespace deeprockitems.Content.Projectiles
             if (!callBase) return false;
             return base.OnTileCollide(projectile, oldVelocity);
         }
-        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter) {
+        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+        {
             base.SendExtraAI(projectile, bitWriter, binaryWriter);
         }
-        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader) {
+        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+        {
             base.ReceiveExtraAI(projectile, bitReader, binaryReader);
         }
     }

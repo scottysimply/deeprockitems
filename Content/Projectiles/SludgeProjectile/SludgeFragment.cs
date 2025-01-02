@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using deeprockitems.Audio;
 using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles.Globals;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {

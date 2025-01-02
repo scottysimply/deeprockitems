@@ -1,4 +1,5 @@
 ﻿using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles.Globals;
 using Terraria;
 using Terraria.ModLoader;
 

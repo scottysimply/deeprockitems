@@ -1,5 +1,6 @@
 ﻿using deeprockitems.Audio;
 using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles.Globals;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
