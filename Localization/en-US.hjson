@@ -424,7 +424,7 @@ Mods: {
 			PlasmaPistol: {
 				ThinContainmentField: {
 					DisplayName: Thin Containment Field
-					HoverText: Hitting charged plasma with uncharged plasma will make it explode
+					HoverText: Hitting charged plasma with uncharged plasma creates an explosion with concussive force
 				}
 
 				HeatDump: {
@@ -433,8 +433,8 @@ Mods: {
 				}
 
 				DamageUpgrade: {
-					DisplayName: DamageUpgrade
-					HoverText: Hover text
+					DisplayName: Dense Plasma
+					HoverText: +10% base damage
 				}
 
 				PlasmaSplash: {
@@ -444,37 +444,42 @@ Mods: {
 
 				IncreasedBattery: {
 					DisplayName: Higher Capacity Battery
-					HoverText: Increased cooldown capacity
+					HoverText: 2x magazine capacity
 				}
 
 				SuperSpeedPlasma: {
 					DisplayName: Overtuned Nozzle
-					HoverText: Increased velocity of plasma
+					HoverText: +25% increase to projectile velocity
 				}
 
 				FlyingNightmare: {
 					DisplayName: Flying Nightmare
-					HoverText: Charged plasma will pass through enemies
+					HoverText: Fully charged plasma pierces all enemies
 				}
 
 				ArmorBreak: {
-					DisplayName: Gamma Ray Bursts
-					HoverText: Plasma will ignore 10 defense
+					DisplayName: Gamma Ray Emitters
+					HoverText: +25% armor penetration
 				}
 
 				QuickCharge: {
 					DisplayName: Quick Charge Coils
-					HoverText: Procure a charge shot 25% faster
+					HoverText: 25% faster charge speed
 				}
 
 				IncreasedChargeDamage: {
 					DisplayName: Oxygen Coil Injectors
-					HoverText: Increased charge daamge
+					HoverText: +25% charged shot damage
 				}
 
 				FireRateIncrease: {
 					DisplayName: Crystal Capacitors
-					HoverText: 33% faster fire rate
+					HoverText: +33% faster fire rate
+				}
+
+				MediumDamageUpgrade: {
+					DisplayName: Even Denser Plasma
+					HoverText: +25% base damage
 				}
 			}
 

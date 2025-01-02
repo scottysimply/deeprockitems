@@ -1,10 +1,13 @@
-﻿using deeprockitems.Content.Buffs;
+﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 using deeprockitems.Content.Upgrades;
 using deeprockitems.Utilities;
 using Humanizer;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,166 +39,119 @@ namespace deeprockitems.Content.Items.Weapons
             this.ShotsUntilCooldown = 12f;
             this.TimeToEndCooldown = 75f;
         }
-/*        public override UpgradeList InitializeUpgrades() {
-            return new UpgradeList("PlasmaPistol",
-                new UpgradeTier(1,
-                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.damage = (int)(item.OriginalDamage * 1.10f);
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 8)
-                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 1)
-                    },
-                    new Upgrade("IncreasedBattery", Assets.Upgrades.FireRate.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                (item.ModItem as UpgradableWeapon).ShotsUntilCooldown = 24f;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 8)
-                                    .AddIngredient(ItemID.FallenStar, 5)
-                    },
-                    new Upgrade("IncreasedChargeDamage", Assets.Upgrades.AreaOfEffect.Value) {
-                        Behavior = {
-                            Projectile_OnSpawnHook = (proj, source) => {
-                                if (proj.ModProjectile is not BigPlasma) return;
-                                proj.damage = (int)(proj.damage * 1.25f);
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddIngredient(ItemID.MeteoriteBar, 6)
-                                    .AddCandidateIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
-                    }
-                ),
-                new UpgradeTier(2,
-                    new Upgrade("SuperSpeedPlasma", Assets.Upgrades.ProjectileVelocity.Value) {
-                        Behavior = {
-                            Projectile_OnSpawnHook = (proj, source) => {
-                                if (proj.ModProjectile is not PlasmaBullet) return;
-                                proj.velocity *= 1.25f;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                        .AddIngredient(ItemID.MeteoriteBar, 6)
-                                        .AddIngredient(ItemID.SwiftnessPotion, 3)
-                    },
-                    new Upgrade("QuickCharge", Assets.Upgrades.Focus.Value) {
-                        Behavior = {
-                            Projectile_OnSpawnHook = (proj, source) => {
-                                if (proj.ModProjectile is not PlasmaPistolHelper helper) return;
-                                helper.ChargeTimeMultiplier = 0.75f;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 6)
-                                    .AddIngredient(ItemID.SwiftnessPotion, 3)
-                    }
-                ),
-                new UpgradeTier(3,
-                    new Upgrade("ArmorBreak", Assets.Upgrades.ArmorBreak.Value) {
-                        Behavior = {
-                            Projectile_ModifyHitNPCHook = (Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
-                                modifiers.ScalingArmorPenetration += 0.25f;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 8)
-                                    .AddIngredient(ItemID.SharkToothNecklace, 1)
-                    },
-                    new Upgrade("FireRateIncrease", Assets.Upgrades.FireRate.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.useTime = (int)(item.useTime * 0.67f);
-                                item.useAnimation = (int)(item.useAnimation * 0.67f);
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 6)
-                                    .AddIngredient(ItemID.FallenStar, 5)
-                    }
-                ),
-                new UpgradeTier(4,
-                    new Upgrade("PlasmaSplash", Assets.Upgrades.AreaOfEffect.Value) {
-                        Behavior = {
-                            Projectile_OnTileCollideHook = (proj, oldVelocity) => {
-                                if (proj.ModProjectile is not PlasmaBullet plasma) return true;
-                                if (proj.owner != Main.myPlayer) return false;
-                                if (plasma.IsExploding) return true;
-                                plasma.Explode();
-                                return false;
-                            },
-                            Projectile_OnHitNPCHook = (proj, npc, hit, damageDone) => {
-                                if (proj.ModProjectile is not PlasmaBullet plasma) return;
-                                if (proj.owner != Main.myPlayer) return;
-                                if (plasma.IsExploding) return;
-                                plasma.Explode();
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddIngredient(ItemID.HellstoneBar, 8)
-                                    .AddIngredient(ItemID.Grenade, 15)
-                    },
-                    new Upgrade("FlyingNightmare", Assets.Upgrades.Penetrate.Value) {
-                        Behavior = {
-                            Projectile_OnSpawnHook = (proj, source) => {
-                                if (proj.ModProjectile is not BigPlasma) return;
-                                proj.penetrate = -1;
-                                proj.usesLocalNPCImmunity = true;
-                                proj.localNPCHitCooldown = 10;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddIngredient(ItemID.HellstoneBar, 8)
-                                    .AddCandidateIngredient([ItemID.Vilethorn, ItemID.CrimsonRod], 1)
-                    }
-                ),
-                new UpgradeTier(5,
-                    new Upgrade("ThinContainmentField", Assets.Upgrades.SpecialStar.Value) {
-                        Behavior = {
-                            // When big projectile intersects small projectile, spawn an explosion and kill both
-                            Projectile_AIHook = (proj) => {
-                                // If this isn't a small projectile, return
-                                if (proj.ModProjectile is not PlasmaBullet) return;
-                                int intersection = proj.IsCollidingWithProjectile(ModContent.ProjectileType<BigPlasma>());
-                                // If no intersection found, return
-                                if (intersection == -1) return;
-                                // If the owner of the intersecting projectile isn't the owner of the small plasma, return
-                                if (proj.owner != Main.myPlayer && Main.projectile[intersection].owner != proj.owner) return;
+        public override UpgradeList InitializeUpgrades() {
+            return UpgradeBuilder.CreateUpgradeList("PlasmaPistol")
+                .WithTier()
+                    .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.damage = (int)(item.OriginalDamage * 1.1f);
+                        })
+                        .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 8)
+                        .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 1)
+                    .WithUpgrade("IncreasedBattery", Assets.Upgrades.FireRate)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            (item.ModItem as UpgradableWeapon).ShotsUntilCooldown = 24f;
+                        })
+                        .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 8)
+                        .WithIngredient(ItemID.Amethyst, 5)
+                    .WithUpgrade("IncreasedChargeDamage", Assets.Upgrades.AreaOfEffect)
+                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                            if (!source.SourceProjectile.HasReachedFullCharge) return;
 
-                                // We are safe to explode this projectile
-                                // Explode
-                                Projectile.NewProjectile(proj.GetSource_FromAI(), proj.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), proj.damage * 3, 0f, proj.owner);
-                                // Kill other projectiles
-                                Main.projectile[intersection].Kill();
-                                proj.Kill();
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 10)
-                                    .AddIngredient(ItemID.Dynamite, 10)
-                    },
-                    new Upgrade("HeatDump", Assets.Upgrades.Heat.Value) {
-                        Behavior = {
-                            Projectile_OnHitNPCHook = (Projectile proj, NPC npc, NPC.HitInfo hit, int damageDone) => {
-                                int heatAmount = proj.ModProjectile switch {
-                                    BigPlasma => 64,
-                                    _ => 24,
-                                };
-                                npc.ChangeTemperature(heatAmount);
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                                    .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 10)
-                                    .AddIngredient(ItemID.AncientBattleArmorMaterial, 1)
-                    }
-                )
-            );
+                            projectile.damage = (int)(projectile.damage * 1.25f);
+                        })
+                        .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 8)
+                        .WithIngredient(ItemID.FallenStar, 5)
+                .WithTier()
+                    .WithUpgrade("SuperSpeedPlasma", Assets.Upgrades.BigArrow)
+                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                            projectile.velocity *= 1.25f;
+                        })
+                        .WithIngredient(ItemID.MeteoriteBar, 8)
+                        .WithIngredient([ItemID.HermesBoots, ItemID.FlurryBoots, ItemID.SandBoots, ItemID.SailfishBoots])
+                    .WithUpgrade("QuickCharge", Assets.Upgrades.Focus)
+                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                            if (projectile.ModProjectile is not PlasmaPistolHelper helper) return;
+
+                            helper.ChargeTimeMultiplier = 0.75f;
+                        })
+                        .WithIngredient(ItemID.MeteoriteBar, 8)
+                        .WithIngredient(ItemID.SwiftnessPotion, 3)
+                .WithTier()
+                    .WithUpgrade("ArmorBreak", Assets.Upgrades.ArmorBreak)
+                        .WithBehavior<ProjectileModifyHitNPC>((Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
+                            modifiers.ScalingArmorPenetration += 0.25f;
+                        })
+                        .WithIngredient(ItemID.HellstoneBar, 8)
+                        .WithIngredient(ItemID.SharkToothNecklace)
+                    .WithUpgrade("FireRateIncrease", Assets.Upgrades.FireRate)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.useTime = item.useAnimation = (int)(item.useTime * 0.67f);
+                        })
+                        .WithIngredient(ItemID.HellstoneBar, 8)
+                        .WithIngredient(ItemID.Amethyst, 5)
+                    .WithUpgrade("MediumDamageUpgrade", Assets.Upgrades.Damage)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.damage = (int)(item.OriginalDamage * 1.25f);
+                        })
+                        .WithIngredient(ItemID.HellstoneBar, 8)
+                        .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 2)
+                .WithTier()
+                    .WithUpgrade("PlasmaSplash", Assets.Upgrades.AreaOfEffect)
+                        .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
+                            if (projectile.ModProjectile is not PlasmaBullet plasma) return true;
+                            if (projectile.owner != Main.myPlayer) return false;
+                            if (plasma.IsExploding) return true;
+                            plasma.Explode();
+                            return false;
+                        })
+                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                            if (projectile.ModProjectile is not PlasmaBullet plasma) return;
+                            if (projectile.owner != Main.myPlayer) return;
+                            if (plasma.IsExploding) return;
+                            plasma.Explode();
+                        })
+                        .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                        .WithIngredient(ItemID.Grenade, 10)
+                    .WithUpgrade("FlyingNightmare", Assets.Upgrades.Penetrate)
+                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                            if (projectile.ModProjectile is not BigPlasma) return;
+
+                            projectile.penetrate = -1;
+                            projectile.usesLocalNPCImmunity = true;
+                            projectile.localNPCHitCooldown = 10;
+                        })
+                        .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                        .WithIngredient([ItemID.Vilethorn, ItemID.CrimsonRod])
+                .WithTier()
+                    .WithUpgrade("ThinContainmentField", Assets.Upgrades.SpecialStar)
+                        .WithBehavior<ProjectileAI>((Projectile projectile) => {
+                            if (projectile.ModProjectile is not PlasmaBullet) return;
+
+                            int intersection = projectile.IsCollidingWithProjectile(ModContent.ProjectileType<BigPlasma>());
+                            if (intersection == -1) return;
+                            if (projectile.owner != Main.myPlayer && Main.projectile[intersection].owner != projectile.owner) return;
+
+                            
+                            Projectile.NewProjectile(projectile.GetSource_FromAI(), Main.projectile[intersection].Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), projectile.damage * 3, 0f, projectile.owner);
+                            Main.projectile[intersection].Kill();
+                            projectile.Kill();
+                        })
+                        .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                        .WithIngredient(ItemID.Dynamite, 10)
+                    .WithUpgrade("HeatDump", Assets.Upgrades.Heat)
+                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                            int heatAmount = projectile.ModProjectile switch {
+                                BigPlasma => 64,
+                                _ => 24,
+                            };
+                            target.ChangeTemperature(heatAmount);
+                        })
+                        .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                        .WithIngredient(ItemID.AncientBattleArmorMaterial)
+            .Seal();
         }
-*/        public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
+        public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
             spread = MathHelper.Pi / 64f;
         }
         public override void AddRecipes() {
