@@ -362,6 +362,11 @@ Mods: {
 					DisplayName: Blowthrough Rounds
 					HoverText: Shots will penetrate up to 3 enemies
 				}
+
+				HeavyDamageUpgrade: {
+					DisplayName: HeavyDamageUpgrade
+					HoverText: Hover text
+				}
 			}
 
 			SludgePump: {

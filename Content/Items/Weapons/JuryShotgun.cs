@@ -6,6 +6,7 @@ using System;
 using deeprockitems.Content.Upgrades;
 using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Buffs;
+using Terraria.DataStructures;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -37,141 +38,97 @@ namespace deeprockitems.Content.Items.Weapons
         /// </summary>
         public float VelocityLowerBound { get; set; } = 0.8f;
         public int PelletCount { get; set; } = 3;
-/*        public override UpgradeList InitializeUpgrades() {
-            return new UpgradeList("JuryShotgun",
-                new UpgradeTier(1,
-                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.damage = (int)(item.damage * 1.2f);
+        public override UpgradeList InitializeUpgrades() {
+            return UpgradeBuilder.CreateUpgradeList("JuryShotgun")
+                .WithTier()
+                    .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.damage = (int)(item.OriginalDamage * 1.2f);
+                        })
+                        .WithIngredient(ItemID.HellstoneBar, 8)
+                        .WithIngredient(ItemID.Bone, 5)
+                    .WithUpgrade("Sniper", Assets.Upgrades.Focus)
+                        .WithBehavior<ItemModifyShootStats>((Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
+                            spread *= 0.66f;
+                        })
+                        .WithIngredient(ItemID.HellstoneBar, 8)
+                        .WithIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
+                .WithTier()
+                    .WithUpgrade("QuickFire", Assets.Upgrades.FireRate)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.useTime = item.useAnimation = 8;
+                        })
+                        .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                        .WithIngredient(ItemID.Feather, 4)
+                    .WithUpgrade("ReloadSpeed", Assets.Upgrades.FireRate)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            (item.ModItem as UpgradableWeapon).TimeToEndCooldown *= 0.5f;
+                        })
+                        .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                        .WithIngredient(ItemID.Deathweed, 5)
+                .WithTier()
+                    .WithUpgrade("Birdshot", Assets.Upgrades.Focus)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.damage += 20;
+                            (item.ModItem as JuryShotgun).PelletCount += 5;
+                        })
+                        .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                        .WithIngredient(ItemID.SoulofLight, 4)
+                    .WithUpgrade("Buckshot", Assets.Upgrades.Damage)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.damage += 40;
+
+                            (item.ModItem as JuryShotgun).PelletCount += 2;
+                        })
+                        .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                        .WithIngredient(ItemID.SoulofNight, 4)
+                .WithTier()
+                    .WithUpgrade("WhitePhosphorusShells", Assets.Upgrades.Heat)
+                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                            target.ChangeTemperature(125 / PelletCount, projectile.owner);
+                        })
+                        .WithIngredient(ItemID.HallowedBar, 8)
+                        .WithIngredient(ItemID.HellstoneBar, 6)
+                    .WithUpgrade("Shockwave", Assets.Upgrades.AreaOfEffect)
+                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                            int radius = 10;
+                            foreach (var npc in Main.ActiveNPCs)
+                            {
+                                if (player.Center.DistanceSQ(npc.Center) > (radius*radius*16*16)) continue;
+
+                                var hitinfo = npc.CalculateHitInfo(item.damage * 3, -1);
+                                player.StrikeNPCDirect(npc, hitinfo);
+                                npc.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
+
                             }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddIngredient(ItemID.HellstoneBar, 10)
-                            .AddIngredient(ItemID.Bone, 8)
-                    },
-                    new Upgrade("Sniper", Assets.Upgrades.Focus.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                (item.ModItem as JuryShotgun).SpreadMultiplier *= 0.75f;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 6)
-                            .AddCandidateIngredient([ItemID.IronBar, ItemID.LeadBar], 3)
-                    }
-                ),
-                new UpgradeTier(2,
-                    new Upgrade("QuickFire", Assets.Upgrades.FireRate.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.useTime = item.useAnimation = 8;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddIngredient(ItemID.Hellstone, 6)
-                            .AddIngredient(ItemID.Feather, 4)
-                    },
-                    new Upgrade("ReloadSpeed", Assets.Upgrades.FireRate.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                (item.ModItem as JuryShotgun).TimeToEndCooldown *= 0.5f;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 6)
-                            .AddIngredient(ItemID.Deathweed, 3)
-                    }
-                ),
-                new UpgradeTier(3,
-                    new Upgrade("Birdshot", Assets.Upgrades.Penetrate.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.damage -= 2;
-                                (item.ModItem as JuryShotgun).PelletCount += 3;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
-                            .AddIngredient(ItemID.SoulofLight, 4)
-                    },
-                    new Upgrade("Buckshot", Assets.Upgrades.Damage.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.damage += 12;
-                                (item.ModItem as JuryShotgun).PelletCount -= 1;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
-                            .AddIngredient(ItemID.SoulofNight, 4)
-                    }
-                ),
-                new UpgradeTier(4,
-                    new Upgrade("WhitePhosphorusShells", Assets.Upgrades.Heat.Value) {
-                        Behavior = {
-                            Projectile_OnHitNPCHook = (projectile, npc, hit, damage) => {
-                                npc.ChangeTemperature(125 / PelletCount, projectile.owner);
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 6)
-                            .AddIngredient(ItemID.Fireblossom, 3)
-                    },
-                    new Upgrade("Shockwave", Assets.Upgrades.Heat.Value) {
-                        Behavior = {
-                            Item_OnShootHook = (item, player, source, projectile) => {
-                                // Find enemies around the player
-                                foreach (var npc in Main.ActiveNPCs)
-                                {
-                                    if (player.Center.DistanceSQ(npc.Center) > 25000) continue;
-                                    
-                                    var hitinfo = npc.CalculateHitInfo(20, -1);
-                                    player.StrikeNPCDirect(npc, hitinfo);
-                                    
-                                }
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddIngredient(ItemID.HellstoneBar, 6)
-                            .AddIngredient(ItemID.MeteoriteBar, 4)
-                    },
-                    new Upgrade("DamageUpgrade", Assets.Upgrades.Damage.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                item.damage = (int)(item.damage * 1.2f);
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.CobaltBar, ItemID.MythrilBar], 6)
-                            .AddCandidateIngredient([ItemID.Ebonkoi, ItemID.Hemopiranha], 3)
-                    }
-                ),
-                new UpgradeTier(5,
-                    new Upgrade("QuadrupleBarrel", Assets.Upgrades.FireRate.Value) {
-                        Behavior = {
-                            Item_ModifyStats = (item) => {
-                                (item.ModItem as JuryShotgun).ShotsUntilCooldown = 4f;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 6)
-                            .AddIngredient(ItemID.QuadBarrelShotgun, 1)
-                    },
-                    new Upgrade("Blowthrough", Assets.Upgrades.Penetrate.Value) {
-                        Behavior = {
-                            Projectile_OnSpawnHook = (projectile, source) => {
-                                projectile.penetrate = projectile.maxPenetrate = 3;
-                            }
-                        },
-                        Recipe = new UpgradeRecipe()
-                            .AddCandidateIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 6)
-                            .AddIngredient(ItemID.MeteoriteBar, 4)
-                    }
-                )
-            );
+
+                            return true;
+                        })
+                        .WithIngredient(ItemID.HallowedBar, 8)
+                        .WithIngredient(ItemID.Bomb, 6)
+                    .WithUpgrade("QuadrupleBarrel", Assets.Upgrades.FireRate)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            (item.ModItem as JuryShotgun).PelletCount += 4;
+                            (item.ModItem as UpgradableWeapon).ShotsUntilCooldown *= 2;
+                        })
+                        .WithIngredient(ItemID.HallowedBar, 8)
+                        .WithIngredient(ItemID.QuadBarrelShotgun)
+                .WithTier()
+                    .WithUpgrade("Blowthrough", Assets.Upgrades.Penetrate)
+                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                            projectile.penetrate += 2;
+                        })
+                        .WithIngredient(ItemID.ChlorophyteBar, 8)
+                        .WithIngredient(ItemID.HighVelocityBullet, 99)
+                    .WithUpgrade("HeavyDamageUpgrade", Assets.Upgrades.Damage)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.damage += 40;
+                        })
+                        .WithIngredient(ItemID.ChlorophyteBar, 8)
+                        .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
+            .Seal();
         }
-*/        public override void ResetStats() {
+        public override void ResetStats() {
             PelletCount = 3;
             Item.damage = Item.OriginalDamage;
             TimeToEndCooldown = 75f;
@@ -210,7 +167,7 @@ namespace deeprockitems.Content.Items.Weapons
             Recipe.Create(ModContent.ItemType<JuryShotgun>())
                 .AddIngredient(ItemID.Boomstick, 1)
                 .AddIngredient(ItemID.IllegalGunParts)
-                .AddRecipeGroup(nameof(ItemID.DemoniteBar), 8)
+                .AddIngredient(ItemID.Hellstone, 12)
                 .AddRecipeGroup(nameof(ItemID.VilePowder), 10)
                 .AddTile(TileID.Anvils)
                 .Register();
