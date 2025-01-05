@@ -24,7 +24,9 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useAnimation = 45;
             Item.autoReuse = true;
             Item.value = Item.sellPrice(0, 3, 0, 0);
+            TimeToEndCooldown = 120f;
         }
+        private int _shotsFired = 0;
         /// <summary>
         /// The multiplier given to the number of projectiles this shotgun shoots.
         /// </summary>
@@ -56,7 +58,18 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithTier()
                     .WithUpgrade("QuickFire", Assets.Upgrades.FireRate)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            item.useTime = item.useAnimation = 8;
+                            item.useTime = 8;
+                            item.useAnimation = 15;
+                        })
+                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                            _shotsFired++;
+                            if (_shotsFired >= 2)
+                            {
+                                _shotsFired = 0;
+                                player.itemTime = 30;
+                                player.itemAnimation = 30;
+                            }
+                            return true;
                         })
                         .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
                         .WithIngredient(ItemID.Feather, 4)
@@ -106,20 +119,19 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.HallowedBar, 8)
                         .WithIngredient(ItemID.Bomb, 6)
-                    .WithUpgrade("QuadrupleBarrel", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
-                            (item.ModItem as JuryShotgun).PelletCount += 4;
-                            (item.ModItem as UpgradableWeapon).ShotsUntilCooldown *= 2;
-                        })
-                        .WithIngredient(ItemID.HallowedBar, 8)
-                        .WithIngredient(ItemID.QuadBarrelShotgun)
-                .WithTier()
                     .WithUpgrade("Blowthrough", Assets.Upgrades.Penetrate)
                         .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             projectile.penetrate += 2;
                         })
-                        .WithIngredient(ItemID.ChlorophyteBar, 8)
+                        .WithIngredient(ItemID.HallowedBar, 8)
                         .WithIngredient(ItemID.HighVelocityBullet, 99)
+                .WithTier()
+                    .WithUpgrade("QuadrupleBarrel", Assets.Upgrades.FireRate)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            (item.ModItem as UpgradableWeapon).ShotsUntilCooldown *= 2;
+                        })
+                        .WithIngredient(ItemID.ChlorophyteBar, 8)
+                        .WithIngredient(ItemID.QuadBarrelShotgun)
                     .WithUpgrade("HeavyDamageUpgrade", Assets.Upgrades.Damage)
                         .WithBehavior<ItemStatChange>((Item item) => {
                             item.damage += 40;
