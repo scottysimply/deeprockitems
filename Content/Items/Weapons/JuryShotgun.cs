@@ -7,6 +7,7 @@ using deeprockitems.Content.Upgrades;
 using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Buffs;
 using Terraria.DataStructures;
+using Terraria.Audio;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -16,6 +17,7 @@ namespace deeprockitems.Content.Items.Weapons
         {
             ResetStats();
             Item.CloneDefaults(ItemID.Boomstick);
+            Item.UseSound = null;
             Item.material = false; // Prevents the weapon being erronously being called a material after upgrading
             Item.damage = 15;
             Item.width = 40;
@@ -152,6 +154,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread)
         {
+            SoundEngine.PlaySound(SoundID.Item30 with { PitchVariance = 0.15f }, position);
             // Change player's direction to face the cursor
             if (Main.MouseWorld.X > player.Center.X)
             {
