@@ -162,7 +162,7 @@ namespace deeprockitems.Content.Items.Weapons
         protected int _oldUseTime;
         protected int _oldUseAnimation;
         public UpgradeList UpgradeMasterList { get; set; }
-        public Dictionary<string, UpgradeStateBinding> Upgrades = new();
+        public Dictionary<string, UpgradeStateBinding> UpgradeStates = new();
         public virtual void NewSetDefaults() { }
         public sealed override void SetDefaults() {
             ResetStats();

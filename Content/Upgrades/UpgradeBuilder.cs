@@ -15,6 +15,8 @@ namespace deeprockitems.Content.Upgrades
         private UpgradeBuilder() {
 
         }
+
+        const int OVERCLOCK_TIER = 127;
         int _currentTierAddingTo = 0;
         Upgrade _currentUpgradeAddingTo;
         string _internalName;
@@ -54,6 +56,14 @@ namespace deeprockitems.Content.Upgrades
             }
             _currentTierAddingTo++;
             _innerUpgrades.Add(_currentTierAddingTo, []);
+            return this;
+        }
+        /// <summary>
+        /// Defines a special tier of upgrades reserved for overclocks.
+        /// </summary>
+        /// <returns></returns>
+        public UpgradeBuilder WithOverclocks() {
+            WithTier(OVERCLOCK_TIER);
             return this;
         }
         /// <summary>
