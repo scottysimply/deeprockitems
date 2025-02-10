@@ -140,6 +140,23 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.ChlorophyteBar, 8)
                         .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
+                .WithOverclocks()
+                    .WithUpgrade("SpecialPowder", Assets.Upgrades.Powder)
+                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                            Vector2 mousePos = Main.MouseWorld - player.Center;
+                            player.velocity -= Vector2.Normalize(mousePos) * 10;
+                            // Cap x speed but not y
+                            if (Math.Abs(player.velocity.X) > 15f)
+                            {
+                                player.velocity.X = 15f * Math.Sign(player.velocity.X);
+                            }
+                            // Cancel fall damage
+                            if (player.velocity.Y < 5f)
+                            {
+                                player.fallStart = (int)player.position.Y / 16;
+                            }
+                            return true;
+                        })
             .Seal();
         }
         public override void ResetStats() {

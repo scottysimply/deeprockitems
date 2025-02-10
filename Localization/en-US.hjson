@@ -367,6 +367,11 @@ Mods: {
 					DisplayName: HeavyDamageUpgrade
 					HoverText: Hover text
 				}
+
+				SpecialPowder: {
+					DisplayName: SpecialPowder
+					HoverText: Hover text
+				}
 			}
 
 			SludgePump: {
