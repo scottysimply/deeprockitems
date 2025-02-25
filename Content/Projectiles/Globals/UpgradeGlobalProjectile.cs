@@ -34,7 +34,7 @@ namespace deeprockitems.Content.Projectiles.Globals
         }
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            // Pass upgrades to spawned projectiles
+            // If the projectile was spawned via another projectile, transfer upgrades from parent to child
             if (source is EntitySource_Parent { Entity: Projectile newProj })
             {
                 var global = newProj.GetGlobalProjectile<UpgradeGlobalProjectile>();
@@ -70,9 +70,9 @@ namespace deeprockitems.Content.Projectiles.Globals
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (_cameFromUpgradableWeapon)
+            // If the projectile has any equipped upgrades, disable any damage variation
+            if (_equippedUpgrades != null)
             {
-                // First of all, disable damage variance. Evil!
                 modifiers.DamageVariationScale *= 0f;
                 modifiers.DisableCrit();
             }
