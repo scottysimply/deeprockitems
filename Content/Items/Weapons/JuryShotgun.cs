@@ -84,16 +84,14 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithTier()
                     .WithUpgrade("Birdshot", Assets.Upgrades.Focus)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            item.damage += 20;
                             (item.ModItem as JuryShotgun).PelletCount += 5;
                         })
                         .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
                         .WithIngredient(ItemID.SoulofLight, 4)
                     .WithUpgrade("Buckshot", Assets.Upgrades.Damage)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            item.damage += 40;
-
-                            (item.ModItem as JuryShotgun).PelletCount += 2;
+                            item.damage += 20;
+                            (item.ModItem as JuryShotgun).PelletCount -= 1;
                         })
                         .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
                         .WithIngredient(ItemID.SoulofNight, 4)
@@ -140,6 +138,21 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.ChlorophyteBar, 8)
                         .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
+                .WithOverclocks()
+                    .WithUpgrade("SpecialPowder", Assets.Upgrades.Powder)
+                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                            Vector2 mousePos = Main.MouseWorld - player.Center;
+                            player.velocity -= Vector2.Normalize(mousePos) * 10;
+                            // Cap x speed but not y
+                            if (Math.Abs(player.velocity.X) > 15f) {
+                                player.velocity.X = 15f * Math.Sign(player.velocity.X);
+                            }
+                            // Cancel fall damage
+                            if (player.velocity.Y < 5f) {
+                                player.fallStart = (int)player.position.Y / 16;
+                            }
+                            return true;
+                        })
             .Seal();
         }
         public override void ResetStats() {
