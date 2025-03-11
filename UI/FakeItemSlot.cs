@@ -12,6 +12,7 @@ namespace deeprockitems.UI
     {
         internal Item ItemInSlot;
         public ItemPredicate CanItemBePutIn;
+        private float _drawScale = 1f;
         public delegate bool ItemPredicate(Item mouseItem, Item inSlot);
         public FakeItemSlot(ItemPredicate requirementToPutInSlot)
         {
@@ -54,13 +55,14 @@ namespace deeprockitems.UI
         }
         public override void OnInitialize()
         {
+            _drawScale = Width.Pixels / 52f;
             base.OnInitialize();
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             Rectangle dimensions = GetDimensions().ToRectangle();
             float oldScale = Main.inventoryScale;
-            Main.inventoryScale = 1f;
+            Main.inventoryScale = _drawScale;
 
             if (ContainsPoint(Main.MouseScreen) && !PlayerInput.IgnoreMouseInterface)
             {
