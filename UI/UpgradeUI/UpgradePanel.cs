@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria.ID;
 using Terraria.Audio;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace deeprockitems.UI.UpgradeUI
 {
@@ -24,6 +27,7 @@ namespace deeprockitems.UI.UpgradeUI
         public UIButton<string> ForgeButton;
         public override void OnInitialize()
         {
+            UIPanel panel = new();
             // Set sizes of objects and initialize elements
             float MARGIN = 4;
             float PADDING = 10;
@@ -42,30 +46,28 @@ namespace deeprockitems.UI.UpgradeUI
                 return false;
             });
             ParentSlot.OnItemSwap += ParentSlot_OnItemSwap;
-            ForgeButton = new("Forge")
-            {
-                ScalePanel = true
-            };
+            ForgeButton = new("Forge");
             RecipeDisplay = new UpgradeRecipeDisplay();
 
+            // Set size and position of button
+            ForgeButton.HAlign = 1f;
+            ForgeButton.OnLeftClick += ForgeButton_OnLeftClick;
+            ForgeButton.Height.Pixels = 52;
+            ForgeButton.Width.Pixels = 1.8f * 52;
+            ForgeButton.TextScaleMax = 1.5f;
+            ForgeButton.TextOriginY -= 0.3f;
+            Append(ForgeButton);
 
             // Set size and position of parent slot
             ParentSlot.HAlign = 0f;
-            ParentSlot.Width.Pixels = ParentSlot.Height.Pixels = 52;
-
-            // Set size and position of button
-            ForgeButton.Height = ParentSlot.Height;
-            ForgeButton.HAlign = 1f;
-            ForgeButton.OnLeftClick += ForgeButton_OnLeftClick;
+            ParentSlot.Width.Pixels = ParentSlot.Height.Pixels = ForgeButton.Height.Pixels;
+            Append(ParentSlot);
 
             // Set size of upgrade panel
             UpgradeContainer = new(Width.Pixels, Height.Pixels - ParentSlot.Height.Pixels);
             UpgradeContainer.Top.Pixels = ParentSlot.Height.Pixels;
             UpgradeContainer.OnLeftClick += UpgradeContainer_OnLeftClick;
-
-            // Append everything
-            Append(ParentSlot);
-            Append(ForgeButton);
+            UpgradeContainer.Width.Pixels = Width.Pixels - ForgeButton.Width.Pixels;
             Append(UpgradeContainer);
 
             // Set recipe display position
@@ -106,9 +108,7 @@ namespace deeprockitems.UI.UpgradeUI
                 return;
             }
 
-            // Select this upgrade
             option.SelectThisUpgrade();
-            // Make click noise
         }
         private void ParentSlot_OnItemSwap(Item itemNowInSlot, Item itemThatLeftSlot)
         {
@@ -160,36 +160,31 @@ namespace deeprockitems.UI.UpgradeUI
         private bool TryToCraftItem(Player player, UpgradeRecipe recipe) {
             List<Item> matchingItems = [];
 
-            // Iterate the player's inventory and find the max amount of items
+            // Search for recipes for each item.
             for (int recipeIndex = 0; recipeIndex < recipe.Length; recipeIndex++)
             {
                 for (int invIndex = 0; invIndex < 50; invIndex++)
                 {
-                    // If we didn't find an item, continue
+                    // Filter accepted types and allow it to be used for crafting
                     if (!recipe.ItemsAndAmounts[recipeIndex].AcceptedTypes.Contains(player.inventory[invIndex].type)) continue;
-
-                    // Put candidate item in the list
                     matchingItems.Add(player.inventory[invIndex]);
                 }
 
-                // Sum stacks of the items. If we didn't find every item, then we are unable to craft the recipe.
+                // Sum each stack of items.
                 int totalStack = matchingItems.Where(item => recipe.ItemsAndAmounts[recipeIndex].AcceptedTypes.Contains(item.type)).Sum(item => item.stack);
-                // Mark recipe as uncraftable
+                // No items? :megamind:
                 if (totalStack < recipe.ItemsAndAmounts[recipeIndex].Stack) return false;
             }
 
-            // The recipe is craftable. Let's start crafting it.
+            // Take items from the player's inventory to craft
             for (int recipeIndex = 0; recipeIndex < recipe.Length; recipeIndex++)
             {
-                // Take items required
                 int itemsRequired = recipe.ItemsAndAmounts[recipeIndex].Stack;
-                // Take items sequentially from inventory
                 foreach (var item in matchingItems)
                 {
-                    // Don't take items if the type is not a candidate.
                     if (!recipe.ItemsAndAmounts[recipeIndex].AcceptedTypes.Contains(item.type)) continue;
 
-                    // Begin taking items
+                    // Awful code but i'm not sure how to do this better
                     int currentStack = 0;
                     while (currentStack < itemsRequired)
                     {
@@ -198,7 +193,7 @@ namespace deeprockitems.UI.UpgradeUI
                         if (item.stack == 0)
                         {
                             item.TurnToAir();
-                            item.maxStack = 0;
+                            item.maxStack = 0; // still not fixed in the year of our lord 2025
                         }
                     }
                 }
