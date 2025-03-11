@@ -27,17 +27,17 @@ namespace deeprockitems.Content.Tiles
         {
             // Open UI
             UpgradeSystem system = ModContent.GetInstance<UpgradeSystem>();
-            if (system.Interface.CurrentState == null)
+            if (system.UpgradeUIState == null)
             {
                 Main.LocalPlayer.chest = -1;
                 Main.LocalPlayer.sign = -1;
                 UpgradeUIPlayer.UpgradeStationLocation = new(i, j);
                 Main.playerInventory = true;
-                UpgradeSystem.SetState(system.UpgradeUIState);
+                UpgradeSystem.OpenUpgradeInterface();
             }
             else // Set state
             {
-                Main.LocalPlayer.GetModPlayer<UpgradeUIPlayer>().CloseUI();
+                UpgradeSystem.CloseUpgradeInterface();
             }
             return true;
         }

@@ -9,24 +9,33 @@ namespace deeprockitems.UI.UpgradeUI
 {
     public class UpgradeSystem : ModSystem
     {
-        public UpgradeState UpgradeUIState;
+        public UpgradeState? UpgradeUIState { get => (Interface.CurrentState as UpgradeState) ?? null; }
         public UserInterface Interface;
         public static bool IsUIOpen { get => ModContent.GetInstance<UpgradeSystem>().Interface.CurrentState != null; }
-        public static void SetState(UIState state) {
-            // Set state
+        public static void OpenUpgradeInterface() {
             var self = ModContent.GetInstance<UpgradeSystem>();
+            UpgradeState state = new();
+            state.Activate();
             self.Interface.SetState(state);
-        }   
+        }
+        public static void CloseUpgradeInterface() {
+            var self = ModContent.GetInstance<UpgradeSystem>();
+            self.Interface.SetState(null);
+
+            // Try giving item back to player
+            if (self.Interface.CurrentState != null && self.UpgradeUIState.Panel.ParentSlot.ItemInSlot != null && self.UpgradeUIState.Panel.ParentSlot.ItemInSlot.type != 0)
+            {
+                Main.LocalPlayer.QuickSpawnItem(self.UpgradeUIState.Panel.ParentSlot.ItemInSlot.GetSource_ReleaseEntity(), self.UpgradeUIState.Panel.ParentSlot.ItemInSlot);
+            }
+        }
         public override void Load()
         {
-            UpgradeUIState = new();
-            UpgradeUIState.Activate();
             Interface = new();
         }
         public override void UpdateUI(GameTime gameTime)
         {
             Interface?.Update(gameTime);
-            if (UpgradeUIState.Panel.IsMouseHovering)
+            if (UpgradeUIState?.IsMouseHovering ?? false)
             {
                 Main.LocalPlayer.mouseInterface = true;
             }
