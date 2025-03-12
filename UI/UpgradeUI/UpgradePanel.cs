@@ -17,17 +17,14 @@ namespace deeprockitems.UI.UpgradeUI
 {
     public class UpgradePanel : UIPanel
     {
-        // The UI will have 1 item slot.
+        #region UI Elements
+        public OverclockMenu OverclockDisplay;
         public FakeItemSlot ParentSlot;
-
-        // The UI will have 1 upgrade selection container.
         public UpgradeSelectionContainer UpgradeContainer;
-        
-        // The UI will have a forge button to facilitate crafting the upgrade
         public UIButton<string> ForgeButton;
+        #endregion
         public override void OnInitialize()
         {
-            UIPanel panel = new();
             // Set sizes of objects and initialize elements
             float MARGIN = 4;
             float PADDING = 10;
@@ -77,6 +74,14 @@ namespace deeprockitems.UI.UpgradeUI
             RecipeDisplay.Height.Pixels = ParentSlot.Height.Pixels;
             RecipeDisplay.SetState(null);
             Append(RecipeDisplay);
+
+            // Set overclock display
+            OverclockDisplay = new("Overclocks");
+            OverclockDisplay.Left.Pixels = RecipeDisplay.Left.Pixels + RecipeDisplay.Width.Pixels + PADDING;
+            OverclockDisplay.Top.Pixels = ForgeButton.Height.Pixels + PADDING;
+            OverclockDisplay.Width.Pixels = ForgeButton.Width.Pixels;
+            OverclockDisplay.Height.Pixels = Height.Pixels - ForgeButton.Height.Pixels - 3 * PADDING;
+            Append(OverclockDisplay);
         }
         /// <summary>
         /// Recipe display for whether an upgrade can be "bought" or not.
@@ -120,6 +125,11 @@ namespace deeprockitems.UI.UpgradeUI
             {
                 // Set upgrades
                 UpgradeContainer.SetUpgrades(modItem.UpgradeMasterList);
+                if (modItem.UpgradeMasterList.ContainsKey(UpgradeBuilder.OVERCLOCK_TIER))
+                {
+
+                    OverclockDisplay.SetOverclocks(modItem.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER]);
+                }
             }
             else
             {

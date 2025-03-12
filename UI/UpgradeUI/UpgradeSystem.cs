@@ -11,6 +11,7 @@ namespace deeprockitems.UI.UpgradeUI
     {
         public UpgradeState? UpgradeUIState { get => (Interface.CurrentState as UpgradeState) ?? null; }
         public UserInterface Interface;
+        public static UserInterface StaticInterface { get => ModContent.GetInstance<UpgradeSystem>().Interface; }
         public static bool IsUIOpen { get => ModContent.GetInstance<UpgradeSystem>().Interface.CurrentState != null; }
         public static void OpenUpgradeInterface() {
             var self = ModContent.GetInstance<UpgradeSystem>();
