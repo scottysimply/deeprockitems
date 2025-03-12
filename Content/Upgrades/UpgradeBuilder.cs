@@ -16,7 +16,7 @@ namespace deeprockitems.Content.Upgrades
 
         }
 
-        const int OVERCLOCK_TIER = 127;
+        public const int OVERCLOCK_TIER = 127;
         int _currentTierAddingTo = 0;
         Upgrade _currentUpgradeAddingTo;
         string _internalName;
