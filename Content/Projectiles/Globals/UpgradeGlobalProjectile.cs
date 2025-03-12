@@ -39,6 +39,7 @@ namespace deeprockitems.Content.Projectiles.Globals
             {
                 var global = newProj.GetGlobalProjectile<UpgradeGlobalProjectile>();
                 _equippedUpgrades = global._equippedUpgrades;
+                _cameFromUpgradableWeapon = global._cameFromUpgradableWeapon;
                 return;
             }
 
@@ -71,7 +72,7 @@ namespace deeprockitems.Content.Projectiles.Globals
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
             // If the projectile has any equipped upgrades, disable any damage variation
-            if (_equippedUpgrades != null)
+            if (_cameFromUpgradableWeapon)
             {
                 modifiers.DamageVariationScale *= 0f;
                 modifiers.DisableCrit();
