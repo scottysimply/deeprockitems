@@ -9,6 +9,7 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
+	  <Reference Remove="System.Drawing"/>
     <None Remove="Assets\CooldownUIBackground.png" />
     <None Remove="Assets\Tiles\SludgeTiles.png" />
     <None Remove="Assets\UI\UpgradeStationHover.png" />
