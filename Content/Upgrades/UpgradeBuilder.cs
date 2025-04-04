@@ -15,7 +15,7 @@ namespace deeprockitems.Content.Upgrades
         private UpgradeBuilder() {
 
         }
-
+        bool Overclock = false;
         public const int OVERCLOCK_TIER = 127;
         int _currentTierAddingTo = 0;
         Upgrade _currentUpgradeAddingTo;
@@ -59,11 +59,19 @@ namespace deeprockitems.Content.Upgrades
             return this;
         }
         /// <summary>
-        /// Defines a special tier of upgrades reserved for overclocks.
+        /// Defines a new overclock for this weapon.
         /// </summary>
         /// <returns></returns>
-        public UpgradeBuilder WithOverclocks() {
-            WithTier(OVERCLOCK_TIER);
+        public UpgradeBuilder WithOverclock(string name, Asset<Texture2D> texture) {
+            if (_currentTierAddingTo != OVERCLOCK_TIER)
+            {
+                WithTier(OVERCLOCK_TIER);
+            }
+            if (_currentUpgradeAddingTo != null)
+            {
+                _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
+            }
+            _currentUpgradeAddingTo = new Overclock(name, texture) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
             return this;
         }
         /// <summary>
@@ -77,7 +85,7 @@ namespace deeprockitems.Content.Upgrades
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
             }
-            _currentUpgradeAddingTo = new(name, texture) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
+            _currentUpgradeAddingTo = new Upgrade(name, texture) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
             return this;
         }
         /// <summary>
