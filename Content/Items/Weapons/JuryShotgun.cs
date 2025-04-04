@@ -8,6 +8,8 @@ using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Buffs;
 using Terraria.DataStructures;
 using Terraria.Audio;
+using Terraria.GameContent;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -138,21 +140,64 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.ChlorophyteBar, 8)
                         .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
-                .WithOverclocks()
-                    .WithUpgrade("SpecialPowder", Assets.Upgrades.Powder)
-                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
-                            Vector2 mousePos = Main.MouseWorld - player.Center;
-                            player.velocity -= Vector2.Normalize(mousePos) * 10;
-                            // Cap x speed but not y
-                            if (Math.Abs(player.velocity.X) > 15f) {
-                                player.velocity.X = 15f * Math.Sign(player.velocity.X);
-                            }
-                            // Cancel fall damage
-                            if (player.velocity.Y < 5f) {
-                                player.fallStart = (int)player.position.Y / 16;
-                            }
-                            return true;
-                        })
+                .WithOverclock("SpecialPowder", Assets.Upgrades.Powder)
+                    .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        Vector2 mousePos = Main.MouseWorld - player.Center;
+                        player.velocity -= Vector2.Normalize(mousePos) * 10;
+                        // Cap x speed but not y
+                        if (Math.Abs(player.velocity.X) > 15f) {
+                            player.velocity.X = 15f * Math.Sign(player.velocity.X);
+                        }
+                        // Cancel fall damage
+                        if (player.velocity.Y < 5f) {
+                            player.fallStart = (int)player.position.Y / 16;
+                        }
+                        return true;
+                    })
+                .WithOverclock("TheSlug", Assets.Upgrades.Damage)
+                    .WithBehavior<ItemModifyShootStats>((Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
+                        spread = 0;
+                        type = ProjectileID.BlackBolt;
+                    })
+                    .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        Projectile.NewProjectile(source, position, velocity, type, damage * PelletCount, knockback, Owner: player.whoAmI);
+                        return false;
+                    })
+                    .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        projectile.timeLeft = 6000;
+                        projectile.penetrate = 2;
+                    })
+                    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        const int dust_count = 3;
+                        for (int i = 0; i < dust_count; i++)
+                        {
+                            // Gray
+                            Vector2 velocity = Main.rand.NextVector2Circular(.2f, .2f);
+                            Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, SpeedX: 3 * velocity.X + 0.5f * projectile.velocity.X, SpeedY: 3 * velocity.Y + 0.5f * projectile.velocity.Y, newColor: Color.DarkSlateGray, Scale: 1f);
+                        }
+                        for (int i = 0; i < dust_count; i++)
+                        {
+                            // Purple
+                            Vector2 velocity = Main.rand.NextVector2Circular(1f, 1f);
+                            Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, SpeedX: 3 * velocity.X + 0.5f * projectile.velocity.X, SpeedY: 3 * velocity.Y + 0.5f * projectile.velocity.Y, Scale: 1f);
+                        }
+                    })
+                    .WithBehavior<ProjectilePreKill>((Projectile projectile, int timeLeft) => {
+                        const int dust_count = 10;
+                        for (int i = 0; i < dust_count; i++)
+                        {
+                            // Gray
+                            Vector2 velocity = Main.rand.NextVector2Circular(1f, 1f);
+                            Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, SpeedX: 3*velocity.X, SpeedY: 3*velocity.Y, newColor: Color.DarkSlateGray, Scale: 1f);
+                        }
+                        for (int i = 0; i < dust_count; i++)
+                        {
+                            // Purple
+                            Vector2 velocity = Main.rand.NextVector2Circular(1f, 1f);
+                            Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, SpeedX: 3 * velocity.X, SpeedY: 3 * velocity.Y, Scale: 1f);
+                        }
+                        return false;
+                    })
             .Seal();
         }
         public override void ResetStats() {
