@@ -1,20 +1,6 @@
 Mods: {
 	deeprockitems: {
 		Items: {
-			LaserPointer: {
-				DisplayName: Laser Pointer
-				Tooltip:
-					'''
-					'Did you borrow my underwear?'
-					Puts a marker on whatever you ping
-					'''
-			}
-
-			TestGrapple: {
-				DisplayName: Swing Grapple
-				Tooltip: ""
-			}
-
 			MatrixCore: {
 				DisplayName: Blank Matrix Core
 				Tooltip: Can be crafted into weapon overclocks
@@ -98,6 +84,7 @@ Mods: {
 			UsefulWords: {
 				Recipe: Recipe:
 				Upgradable: Upgradable at an Upgrade Station
+				Overclocks: Overclocks
 			}
 		}
 
@@ -335,7 +322,7 @@ Mods: {
 
 				Shockwave: {
 					DisplayName: Shockwave
-					HoverText: Damages enemies in radius upon firing
+					HoverText: Damages enemies in a small radius upon firing
 				}
 
 				Birdshot: {
@@ -364,13 +351,18 @@ Mods: {
 				}
 
 				HeavyDamageUpgrade: {
-					DisplayName: HeavyDamageUpgrade
-					HoverText: Hover text
+					DisplayName: Jumbo Shells
+					HoverText: Heavily increased damage
 				}
 
 				SpecialPowder: {
-					DisplayName: SpecialPowder
-					HoverText: Hover text
+					DisplayName: Special Powder
+					HoverText: Launches the player backwards with each shot
+				}
+
+				TheSlug: {
+					DisplayName: The Slug
+					HoverText: Converts all pellet damage into one high-damage, piercing slug
 				}
 			}
 
