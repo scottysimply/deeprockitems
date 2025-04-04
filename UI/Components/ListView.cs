@@ -19,9 +19,11 @@ namespace deeprockitems.UI.Components
     public class ListView<T> : UIElement
     {
         T[] _data;
+        float _maxHeight = 0;
         Func<T, UIElement> _creationDelegate;
         UIElement[] _childElements;
         float _verticalScrollPosition = 0;
+        const float PADDING = 4f;
         const int SCROLL_THRESHOLD = 16;
         int _oldScrollValue;
         UIScrollbar _scrollBar;
@@ -32,30 +34,35 @@ namespace deeprockitems.UI.Components
         }
         public override void OnInitialize() {
             _scrollBar = new();
-            _scrollBar.Left.Percent = 0.98f;
+            _scrollBar.Width.Pixels = 10f;
+            _scrollBar.Left.Percent = 1f;
             _scrollBar.OnScrollWheel += onScrolling;
-            Append(_scrollBar);
+            OverflowHidden = true;
             for (int i = 0; i < _data.Length; i++)
             {
                 var element = _creationDelegate(_data[i]);
+                _maxHeight += element.Height.Pixels + element.PaddingBottom;
+                element.Top.Pixels = i * (element.Height.Pixels + 4f);
                 _childElements[i] = element;
                 Append(element);
             }
+            _scrollBar.SetView(Height.Pixels, _maxHeight);
+            Append(_scrollBar);
         }
 
         private void onScrolling(UIScrollWheelEvent evt, UIElement listeningElement) {
             if (IsMouseHovering)
             {
-                
+                Main.NewText(_maxHeight);
             }
         }
 
         public override void Update(GameTime gameTime) {
-            if (IsMouseHovering)
-            {
-                PlayerInput.LockVanillaMouseScroll("deeprockitems/ListView");
-            }
-
+            //if (IsMouseHovering)
+            //{
+            //    PlayerInput.LockVanillaMouseScroll("deeprockitems/ListView");
+            //}
+            base.Update(gameTime);
         }
     }
 }
