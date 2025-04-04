@@ -12,6 +12,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Steamworks;
 
 namespace deeprockitems.UI.UpgradeUI
 {
@@ -25,13 +26,23 @@ namespace deeprockitems.UI.UpgradeUI
         #endregion
         public override void OnInitialize()
         {
-            // Set sizes of objects and initialize elements
-            float MARGIN = 4;
-            float PADDING = 10;
+            float MARGIN = 6;
+            float PADDING = 6;
             SetPadding(PADDING);
 
-            ParentSlot = new FakeItemSlot((mouseItem, slotItem) =>
-            {
+            // Initialize the "craft" button
+            ForgeButton = new UIButton<string>("Forge") {
+                HAlign = 1f,
+                Height = { Pixels = 52f, Percent = 0f },
+                Width = { Pixels = 1.8f * 52, Percent = 0f },
+                TextScaleMax = 1.5f,
+            };
+            ForgeButton.TextOriginY -= 0.3f;
+            ForgeButton.OnLeftClick += ForgeButton_OnLeftClick;
+            Append(ForgeButton);
+
+            // Set size and position of parent slot
+            ParentSlot = new FakeItemSlot((mouseItem, slotItem) => {
                 if (mouseItem.ModItem is IUpgradable)
                 {
                     return true;
@@ -41,46 +52,41 @@ namespace deeprockitems.UI.UpgradeUI
                     return true;
                 }
                 return false;
-            });
+            }) {
+                HAlign = 0f,
+                Width = ForgeButton.Height,
+                Height = ForgeButton.Height
+            };
             ParentSlot.OnItemSwap += ParentSlot_OnItemSwap;
-            ForgeButton = new("Forge");
-            RecipeDisplay = new UpgradeRecipeDisplay();
-
-            // Set size and position of button
-            ForgeButton.HAlign = 1f;
-            ForgeButton.OnLeftClick += ForgeButton_OnLeftClick;
-            ForgeButton.Height.Pixels = 52;
-            ForgeButton.Width.Pixels = 1.8f * 52;
-            ForgeButton.TextScaleMax = 1.5f;
-            ForgeButton.TextOriginY -= 0.3f;
-            Append(ForgeButton);
-
-            // Set size and position of parent slot
-            ParentSlot.HAlign = 0f;
-            ParentSlot.Width.Pixels = ParentSlot.Height.Pixels = ForgeButton.Height.Pixels;
             Append(ParentSlot);
 
-            // Set size of upgrade panel
-            UpgradeContainer = new(Width.Pixels, Height.Pixels - ParentSlot.Height.Pixels);
-            UpgradeContainer.Top.Pixels = ParentSlot.Height.Pixels;
-            UpgradeContainer.OnLeftClick += UpgradeContainer_OnLeftClick;
-            UpgradeContainer.Width.Pixels = Width.Pixels - ForgeButton.Width.Pixels;
-            Append(UpgradeContainer);
-
             // Set recipe display position
-            RecipeDisplay.Top.Pixels = ParentSlot.Top.Pixels;
-            RecipeDisplay.Width.Pixels = Width.Pixels - ForgeButton.Width.Pixels - ParentSlot.Width.Pixels - 4 * PADDING;
-            RecipeDisplay.Left.Pixels = ParentSlot.Left.Pixels + ParentSlot.Width.Pixels + PADDING;
-            RecipeDisplay.Height.Pixels = ParentSlot.Height.Pixels;
+            RecipeDisplay = new UpgradeRecipeDisplay {
+                Top = { Pixels = ParentSlot.Top.Pixels },
+                Width = { Pixels = this.Width.Pixels - ForgeButton.Width.Pixels - ParentSlot.Width.Pixels - 4 * PADDING },
+                Left = { Pixels = ParentSlot.Left.Pixels + ParentSlot.Width.Pixels + PADDING },
+                Height = ParentSlot.Height,
+            };
             RecipeDisplay.SetState(null);
             Append(RecipeDisplay);
 
+            // Upgrade container definition
+            UpgradeContainer = new UpgradeSelectionContainer {
+                // width and height are both 0
+                Width = { Pixels = this.Width.Pixels-ForgeButton.Width.Pixels - 2*PADDING },
+                Height = { Pixels = this.Height.Pixels-ForgeButton.Height.Pixels - 2*PADDING },
+                Top = { Pixels = ParentSlot.Height.Pixels }
+            };
+            UpgradeContainer.OnLeftClick += UpgradeContainer_OnLeftClick;
+            Append(UpgradeContainer);
             // Set overclock display
-            OverclockDisplay = new("Overclocks");
-            OverclockDisplay.Left.Pixels = RecipeDisplay.Left.Pixels + RecipeDisplay.Width.Pixels + PADDING;
-            OverclockDisplay.Top.Pixels = ForgeButton.Height.Pixels + PADDING;
-            OverclockDisplay.Width.Pixels = ForgeButton.Width.Pixels;
-            OverclockDisplay.Height.Pixels = Height.Pixels - ForgeButton.Height.Pixels - 3 * PADDING;
+            OverclockDisplay = new() {
+                HAlign = 1f,
+                Top = { Pixels = ForgeButton.Top.Pixels + ForgeButton.Height.Pixels + PADDING },
+                Width = ForgeButton.Width,
+                // Height is the (parent's height - some offset)
+                Height = { Pixels = this.Height.Pixels-(ForgeButton.Height.Pixels + 3 * PADDING) },
+            };
             Append(OverclockDisplay);
         }
         /// <summary>
@@ -125,15 +131,16 @@ namespace deeprockitems.UI.UpgradeUI
             {
                 // Set upgrades
                 UpgradeContainer.SetUpgrades(modItem.UpgradeMasterList);
-                if (modItem.UpgradeMasterList.ContainsKey(UpgradeBuilder.OVERCLOCK_TIER))
+                if (modItem.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier value))
                 {
 
-                    OverclockDisplay.SetOverclocks(modItem.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER]);
+                    OverclockDisplay.SetOverclocks(value);
                 }
             }
             else
             {
                 UpgradeContainer.SetUpgrades(null);
+                OverclockDisplay.SetOverclocks(null);
             }
         }
 
