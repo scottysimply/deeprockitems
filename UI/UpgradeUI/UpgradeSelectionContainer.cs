@@ -10,11 +10,6 @@ namespace deeprockitems.UI.UpgradeUI
     public class UpgradeSelectionContainer : UIElement
     {
         UpgradeSelectionTier[] upgradeSelectors;
-        public UpgradeSelectionContainer(float width, float height)
-        {
-            Width.Pixels = width;
-            Height.Pixels = height;
-        }
         public void SetUpgrades(UpgradeList upgrades)
         {
             // Begin by removing all children
@@ -25,10 +20,34 @@ namespace deeprockitems.UI.UpgradeUI
                 upgradeSelectors = [];
                 return;
             }
-
-            upgradeSelectors = upgrades.Select(tier => new UpgradeSelectionTier(tier.Value, (int)Height.Pixels)).ToArray();
+            upgradeSelectors = upgrades.Where(tier => tier.Key != UpgradeBuilder.OVERCLOCK_TIER).Select(tier => new UpgradeSelectionTier(tier.Value, (int)Height.Pixels)).ToArray();
             const int GAP = 4;
-            int computedWidth = (int)((Width.Pixels - upgradeSelectors.Length * GAP) / (float)upgradeSelectors.Length);
+            float sizeOfSelector = upgradeSelectors[0].Children.First().Height.Pixels;
+            // Construct the first tier
+            upgradeSelectors[0].Left.Pixels = 0;
+            upgradeSelectors[0].Width.Pixels = sizeOfSelector;
+            upgradeSelectors[0].Height.Pixels = Height.Pixels;
+            Append(upgradeSelectors[0]);
+            // if there's a last tier, construct that too!
+            if (upgradeSelectors.Length > 1)
+            {
+                upgradeSelectors[^1].HAlign = 1f;
+                upgradeSelectors[^1].Width.Pixels = sizeOfSelector;
+                upgradeSelectors[^1].Height.Pixels = Height.Pixels;
+                Append(upgradeSelectors[^1]);
+            }
+            // then, construct the middle
+            float computedWidth = (Width.Pixels - sizeOfSelector) / (upgradeSelectors.Length - 1);
+            for (int i = 1; i < upgradeSelectors.Length - 1; i++)
+            {
+                upgradeSelectors[i].Left.Pixels = i * computedWidth;
+                upgradeSelectors[i].Width.Pixels = sizeOfSelector;
+                upgradeSelectors[i].Height.Pixels = Height.Pixels;
+                Append(upgradeSelectors[i]);
+            }
+
+
+            /*computedWidth = (int)((Width.Pixels - upgradeSelectors.Length * GAP) / (float)upgradeSelectors.Length);
             for (int i = 0; i < upgradeSelectors.Length; i++)
             {
                 upgradeSelectors[i].Left.Pixels = i * (GAP + computedWidth);
@@ -37,7 +56,7 @@ namespace deeprockitems.UI.UpgradeUI
 
                 // Append
                 Append(upgradeSelectors[i]);
-            }
+            }*/
         }
     }
 }
