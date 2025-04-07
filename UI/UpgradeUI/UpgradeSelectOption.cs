@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.ModLoader.UI;
 using Terraria.ModLoader;
 using Terraria.UI;
+using ReLogic.Content;
+using deeprockitems.Types;
 
 namespace deeprockitems.UI.UpgradeUI
 {
@@ -14,8 +16,10 @@ namespace deeprockitems.UI.UpgradeUI
     /// </summary>
     public class UpgradeSelectOption : UIElement
     {
-        private UpgradeTier _upgrades;
-        public UpgradeSelectOption(UpgradeTier upgrades, Upgrade upgrade, bool unlocked = true)
+        protected Asset<Texture2D> backgroundImage { get => Upgrade.Background; }
+        protected Asset<Texture2D> icon { get => Upgrade.Texture; }
+        protected UpgradeTier _upgrades;
+        public UpgradeSelectOption(UpgradeTier upgrades, Upgrade upgrade)
         {
             Upgrade = upgrade;
             _upgrades = upgrades;
@@ -31,8 +35,8 @@ namespace deeprockitems.UI.UpgradeUI
         const float _minScale = 0.8f;
         const float _maxScale = 1f;
         private Rectangle _dimensions => GetDimensions().ToRectangle();
-        public Rectangle ScaledDimensions => new Rectangle((int)(_dimensions.Center.X - 0.5f * HoverScale * _dimensions.Width), (int)(_dimensions.Center.Y - 0.5f * HoverScale * _dimensions.Height), (int)(HoverScale * _dimensions.Width), (int)(HoverScale * _dimensions.Height));
-        public new bool IsMouseHovering => ScaledDimensions.Contains(Main.MouseScreen.ToPoint());
+        public RectangleF ScaledDimensions => new RectangleF((int)(_dimensions.Center.X - 0.5f * HoverScale * _dimensions.Width), (int)(_dimensions.Center.Y - 0.5f * HoverScale * _dimensions.Height), (int)(HoverScale * _dimensions.Width), (int)(HoverScale * _dimensions.Height));
+        public new bool IsMouseHovering => ScaledDimensions.Contains(Main.MouseScreen) && Parent.GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint());
         /// <summary>
         /// Deselects all other upgrades in the tier and forces this upgrade to be equipped.
         /// </summary>
@@ -79,31 +83,32 @@ namespace deeprockitems.UI.UpgradeUI
             // Tween if being hovered
             HandleTweening();
 
-            // Disable tweening blocker
-            TweenBlock = false;
-
             // Draw the actual slot
-            spriteBatch.Draw(Assets.UI.UpgradeSlot.Value, ScaledDimensions, drawColor);
+            spriteBatch.Draw(backgroundImage.Value, (Rectangle)ScaledDimensions, drawColor);
 
             // Draw upgrade icon
             float scale = 0.7f * HoverScale;
             Rectangle destination = new((int)(ScaledDimensions.Center.X - ScaledDimensions.Width * 0.5f), (int)(ScaledDimensions.Center.Y - ScaledDimensions.Height * 0.5f), (int)ScaledDimensions.Width, (int)ScaledDimensions.Height);
-            spriteBatch.Draw(Upgrade.Texture.Value, destination, Color.White);
+            spriteBatch.Draw(icon.Value, destination, Color.White);
 
             // Draw outline if equipped
             if (Upgrade.UpgradeState.IsEquipped)
             {
-                Rectangle outlineDimensions = new Rectangle(ScaledDimensions.Center.X - (int)(0.5f * Assets.UI.UpgradeSlotOutline.Height()), ScaledDimensions.Y - (int)(0.5f * Assets.UI.UpgradeSlotOutline.Width()), Assets.UI.UpgradeSlotOutline.Width(), Assets.UI.UpgradeSlotOutline.Height());
-                spriteBatch.Draw(Assets.UI.UpgradeSlotOutline.Value, ScaledDimensions, SelectedColor);
+                RectangleF outlineDimensions = new RectangleF(ScaledDimensions.Center.X - 0.5f * Assets.UI.UpgradeSlotOutline.Value.Height, ScaledDimensions.Y - 0.5f * Assets.UI.UpgradeSlotOutline.Value.Height, Assets.UI.UpgradeSlotOutline.Value.Width, Assets.UI.UpgradeSlotOutline.Value.Height);
+                spriteBatch.Draw(Assets.UI.UpgradeSlotOutline.Value, (Rectangle)ScaledDimensions, SelectedColor);
             }
             // Don't draw lock if unlocked
             if (Upgrade.UpgradeState.IsUnlocked) return;
             // Draw lock with top left near center
             spriteBatch.Draw(Assets.UI.UpgradeLock.Value, new Rectangle((int)(destination.Center.X + scale * 0.2f * ScaledDimensions.Width), (int)(destination.Center.Y + scale * 0.1f * ScaledDimensions.Height), (int)(scale * Assets.UI.UpgradeLock.Width()), (int)(scale * Assets.UI.UpgradeLock.Height())), Color.White);
         }
-        private void HandleTweening() {
+        protected void HandleTweening() {
             // Enable size block
-            if (TweenBlock) return;
+            if (TweenBlock)
+            {
+                TweenBlock = false;
+                return;
+            }
             // Grow slightly
             if (IsMouseHovering)
             {
@@ -127,7 +132,6 @@ namespace deeprockitems.UI.UpgradeUI
                     HoverScale = _minScale;
                 }
             }
-
         }
         Color BaseColor => new Color(252, 93, 38);
         Color SelectedColor => new Color(242, 227, 62);
