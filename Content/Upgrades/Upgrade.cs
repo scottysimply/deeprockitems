@@ -17,6 +17,7 @@ namespace deeprockitems.Content.Upgrades
         }
         public readonly string InternalName;
         public Asset<Texture2D> Texture { get; set; }
+        public virtual Asset<Texture2D> Background { get => Assets.UI.UpgradeSlot; }
         public string LocalizedKey { get; set; }
         public LocalizedText DisplayName { get => Language.GetOrRegister($"{LocalizedKey}.DisplayName", () => InternalName); }
         public LocalizedText HoverText { get => Language.GetOrRegister($"{LocalizedKey}.HoverText", () => "Hover text"); }
