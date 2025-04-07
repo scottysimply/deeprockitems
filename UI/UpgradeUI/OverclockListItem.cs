@@ -1,5 +1,7 @@
 ﻿using deeprockitems.Content.Upgrades;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,30 +14,31 @@ using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI
 {
-    public class OverclockListItem : UIPanel
+    public class OverclockListItem : UpgradeSelectOption
     {
-        public UIText Label { get; set; }
-        public UIImage Icon { get; set; }
         private Overclock _internalOverclock;
-        public OverclockListItem(Overclock overclock) {
+        public OverclockListItem(UpgradeTier tier, Overclock overclock) : base(tier, overclock) {
             _internalOverclock = overclock;
         }
         public override void OnInitialize() {
-            Label = new UIText(_internalOverclock.DisplayName, textScale: 0.75f);
-            Icon = new UIImage(_internalOverclock.Texture.Value);
-            Icon.Left.Pixels = 2f;
-            Icon.Height.Pixels = 32f;
-            Icon.Width.Pixels = 32f;
-            Label.Left.Pixels = Icon.Left.Pixels + 6f;
-            Icon.Activate();
-            Label.Activate();
-            Height.Pixels = 40f;
-            Width.Pixels = Width.Pixels - 20f;
-            Append(Icon);
-            Append(Label);
+        }
+        public override void LeftClick(UIMouseEvent evt) {
+            base.LeftClick(evt);
         }
         public override void Draw(SpriteBatch spriteBatch) {
-            base.Draw(spriteBatch);
+            float bgScale = _internalOverclock.Type switch {
+                Overclock.OverclockType.Clean => 1.15f,
+                _ => 1f
+            };
+            spriteBatch.Draw(backgroundImage.Value, (Rectangle)ScaledDimensions.Scale(bgScale), Color.White);
+
+            //float scale = 1f;
+            //Vector2 destination = new(ScaledDimensions.Center.X - icon.Value.Width * 0.5f, ScaledDimensions.Center.Y - icon.Value.Height * 0.5f);
+            //spriteBatch.Draw(icon.Value, null, Color.White, 0f, ScaledDimensions.Center, 1f, SpriteEffects.None, 0);
+            float scale = 1f / bgScale;
+            spriteBatch.Draw(icon.Value, (Rectangle)ScaledDimensions.Scale(scale), Color.White);
+            HandleTweening();
+
             if (ContainsPoint(Main.MouseScreen)) {
                 UICommon.TooltipMouseText($"[c/E3B465:{_internalOverclock.DisplayName}]\n" +
                                           $"{_internalOverclock.HoverText}");
