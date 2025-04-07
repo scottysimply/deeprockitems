@@ -9,7 +9,6 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace deeprockitems.UI.UpgradeUI
 {
@@ -18,6 +17,12 @@ namespace deeprockitems.UI.UpgradeUI
         public UIScrollbar Scrollbar { get; set; }
         public UIText OverclockLabel { get; set; }
         public UIList OverclockList { get; set; }
+        private static void setMargins(UIElement element, float marginLeft, float marginRight, float marginTop, float marginBottom) {
+            element.MarginLeft = marginLeft;
+            element.MarginRight = marginRight;
+            element.MarginTop = marginTop;
+            element.MarginBottom = marginBottom;
+        }
         public override void OnInitialize() {
             base.OnInitialize();
             OverclockLabel = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.Overclocks", () => "Overclocks"), textScale: 0.66f) {
@@ -25,17 +30,19 @@ namespace deeprockitems.UI.UpgradeUI
             };
             Append(OverclockLabel);
             Scrollbar = new UIScrollbar {
+                Width = { Pixels = 20f },
                 Left = { Percent = 1f, Pixels = -14f },
                 Height = { Percent = 1f, Pixels = -OverclockLabel.Height.Pixels },
                 Top = { Pixels = OverclockLabel.Height.Pixels }
             };
             OverclockList = new UIList {
                 Width = { Pixels = -20, Percent = 1f },
-                Left = { Percent = 0f, Pixels = 20f },
-                Top = { Pixels = OverclockLabel.Height.Pixels },
-                Height = { Percent = 1f, Pixels = -OverclockLabel.Height.Pixels},
+                Top = { Pixels = OverclockLabel.GetDimensions().Height + 4f },
+                Height = { Pixels = this.Height.Pixels-OverclockLabel.Height.Pixels - 30f},
+                OverflowHidden = true,
             };
             OverclockList.SetScrollbar(Scrollbar);
+            OverclockList.OverflowHidden = true;
             Append(Scrollbar);
             Append(OverclockList);
         }
@@ -46,7 +53,10 @@ namespace deeprockitems.UI.UpgradeUI
                 return;
             }
             // Generate overclock elements from tier
-            var list_of_elements = tier.Select<Upgrade, OverclockListItem>(upgrade => new(upgrade as Overclock));
+            var list_of_elements = tier.Select<Upgrade, OverclockListItem>(upgrade => new(tier, upgrade as Overclock) {
+                Height = { Pixels = 40f },
+                Width = { Pixels = 40f },
+            });
             OverclockList.AddRange(list_of_elements);
         }
         public void RemoveOverclocks() {
