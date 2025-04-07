@@ -62,7 +62,7 @@ namespace deeprockitems.Content.Upgrades
         /// Defines a new overclock for this weapon.
         /// </summary>
         /// <returns></returns>
-        public UpgradeBuilder WithOverclock(string name, Asset<Texture2D> texture) {
+        public UpgradeBuilder WithOverclock(string name, Asset<Texture2D> texture, Overclock.OverclockType type) {
             if (_currentTierAddingTo != OVERCLOCK_TIER)
             {
                 WithTier(OVERCLOCK_TIER);
@@ -71,7 +71,7 @@ namespace deeprockitems.Content.Upgrades
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
             }
-            _currentUpgradeAddingTo = new Overclock(name, texture) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
+            _currentUpgradeAddingTo = new Overclock(name, texture, type) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
             return this;
         }
         /// <summary>
