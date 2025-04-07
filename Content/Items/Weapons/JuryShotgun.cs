@@ -140,21 +140,7 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.ChlorophyteBar, 8)
                         .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
-                .WithOverclock("SpecialPowder", Assets.Upgrades.Powder)
-                    .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
-                        Vector2 mousePos = Main.MouseWorld - player.Center;
-                        player.velocity -= Vector2.Normalize(mousePos) * 10;
-                        // Cap x speed but not y
-                        if (Math.Abs(player.velocity.X) > 15f) {
-                            player.velocity.X = 15f * Math.Sign(player.velocity.X);
-                        }
-                        // Cancel fall damage
-                        if (player.velocity.Y < 5f) {
-                            player.fallStart = (int)player.position.Y / 16;
-                        }
-                        return true;
-                    })
-                .WithOverclock("TheSlug", Assets.Upgrades.Damage)
+                .WithOverclock("TheSlug", Assets.Upgrades.Damage, Overclock.OverclockType.Clean)
                     .WithBehavior<ItemModifyShootStats>((Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
                         spread = 0;
                         type = ProjectileID.BlackBolt;
@@ -197,6 +183,26 @@ namespace deeprockitems.Content.Items.Weapons
                             Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, SpeedX: 3 * velocity.X, SpeedY: 3 * velocity.Y, Scale: 1f);
                         }
                         return false;
+                    })
+                .WithOverclock("SpecialPowder", Assets.Upgrades.Powder, Overclock.OverclockType.Balanced)
+                    .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        Vector2 mousePos = Main.MouseWorld - player.Center;
+                        player.velocity -= Vector2.Normalize(mousePos) * 10;
+                        // Cap x speed but not y
+                        if (Math.Abs(player.velocity.X) > 15f)
+                        {
+                            player.velocity.X = 15f * Math.Sign(player.velocity.X);
+                        }
+                        // Cancel fall damage
+                        if (player.velocity.Y < 5f)
+                        {
+                            player.fallStart = (int)player.position.Y / 16;
+                        }
+                        return true;
+                    })
+                .WithOverclock("DoomSlayer", Assets.Upgrades.Stun, Overclock.OverclockType.Unstable)
+                    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 120);
                     })
             .Seal();
         }

@@ -148,28 +148,23 @@ Mods: {
 		}
 
 		Projectiles: {
-			LaserPointerPing.DisplayName: Laser Pointer Ping
-			M1000Bullet.DisplayName: M1000 Bullet
-			M1000Helper.DisplayName: M1000 Helper
-			ProjectileTracer.DisplayName: Projectile Tracer
+			M1000Helper.DisplayName: M1000 Classic
 			SludgeBall.DisplayName: Sludge Ball
-			SludgeExplosion.DisplayName: Sludge Explosion
+			SludgeExplosion.DisplayName: Sludge Blast
 			SludgeFragment.DisplayName: Sludge Fragment
-			SludgeHelper.DisplayName: Sludge Helper
-			SwingGrapple.DisplayName: Swing Grapple
+			SludgeHelper.DisplayName: Sludge Pump
 			PlasmaBullet.DisplayName: Plasma Bullet
-			PlasmaPistolHelper.DisplayName: Plasma Pistol Helper
-			PlasmaBomb.DisplayName: Plasma Bomb
-			PlasmaExplosion.DisplayName: Plasma Explosion
-			BigPlasma.DisplayName: Big Plasma
+			PlasmaPistolHelper.DisplayName: Experimental Plasma Charger
+			PlasmaExplosion.DisplayName: Plasma Blast
+			BigPlasma.DisplayName: Charged Plasma
 			ResupplyPodDrills.DisplayName: Resupply Pod Drills
 			ResupplyPodMarker.DisplayName: Resupply Pod Marker
-			MollyPetProjectile.DisplayName: Molly Pet Projectile
-			ZhukovHelper.DisplayName: Zhukov Helper
-			CryoMineletProjectile.DisplayName: Cryo Minelet Projectile
-			ElectricityArc.DisplayName: Electricity Arc
-			PlasmaSplashProj.DisplayName: Plasma Splash Proj
-			CryoProjectile.DisplayName: Cryo Projectile
+			MollyPetProjectile.DisplayName: M.U.L.E
+			ZhukovHelper.DisplayName: Zhukov NUK17
+			CryoMineletProjectile.DisplayName: Cryo Minelet
+			ElectricityArc.DisplayName: Electricity
+			PlasmaSplashProj.DisplayName: Plasma Bullet
+			CryoProjectile.DisplayName: Cryo Stream
 			IceTrail.DisplayName: Ice Trail
 			DebugProjectile.DisplayName: Debug Projectile
 		}
@@ -363,6 +358,11 @@ Mods: {
 				TheSlug: {
 					DisplayName: The Slug
 					HoverText: Converts all pellet damage into one high-damage, piercing slug
+				}
+
+				DoomSlayer: {
+					DisplayName: DoomSlayer
+					HoverText: Hover text
 				}
 			}
 
