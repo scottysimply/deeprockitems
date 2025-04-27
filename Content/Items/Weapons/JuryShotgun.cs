@@ -151,7 +151,7 @@ namespace deeprockitems.Content.Items.Weapons
                     })
                     .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                         projectile.timeLeft = 6000;
-                        projectile.penetrate = 2;
+                        projectile.penetrate++;
                     })
                     .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
                         const int dust_count = 3;
