@@ -22,18 +22,7 @@ namespace deeprockitems.Content.Upgrades
         }
         public OverclockType Type { get => _type; }
         private readonly OverclockType _type;
-        public override Asset<Texture2D> Background
-        {
-            get
-            {
-                return _type switch {
-                    OverclockType.Clean => Assets.Upgrades.Backgrounds.Clean,
-                    OverclockType.Balanced => Assets.Upgrades.Backgrounds.Balanced,
-                    OverclockType.Unstable => Assets.Upgrades.Backgrounds.Unstable,
-                    _ => Assets.WhitePixel,
-                };
-            }
-        }
+        public override Asset<Texture2D> Background => Assets.Upgrades.Overclocks.Backgrounds;
         public LocalizedText Positives { get => Language.GetOrRegister($"{LocalizedKey}.Positives", () => "Positives"); }
         public LocalizedText Negatives { get => Language.GetOrRegister($"{LocalizedKey}.Negatives", () => "Negatives"); }
     }
