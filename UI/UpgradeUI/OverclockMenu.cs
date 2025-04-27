@@ -1,5 +1,7 @@
 ﻿using deeprockitems.Content.Upgrades;
 using deeprockitems.UI.Components;
+using deeprockitems.Utilities;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
 using System.Linq;
@@ -42,7 +44,6 @@ namespace deeprockitems.UI.UpgradeUI
                 OverflowHidden = true,
             };
             OverclockList.SetScrollbar(Scrollbar);
-            OverclockList.OverflowHidden = true;
             Append(Scrollbar);
             Append(OverclockList);
         }
@@ -56,8 +57,12 @@ namespace deeprockitems.UI.UpgradeUI
             var list_of_elements = tier.Select<Upgrade, OverclockListItem>(upgrade => new(tier, upgrade as Overclock) {
                 Height = { Pixels = 40f },
                 Width = { Pixels = 40f },
+                Left = { Pixels = 6f }
             });
             OverclockList.AddRange(list_of_elements);
+        }
+        protected override void DrawChildren(SpriteBatch spriteBatch) {
+            base.DrawChildren(spriteBatch);
         }
         public void RemoveOverclocks() {
             OverclockList = null;

@@ -35,8 +35,8 @@ namespace deeprockitems.UI.UpgradeUI
         const float _minScale = 0.8f;
         const float _maxScale = 1f;
         private Rectangle _dimensions => GetDimensions().ToRectangle();
-        public RectangleF ScaledDimensions => new RectangleF((int)(_dimensions.Center.X - 0.5f * HoverScale * _dimensions.Width), (int)(_dimensions.Center.Y - 0.5f * HoverScale * _dimensions.Height), (int)(HoverScale * _dimensions.Width), (int)(HoverScale * _dimensions.Height));
-        public new bool IsMouseHovering => ScaledDimensions.Contains(Main.MouseScreen) && Parent.GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint());
+        public RectangleF ScaledDimensions => new RectangleF(_dimensions.Center.X - 0.5f * HoverScale * _dimensions.Width, _dimensions.Center.Y - 0.5f * HoverScale * _dimensions.Height, HoverScale * _dimensions.Width, HoverScale * _dimensions.Height);
+        public new bool IsMouseHovering => ScaledDimensions.Contains(Main.MouseScreen);
         /// <summary>
         /// Deselects all other upgrades in the tier and forces this upgrade to be equipped.
         /// </summary>
