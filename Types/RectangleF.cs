@@ -73,7 +73,8 @@ namespace deeprockitems.Types
             }
         }
         public static explicit operator Rectangle(RectangleF rect) {
-            return new((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+            // Rounding to prevent floating point inconsistencies
+            return new((int)MathF.Round(rect.X), (int)Math.Round(rect.Y), (int)Math.Round(rect.Width), (int)Math.Round(rect.Height));
         }
         public static implicit operator RectangleF(Rectangle rect) {
             return new(rect.X, rect.Y, rect.Width, rect.Height);
@@ -103,6 +104,9 @@ namespace deeprockitems.Types
         public bool Contains(Point point) {
             return X < point.X && Y < point.Y &&
                    point.X < X + Width && point.Y < Y + Height;
+        }
+        public override string ToString() {
+            return $"RectangleF {{X: {X}, Y: {Y}, Width: {Width}, Height: {Height}}}";
         }
     }
 }
