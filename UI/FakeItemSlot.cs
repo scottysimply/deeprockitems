@@ -11,12 +11,12 @@ namespace deeprockitems.UI
     public class FakeItemSlot : UIElement
     {
         internal Item ItemInSlot;
-        public ItemPredicate CanItemBePutIn;
+        public ItemPredicate PredicateToPutItemIn;
         private float _drawScale = 1f;
         public delegate bool ItemPredicate(Item mouseItem, Item inSlot);
-        public FakeItemSlot(ItemPredicate requirementToPutInSlot)
+        public FakeItemSlot(ItemPredicate canItemBePutInSlot)
         {
-            CanItemBePutIn = requirementToPutInSlot;
+            PredicateToPutItemIn = canItemBePutInSlot;
             ItemInSlot = new(0);
             OnLeftClick += FakeItemSlot_OnLeftClick;
         }
@@ -39,7 +39,7 @@ namespace deeprockitems.UI
                 }
                 return;
             }
-            if (CanItemBePutIn(Main.mouseItem, ItemInSlot))
+            if (PredicateToPutItemIn(Main.mouseItem, ItemInSlot))
             {
                 SwapItems(ref Main.mouseItem, ref ItemInSlot);
             }
