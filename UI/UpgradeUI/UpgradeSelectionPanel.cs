@@ -16,48 +16,26 @@ using Steamworks;
 
 namespace deeprockitems.UI.UpgradeUI
 {
-    public class UpgradeSelectionPanel : UIPanel
+    public class UpgradeSelectionPanel : UpgradePanel
     {
         #region UI Elements
-        public OverclockMenu OverclockDisplay;
-        public FakeItemSlot ParentSlot;
-        public UpgradeSelectionContainer UpgradeContainer;
-        public UIButton<string> ForgeButton;
+
+        /// <summary>
+        /// Recipe display for whether an upgrade can be "bought" or not.
+        /// </summary>
+        public UpgradeRecipeDisplay RecipeDisplay { get; set; }
+        /// <summary>
+        /// The tiny menu that brings you to the overclock menu.
+        /// </summary>
+        public OverclockMenu OverclockDisplay { get; set; }
+        /// <summary>
+        /// The selection field for all of the upgrades
+        /// </summary>
+        public UpgradeSelectionContainer UpgradeContainer { get; set; }
         #endregion
-        public override void OnInitialize()
+        public override void PostInitialize()
         {
             float PADDING = 6;
-            SetPadding(PADDING);
-
-            // Initialize the "craft" button
-            ForgeButton = new UIButton<string>("Forge") {
-                HAlign = 1f,
-                Height = { Pixels = 52f, Percent = 0f },
-                Width = { Pixels = 1.8f * 52, Percent = 0f },
-                TextScaleMax = 1.5f,
-            };
-            ForgeButton.TextOriginY -= 0.3f;
-            ForgeButton.OnLeftClick += ForgeButton_OnLeftClick;
-            Append(ForgeButton);
-
-            // Set size and position of parent slot
-            ParentSlot = new FakeItemSlot((mouseItem, slotItem) => {
-                if (mouseItem.ModItem is IUpgradable)
-                {
-                    return true;
-                }
-                else if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is IUpgradable))
-                {
-                    return true;
-                }
-                return false;
-            }) {
-                HAlign = 0f,
-                Width = ForgeButton.Height,
-                Height = ForgeButton.Height
-            };
-            ParentSlot.OnItemSwap += ParentSlot_OnItemSwap;
-            Append(ParentSlot);
 
             // Set recipe display position
             RecipeDisplay = new UpgradeRecipeDisplay {
@@ -89,17 +67,13 @@ namespace deeprockitems.UI.UpgradeUI
             Append(OverclockDisplay);
         }
         /// <summary>
-        /// Recipe display for whether an upgrade can be "bought" or not.
-        /// </summary>
-        public UpgradeRecipeDisplay RecipeDisplay { get; set; }
-        /// <summary>
         /// Selects the locked upgrade for crafting. Will not attempt to unlock the upgrade; refer to <see cref="UpgradeSelectionPanel.UnlockUpgrade()"/>
         /// </summary>
         private void SelectThisLockedUpgrade(UpgradeSelectOption option) {
             RecipeDisplay.SetState(option);
         }
 
-        private void UpgradeContainer_OnLeftClick(UIMouseEvent evt, UIElement listeningElement) {
+        protected void UpgradeContainer_OnLeftClick(UIMouseEvent evt, UIElement listeningElement) {
             // Determine which upgrade was clicked:
             if (evt.Target is not UpgradeSelectOption option) return;
             SoundEngine.PlaySound(SoundID.MenuTick);
@@ -120,7 +94,7 @@ namespace deeprockitems.UI.UpgradeUI
 
             option.SelectThisUpgrade();
         }
-        private void ParentSlot_OnItemSwap(Item itemNowInSlot, Item itemThatLeftSlot)
+        protected override void OnClickParentSlot(Item itemNowInSlot, Item itemThatLeftSlot)
         {
             // Remove currently selected locked upgrade
             RecipeDisplay.SetState(null);
@@ -143,7 +117,7 @@ namespace deeprockitems.UI.UpgradeUI
             }
         }
 
-        private void ForgeButton_OnLeftClick(UIMouseEvent evt, UIElement listeningElement)
+        protected override void OnClickForgeButton(UIMouseEvent evt, UIElement listeningElement)
         {
             // Check if a current recipe is put in
             if (RecipeDisplay.Option is null || RecipeDisplay.Option.Upgrade is null) return;
