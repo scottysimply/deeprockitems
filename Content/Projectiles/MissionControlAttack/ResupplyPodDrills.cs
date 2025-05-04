@@ -5,13 +5,12 @@ using System;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.ID;
+using ReLogic.Content;
 
 namespace deeprockitems.Content.Projectiles.MissionControlAttack
 {
-    public class ResupplyPodDrills : ModProjectile
-    {
-        public override void SetDefaults()
-        {
+    public class ResupplyPodDrills : ModProjectile {
+        public override void SetDefaults() {
             Projectile.width = 28;
             Projectile.height = 12;
             Projectile.hostile = false;
@@ -22,22 +21,21 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
         }
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             Main.projFrames[Projectile.type] = 3;
         }
         // These are the textures of the rest of the supply pod. The projectile is only the drill, since thats the only part that should deal damage.
-        private readonly Texture2D body = ModContent.Request<Texture2D>("deeprockitems/Content/Projectiles/MissionControlAttack/ResupplyPodBody").Value;
-        private readonly Texture2D glowmask = ModContent.Request<Texture2D>("deeprockitems/Content/Projectiles/MissionControlAttack/ResupplyPodBodyGlowMask").Value;
+        private Asset<Texture2D> body { get => Assets.ResupplyPodBody; }
+        private Asset<Texture2D> glowmask { get => Assets.ResupplyPodBodyGlowMask; }
         // This is the draw position of the projectile, the top left of the
         Vector2 drawPos;
         public override bool PreDraw(ref Color lightColor)
         {
-            drawPos = new Vector2(Projectile.position.X + 2, Projectile.position.Y - body.Height + 2) - Main.screenPosition; // Gonna need this
+            drawPos = new Vector2(Projectile.position.X + 2, Projectile.position.Y - body.Height() + 2) - Main.screenPosition; // Gonna need this
             float light_flash = 5 * (float)Math.Sin(Projectile.frameCounter / 30) + 5;
             // Manually drawing the rest of the fucking owl (resupply pod).
-            Main.EntitySpriteDraw(body, drawPos, body.Bounds, new Color(new Vector4(Projectile.Opacity)), 0, new Vector2(0, 0), 1f, SpriteEffects.None);
-            Main.EntitySpriteDraw(glowmask, drawPos, glowmask.Bounds, new Color(new Vector4(Projectile.Opacity) * light_flash), 0, new Vector2(0, 0), 1f, SpriteEffects.None);
+            Main.EntitySpriteDraw(body.Value, drawPos, body.Frame(), new Color(new Vector4(Projectile.Opacity)), 0, new Vector2(0, 0), 1f, SpriteEffects.None);
+            Main.EntitySpriteDraw(glowmask.Value, drawPos, glowmask.Frame(), new Color(new Vector4(Projectile.Opacity) * light_flash), 0, new Vector2(0, 0), 1f, SpriteEffects.None);
             return true;
         }
         public override void AI()

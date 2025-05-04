@@ -1,15 +1,8 @@
 ﻿using deeprockitems.Content.Upgrades;
-using deeprockitems.UI.Components;
-using deeprockitems.Utilities;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
-using System;
 using System.Linq;
-using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
-using Terraria.ModLoader;
-using Terraria.ModLoader.UI;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI

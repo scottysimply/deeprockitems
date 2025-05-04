@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
+using ReLogic.Content;
 
 namespace deeprockitems.Content.Projectiles.MissionControlAttack
 {
@@ -112,13 +113,13 @@ namespace deeprockitems.Content.Projectiles.MissionControlAttack
                 Projectile.Kill();
             }
         }
-        private readonly Texture2D arrows = ModContent.Request<Texture2D>("deeprockitems/Content/Projectiles/MissionControlAttack/ResupplyPodMarkerArrows").Value;
+        private Asset<Texture2D> arrows { get => Assets.ResupplyPodMarkerArrows; }
         Vector2 drawPos;
         public override bool PreDraw(ref Color lightColor)
         {
-            Rectangle frame = new Rectangle(0, Projectile.frame * arrows.Height / 6, arrows.Width, arrows.Height / 6);
-            drawPos = new Vector2(Projectile.position.X + 4, Projectile.position.Y - (arrows.Height / 6) + 10) - Main.screenPosition; // Gonna need this
-            Main.EntitySpriteDraw(arrows, drawPos, frame, new Color(new Vector4(.8f)), 0, new Vector2(0, 0), 1f, SpriteEffects.None);
+            Rectangle frame = new Rectangle(0, (int)(Projectile.frame * arrows.Height() / 6f), arrows.Width(), (int)(arrows.Height() / 6f));
+            drawPos = new Vector2(Projectile.position.X + 4, Projectile.position.Y - (arrows.Height() / 6f) + 10) - Main.screenPosition; // Gonna need this
+            Main.EntitySpriteDraw(arrows.Value, drawPos, frame, new Color(new Vector4(.8f)), 0, new Vector2(0, 0), 1f, SpriteEffects.None);
             return true;
         }
     }

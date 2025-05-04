@@ -20,14 +20,5 @@ namespace deeprockitems.Utilities
             }
             return -1;
         }
-        public static int IsCollidingWithProjectile(this Projectile projectile)
-        {
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                if (!Main.projectile[i].active) continue;
-                if (projectile.Hitbox.Intersects(Main.projectile[i].Hitbox)) return i;
-            }
-            return -1;
-        }
     }
 }
