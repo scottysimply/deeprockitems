@@ -37,7 +37,7 @@ namespace deeprockitems.UI.UpgradeUI
             {
                 int reverseIndex = optionItems.Length - 1 - i;
                 // Init
-                optionItems[reverseIndex] = new UpgradeRecipeOption((int)((Parent as UpgradePanel).ForgeButton.Height.Pixels * 0.8f), option.Upgrade.Recipe.ItemsAndAmounts[i]);
+                optionItems[reverseIndex] = new UpgradeRecipeOption((int)((Parent as UpgradeSelectionPanel).ForgeButton.Height.Pixels * 0.8f), option.Upgrade.Recipe.ItemsAndAmounts[i]);
                 // Set positions
                 optionItems[reverseIndex].Left.Pixels = Width.Pixels - (reverseIndex + 1) * (optionItems[reverseIndex].Width.Pixels + 14f);
                 optionItems[reverseIndex].VAlign = 0.5f;

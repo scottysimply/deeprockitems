@@ -59,7 +59,8 @@ namespace deeprockitems.UI.UpgradeUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             // Enable tweening blocker if this upgrade is the selected recipe
-            if (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.Panel.RecipeDisplay.Option?.Upgrade == Upgrade)
+
+            if ((Parent.Parent.Parent as UpgradeSelectionPanel)?.RecipeDisplay.Option?.Upgrade == Upgrade)
             {
                 TweenBlock = true;
             }
