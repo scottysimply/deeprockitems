@@ -1,14 +1,19 @@
 ﻿using Terraria;
+using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI
 {
     public class UpgradeState : UIState
     {
-        public UpgradePanel Panel;
+        public UpgradePanel Panel { get; set; }
         public override void OnInitialize()
         {
-            Panel = new();
+            // default state is UpgradeSelectionPanel
+            SetState<UpgradeSelectionPanel>();
+        }
+        public void SetState<TPanel>() where TPanel : UpgradePanel, new() {
+            Panel = new TPanel();
             // Set size and location
             Panel.Left.Pixels = 73f;
             Panel.Top.Pixels = Main.instance.invBottom;
