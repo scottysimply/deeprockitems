@@ -1,5 +1,4 @@
 ﻿using deeprockitems.Common.EntitySources;
-using System;
 using Terraria.DataStructures;
 using Terraria;
 using Microsoft.Xna.Framework;

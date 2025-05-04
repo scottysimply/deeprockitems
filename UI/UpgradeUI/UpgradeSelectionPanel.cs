@@ -1,18 +1,12 @@
 ﻿using Terraria;
 using Terraria.UI;
 using deeprockitems.Content.Items;
-using Terraria.GameContent.UI.Elements;
 using System;
-using Terraria.ModLoader.UI;
 using deeprockitems.Content.Upgrades;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria.ID;
 using Terraria.Audio;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Steamworks;
 
 namespace deeprockitems.UI.UpgradeUI
 {

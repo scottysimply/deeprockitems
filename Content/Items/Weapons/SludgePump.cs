@@ -1,11 +1,7 @@
 ﻿using deeprockitems.Common.PlayerLayers;
-using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.SludgeProjectile;
-using deeprockitems.Content.Tiles;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;

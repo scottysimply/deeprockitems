@@ -8,8 +8,6 @@ using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Buffs;
 using Terraria.DataStructures;
 using Terraria.Audio;
-using Terraria.GameContent;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace deeprockitems.Content.Items.Weapons
 {

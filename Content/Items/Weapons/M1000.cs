@@ -4,7 +4,6 @@ using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.Globals;
 using deeprockitems.Content.Projectiles.M1000Projectile;
 using deeprockitems.Content.Upgrades;
-using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Linq;

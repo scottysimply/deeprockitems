@@ -2,13 +2,11 @@
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Mono.CompilerServices.SymbolWriter.CodeBlockEntry;
 
 namespace deeprockitems.Content.Projectiles
 {

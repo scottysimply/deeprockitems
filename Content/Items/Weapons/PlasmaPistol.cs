@@ -1,10 +1,8 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Buffs;
-using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 using deeprockitems.Content.Upgrades;
 using deeprockitems.Utilities;
-using Humanizer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;

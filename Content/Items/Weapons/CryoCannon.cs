@@ -6,7 +6,6 @@ using deeprockitems.Content.Projectiles.CryoCannonProjectiles;
 using deeprockitems.Content.Upgrades;
 using deeprockitems.Content.Buffs;
 using System.Linq;
-using System.Collections.Generic;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using deeprockitems.Common.EntitySources;

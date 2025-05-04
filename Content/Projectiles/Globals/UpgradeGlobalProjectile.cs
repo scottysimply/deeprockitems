@@ -1,7 +1,6 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;

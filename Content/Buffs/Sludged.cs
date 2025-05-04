@@ -1,5 +1,4 @@
-﻿using deeprockitems.Content.Buffs;
-using System.Linq;
+﻿using System.Linq;
 using Terraria;
 
 namespace deeprockitems.Content.Buffs

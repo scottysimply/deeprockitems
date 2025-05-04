@@ -3,12 +3,9 @@ using Terraria.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using deeprockitems.Content.Items.Weapons;
-using deeprockitems.Utilities;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
-using Terraria.ModLoader.UI;
-using deeprockitems.Content.Buffs;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 

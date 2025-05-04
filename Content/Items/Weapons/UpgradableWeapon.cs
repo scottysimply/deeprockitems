@@ -1,11 +1,8 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Upgrades;
-using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
