@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
 
-namespace deeprockitems.UI.UpgradeUI
+namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
     public class OverclockListItem : UpgradeSelectOption
     {
@@ -42,7 +42,8 @@ namespace deeprockitems.UI.UpgradeUI
             }
 
 
-            if (IsMouseHovering) {
+            if (IsMouseHovering)
+            {
                 UICommon.TooltipMouseText($"[c/E3B465:{_internalOverclock.DisplayName}]\n" +
                                           $"{_internalOverclock.HoverText}");
             }

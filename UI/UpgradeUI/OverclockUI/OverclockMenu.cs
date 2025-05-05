@@ -5,7 +5,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.UI;
 
-namespace deeprockitems.UI.UpgradeUI
+namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
     public class OverclockMenu : UIPanel
     {
@@ -33,7 +33,7 @@ namespace deeprockitems.UI.UpgradeUI
             OverclockList = new UIList {
                 Width = { Pixels = -20, Percent = 1f },
                 Top = { Pixels = OverclockLabel.GetDimensions().Height + 4f },
-                Height = { Pixels = this.Height.Pixels-OverclockLabel.Height.Pixels - 30f},
+                Height = { Pixels = this.Height.Pixels - OverclockLabel.Height.Pixels - 30f },
                 OverflowHidden = true,
             };
             OverclockList.SetScrollbar(Scrollbar);
