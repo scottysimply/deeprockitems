@@ -13,8 +13,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
     public class OverclockSummary : UIPanel
     {
         public UIText OverclockLabel { get; set; }
-        public Overclock? CurrentOverclock { get; set; }
-        public RectangleF OverclockDrawLocation { get; set; }
+        public OverclockIcon OverclockIcon { get; set; }
         public UIButton<LocalizedText> OverclockStateButton { get; set; }
         public override void OnInitialize() {
             base.OnInitialize();
@@ -33,9 +32,14 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.SetState<OverclockPanel>();
             };
             Append(OverclockStateButton);
+            OverclockIcon = new() {
+                Left = { Percent = 0.5f },
+                Top = { Pixels = OverclockStateButton.Top.Pixels + OverclockStateButton.Height.Pixels }
+            };
+            Append(OverclockIcon);
         }
-        protected override void DrawSelf(SpriteBatch spriteBatch) {
-            
+        public void SetOverclock(Overclock overclock) {
+            OverclockIcon.SetOverclock(overclock);
         }
     }
 }
