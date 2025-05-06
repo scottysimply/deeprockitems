@@ -62,14 +62,10 @@ namespace deeprockitems.Common.Quests
             TotalQuestsCompleted++;
             QuestsCompletedThisSession++;
 
-            // Give matrix core and/or upgrade token
+            // Give matrix core after 4 quests
             if (TotalQuestsCompleted % 4 == 0)
             {
                 Player.QuickSpawnItem(Player.GetSource_DropAsItem(), ModContent.ItemType<MatrixCore>());
-            }
-            else
-            {
-                Player.QuickSpawnItem(Player.GetSource_DropAsItem(), ModContent.ItemType<UpgradeToken>());
             }
 
             // Get how many vanilla bosses were killed
