@@ -22,7 +22,7 @@ namespace deeprockitems.UI.UpgradeUI
         /// <summary>
         /// The tiny menu that brings you to the overclock menu.
         /// </summary>
-        public OverclockSelectionMenu OverclockDisplay { get; set; }
+        public OverclockSummary OverclockDisplay { get; set; }
         /// <summary>
         /// The selection field for all of the upgrades
         /// </summary>
@@ -102,13 +102,13 @@ namespace deeprockitems.UI.UpgradeUI
                 if (modItem.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier value))
                 {
 
-                    OverclockDisplay.SetOverclocks(value);
+                    OverclockDisplay.SetOverclock(value.Where(ov => ov.UpgradeState.IsEquipped).FirstOrDefault() as Overclock ?? null);
                 }
             }
             else
             {
                 UpgradeContainer.SetUpgrades(null);
-                OverclockDisplay.SetOverclocks(null);
+                OverclockDisplay.SetOverclock(null);
             }
         }
 
