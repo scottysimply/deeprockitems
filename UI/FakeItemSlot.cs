@@ -47,7 +47,7 @@ namespace deeprockitems.UI
         public void SwapItems(ref Item itemGoingToSlot, ref Item itemLeavingSlot)
         {
             // Send event
-            OnItemSwap.Invoke(itemGoingToSlot, itemLeavingSlot);
+            OnItemSwap?.Invoke(itemGoingToSlot, itemLeavingSlot);
             // Play sound
             SoundEngine.PlaySound(SoundID.Grab);
             // Swap the items.
