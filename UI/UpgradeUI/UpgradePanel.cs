@@ -9,10 +9,10 @@ namespace deeprockitems.UI.UpgradeUI
     public abstract class UpgradePanel : UIPanel
     {
         #region UI Elements
-        public FakeItemSlot ParentSlot;
-        public UIButton<string> ForgeButton;
+        public FakeItemSlot ParentSlot { get; set; }
+        public UIButton<string> ForgeButton { get; set; }
         #endregion
-        public override void OnInitialize()
+        public override sealed void OnInitialize()
         {
             float MARGIN = 6;
             float PADDING = 6;
