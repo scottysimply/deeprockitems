@@ -22,7 +22,7 @@ namespace deeprockitems.UI.UpgradeUI
         /// <summary>
         /// The tiny menu that brings you to the overclock menu.
         /// </summary>
-        public OverclockMenu OverclockDisplay { get; set; }
+        public OverclockSelectionMenu OverclockDisplay { get; set; }
         /// <summary>
         /// The selection field for all of the upgrades
         /// </summary>
