@@ -3,25 +3,23 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
-    public class OverclockMenu : UIPanel
+    public class OverclockSelectionMenu : UIPanel
     {
         public UIScrollbar Scrollbar { get; set; }
         public UIText OverclockLabel { get; set; }
         public UIList OverclockList { get; set; }
-        private static void setMargins(UIElement element, float marginLeft, float marginRight, float marginTop, float marginBottom) {
-            element.MarginLeft = marginLeft;
-            element.MarginRight = marginRight;
-            element.MarginTop = marginTop;
-            element.MarginBottom = marginBottom;
-        }
         public override void OnInitialize() {
             base.OnInitialize();
             OverclockLabel = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.Overclocks", () => "Overclocks"), textScale: 0.66f) {
                 Left = { Percent = 0f, Pixels = -4f }
+            };
+            OverclockLabel.OnLeftClick += (UIMouseEvent evt, UIElement sender) => {
+                ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.SetState<OverclockPanel>();
             };
             Append(OverclockLabel);
             Scrollbar = new UIScrollbar {
