@@ -26,7 +26,9 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             Append(OverclockLabel);
             OverclockStateButton = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.ViewOverclocks", () => "View Overclocks")) {
                 Left = { Percent = 0f },
-                Top = { Pixels = OverclockLabel.Height.Pixels }
+                Top = { Pixels = OverclockLabel.Height.Pixels },
+                Width = { Percent = 1f },
+                Height = { Pixels = 30f}
             };
             OverclockStateButton.OnLeftClick += (UIMouseEvent evt, UIElement sender) => {
                 ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.SetState<OverclockPanel>();
