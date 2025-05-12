@@ -18,11 +18,14 @@ namespace deeprockitems.UI.CooldownUI
         static BasicEffect basicEffect;
         void ILoadable.Load(Mod mod) {
             // Initialize the basic effect
-            Main.RunOnMainThread(() => {
-                basicEffect = new(Main.instance.GraphicsDevice);
-                basicEffect.VertexColorEnabled = true;
-                basicEffect.TextureEnabled = true;
-            });
+            if (!Main.dedServ)
+            {
+                Main.RunOnMainThread(() => {
+                    basicEffect = new(Main.instance.GraphicsDevice);
+                    basicEffect.VertexColorEnabled = true;
+                    basicEffect.TextureEnabled = true;
+                });
+            }
         }
         void ILoadable.Unload() {
             // Dispose of the basicEffect
