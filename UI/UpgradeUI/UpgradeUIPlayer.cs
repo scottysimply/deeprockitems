@@ -13,7 +13,7 @@ namespace deeprockitems.UI.UpgradeUI
             _upgradeSystem = ModContent.GetInstance<UpgradeSystem>();
         }
         public override void ResetEffects() {
-            if (UpgradeStationLocation != new Point(-1, -1) && (!Main.LocalPlayer.IsInTileInteractionRange(UpgradeStationLocation.X, UpgradeStationLocation.Y, TileReachCheckSettings.Simple) || Player.chest != -1 || !Main.playerInventory || Player.talkNPC != -1)) {
+            if ((Main.myPlayer == Player.whoAmI) && UpgradeStationLocation != new Point(-1, -1) && (!Player.IsInTileInteractionRange(UpgradeStationLocation.X, UpgradeStationLocation.Y, TileReachCheckSettings.Simple) || Player.chest != -1 || !Main.playerInventory || Player.talkNPC != -1)) {
                 UpgradeSystem.CloseUpgradeInterface();
                 UpgradeStationLocation = new Point(-1, -1);
             }
