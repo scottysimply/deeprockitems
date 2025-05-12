@@ -5,12 +5,36 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameInput;
 using Terraria.Audio;
 using Terraria.ID;
+using System;
 
 namespace deeprockitems.UI
 {
     public class FakeItemSlot : UIElement
     {
-        internal Item ItemInSlot;
+        public Func<Item> GetItemToTrackInstead { get; set; }
+        public delegate void ItemSetter(ref Item item);
+        public ItemSetter SetItemToTrackInstead { get; set; }
+        private Item _itemInSlot;
+        internal Item ItemInSlot
+        {
+            get
+            {
+                if (GetItemToTrackInstead != null && SetItemToTrackInstead != null)
+                {
+                    return GetItemToTrackInstead();
+                }
+                return _itemInSlot;
+            }
+            set
+            {
+                if (GetItemToTrackInstead != null && SetItemToTrackInstead != null)
+                {
+                    SetItemToTrackInstead(ref value);
+                    return;
+                }
+                _itemInSlot = value;
+            }
+        }
         public ItemPredicate PredicateToPutItemIn;
         private float _drawScale = 1f;
         public delegate bool ItemPredicate(Item mouseItem, Item inSlot);
@@ -33,7 +57,9 @@ namespace deeprockitems.UI
                     // Put in empty slot if it can be put in
                     if (Main.LocalPlayer.inventory[i].type == 0)
                     {
-                        SwapItems(ref Main.LocalPlayer.inventory[i], ref ItemInSlot);
+                        Item tempItem = ItemInSlot;
+                        SwapItems(ref Main.LocalPlayer.inventory[i], ref tempItem);
+                        ItemInSlot = tempItem;
                         break;
                     }
                 }
@@ -41,7 +67,9 @@ namespace deeprockitems.UI
             }
             if (PredicateToPutItemIn(Main.mouseItem, ItemInSlot))
             {
-                SwapItems(ref Main.mouseItem, ref ItemInSlot);
+                Item tempItem = ItemInSlot;
+                SwapItems(ref Main.mouseItem, ref tempItem);
+                ItemInSlot = tempItem;
             }
         }
         public void SwapItems(ref Item itemGoingToSlot, ref Item itemLeavingSlot)
@@ -75,7 +103,8 @@ namespace deeprockitems.UI
                     Main.cursorOverride = 8;
                 }
             }
-            ItemSlot.Draw(spriteBatch, ref ItemInSlot, 1, dimensions.TopLeft());
+            Item tempItem = ItemInSlot;
+            ItemSlot.Draw(spriteBatch, ref tempItem, 1, dimensions.TopLeft());
 
             // Reset scale
             Main.inventoryScale = oldScale;
