@@ -11,12 +11,8 @@ namespace deeprockitems.UI.UpgradeUI
             // default state is UpgradeSelectionPanel
             SetState<UpgradeSelectionPanel>();
         }
-        private Item _oldItem;
+        internal Item ItemInSlot { get; set; } = new(0);    
         public void SetState<TPanel>() where TPanel : UpgradePanel, new() {
-            if (Panel is not null)
-            {
-                _oldItem = Panel.ParentSlot.ItemInSlot;
-            }
             RemoveAllChildren();
             Panel = new TPanel();
             // Set size and location
@@ -26,11 +22,6 @@ namespace deeprockitems.UI.UpgradeUI
             Panel.Width.Pixels = 420;
             Append(Panel);
             Panel.Activate();
-            if (_oldItem is not null)
-            {
-                Panel.ParentSlot.ItemInSlot = _oldItem;
-                _oldItem = null;
-            }
         }
     }
 }
