@@ -29,7 +29,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Top = { Pixels = OverclockLabel.Height.Pixels }
             };
             OverclockList = new UIList {
-                Width = { Pixels = -20, Percent = 1f },
+                Width = { Pixels = -20f, Percent = 1f },
                 Top = { Pixels = OverclockLabel.GetDimensions().Height + 4f },
                 Height = { Pixels = this.Height.Pixels - OverclockLabel.Height.Pixels - 30f },
                 OverflowHidden = true,
