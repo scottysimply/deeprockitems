@@ -32,7 +32,9 @@ namespace deeprockitems.UI
         {
             if (canShiftIn)
             {
-                upgradeSystem.UpgradeUIState.Panel.ParentSlot.SwapItems(ref inventory[slot], ref upgradeSystem.UpgradeUIState.Panel.ParentSlot.ItemInSlot);
+                Item tempItem = upgradeSystem.UpgradeUIState.ItemInSlot;
+                upgradeSystem.UpgradeUIState.Panel.ParentSlot.SwapItems(ref inventory[slot], ref tempItem);
+                upgradeSystem.UpgradeUIState.ItemInSlot = tempItem;
                 return true;
             }
             return false;
