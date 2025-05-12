@@ -31,14 +31,8 @@ namespace deeprockitems.UI.UpgradeUI
 
             // Set size and position of parent slot
             ParentSlot = new FakeItemSlot((mouseItem, slotItem) => {
-                if (mouseItem.ModItem is IUpgradable)
-                {
-                    return true;
-                }
-                else if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is IUpgradable))
-                {
-                    return true;
-                }
+                if (mouseItem.ModItem is IUpgradable) return true;
+                if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is IUpgradable)) return true;
                 return false;
             }) {
                 HAlign = 0f,
@@ -46,6 +40,8 @@ namespace deeprockitems.UI.UpgradeUI
                 Height = ForgeButton.Height
             };
             ParentSlot.OnItemSwap += OnClickParentSlot;
+            ParentSlot.GetItemToTrackInstead = () => (Parent as UpgradeState).ItemInSlot;
+            ParentSlot.SetItemToTrackInstead = (ref Item item) => (Parent as UpgradeState).ItemInSlot = item;
             Append(ParentSlot);
 
             // Here goes the other initialization logic
