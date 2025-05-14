@@ -63,7 +63,8 @@ namespace deeprockitems.UI.CooldownUI
             }
             // We only have the simple meter right now
             Rectangle dimensions = GetDimensions().ToRectangle();
-            DrawSimpleMeter(spriteBatch, new Vector2(dimensions.Center.X, dimensions.Center.Y + 60f), PlayerWeapon.OverheatCooldown / UpgradableWeapon.COOLDOWN_THRESHOLD, CooldownDrawColor);
+            Vector2 offset = Main.LocalPlayer.Center.ToScreenPosition() - dimensions.Center.ToVector2();
+            DrawSimpleMeter(spriteBatch, new Vector2(dimensions.Center.X + offset.X, dimensions.Center.Y + 60f + offset.Y), PlayerWeapon.OverheatCooldown / UpgradableWeapon.COOLDOWN_THRESHOLD, CooldownDrawColor);
 
         }
         public Color CooldownDrawColor => PlayerWeapon.IsWeaponEnabledByCooldown ? Color.White : Color.IndianRed;
