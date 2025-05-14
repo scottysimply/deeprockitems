@@ -81,35 +81,5 @@ namespace deeprockitems.Content.Buffs
             if (IsStunned) return false;
             return base.CanHitPlayer(npc, target, ref cooldownSlot);
         }
-        private int _stunFrameTimer = 0;
-        private int _stunFrame = 0;
-        private const int _frameCount = 3;
-        /*public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
-            if (IsStunned)
-            {
-                // Increment frame
-                _stunFrameTimer++;
-                if (_stunFrameTimer > 8)
-                {
-                    _stunFrameTimer = 0;
-                    _stunFrame++;
-                    if (_stunFrame >= _frameCount)
-                    {
-                        _stunFrame = 0;
-                    }
-                }
-
-                // Drawpos
-                Vector2 center = new Vector2(npc.Center.X, npc.position.Y - 10f);
-                Vector2 adjustedDrawPos = center - 0.5f * DRGTextures.StunTwinkle.Size();
-                int frameHeight = DRGTextures.StunTwinkle.Height / _frameCount;
-                Rectangle frame = new Rectangle(0, _stunFrame * frameHeight, DRGTextures.StunTwinkle.Width, frameHeight);
-                // Draw
-                Main.EntitySpriteDraw(new DrawData(DRGTextures.StunTwinkle, adjustedDrawPos - Main.screenPosition, frame, Color.White));
-            }
-
-            return base.PreDraw(npc, spriteBatch, screenPos, drawColor);
-        }*/
     }
 }
