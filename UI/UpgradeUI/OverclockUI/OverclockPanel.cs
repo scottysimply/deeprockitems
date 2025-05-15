@@ -8,6 +8,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
     public class OverclockPanel : UpgradePanel
     {
+        public OverclockService SelectedOverclock { get; set; } = new();
         public FakeItemSlot MatrixCoreSlot { get; set; }
         public OverclockDetails Details { get; set; }
         public OverclockSelectionMenu SelectionMenu { get; set; }
@@ -24,7 +25,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Height = { Pixels = 52 }
             };
             Append(MatrixCoreSlot);
-            SelectionMenu = new OverclockSelectionMenu() {
+            SelectionMenu = new OverclockSelectionMenu(SelectedOverclock) {
                 Width = { Percent = 0.5f, Pixels = -PADDING },
                 Height = { Percent = 1f, Pixels = -MatrixCoreSlot.Height.Pixels - PADDING },
                 Left = { Percent = 0f },
@@ -50,6 +51,10 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             SelectionMenu.SetOverclocks(null);
         }
         protected override void OnClickForgeButton(UIMouseEvent evt, UIElement sender) {
+            if (SelectedOverclock != null)
+            {
+                Main.NewText($"Verified OC: {SelectedOverclock.ThisOverclock.DisplayName}");
+            }
             if (MatrixCoreSlot.ItemInSlot?.type != 0)
             {
                 MatrixCoreSlot.ItemInSlot.stack--;
