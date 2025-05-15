@@ -40,18 +40,21 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Top = { Pixels = MatrixCoreSlot.Height.Pixels + PADDING }
             };
             Append(Details);
-            SelectionMenu.SetOverclocks((ParentSlot.ItemInSlot.ModItem as IUpgradable)?.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER] ?? null);
+            if ((ParentSlot.ItemInSlot.ModItem as IUpgradable)?.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier overclocks) ?? false)
+            {
+                SelectionMenu.SetOverclocks(overclocks);
+            }
         }
         protected override void OnClickParentSlot(Item itemNowInSlot, Item itemThatLeftSlot) {
-            if (itemNowInSlot.ModItem is IUpgradable modItem)
+            if ((itemNowInSlot.ModItem as IUpgradable)?.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier overclocks) ?? false)
             {
-                SelectionMenu.SetOverclocks(modItem.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER] ?? null);
+                SelectionMenu.SetOverclocks(overclocks);
                 return;
             }
             SelectionMenu.SetOverclocks(null);
         }
         protected override void OnClickForgeButton(UIMouseEvent evt, UIElement sender) {
-            if (SelectedOverclock != null)
+            if (SelectedOverclock?.ThisOverclock is not null)
             {
                 Main.NewText($"Verified OC: {SelectedOverclock.ThisOverclock.DisplayName}");
             }
