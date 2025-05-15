@@ -24,5 +24,6 @@ namespace deeprockitems.Content.Upgrades
         public UpgradeStateBinding UpgradeState { get; set; }
         public UpgradeBehavior Behavior { get; set; }
         public UpgradeRecipe Recipe { get; set; }
+        public UpgradeTier Tier { get; set; }
     }
 }
