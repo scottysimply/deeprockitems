@@ -22,13 +22,14 @@ namespace deeprockitems.UI.UpgradeUI
             var self = ModContent.GetInstance<UpgradeSystem>();
 
             // Try giving item back to player
-            if (self.Interface.CurrentState != null && self.UpgradeUIState.Panel.ParentSlot.ItemInSlot != null && self.UpgradeUIState.Panel.ParentSlot.ItemInSlot.type != 0)
+            if (self.Interface.CurrentState != null && self.UpgradeUIState.ItemInSlot != null && self.UpgradeUIState.ItemInSlot.type != 0)
             {
-                Item result = Main.LocalPlayer.GetItem(Main.myPlayer, self.UpgradeUIState.Panel.ParentSlot.ItemInSlot, GetItemSettings.InventoryUIToInventorySettings);
+                Item result = Main.LocalPlayer.GetItem(Main.myPlayer, self.UpgradeUIState.ItemInSlot, GetItemSettings.InventoryUIToInventorySettings);
                 if (result.type != 0)
                 {
-                    Main.LocalPlayer.QuickSpawnItem(self.UpgradeUIState.Panel.ParentSlot.ItemInSlot.GetSource_ReleaseEntity(), self.UpgradeUIState.Panel.ParentSlot.ItemInSlot);
+                    Main.LocalPlayer.QuickSpawnItem(self.UpgradeUIState.ItemInSlot.GetSource_ReleaseEntity(), self.UpgradeUIState.ItemInSlot);
                 }
+                self.UpgradeUIState.ItemInSlot = new(0);
             }
             self.Interface.SetState(null);
         }
