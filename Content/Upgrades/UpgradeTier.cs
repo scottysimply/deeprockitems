@@ -40,7 +40,7 @@ namespace deeprockitems.Content.Upgrades
             {
                 if (i == index)
                 {
-                    _innerArray[index].UpgradeState.IsEquipped = true;
+                    _innerArray[index].UpgradeState.IsEquipped = !_innerArray[index].UpgradeState.IsEquipped;
                     continue;
                 }
                 _innerArray[i].UpgradeState.IsEquipped = false;
@@ -51,7 +51,7 @@ namespace deeprockitems.Content.Upgrades
             {
                 if (upgrade.InternalName == name)
                 {
-                    upgrade.UpgradeState.IsEquipped = true;
+                    upgrade.UpgradeState.IsEquipped = !upgrade.UpgradeState.IsEquipped;
                     continue;
                 }
                 upgrade.UpgradeState.IsEquipped = false;
