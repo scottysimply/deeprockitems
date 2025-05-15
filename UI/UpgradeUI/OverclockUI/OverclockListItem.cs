@@ -17,7 +17,9 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             ThisOverclock = overclock;
         }
         public override void OnInitialize() {
-            OverclockName = new(ThisOverclock.DisplayName);
+            OverclockName = new(ThisOverclock.DisplayName) {
+                IgnoresMouseInteraction = true
+            };
             Append(OverclockName);
         }
     }
