@@ -14,29 +14,21 @@ namespace deeprockitems.UI.UpgradeUI
     /// <summary>
     /// This is each individual upgrade represented as UI.
     /// </summary>
-    public class UpgradeSelectOption : UIElement
+    public class UpgradeSelectOption : TweenableElement
     {
         protected Asset<Texture2D> backgroundImage { get => Upgrade.Background; }
         protected Asset<Texture2D> icon { get => Upgrade.Texture; }
         protected UpgradeTier _upgrades;
-        public UpgradeSelectOption(UpgradeTier upgrades, Upgrade upgrade)
+        public UpgradeSelectOption(UpgradeTier upgrades, Upgrade upgrade) : base()
         {
             Upgrade = upgrade;
             _upgrades = upgrades;
-            HoverScale = _minScale;
         }
-        public bool TweenBlock { get; set; } = false;
 
         /// <summary>
         /// The upgrade that is represented by this UIElement.
         /// </summary>
         public Upgrade Upgrade;
-        public float HoverScale { get; set; }
-        const float _minScale = 0.8f;
-        const float _maxScale = 1f;
-        private Rectangle _dimensions => GetDimensions().ToRectangle();
-        public RectangleF ScaledDimensions => new RectangleF(_dimensions.Center.X - 0.5f * HoverScale * _dimensions.Width, _dimensions.Center.Y - 0.5f * HoverScale * _dimensions.Height, HoverScale * _dimensions.Width, HoverScale * _dimensions.Height);
-        public new bool IsMouseHovering => ScaledDimensions.Contains(Main.MouseScreen);
         /// <summary>
         /// Deselects all other upgrades in the tier and forces this upgrade to be equipped.
         /// </summary>
@@ -56,13 +48,13 @@ namespace deeprockitems.UI.UpgradeUI
             (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.Panel.ParentSlot.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();
 
         }
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void DrawHook(SpriteBatch spriteBatch)
         {
             // Enable tweening blocker if this upgrade is the selected recipe
 
             if ((Parent.Parent.Parent as UpgradeSelectionPanel)?.RecipeDisplay.Option?.Upgrade == Upgrade)
             {
-                TweenBlock = true;
+                AllowedToTween = false;
             }
             // Get slot color
             Color drawColor = BaseColor;
@@ -81,14 +73,11 @@ namespace deeprockitems.UI.UpgradeUI
                 // Draw
                 UICommon.TooltipMouseText(mouseText);
             }
-            // Tween if being hovered
-            HandleTweening();
-
             // Draw the actual slot
             spriteBatch.Draw(backgroundImage.Value, (Rectangle)ScaledDimensions, drawColor);
 
             // Draw upgrade icon
-            float scale = 0.7f * HoverScale;
+            float scale = 0.7f * currentScale;
             Rectangle destination = new((int)(ScaledDimensions.Center.X - ScaledDimensions.Width * 0.5f), (int)(ScaledDimensions.Center.Y - ScaledDimensions.Height * 0.5f), (int)ScaledDimensions.Width, (int)ScaledDimensions.Height);
             spriteBatch.Draw(icon.Value, destination, Color.White);
 
@@ -102,37 +91,6 @@ namespace deeprockitems.UI.UpgradeUI
             if (Upgrade.UpgradeState.IsUnlocked) return;
             // Draw lock with top left near center
             spriteBatch.Draw(Assets.UI.UpgradeLock.Value, new Rectangle((int)(destination.Center.X + scale * 0.2f * ScaledDimensions.Width), (int)(destination.Center.Y + scale * 0.1f * ScaledDimensions.Height), (int)(scale * Assets.UI.UpgradeLock.Width()), (int)(scale * Assets.UI.UpgradeLock.Height())), Color.White);
-        }
-        protected void HandleTweening() {
-            // Enable size block
-            if (TweenBlock)
-            {
-                TweenBlock = false;
-                return;
-            }
-            // Grow slightly
-            if (IsMouseHovering)
-            {
-                if (HoverScale < _maxScale)
-                {
-                    HoverScale += 0.03f;
-                }
-                else if (HoverScale > _maxScale)
-                {
-                    HoverScale = _maxScale;
-                }
-            }
-            else
-            {
-                if (_minScale < HoverScale)
-                {
-                    HoverScale -= 0.05f;
-                }
-                else if (_minScale > HoverScale)
-                {
-                    HoverScale = _minScale;
-                }
-            }
         }
         Color BaseColor => new Color(252, 93, 38);
         Color SelectedColor => new Color(242, 227, 62);
