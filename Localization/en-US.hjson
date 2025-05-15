@@ -361,7 +361,7 @@ Mods: {
 				}
 
 				DoomSlayer: {
-					DisplayName: DoomSlayer
+					DisplayName: Doom Slayer
 					HoverText: Hover text
 				}
 			}
