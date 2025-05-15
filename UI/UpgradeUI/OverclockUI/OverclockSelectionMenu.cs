@@ -46,6 +46,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             {
                 Main.NewText($"Selected {target.ThisOverclock.DisplayName}");
                 SelectedOverclock.ThisOverclock = target.ThisOverclock;
+                SelectedOverclock.ThisOverclock.Tier.SelectUpgrade(target.ThisOverclock.InternalName);
             }
         }
 
