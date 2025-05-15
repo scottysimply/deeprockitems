@@ -46,6 +46,17 @@ namespace deeprockitems.Content.Upgrades
                 _innerArray[i].UpgradeState.IsEquipped = false;
             }
         }
+        public void SelectUpgrade(string name) {
+            foreach (var upgrade in _innerArray)
+            {
+                if (upgrade.InternalName == name)
+                {
+                    upgrade.UpgradeState.IsEquipped = true;
+                    continue;
+                }
+                upgrade.UpgradeState.IsEquipped = false;
+            }
+        }
         private Upgrade[] _innerArray;
         public int Tier { get; set; }
         IEnumerator IEnumerable.GetEnumerator()
