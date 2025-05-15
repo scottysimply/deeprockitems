@@ -12,7 +12,6 @@ namespace deeprockitems.Content.Upgrades
         private UpgradeBuilder() {
 
         }
-        bool Overclock = false;
         public const int OVERCLOCK_TIER = 127;
         int _currentTierAddingTo = 0;
         Upgrade _currentUpgradeAddingTo;
