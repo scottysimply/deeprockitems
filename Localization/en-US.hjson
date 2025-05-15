@@ -360,9 +360,9 @@ Mods: {
 					HoverText: Converts all pellet damage into one high-damage, piercing slug
 				}
 
-				DoomSlayer: {
-					DisplayName: Doom Slayer
-					HoverText: Hover text
+				StuffedShells: {
+					DisplayName: Stuffed Shells
+					HoverText: Doubled pellet count, but increases the cooldown
 				}
 			}
 
