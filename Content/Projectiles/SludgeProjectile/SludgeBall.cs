@@ -12,7 +12,6 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
     {
         public bool ShouldSplatter { get; set; } = false;
         public int NumProjectilesToSpawn { get; set; } = 8;
-        float GooTimer = 5f;
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -21,11 +20,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.rotation = 0;
-
             DrawOffsetX = -8;
             DrawOriginOffsetY = -8;
-
-
         }
         public override void AI()
         {
