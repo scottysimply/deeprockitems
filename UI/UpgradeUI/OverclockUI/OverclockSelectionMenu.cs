@@ -1,4 +1,5 @@
-﻿using deeprockitems.Content.Upgrades;
+﻿using deeprockitems.Content.Items;
+using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
@@ -47,6 +48,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Main.NewText($"Selected {target.ThisOverclock.DisplayName}");
                 SelectedOverclock.ThisOverclock = target.ThisOverclock;
                 SelectedOverclock.ThisOverclock.Tier.SelectUpgrade(target.ThisOverclock.InternalName);
+                (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();
             }
         }
 

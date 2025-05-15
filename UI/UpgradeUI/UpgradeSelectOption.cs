@@ -45,7 +45,7 @@ namespace deeprockitems.UI.UpgradeUI
             Upgrade.UpgradeState.IsEquipped = !Upgrade.UpgradeState.IsEquipped;
 
             // Apply stat changes
-            (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.Panel.ParentSlot.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();
+            (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();
 
         }
         public override void DrawHook(SpriteBatch spriteBatch)
