@@ -21,7 +21,6 @@ namespace deeprockitems.UI.UpgradeUI
                 return;
             }
             upgradeSelectors = upgrades.Where(tier => tier.Key != UpgradeBuilder.OVERCLOCK_TIER).Select(tier => new UpgradeSelectionTier(tier.Value, (int)Height.Pixels)).ToArray();
-            const int GAP = 4;
             float sizeOfSelector = upgradeSelectors[0].Children.First().Height.Pixels;
             // Construct the first tier
             upgradeSelectors[0].Left.Pixels = 0;
@@ -45,18 +44,6 @@ namespace deeprockitems.UI.UpgradeUI
                 upgradeSelectors[i].Height.Pixels = Height.Pixels;
                 Append(upgradeSelectors[i]);
             }
-
-
-            /*computedWidth = (int)((Width.Pixels - upgradeSelectors.Length * GAP) / (float)upgradeSelectors.Length);
-            for (int i = 0; i < upgradeSelectors.Length; i++)
-            {
-                upgradeSelectors[i].Left.Pixels = i * (GAP + computedWidth);
-                upgradeSelectors[i].Width.Pixels = computedWidth;
-                upgradeSelectors[i].Height.Pixels = Height.Pixels;
-
-                // Append
-                Append(upgradeSelectors[i]);
-            }*/
         }
     }
 }
