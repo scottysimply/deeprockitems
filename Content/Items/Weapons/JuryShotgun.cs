@@ -198,9 +198,10 @@ namespace deeprockitems.Content.Items.Weapons
                         }
                         return true;
                     })
-                .WithOverclock("DoomSlayer", Assets.Upgrades.Stun, Overclock.OverclockType.Unstable)
-                    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
-                        target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 120);
+                .WithOverclock("StuffedShells", Assets.Upgrades.Stun, Overclock.OverclockType.Unstable)
+                    .WithBehavior<ItemStatChange>((Item item) => {
+                        (item.ModItem as JuryShotgun).PelletCount *= 2;
+                        (item.ModItem as JuryShotgun).TimeToEndCooldown += 40f;
                     })
             .Seal();
         }
@@ -228,14 +229,14 @@ namespace deeprockitems.Content.Items.Weapons
             }
 
             // Shoot logic
-            int numberProjectiles = PelletCount + Main.rand.Next(0, 1);
+            int numberProjectiles = PelletCount + Main.rand.Next(0, 2);
 
             // This block is for the projectile spread.
             int projectilesWithMultiplier = (int)Math.Floor(ProjectileMultiplier * numberProjectiles);
             for (int i = 0; i < projectilesWithMultiplier; i++)
             {
                 Vector2 perturbedSpeed = velocity.RotatedByRandom(spread * SpreadMultiplier) * Main.rand.NextFloat(VelocityLowerBound, 1.2f); // random velocity effect
-                Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI, numberProjectiles);
+                Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
             }
             return true;
         }
