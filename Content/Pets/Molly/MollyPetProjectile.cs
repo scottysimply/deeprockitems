@@ -511,9 +511,8 @@ namespace deeprockitems.Content.Pets.Molly
             if (colorResult > 10)
             {
                 // Draw the outline
-                Texture2D outline = ModContent.Request<Texture2D>("deeprockitems/Content/Pets/Molly/MollyPetOutline").Value;
                 Color selectionGlowColor = Colors.GetSelectionGlowColor(trackedResult == 2, colorResult);
-                Main.EntitySpriteDraw(outline, DrawPosition, Frame, selectionGlowColor, Projectile.rotation, DrawOrigin, Projectile.scale, spriteEffects, 0);
+                Main.EntitySpriteDraw(Assets.MollyPetOutline.Value, DrawPosition, Frame, selectionGlowColor, Projectile.rotation, DrawOrigin, Projectile.scale, spriteEffects, 0);
             }
             ProjectileLoader.PostDraw(Projectile, lightColor);
             return false;
