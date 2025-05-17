@@ -162,7 +162,6 @@ namespace deeprockitems.Content.Items.Weapons
         public Dictionary<string, UpgradeStateBinding> UpgradeStates = new();
         public virtual void NewSetDefaults() { }
         public sealed override void SetDefaults() {
-            ResetStats();
             NewSetDefaults();
             _oldUseTime = Item.useTime;
             _oldUseAnimation = Item.useAnimation;
@@ -174,6 +173,7 @@ namespace deeprockitems.Content.Items.Weapons
             // Reset global stats
             Item.useTime = _oldUseTime;
             Item.useAnimation = _oldUseAnimation;
+            Item.damage = Item.OriginalDamage;
             ResetStats();
             NewSetDefaults();
             foreach (var tier in UpgradeMasterList)
