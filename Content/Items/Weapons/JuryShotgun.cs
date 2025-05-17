@@ -19,14 +19,17 @@ namespace deeprockitems.Content.Items.Weapons
             Item.CloneDefaults(ItemID.Boomstick);
             Item.UseSound = null;
             Item.material = false; // Prevents the weapon being erronously being called a material after upgrading
-            Item.damage = 15;
+            Item.damage = 20;
             Item.width = 40;
             Item.height = 16;
             Item.useTime = 45;
             Item.useAnimation = 45;
             Item.autoReuse = true;
             Item.value = Item.sellPrice(0, 3, 0, 0);
-            TimeToEndCooldown = 120f;
+            TimeToEndCooldown = 100f;
+            ShotsUntilCooldown = 2f;
+            SpreadMultiplier = 1f;
+            PelletCount = 4;
         }
         private int _shotsFired = 0;
         /// <summary>
@@ -41,8 +44,9 @@ namespace deeprockitems.Content.Items.Weapons
         /// The lower bound of the shotgun velocity
         /// </summary>
         public float VelocityLowerBound { get; set; } = 0.8f;
-        public int PelletCount { get; set; } = 3;
+        public int PelletCount { get; set; }
         public override UpgradeList InitializeUpgrades() {
+            int initialType = ProjectileID.Bullet;
             return UpgradeBuilder.CreateUpgradeList("JuryShotgun")
                 .WithTier()
                     .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
@@ -86,14 +90,14 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithBehavior<ItemStatChange>((Item item) => {
                             (item.ModItem as JuryShotgun).PelletCount += 5;
                         })
-                        .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                        .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
                         .WithIngredient(ItemID.SoulofLight, 4)
                     .WithUpgrade("Buckshot", Assets.Upgrades.Damage)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            item.damage += 20;
+                            item.damage += 13;
                             (item.ModItem as JuryShotgun).PelletCount -= 1;
                         })
-                        .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                        .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
                         .WithIngredient(ItemID.SoulofNight, 4)
                 .WithTier()
                     .WithUpgrade("WhitePhosphorusShells", Assets.Upgrades.Heat)
@@ -119,39 +123,44 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.HallowedBar, 8)
                         .WithIngredient(ItemID.Bomb, 6)
-                    .WithUpgrade("Blowthrough", Assets.Upgrades.Penetrate)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
-                            projectile.penetrate += 2;
-                        })
-                        .WithIngredient(ItemID.HallowedBar, 8)
-                        .WithIngredient(ItemID.HighVelocityBullet, 99)
-                .WithTier()
                     .WithUpgrade("QuadrupleBarrel", Assets.Upgrades.FireRate)
                         .WithBehavior<ItemStatChange>((Item item) => {
                             (item.ModItem as UpgradableWeapon).ShotsUntilCooldown *= 2;
                         })
-                        .WithIngredient(ItemID.ChlorophyteBar, 8)
+                        .WithIngredient(ItemID.HallowedBar, 8)
                         .WithIngredient(ItemID.QuadBarrelShotgun)
+                .WithTier()
+                    .WithUpgrade("Blowthrough", Assets.Upgrades.Penetrate)
+                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                            projectile.penetrate += 1;
+                            projectile.usesLocalNPCImmunity = true;
+                            projectile.localNPCHitCooldown = 30;
+                        })
+                        .WithIngredient(ItemID.ChlorophyteBar, 8)
+                        .WithIngredient(ItemID.HighVelocityBullet, 99)
                     .WithUpgrade("HeavyDamageUpgrade", Assets.Upgrades.Damage)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            item.damage += 40;
+                            item.damage = (int)(item.damage * 2f);
                         })
                         .WithIngredient(ItemID.ChlorophyteBar, 8)
                         .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
                 .WithOverclock("TheSlug", Assets.Upgrades.Damage, Overclock.OverclockType.Clean)
                     .WithBehavior<ItemModifyShootStats>((Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
                         spread = 0;
+                        initialType = type;
                         type = ProjectileID.BlackBolt;
                     })
                     .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
-                        Projectile.NewProjectile(source, position, velocity, type, damage * PelletCount, knockback, Owner: player.whoAmI);
+                        Projectile.NewProjectile(source, position, velocity, type, damage, knockback, Owner: player.whoAmI);
                         return false;
                     })
                     .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
-                        projectile.timeLeft = 6000;
-                        projectile.penetrate++;
+                        if (projectile.type != ProjectileID.BlackBolt) return;
+                        projectile.timeLeft = 90;
+                        projectile.penetrate += 1;
                     })
                     .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        if (projectile.type != ProjectileID.BlackBolt) return;
                         const int dust_count = 3;
                         for (int i = 0; i < dust_count; i++)
                         {
@@ -167,6 +176,7 @@ namespace deeprockitems.Content.Items.Weapons
                         }
                     })
                     .WithBehavior<ProjectilePreKill>((Projectile projectile, int timeLeft) => {
+                        if (projectile.type != ProjectileID.BlackBolt) return true;
                         const int dust_count = 10;
                         for (int i = 0; i < dust_count; i++)
                         {
@@ -179,6 +189,12 @@ namespace deeprockitems.Content.Items.Weapons
                             // Purple
                             Vector2 velocity = Main.rand.NextVector2Circular(1f, 1f);
                             Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, SpeedX: 3 * velocity.X, SpeedY: 3 * velocity.Y, Scale: 1f);
+                        }
+                        float interval = 2 * MathHelper.Pi / (PelletCount + 9);
+                        for (int i = 0; i < PelletCount + 9; i++)
+                        {
+                            Vector2 adjustedVelocity = Main.rand.NextFloat(VelocityLowerBound, 1f) * projectile.velocity.RotatedBy(i * interval).RotatedByRandom(MathHelper.Pi / 18f);
+                            Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, adjustedVelocity, initialType, (int)(projectile.damage * 0.75f), projectile.knockBack, Owner: projectile.owner);
                         }
                         return false;
                     })
@@ -203,14 +219,29 @@ namespace deeprockitems.Content.Items.Weapons
                         (item.ModItem as JuryShotgun).PelletCount *= 2;
                         (item.ModItem as JuryShotgun).TimeToEndCooldown += 40f;
                     })
+                    .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        projectile.ai[2] = 4f;
+                    })
+                    .WithBehavior<ProjectileAI>((Projectile projectile) => {
+                        projectile.velocity.Y += 0.1f;
+                    })
+                    .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
+                        if (projectile.ai[2] <= 0f)
+                        {
+                            return true;
+                        }
+                        projectile.ai[2]--;
+                        if (oldVelocity.Y != projectile.velocity.Y)
+                        {
+                            projectile.velocity.Y = -0.85f * oldVelocity.Y;
+                        }
+                        if (oldVelocity.X != projectile.velocity.X)
+                        {
+                            projectile.velocity.X = -0.85f * oldVelocity.X;
+                        }
+                        return false;
+                    })
             .Seal();
-        }
-        public override void ResetStats() {
-            PelletCount = 3;
-            Item.damage = Item.OriginalDamage;
-            TimeToEndCooldown = 75f;
-            ShotsUntilCooldown = 2f;
-            SpreadMultiplier = 1f;
         }
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
             spread = MathHelper.Pi / 13;
@@ -245,7 +276,7 @@ namespace deeprockitems.Content.Items.Weapons
             Recipe.Create(ModContent.ItemType<JuryShotgun>())
                 .AddIngredient(ItemID.Boomstick, 1)
                 .AddIngredient(ItemID.IllegalGunParts)
-                .AddIngredient(ItemID.Hellstone, 12)
+                .AddIngredient(ItemID.HellstoneBar, 8)
                 .AddRecipeGroup(nameof(ItemID.VilePowder), 10)
                 .AddTile(TileID.Anvils)
                 .Register();
