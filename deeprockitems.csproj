@@ -11,6 +11,7 @@
   <ItemGroup>
 	  <Reference Remove="System.Drawing" />
     <None Remove="Assets\CooldownUIBackground.png" />
+    <None Remove="Assets\MollyPetOutline.png" />
     <None Remove="Assets\Tiles\SludgeTiles.png" />
     <None Remove="Assets\UI\UpgradeStationHover.png" />
     <None Remove="Assets\Upgrades\Overclocks\Backgrounds.png" />
