@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using static System.Math;
 
 namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
@@ -13,11 +12,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override SoundStyle? ChargeSound => DRGSoundIDs.SludgePumpFocus with { Volume = .8f, PitchVariance = 1f};
         public override SoundStyle? FireSound => DRGSoundIDs.SludgePumpFire with { Volume = .5f, PitchVariance = .75f};
         public override void NewSetDefaults() {
-            ChargeShotCooldownMultiplier = 4f;
-        }
-        public override void WhenReachedFullCharge()
-        {
-            Projectile.damage = (int)Floor(Projectile.damage * 1.25f);
+            ChargeShotCooldownMultiplier = 2f;
+            ChargeShotDamageMultiplier = 1.25f;
         }
         public override void ModifyProjectileAfterSpawning(Projectile projectile) {
             if (!HasReachedFullCharge) return;

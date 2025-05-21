@@ -41,6 +41,7 @@ namespace deeprockitems.Content.Projectiles
         /// </summary>
         public virtual float Spread { get; set; } = 0;
         public float ChargeShotCooldownMultiplier { get; set; } = 1f;
+        public float ChargeShotDamageMultiplier { get; set; } = 1f;
 
         protected Player projectileOwner;
         protected UpgradableWeapon sourceItem;
@@ -120,6 +121,7 @@ namespace deeprockitems.Content.Projectiles
             else
             {
                 Projectile.Kill();
+                return;
             }
             // SpecialAI() runs after all other AI.
             SpecialAI();
@@ -178,7 +180,7 @@ namespace deeprockitems.Content.Projectiles
                     Vector2 position = projectileOwner.Center;
                     Vector2 velocity = Projectile.velocity.Length() * projectileOwner.Center.DirectionTo(Main.MouseWorld);
                     int type = ProjectileToSpawn;
-                    int damage = Projectile.damage;
+                    int damage = HasReachedFullCharge ? (int)(Projectile.damage * ChargeShotDamageMultiplier) : Projectile.damage;
                     float knockback = Projectile.knockBack;
                     float spread = Spread;
                     ModifyShootStats(sourceItem.Item, projectileOwner, ref position, ref velocity, ref type, ref damage, ref knockback, ref spread);

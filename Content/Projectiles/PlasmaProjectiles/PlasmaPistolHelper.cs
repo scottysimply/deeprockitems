@@ -13,11 +13,13 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         public override SoundStyle? FireSound { get; set; } = SoundID.Item114;
         public override float ChargeTime { get; set; } = 45f;
         private static bool _noSpreadOnNextShot = false;
+        public override void NewSetDefaults() {
+            ChargeShotDamageMultiplier = 3f;
+        }
         public override void WhenReachedFullCharge()
         {
             ProjectileToSpawn = ModContent.ProjectileType<BigPlasma>();
             Projectile.velocity *= .4f;
-            Projectile.damage *= 3;
             Spread = 0;
             FireSound = SoundID.Item105;
             Cooldown = 4;
