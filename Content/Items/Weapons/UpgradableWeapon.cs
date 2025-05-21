@@ -24,11 +24,11 @@ namespace deeprockitems.Content.Items.Weapons
         /// </summary>
         public const float COOLDOWN_THRESHOLD = 100f;
         /// <summary>
-        /// How much cooldown is gained per shot. Defaults to 12f.
+        /// How many shots the weapon can fire before the cooldown kicks in. Defaults to 12f.
         /// </summary>
         public float ShotsUntilCooldown { get; set; } = 12f;
         /// <summary>
-        /// The initial 
+        /// The actual cooldown itself
         /// </summary>
         public float OverheatCooldown { get; set; } = 0;
         /// <summary>
@@ -51,6 +51,20 @@ namespace deeprockitems.Content.Items.Weapons
                     }
                 }
             }
+        }
+        public override bool AltFunctionUse(Player player) {
+            bool value = false;
+            foreach (var tier in UpgradeMasterList)
+            {
+                foreach (var upgrade in tier.Value)
+                {
+                    if (upgrade.UpgradeState.IsEquipped)
+                    {
+                        value = (upgrade.Behavior.Item_AltFunctionUse?.Invoke(Item, player) ?? false) || value;
+                    }
+                }
+            }
+            return value;
         }
         public override void UpdateInventory(Player player) {
             // Run separate logic if the weapon was overheated or not
