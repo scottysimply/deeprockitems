@@ -167,6 +167,7 @@ Mods: {
 			CryoProjectile.DisplayName: Cryo Stream
 			IceTrail.DisplayName: Ice Trail
 			DebugProjectile.DisplayName: Debug Projectile
+			SmallSludgeExplosion.DisplayName: Small Sludge Explosion
 		}
 
 		Buffs: {
@@ -291,6 +292,36 @@ Mods: {
 				MagicBullets: {
 					DisplayName: Magic Bullets
 					HoverText: Bullets will automatically rebound to the nearest target
+				}
+
+				Hipster: {
+					DisplayName: Hipster
+					HoverText: Hover text
+				}
+
+				CookOff: {
+					DisplayName: CookOff
+					HoverText: Hover text
+				}
+
+				GetOverHere: {
+					DisplayName: GetOverHere
+					HoverText: Hover text
+				}
+
+				SupercoolingChamber: {
+					DisplayName: SupercoolingChamber
+					HoverText: Hover text
+				}
+
+				Recirculation: {
+					DisplayName: Recirculation
+					HoverText: Hover text
+				}
+
+				TheWidowmaker: {
+					DisplayName: TheWidowmaker
+					HoverText: Hover text
 				}
 			}
 
@@ -421,6 +452,21 @@ Mods: {
 					DisplayName: Hardened Mixture
 					HoverText: +15% damage to sludge
 				}
+
+				SludgeBlast: {
+					DisplayName: SludgeBlast
+					HoverText: Hover text
+				}
+
+				GooBomberSpecial: {
+					DisplayName: GooBomberSpecial
+					HoverText: Hover text
+				}
+
+				OvertunedNozzles: {
+					DisplayName: OvertunedNozzles
+					HoverText: Hover text
+				}
 			}
 
 			PlasmaPistol: {
@@ -482,6 +528,21 @@ Mods: {
 				MediumDamageUpgrade: {
 					DisplayName: Even Denser Plasma
 					HoverText: +25% base damage
+				}
+
+				Whiplash: {
+					DisplayName: Whiplash
+					HoverText: Hover text
+				}
+
+				HeavyHitter: {
+					DisplayName: HeavyHitter
+					HoverText: Hover text
+				}
+
+				Ionosphere: {
+					DisplayName: Ionosphere
+					HoverText: Hover text
 				}
 			}
 
