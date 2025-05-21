@@ -144,4 +144,9 @@ namespace deeprockitems.Content.Projectiles.Globals
             base.ReceiveExtraAI(projectile, bitReader, binaryReader);
         }
     }
+    public static class UpgradeProjectileExtension {
+        public static bool IsUpgradeEquipped(this Projectile projectile, string upgradeName) {
+            return projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped(upgradeName);
+        }
+    }
 }

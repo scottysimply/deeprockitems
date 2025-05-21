@@ -43,8 +43,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         {
             if (target.AddInstancedBuff(180, out Sludged? buff))
             {
-                buff.SlowingSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingSludge");
-                buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
+                buff.SlowingSludge = Projectile.IsUpgradeEquipped("SlowingSludge");
+                buff.StrongSludge = Projectile.IsUpgradeEquipped("StrongSludge");
             }
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
