@@ -1,9 +1,12 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 using deeprockitems.Content.Upgrades;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -38,6 +41,7 @@ namespace deeprockitems.Content.Items.Weapons
             this.TimeToEndCooldown = 75f;
         }
         public override UpgradeList InitializeUpgrades() {
+            Dictionary<int, List<Vector2>> pointsToElectrify = [];
             return UpgradeBuilder.CreateUpgradeList("PlasmaPistol")
                 .WithTier()
                     .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
@@ -147,6 +151,85 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
                         .WithIngredient(ItemID.AncientBattleArmorMaterial)
+                .WithOverclock("Whiplash", Assets.Upgrades.Stun, Overclock.OverclockType.Clean)
+                    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
+                        if (projectile.ModProjectile is BigPlasma)
+                        {
+                            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
+                        }
+                        else if (projectile.ModProjectile is PlasmaBullet)
+                        {
+                            target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 20);
+                        }
+                    })
+                .WithOverclock("HeavyHitter", Assets.Upgrades.Damage, Overclock.OverclockType.Balanced)
+                    .WithBehavior<ItemStatChange>((Item item) => {
+                        item.damage = (int)(item.damage * 1.33f);
+                        (item.ModItem as PlasmaPistol).TimeToEndCooldown *= 1.33f;
+                    })
+                    .WithBehavior<HeldProjectileModifyShootStats>((HeldProjectileBase projectile, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
+                        damage = (int)(damage / projectile.ChargeShotDamageMultiplier);
+                    })
+                .WithOverclock("Ionosphere", Assets.Upgrades.Electricity, Overclock.OverclockType.Unstable)
+                    .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        if (projectile.ModProjectile is not BigPlasma) return;
+                        projectile.velocity *= 0.33f;
+                    })
+                    .WithBehavior<ProjectileAI>((Projectile projectile) => {
+                        if (projectile.ModProjectile is not BigPlasma) return;
+                        if (projectile.timeLeft % 20 == 0)
+                        {
+                            List<Vector2> points = [];
+                            int hitNPCs = 0;
+                            foreach (var npc in Main.ActiveNPCs)
+                            {
+                                if (hitNPCs >= 5) continue;
+                                if (npc.immortal) continue;
+                                if (projectile.Center.DistanceSQ(npc.Center) > 16f * 16f * 20f * 20f) continue;
+                                // Arc damage
+                                NPC.HitInfo hit = npc.CalculateHitInfo(projectile.damage, 1, damageType: DamageClass.Magic);
+                                Main.player[projectile.owner].StrikeNPCDirect(npc, hit);
+                                npc.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 180);
+                                points.Add(npc.Center);
+                                hitNPCs++;
+                            }
+                            pointsToElectrify[projectile.whoAmI] = points;    
+                        }
+                    })
+                    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
+                        if (projectile.ModProjectile is BigPlasma)
+                        {
+                            target.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 300);
+                        }
+                        else
+                        {
+                            target.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 180);
+                        }
+                    })
+                    .WithBehavior<ProjectilePreDraw>((Projectile projectile, Color lightColor) => {
+                        if (projectile.ModProjectile is not BigPlasma || !pointsToElectrify.TryGetValue(projectile.whoAmI, out List<Vector2> list_of_points) || list_of_points.Count == 0) return true;
+                        foreach (var point in list_of_points)
+                        {
+                            float rotation = projectile.Center.DirectionTo(point).ToRotation();
+                            Vector2 midpoint = new((projectile.Center.X + point.X) / 2f, (projectile.Center.Y + point.Y) / 2f);
+
+                            // Calculate scale via distance
+                            // the arc is 48 pixels, 3 blocks long at 1f scale.
+                            float pixelDistance = projectile.Center.Distance(point);
+
+                            int frame = Main.rand.Next(0, 3);
+                            int frameHeight = DRGTextures.ElectricityArc.Height / 3;
+                            Rectangle sourceFrame = new(0, frame * frameHeight, Assets.ElectricityArc.Value.Width, frameHeight);
+
+                            // Get scale from distance between control points
+                            float multiplier = pixelDistance / 48f;
+
+                            // Draw
+                            Main.EntitySpriteDraw(DRGTextures.ElectricityArc, midpoint - Main.screenPosition, sourceFrame, Color.MediumPurple, rotation, sourceFrame.Size() / 2f, new Vector2(multiplier, frame), SpriteEffects.None);
+                        }
+                        pointsToElectrify[projectile.whoAmI] = [];
+                        return true;
+                    })
             .Seal();
         }
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
