@@ -10,6 +10,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
     public class SludgeBall : ModProjectile
     {
+        public bool ShouldExplode { get; set; } = false;
         public bool ShouldSplatter { get; set; } = false;
         public int NumProjectilesToSpawn { get; set; } = 8;
         public override void SetDefaults()
