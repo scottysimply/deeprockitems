@@ -1,4 +1,6 @@
-﻿using deeprockitems.Common.PlayerLayers;
+﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Common.PlayerLayers;
+using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.SludgeProjectile;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
@@ -36,7 +38,7 @@ namespace deeprockitems.Content.Items.Weapons
         public override void ResetStats() {
             Item.damage = Item.OriginalDamage;
             TimeToEndCooldown = 110f;
-            ShotsUntilCooldown = 24f;
+            ShotsUntilCooldown = 18f;
         }
         public override UpgradeList InitializeUpgrades() {
             return UpgradeBuilder.CreateUpgradeList("SludgePump")
@@ -101,12 +103,26 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
                         .WithIngredient(ItemID.Gel, 30)
                     .WithUpgrade("WasteOrdnance", Assets.Upgrades.Penetrate)
+                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                            if (projectile.ModProjectile is not SludgeBall ball) return;
+                            if (!source.SourceProjectile.HasReachedFullCharge) return;
+                            ball.ShouldExplode = true;
+                            ball.ShouldSplatter = false;
+                        })
                         .WithBehavior<ProjectilePreKill>((projectile, timeLeft) => {
-                            if (projectile.ModProjectile is not SludgeBall ball) return true;
-                            if (!ball.ShouldSplatter) return true;
+                            if (projectile.ModProjectile is SludgeBall ball)
+                            {
+                                if (!ball.ShouldExplode) return true;
 
-                            Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)(projectile.damage * 2f), 0f, Owner: projectile.owner);
-                            return false;
+                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)(projectile.damage * 2f), 0f, Owner: projectile.owner);
+                                return false;
+                            }
+                            else if (projectile.ModProjectile is SludgeFragment fragment)
+                            {
+                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SmallSludgeExplosion>(), (int)(projectile.damage * 1f), 0f, Owner: projectile.owner);
+                                return false;
+                            }
+                            return true;
                         })
                         .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
                         .WithIngredient(ItemID.Bomb, 15)
@@ -117,6 +133,49 @@ namespace deeprockitems.Content.Items.Weapons
                     .WithUpgrade("SlowingPoison", Assets.Upgrades.Stun)
                         .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
                         .WithIngredient(ItemID.HoneyComb, 6)
+                .WithOverclock("OvertunedNozzles", Assets.Upgrades.Damage, Overclock.OverclockType.Clean)
+                    .WithBehavior<ItemStatChange>((Item item) => {
+                        item.damage = (int)(item.damage * 1.4f);
+                        (item.ModItem as SludgePump).ShotsUntilCooldown *= 1.25f;
+                        (item.ModItem as SludgePump).TimeToEndCooldown *= 0.85f;
+                    })
+                .WithOverclock("SludgeBlast", Assets.Upgrades.Focus, Overclock.OverclockType.Balanced)
+                    .WithBehavior<ItemStatChange>((Item item) => {
+                        (item.ModItem as SludgePump).TimeToEndCooldown *= 1.2f;
+                    })
+                    .WithBehavior<HeldProjectileShoot>((HeldProjectileBase helper, Item item, Player player, EntitySource_FromHeldProjectile source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        // Shoot 4 projectiles in a cone-ish shape, with slight spread
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Projectile proj = Projectile.NewProjectileDirect(source, position, Main.rand.NextFloat(0.9f, 1.1f) * velocity.RotatedBy(0.05f * (i - 1.5f)).RotatedByRandom(0.02f), type, damage, knockback, owner: player.whoAmI);
+                            if (helper.HasReachedFullCharge && proj.ModProjectile is SludgeBall ball)
+                            {
+                                ball.ShouldSplatter = true;
+                                ball.NumProjectilesToSpawn /= 2;
+                            }
+                        }
+                        return false;
+                    })
+                .WithOverclock("GooBomberSpecial", Assets.Upgrades.SpecialStar, Overclock.OverclockType.Unstable)
+                    .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        if (projectile.ModProjectile is not SludgeHelper helper) return;
+                        helper.ChargeTimeMultiplier *= 1.33f;
+                    })
+                    .WithBehavior<ProjectileAI>((Projectile projectile) => {
+                        if (projectile.ModProjectile is not SludgeBall ball) return;
+                        if (!(ball.ShouldSplatter || ball.ShouldExplode)) return;
+                        ball.ShouldExplode = false;
+                        ball.ShouldSplatter = true;
+                        projectile.ai[2]++;
+                        if (projectile.ai[2] % (16 - (int)(ball.NumProjectilesToSpawn / 1.4f)) == 0)
+                        {
+                            Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.position, new Vector2(0f, -2f), ModContent.ProjectileType<SludgeFragment>(), 2*projectile.damage, projectile.knockBack, Owner: projectile.owner);
+                        }
+                    })
+                    .WithBehavior<ProjectilePreKill>((Projectile projectile, int timeLeft) => {
+                        if (projectile.ModProjectile is not SludgeBall) return true;
+                        return false;
+                    })
             .Seal();
         }
         public override void AddRecipes() {
