@@ -145,7 +145,13 @@ namespace deeprockitems.Content.Upgrades
     /// <param name="source"></param>
     /// <param name="projectile"></param>
     public delegate void HeldProjectilePostSpawn(Projectile projectile, EntitySource_FromHeldProjectile source);
-    
+    /// <summary>
+    /// Used to determine if an item should enable right click functionality. Returns will short circuit to true, meaning if one hook returns true, they all will.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public delegate bool ItemAltFunctionUse(Item item, Player player);
     #endregion
     public class UpgradeBehavior
     {
@@ -165,6 +171,7 @@ namespace deeprockitems.Content.Upgrades
         public HeldProjectileModifyShootStats HeldProjectile_ModifyShootStatsHook { get; set; }
         public HeldProjectileShoot HeldProjectile_ShootHook { get; set; }
         public HeldProjectilePostSpawn HeldProjectile_PostSpawnHook { get; set; }
+        public ItemAltFunctionUse Item_AltFunctionUse { get; set; }
         #endregion
     }
 }
