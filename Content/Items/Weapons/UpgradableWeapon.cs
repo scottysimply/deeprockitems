@@ -269,7 +269,7 @@ namespace deeprockitems.Content.Items.Weapons
             if (IsWeaponEnabledByCooldown && OverheatCooldown >= COOLDOWN_THRESHOLD)
             {
                 IsWeaponEnabledByCooldown = false;
-                _activeCooldownTimer = Item.useTime;
+                _activeCooldownTimer = 30;
                 OverheatCooldown = COOLDOWN_THRESHOLD;
             }
         }
