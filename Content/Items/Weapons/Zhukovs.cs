@@ -94,21 +94,25 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient([ItemID.HermesBoots, ItemID.FlurryBoots, ItemID.SailfishBoots, ItemID.SandBoots], 1)
                     .WithUpgrade("Blowthrough", Assets.Upgrades.Penetrate)
                         .WithBehavior<ProjectileOnSpawn>((proj, source) => {
-                            if (proj.penetrate > 5) return;
-                            proj.penetrate = 5;
+                            if (proj.penetrate >= 3) return;
+                            proj.penetrate++;
+                        })
+                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
+                            // Fixes the projectile's iframes
+                            projectile.localNPCHitCooldown = 20;
                         })
                         .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
                         .WithIngredient(ItemID.MeteoriteBar, 6)
                 .WithTier()
-                    .WithUpgrade("FireRounds", Assets.Upgrades.Heat)
-                        .WithBehavior<ProjectileOnHitNPC>((proj, npc, hit, damage) => {
-                            npc.ChangeTemperature(10, proj.owner);
+                    .WithUpgrade("DamageUpgrade3", Assets.Upgrades.Damage)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.damage = (int)(item.damage * 1.2f);
                         })
                         .WithIngredient([ItemID.HallowedBar], 8)
                         .WithIngredient(ItemID.HellstoneBar, 6)
-                    .WithUpgrade("CryoRounds", Assets.Upgrades.Cryo)
-                        .WithBehavior<ProjectileOnHitNPC>((proj, npc, hit, damage) => {
-                            npc.ChangeTemperature(-10, proj.owner);
+                    .WithUpgrade("LightningReload", Assets.Upgrades.FireRate)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            (item.ModItem as Zhukovs).OverheatCooldown *= 0.5f;
                         })
                         .WithIngredient([ItemID.HallowedBar], 8)
                         .WithIngredient(ItemID.FrostCore, 1)
