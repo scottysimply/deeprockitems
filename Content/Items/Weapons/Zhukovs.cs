@@ -1,5 +1,7 @@
 ﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Common.NPCs;
 using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles.ZhukovProjectiles;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -116,6 +118,57 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient([ItemID.HallowedBar], 8)
                         .WithIngredient(ItemID.FrostCore, 1)
+                .WithOverclock("StaticBlast", Assets.Upgrades.Electricity, Overclock.OverclockType.Balanced)
+                .WithOverclock("CryoMinelets", Assets.Upgrades.Cryo, Overclock.OverclockType.Balanced)
+                    .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
+                        if (projectile.owner == Main.myPlayer)
+                        {
+                            Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.position - 0.25f * oldVelocity, Vector2.Zero, ModContent.ProjectileType<CryoMineletProjectile>(), 0, 0f, Owner: projectile.owner);
+                        }
+                        return true;
+                    })
+                .WithOverclock("EmbeddedDetonators", Assets.Upgrades.AreaOfEffect, Overclock.OverclockType.Unstable)
+                    .WithBehavior<ItemAltFunctionUse>((Item item, Player player) => {
+                        if (player.itemAnimation > 0) return false;
+                        return true;
+                    })
+                    .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        if (player.altFunctionUse != 2) return true;
+                        foreach (var npc in Main.ActiveNPCs)
+                        {
+                            if (npc.TryGetGlobalNPC(out EmbeddedDetsNPC edn) && edn.CanDetonatorsActivate())
+                            {
+                                (item.ModItem as Zhukovs).AddCooldownOnShoot(player, 999f);
+                                return false;
+                            }
+                        }
+                        return false;
+                    })
+                    .WithBehavior<ItemCooldownStart>((Item item, Player player) => {
+                        foreach (var npc in Main.ActiveNPCs)
+                        {
+                            if (npc.TryGetGlobalNPC(out EmbeddedDetsNPC edn))
+                            {
+                                edn.TryDetonateOnNPC(npc, player);
+                            }
+                        }
+                    })
+                    .WithBehavior<ItemOffCooldown>((Item item, Player player, bool cooldownJustEnded) => {
+                        if (!cooldownJustEnded) return;
+                        foreach (var npc in Main.ActiveNPCs)
+                        {
+                            if (npc.TryGetGlobalNPC(out EmbeddedDetsNPC edn))
+                            {
+                                _ = edn.ConvertDetonatorsToWeaker();
+                            }
+                        }
+                    })
+                    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
+                        if (target.TryGetGlobalNPC(out EmbeddedDetsNPC npc))
+                        {
+                            npc.IncrementDetonators();
+                        }
+                    })
                 .Seal();
         }
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
