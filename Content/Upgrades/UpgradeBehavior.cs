@@ -140,7 +140,7 @@ namespace deeprockitems.Content.Upgrades
     /// <returns></returns>
     public delegate bool HeldProjectileShoot(HeldProjectileBase projectile, Item item, Player player, EntitySource_FromHeldProjectile source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread);
     ///<summary>
-    /// Called immediately after the projectile is spawned on the <i>held projectile</i> when the upgrade is equipped AND the Shoot() returned true. Only called if the original projectile shot by the item inherited from <see cref="HeldProjectileBase"></see>.<br/>
+    /// Called immediately after a projectile is spawned by the <i>held projectile</i> when the upgrade is equipped AND the Shoot() returned true. Only called if the original projectile shot by the item inherited from <see cref="HeldProjectileBase"></see>.<br/>
     /// </summary>
     /// <param name="source"></param>
     /// <param name="projectile"></param>
@@ -152,6 +152,19 @@ namespace deeprockitems.Content.Upgrades
     /// <param name="player"></param>
     /// <returns></returns>
     public delegate bool ItemAltFunctionUse(Item item, Player player);
+    /// <summary>
+    /// Called immediately after a weapon goes on cooldown.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="player">The player that the cooldown is occuring on.</param>
+    public delegate void ItemCooldownStart(Item item, Player player);
+    /// <summary>
+    /// Called immediately after an item gets re-enabled after cooling down.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="player">The player that the cooldown ended on.</param>
+    /// <param name="cooldownJustEnded">True if the cooldown just ended</param>
+    public delegate void ItemOffCooldown(Item item, Player player, bool cooldownJustEnded);
     #endregion
     public class UpgradeBehavior
     {
@@ -172,6 +185,8 @@ namespace deeprockitems.Content.Upgrades
         public HeldProjectileShoot HeldProjectile_ShootHook { get; set; }
         public HeldProjectilePostSpawn HeldProjectile_PostSpawnHook { get; set; }
         public ItemAltFunctionUse Item_AltFunctionUse { get; set; }
+        public ItemCooldownStart Item_OnCooldownStart { get; set; }
+        public ItemOffCooldown Item_WhileOffCooldown { get; set; }
         #endregion
     }
 }

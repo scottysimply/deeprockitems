@@ -10,6 +10,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Utilities;
+using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -68,6 +69,7 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override void UpdateInventory(Player player) {
             // Run separate logic if the weapon was overheated or not
+            float oldCooldown = OverheatCooldown;
             if (IsWeaponEnabledByCooldown)
             {
                 // Set active cooldown timer
@@ -111,10 +113,15 @@ namespace deeprockitems.Content.Items.Weapons
                 }
             }
 
-            if (OverheatCooldown <= 0) // If cooldown is at or below 0, re-enable weapon
+            if (OverheatCooldown <= 0) // If cooldown is at or below 0, ensure that weapon is enabled
             {
+                bool cooldownJustEnded = oldCooldown > 0f;
                 IsWeaponEnabledByCooldown = true;
                 OverheatCooldown = 0;
+                foreach (var upgrade in GetEquippedUpgrades())
+                {
+                    upgrade.Behavior.Item_WhileOffCooldown?.Invoke(Item, player, cooldownJustEnded);
+                }
             }
 
             // Calculate whether cooldown should begin or be added to
@@ -242,9 +249,9 @@ namespace deeprockitems.Content.Items.Weapons
                 upgrade.Behavior.Item_ModifyShootStatsHook?.Invoke(Item, player, ref position2, ref spreadVelocity, ref type2, ref damage2, ref knockback2, ref spread);
             }
             var newSource = new EntitySource_FromUpgradableWeapon(player, this, source.AmmoItemIdUsed, source.Context);
-            if (!Item.channel)
+            if (!Item.channel && player.altFunctionUse != 2)
             {
-                AddCooldownOnShoot();
+                AddCooldownOnShoot(player);
             }
             bool upgradeReturn = true;
             foreach (var upgrade in GetEquippedUpgrades())
@@ -262,15 +269,21 @@ namespace deeprockitems.Content.Items.Weapons
             }
             return false;
         }
-        public void AddCooldownOnShoot(float multiplier = 1f) {
+        public void AddCooldownOnShoot(Player player, float multiplier = 1f) {
             OverheatCooldown += multiplier * COOLDOWN_THRESHOLD / ShotsUntilCooldown;
+
             _passiveCooldownTimer = 30 + Item.useTime;
             // Disable weapon if cooldown gets too high
-            if (IsWeaponEnabledByCooldown && OverheatCooldown >= COOLDOWN_THRESHOLD)
+            if (OverheatCooldown >= COOLDOWN_THRESHOLD)
             {
                 IsWeaponEnabledByCooldown = false;
                 _activeCooldownTimer = 30;
                 OverheatCooldown = COOLDOWN_THRESHOLD;
+                // invoke on cooldown
+                foreach (var upgrade in GetEquippedUpgrades())
+                {
+                    upgrade.Behavior.Item_OnCooldownStart?.Invoke(Item, player);
+                }
             }
         }
         public override sealed void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
