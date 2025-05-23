@@ -596,6 +596,31 @@ Mods: {
 					DisplayName: Drum Magazines
 					HoverText: Fire 75% bullets until having to reload
 				}
+
+				DamageUpgrade3: {
+					DisplayName: DamageUpgrade3
+					HoverText: Hover text
+				}
+
+				LightningReload: {
+					DisplayName: LightningReload
+					HoverText: Hover text
+				}
+
+				StaticBlast: {
+					DisplayName: StaticBlast
+					HoverText: Hover text
+				}
+
+				CryoMinelets: {
+					DisplayName: CryoMinelets
+					HoverText: Hover text
+				}
+
+				EmbeddedDetonators: {
+					DisplayName: EmbeddedDetonators
+					HoverText: Hover text
+				}
 			}
 
 			CryoCannon: {
