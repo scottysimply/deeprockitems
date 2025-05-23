@@ -7,6 +7,7 @@ using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -181,7 +182,7 @@ namespace deeprockitems.Content.Items.Weapons
                         {
                             List<Vector2> points = [];
                             int hitNPCs = 0;
-                            foreach (var npc in Main.ActiveNPCs)
+                            foreach (var npc in Main.npc.Where(n => n.active).OrderBy(n => projectile.Center.DistanceSQ(n.Center)))
                             {
                                 if (hitNPCs >= 5) continue;
                                 if (npc.immortal) continue;
@@ -218,14 +219,14 @@ namespace deeprockitems.Content.Items.Weapons
                             float pixelDistance = projectile.Center.Distance(point);
 
                             int frame = Main.rand.Next(0, 3);
-                            int frameHeight = DRGTextures.ElectricityArc.Height / 3;
+                            int frameHeight = Assets.ElectricityArc.Value.Height / 3;
                             Rectangle sourceFrame = new(0, frame * frameHeight, Assets.ElectricityArc.Value.Width, frameHeight);
 
                             // Get scale from distance between control points
                             float multiplier = pixelDistance / 48f;
 
                             // Draw
-                            Main.EntitySpriteDraw(DRGTextures.ElectricityArc, midpoint - Main.screenPosition, sourceFrame, Color.MediumPurple, rotation, sourceFrame.Size() / 2f, new Vector2(multiplier, frame), SpriteEffects.None);
+                            Main.EntitySpriteDraw(Assets.ElectricityArc.Value, midpoint - Main.screenPosition, sourceFrame, Color.MediumPurple, rotation, sourceFrame.Size() / 2f, new Vector2(multiplier, frame), SpriteEffects.None);
                         }
                         pointsToElectrify[projectile.whoAmI] = [];
                         return true;
