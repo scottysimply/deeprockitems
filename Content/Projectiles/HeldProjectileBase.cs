@@ -207,7 +207,7 @@ namespace deeprockitems.Content.Projectiles
                         }
                     }
                     float multiplier = HasReachedFullCharge ? ChargeShotCooldownMultiplier : 1f;
-                    sourceItem.AddCooldownOnShoot(multiplier);
+                    sourceItem.AddCooldownOnShoot(Main.LocalPlayer, multiplier);
                 }
             }
         }
