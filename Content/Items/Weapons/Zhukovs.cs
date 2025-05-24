@@ -1,11 +1,17 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Common.NPCs;
 using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 using deeprockitems.Content.Projectiles.ZhukovProjectiles;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -46,6 +52,7 @@ namespace deeprockitems.Content.Items.Weapons
                 .Register();
         }
         public override UpgradeList InitializeUpgrades() {
+            Dictionary<int, List<Vector2>> pointsToElectrify = [];
             return UpgradeBuilder.CreateUpgradeList("Zhukovs")
                 .WithTier()
                     .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
@@ -118,7 +125,58 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient([ItemID.HallowedBar], 8)
                         .WithIngredient(ItemID.FrostCore, 1)
-                .WithOverclock("StaticBlast", Assets.Upgrades.Electricity, Overclock.OverclockType.Balanced)
+                .WithOverclock("StaticBlast", Assets.Upgrades.Electricity, Overclock.OverclockType.Clean)
+                    .WithBehavior<ProjectileAI>((Projectile projectile) => {
+                        if (Main.rand.Next(0, projectile.timeLeft % 60) % 60 == 0)
+                        {
+                            Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, Scale: 0.4f);
+                        }
+                        if (projectile.timeLeft % 40 == 0)
+                        {
+                            List<Vector2> points = [];
+                            int hitNPCs = 0;
+                            foreach (var npc in Main.npc.Where(n => n.active).OrderBy(n => projectile.Center.DistanceSQ(n.Center)))
+                            {
+                                if (hitNPCs >= 1) continue;
+                                if (npc.immortal) continue;
+                                if (projectile.Center.DistanceSQ(npc.Center) > 16f * 16f * 10f * 10f) continue;
+                                // Arc damage
+                                NPC.HitInfo hit = npc.CalculateHitInfo(projectile.damage, 1, damageType: DamageClass.Magic);
+                                Main.player[projectile.owner].StrikeNPCDirect(npc, hit);
+                                npc.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 180);
+                                points.Add(npc.Center);
+                                hitNPCs++;
+                            }
+                            pointsToElectrify[projectile.whoAmI] = points;
+                        }
+                    })
+                    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
+                        target.AddBuff(ModContent.BuffType<ElectrifiedEnemy>(), 300);
+                    })
+                    .WithBehavior<ProjectilePreDraw>((Projectile projectile, Color lightColor) => {
+                        if (projectile.ModProjectile is not BigPlasma || !pointsToElectrify.TryGetValue(projectile.whoAmI, out List<Vector2> list_of_points) || list_of_points.Count == 0) return true;
+                        foreach (var point in list_of_points)
+                        {
+                            float rotation = projectile.Center.DirectionTo(point).ToRotation();
+                            Vector2 midpoint = new((projectile.Center.X + point.X) / 2f, (projectile.Center.Y + point.Y) / 2f);
+
+                            // Calculate scale via distance
+                            // the arc is 48 pixels, 3 blocks long at 1f scale.
+                            float pixelDistance = projectile.Center.Distance(point);
+
+                            int frame = Main.rand.Next(0, 3);
+                            int frameHeight = Assets.ElectricityArc.Value.Height / 3;
+                            Rectangle sourceFrame = new(0, frame * frameHeight, Assets.ElectricityArc.Value.Width, frameHeight);
+
+                            // Get scale from distance between control points
+                            float multiplier = pixelDistance / 48f;
+
+                            // Draw
+                            Main.EntitySpriteDraw(Assets.ElectricityArc.Value, midpoint - Main.screenPosition, sourceFrame, Color.White, rotation, sourceFrame.Size() / 2f, new Vector2(multiplier, frame), SpriteEffects.None);
+                        }
+                        pointsToElectrify[projectile.whoAmI] = [];
+                        return true;
+                    })
                 .WithOverclock("CryoMinelets", Assets.Upgrades.Cryo, Overclock.OverclockType.Balanced)
                     .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
                         if (projectile.owner == Main.myPlayer)
