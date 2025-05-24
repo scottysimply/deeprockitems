@@ -215,6 +215,11 @@ Mods: {
 				DisplayName: Irradiated
 				Description: Mods.deeprockitems.Buffs.Irradiated.Description
 			}
+
+			ElectricityArcing: {
+				DisplayName: Electricity Arcing
+				Description: Mods.deeprockitems.Buffs.ElectricityArcing.Description
+			}
 		}
 
 		Upgrades: {
