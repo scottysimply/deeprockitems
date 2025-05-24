@@ -1,6 +1,7 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
@@ -134,14 +135,6 @@ namespace deeprockitems.Content.Projectiles.Globals
             }
             if (!callBase) return false;
             return base.OnTileCollide(projectile, oldVelocity);
-        }
-        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
-        {
-            base.SendExtraAI(projectile, bitWriter, binaryWriter);
-        }
-        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
-        {
-            base.ReceiveExtraAI(projectile, bitReader, binaryReader);
         }
     }
     public static class UpgradeProjectileExtension {
