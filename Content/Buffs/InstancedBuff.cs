@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -31,6 +32,11 @@ namespace deeprockitems.Content.Buffs
             {
                 if (ThisNPC is null) return -1;
                 return ThisNPC.buffTime[BuffIndex];
+            }
+            set
+            {
+                if (ThisNPC is null) throw new InvalidOperationException("This buff is no longer valid.");
+                ThisNPC.buffTime[BuffIndex] = value;
             }
         }
         public int InstancedType { get; set; } = -1;
