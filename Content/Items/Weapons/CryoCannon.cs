@@ -141,14 +141,10 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient([ItemID.ChlorophyteBar], 8)
                         .WithIngredient([ItemID.FrostCore], 1)
-                    .WithOverclock("Snowball", Assets.Upgrades.SpecialStar, Overclock.OverclockType.Balanced)
-                        .WithBehavior<ItemAltFunctionUse>((Item item, Player player) => {
-                            return true;
-                        })
-                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
-                            if (player.altFunctionUse != 2) return true;
-
-                            return false;
+                    .WithOverclock("Snowball", Assets.Upgrades.Cryo, Overclock.OverclockType.Clean)
+                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                            if (projectile.ModProjectile is not CryoProjectile cryo) return;
+                            cryo.CoolingAmount *= 1.33f;
                         })
                     .WithOverclock("IceSpear", Assets.Upgrades.BigArrow, Overclock.OverclockType.Unstable)
                         .WithBehavior<ItemAltFunctionUse>((Item item, Player player) => {
@@ -156,10 +152,18 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
                             if (player.altFunctionUse != 2) return true;
-
+                            Projectile.NewProjectile(source, player.Center, velocity, ModContent.ProjectileType<IceSpear>(), 250, knockback, Owner: player.whoAmI);
+                            (item.ModItem as CryoCannon).AddCooldownOnShoot(player, 999f);
                             return false;
                         })
                     .WithOverclock("IceStorm", Assets.Upgrades.Damage, Overclock.OverclockType.Unstable)
+                        .WithBehavior<ItemStatChange>((Item item) => {
+                            item.damage *= 4;
+                        })
+                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                            if (projectile.ModProjectile is not CryoProjectile cryo) return;
+                            cryo.CoolingAmount *= 0.5f;
+                        })
             .Seal();
         }
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
