@@ -22,13 +22,14 @@ namespace deeprockitems.Content.Items.Weapons
             Item.damage = 4;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shoot = ModContent.ProjectileType<CryoProjectile>();
-            Item.useAnimation = Item.useTime = 6;
+            Item.useAnimation = Item.useTime = 8;
+            Item.noMelee = true;
             Item.shootSpeed = 16f;
             Item.DamageType = DamageClass.Magic;
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Pink;
-            this.ShotsUntilCooldown = 40f;
-            this.TimeToEndCooldown = 180f;
+            this.ShotsUntilCooldown = 20f;
+            this.TimeToEndCooldown = 140f;
         }
         public override UpgradeList InitializeUpgrades() {
             return UpgradeBuilder.CreateUpgradeList("CryoCannon")
@@ -43,7 +44,7 @@ namespace deeprockitems.Content.Items.Weapons
                     .WithUpgrade("FartherStream", Assets.Upgrades.BigArrow)
                         .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
-                            cryo.VelocityDecay += 0.02f;
+                            cryo.VelocityDecay += 0.01f;
                         })
                         .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
                         .WithIngredient([ItemID.SoulofNight], 6)
@@ -56,8 +57,8 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient([ItemID.FallenStar], 5)
                     .WithUpgrade("FireRate", Assets.Upgrades.FireRate)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            item.useTime -= 4;
-                            item.useAnimation -= 4;
+                            item.useTime -= 3;
+                            item.useAnimation -= 3;
                         })
                         .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
                         .WithIngredient([ItemID.SoulofLight], 6)
@@ -71,7 +72,7 @@ namespace deeprockitems.Content.Items.Weapons
                     .WithUpgrade("FartherStream", Assets.Upgrades.BigArrow)
                         .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
-                            cryo.VelocityDecay += 0.02f;
+                            cryo.VelocityDecay += 0.01f;
                         })
                         .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
                         .WithIngredient([ItemID.SoulofNight], 6)
@@ -140,6 +141,25 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient([ItemID.ChlorophyteBar], 8)
                         .WithIngredient([ItemID.FrostCore], 1)
+                    .WithOverclock("Snowball", Assets.Upgrades.SpecialStar, Overclock.OverclockType.Balanced)
+                        .WithBehavior<ItemAltFunctionUse>((Item item, Player player) => {
+                            return true;
+                        })
+                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                            if (player.altFunctionUse != 2) return true;
+
+                            return false;
+                        })
+                    .WithOverclock("IceSpear", Assets.Upgrades.BigArrow, Overclock.OverclockType.Unstable)
+                        .WithBehavior<ItemAltFunctionUse>((Item item, Player player) => {
+                            return true;
+                        })
+                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                            if (player.altFunctionUse != 2) return true;
+
+                            return false;
+                        })
+                    .WithOverclock("IceStorm", Assets.Upgrades.Damage, Overclock.OverclockType.Unstable)
             .Seal();
         }
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
