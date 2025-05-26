@@ -23,8 +23,8 @@ namespace deeprockitems.Content.Projectiles.CryoCannonProjectiles
         public float AliveTime { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
         public override void OnSpawn(IEntitySource source)
         {
-            CoolingAmount = -4f;
-            VelocityDecay = 0.93f;
+            CoolingAmount = -8f;
+            VelocityDecay = 0.95f;
         }
         public override void AI()
         {
