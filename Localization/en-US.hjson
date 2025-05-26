@@ -168,6 +168,7 @@ Mods: {
 			IceTrail.DisplayName: Ice Trail
 			DebugProjectile.DisplayName: Debug Projectile
 			SmallSludgeExplosion.DisplayName: Small Sludge Explosion
+			IceSpear.DisplayName: Ice Spear
 		}
 
 		Buffs: {
@@ -667,6 +668,21 @@ Mods: {
 				DamageUpgrade: {
 					DisplayName: Nucleation
 					HoverText: +2 damage on hit
+				}
+
+				Snowball: {
+					DisplayName: Snowball
+					HoverText: Hover text
+				}
+
+				IceSpear: {
+					DisplayName: IceSpear
+					HoverText: Hover text
+				}
+
+				IceStorm: {
+					DisplayName: IceStorm
+					HoverText: Hover text
 				}
 			}
 		}
