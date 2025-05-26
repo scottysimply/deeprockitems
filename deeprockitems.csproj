@@ -18,6 +18,7 @@
     <None Remove="Assets\Upgrades\Overclocks\Clean.png" />
     <None Remove="Content\Buffs\Irradiated.png" />
     <None Remove="Content\Buffs\Sludge.png" />
+    <None Remove="Content\Projectiles\CryoCannonProjectiles\IceSpear.png" />
   </ItemGroup>
   <ItemGroup>
 	<PackageReference Include="AssGen" OutputItemType="Analyzer" ReferenceOutputAssembly="false" Version="2.0.0" />
