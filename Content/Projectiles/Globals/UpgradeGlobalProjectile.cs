@@ -71,10 +71,9 @@ namespace deeprockitems.Content.Projectiles.Globals
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
-            // If the projectile has any equipped upgrades, disable any damage variation
+            // If the projectile has any equipped upgrades, reduce damage variation
             if (_cameFromUpgradableWeapon)
             {
-                modifiers.DamageVariationScale *= 0f;
                 modifiers.DisableCrit();
             }
 
