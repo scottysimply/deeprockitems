@@ -3,12 +3,11 @@ Mods: {
 		Items: {
 			MatrixCore: {
 				DisplayName: Blank Matrix Core
-				Tooltip: Can be crafted into weapon overclocks
-			}
-
-			UpgradeToken: {
-				DisplayName: Blank Upgrade Token
-				Tooltip: Can be crafted into weapon upgrades
+				Tooltip:
+					'''
+					Can be used at an upgrade station to unlock an overclock
+					'If you want something done right, you do it yourself!'
+					'''
 			}
 
 			JuryShotgun: {
@@ -75,8 +74,8 @@ Mods: {
 			}
 
 			UpgradeStationItem: {
-				DisplayName: Upgrade Station Item
-				Tooltip: ""
+				DisplayName: Upgrade Station
+				Tooltip: Used for upgrading dwarven equipment
 			}
 		}
 
@@ -136,7 +135,7 @@ Mods: {
 				QuestInactive1: Unfortunately, we don't have any work for you yet. Check back tomorrow.
 				QuestInactive2: No, you cannot bring barrels with you on the next mission.
 				QuestInactive3: It breaks my heart to tell you, but R&D has no jobs available.
-				// These next few keys are used for the quests. Format index 0 is *what* should be gathering, index 1 is *how much* should be gathered.
+				// These next few keys are used for the quests. Format 0 is the name of what's required, 1 is how much is remaining.
 				
 				QuestStartMining1: Listen up, crew. I've got word that R&D is running low on {0}. Mine {1} {0}, and report back!
 				QuestStartMining2: Here we go, team. We're close to empty on {0}. If you could mine {1} {0}, it would greatly speed up our efforts.
@@ -157,7 +156,7 @@ Mods: {
 			PlasmaPistolHelper.DisplayName: Experimental Plasma Charger
 			PlasmaExplosion.DisplayName: Plasma Blast
 			BigPlasma.DisplayName: Charged Plasma
-			ResupplyPodDrills.DisplayName: Resupply Pod Drills
+			ResupplyPodDrills.DisplayName: Resupply Pod
 			ResupplyPodMarker.DisplayName: Resupply Pod Marker
 			MollyPetProjectile.DisplayName: M.U.L.E
 			ZhukovHelper.DisplayName: Zhukov NUK17
@@ -183,17 +182,17 @@ Mods: {
 			}
 
 			FrozenEnemy: {
-				DisplayName: Frozen (Enemy)
+				DisplayName: Frozen
 				Description: You're extremely fragile!
 			}
 
 			ElectrifiedEnemy: {
-				DisplayName: Electrified (Enemy)
-				Description: Losing lots of life
+				DisplayName: Electrified
+				Description: Taking damage per second!
 			}
 
 			Haste: {
-				DisplayName: Haste
+				DisplayName: Dwarven Haste
 				Description: 50% faster movement speed
 			}
 
@@ -208,18 +207,13 @@ Mods: {
 			}
 
 			FearingConfused: {
-				DisplayName: Fearing Confused
-				Description: Mods.deeprockitems.Buffs.FearingConfused.Description
+				DisplayName: Fear
+				Description: You feel compelled to get away!
 			}
 
 			Irradiated: {
 				DisplayName: Irradiated
-				Description: Mods.deeprockitems.Buffs.Irradiated.Description
-			}
-
-			ElectricityArcing: {
-				DisplayName: Electricity Arcing
-				Description: Mods.deeprockitems.Buffs.ElectricityArcing.Description
+				Description: It burns, but it doesn't feel warm!
 			}
 		}
 
@@ -229,60 +223,40 @@ Mods: {
 					DisplayName: High-Cal Bullets
 					HoverText: Increases damage by 15%
 				}
+				
+				BiggerClip: {
+					DisplayName: Bigger Clip
+					HoverText: Fire 50% more shots before cooling down
+				}
+				
+				FocusDamage: {
+					DisplayName: Pin-Point Sights
+					HoverText: Increases focus damage by 33%
+				}
+				
+				QuickCharge: {
+					DisplayName: Quick-Charge Coils
+					HoverText: Reduces total charge time by 50%
+				}
 
 				BumpFire: {
 					DisplayName: Bump Stock
-					HoverText: Increases fire rate by 25%
+					HoverText: Increases fire rate by 33%
 				}
-
-				QuickCharge: {
-					DisplayName: Quick-Charge Coils
-					HoverText: Reduces total charge time by 25%
-				}
-
-				FocusDamage: {
-					DisplayName: Pin-Point Sights
-					HoverText: Increases focus damage by 50%
-				}
-
-				Blowthrough: {
-					DisplayName: Blowthrough Rounds
-					HoverText: Shots can penetrate 5 total enemies
-				}
-
-				HollowPointRounds: {
-					DisplayName: Hollow Point Rounds
-					HoverText: Enemies will become stunned on hit
-				}
-
-				BiggerClip: {
-					DisplayName: Bigger Clip
-					HoverText: Fire 33% more shots before cooling down
-				}
-
-				DiggingRounds: {
-					DisplayName: The Mole
-					HoverText: Rounds will travel through blocks
-				}
-
+				
 				ArmorPiercing: {
 					DisplayName: Armor Piercing
 					HoverText: Ignores 25% of enemy defence
 				}
-
-				QuickReload: {
-					DisplayName: Quick Reload
-					HoverText: Cuts reload time in half
+				
+				UmaniteBullets: {
+					DisplayName: Umanite Bullets
+					HoverText: Causes a debuff that increases in p
 				}
-
+				
 				EfficientCharge: {
 					DisplayName: Efficient Coils
 					HoverText: Charge shots only consume 1 ammo
-				}
-
-				UmaniteBullets: {
-					DisplayName: Umanite Bullets
-					HoverText: Causes a short damage debuff that increases with shots landed
 				}
 
 				HighDamageUpgrade: {
@@ -299,35 +273,43 @@ Mods: {
 					DisplayName: Magic Bullets
 					HoverText: Bullets will automatically rebound to the nearest target
 				}
+				
+				TheWidowmaker: {
+					DisplayName: The Widowmaker
+					HoverText: Cooldown is returned on hit
+					Positives:
+						'''
+						Hitting an enemy 'refunds' the weapon's cooldown
+						Killing an enemy gives extra cooldown back
+						'''
+				}
 
 				Hipster: {
 					DisplayName: Hipster
-					HoverText: Hover text
-				}
-
-				CookOff: {
-					DisplayName: CookOff
-					HoverText: Hover text
-				}
-
-				GetOverHere: {
-					DisplayName: GetOverHere
-					HoverText: Hover text
+					HoverText: Trades focused shot power for improved hipfiring ability
+					Positives:
+						'''
+						+25% unfocused damage boost
+						0.2x spread
+						'''
+					Negatives:
+						'''
+						50% focused damage penalty
+						'''
 				}
 
 				SupercoolingChamber: {
-					DisplayName: SupercoolingChamber
-					HoverText: Hover text
-				}
-
-				Recirculation: {
-					DisplayName: Recirculation
-					HoverText: Hover text
-				}
-
-				TheWidowmaker: {
-					DisplayName: TheWidowmaker
-					HoverText: Hover text
+					DisplayName: Supercooling Chamber
+					HoverText: Increased ability of focused shots
+					Positives:
+						'''
+						3x further focus shot damage
+						'''
+					Negatives:
+						'''
+						50% increase to cooldown length
+						25% unfocused damage penalty
+						'''
 				}
 			}
 
