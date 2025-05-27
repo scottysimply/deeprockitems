@@ -204,6 +204,7 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithOverclock("Hipster", Assets.Upgrades.Focus, Overclock.OverclockType.Balanced)
                     .WithBehavior<HeldProjectileModifyShootStats>((HeldProjectileBase projectile, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockBack, ref float spread) => {
                         spread *= 0.2f;
+                        projectile.ChargeShotDamageMultiplier = 1.5f;
                         if (!projectile.HasReachedFullCharge)
                         {
                             damage = (int)(damage * 1.25f);
@@ -214,10 +215,10 @@ namespace deeprockitems.Content.Items.Weapons
                         (item.ModItem as M1000).TimeToEndCooldown *= 1.5f;
                     })
                     .WithBehavior<HeldProjectileModifyShootStats>((HeldProjectileBase helper, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
-                        if (helper.HasReachedFullCharge)
+                        helper.ChargeShotDamageMultiplier *= 3;
+                        if (!helper.HasReachedFullCharge)
                         {
-                            damage *= 3;
-                            helper.ChargeShotCooldownMultiplier *= 1.25f;
+                            damage = (int)(damage * 0.75f);
                         }
                     })
             .Seal();                        
