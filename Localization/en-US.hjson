@@ -324,9 +324,29 @@ Mods: {
 					HoverText: 0.67x spread per pellet
 				}
 
+				QuickFire: {
+					DisplayName: Quick-Fire Ejectors
+					HoverText: Both shots fire in quick succession
+				}
+				
+				ReloadSpeed: {
+					DisplayName: Snaploader
+					HoverText: Reduces the cooldown time by 50%
+				}
+
+				Birdshot: {
+					DisplayName: Birdshot
+					HoverText: +5 pellets
+				}
+
+				Buckshot: {
+					DisplayName: Buckshot
+					HoverText: +13 damage with one less pellet
+				}
+
 				QuadrupleBarrel: {
 					DisplayName: Quad-Barrel
-					HoverText: Ability to fire 4 shots without cooldown
+					HoverText: 2x shots fired before cooling down!
 				}
 
 				WhitePhosphorusShells: {
@@ -334,54 +354,53 @@ Mods: {
 					HoverText: Pellets inflict heat on hit
 				}
 
-				QuickFire: {
-					DisplayName: Quick-Fire Ejectors
-					HoverText: Both shots fire in quick succession
-				}
-
 				Shockwave: {
 					DisplayName: Shockwave
-					HoverText: Damages enemies in a small radius upon firing
-				}
-
-				Birdshot: {
-					DisplayName: Birdshot
-					HoverText: +3 pellets with a slight damage decrease
-				}
-
-				Buckshot: {
-					DisplayName: Buckshot
-					HoverText: +12 damage with one less pellet
-				}
-
-				ReloadSpeed: {
-					DisplayName: Snaploader
-					HoverText: Reduces the cooldown time by 50%
+					HoverText: Damages and stuns enemies too close to the player!
 				}
 
 				Blowthrough: {
 					DisplayName: Blowthrough Rounds
-					HoverText: Shots will penetrate up to 3 enemies
+					HoverText: Pellets will penetrate up to 2 extra enemies
 				}
 
 				HeavyDamageUpgrade: {
 					DisplayName: Jumbo Shells
-					HoverText: Heavily increased damage
+					HoverText: 2x damage
 				}
 
 				SpecialPowder: {
 					DisplayName: Special Powder
 					HoverText: Launches the player backwards with each shot
+					Positives:
+						'''
+						Propels the player backward when firing
+						'''
 				}
 
 				TheSlug: {
 					DisplayName: The Slug
-					HoverText: Converts all pellet damage into one high-damage, piercing slug
+					HoverText: Converts pellets into a high damage slug
+					Positives:
+						'''
+						Produces the slug instead of pellets
+						Slugs shatter into a bullet storm
+						'''
 				}
 
 				StuffedShells: {
 					DisplayName: Stuffed Shells
-					HoverText: Doubled pellet count, but increases the cooldown
+					HoverText: Pellet count increased, and they ricochet off walls!
+					Positives:
+						'''
+						50% more pellets per shot
+						Pellets ricochet off walls
+						'''
+					Negatives:
+						'''
+						67% longer cooldown
+						Pellets are affected by gravity
+						'''
 				}
 			}
 

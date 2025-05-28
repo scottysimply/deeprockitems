@@ -57,7 +57,7 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient(ItemID.Bone, 5)
                     .WithUpgrade("Sniper", Assets.Upgrades.Focus)
                         .WithBehavior<ItemModifyShootStats>((Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
-                            spread *= 0.66f;
+                            spread *= 0.67f;
                         })
                         .WithIngredient(ItemID.HellstoneBar, 8)
                         .WithIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
@@ -115,7 +115,7 @@ namespace deeprockitems.Content.Items.Weapons
 
                                 var hitinfo = npc.CalculateHitInfo(item.damage * 3, -1);
                                 player.StrikeNPCDirect(npc, hitinfo);
-                                npc.AddBuff(ModContent.BuffType<StunnedEnemy>(), 60);
+                                npc.AddBuff(ModContent.BuffType<StunnedEnemy>(), 30);
 
                             }
 
@@ -132,7 +132,7 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithTier()
                     .WithUpgrade("Blowthrough", Assets.Upgrades.Penetrate)
                         .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
-                            projectile.penetrate += 1;
+                            projectile.penetrate += 2;
                             projectile.usesLocalNPCImmunity = true;
                             projectile.localNPCHitCooldown = 30;
                         })
@@ -198,7 +198,7 @@ namespace deeprockitems.Content.Items.Weapons
                         }
                         return false;
                     })
-                .WithOverclock("SpecialPowder", Assets.Upgrades.Powder, Overclock.OverclockType.Balanced)
+                .WithOverclock("SpecialPowder", Assets.Upgrades.Powder, Overclock.OverclockType.Clean)
                     .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
                         Vector2 mousePos = Main.MouseWorld - player.Center;
                         player.velocity -= Vector2.Normalize(mousePos) * 10;
@@ -216,7 +216,7 @@ namespace deeprockitems.Content.Items.Weapons
                     })
                 .WithOverclock("StuffedShells", Assets.Upgrades.Stun, Overclock.OverclockType.Unstable)
                     .WithBehavior<ItemStatChange>((Item item) => {
-                        (item.ModItem as JuryShotgun).PelletCount *= 2;
+                        (item.ModItem as JuryShotgun).PelletCount = (int)((item.ModItem as JuryShotgun).PelletCount * 1.5f);
                         (item.ModItem as JuryShotgun).TimeToEndCooldown += 40f;
                     })
                     .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
