@@ -51,7 +51,7 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithTier()
                     .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            item.damage = (int)(item.OriginalDamage * 1.2f);
+                            item.damage = (int)(item.damage * 1.2f);
                         })
                         .WithIngredient(ItemID.HellstoneBar, 8)
                         .WithIngredient(ItemID.Bone, 5)

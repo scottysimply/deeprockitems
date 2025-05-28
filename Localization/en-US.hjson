@@ -316,7 +316,12 @@ Mods: {
 			JuryShotgun: {
 				DamageUpgrade: {
 					DisplayName: Damage Upgrade
-					HoverText: Each pellet will deal x1.2 damage
+					HoverText: 1.2x 
+				}
+				
+				Sniper: {
+					DisplayName: Sniper
+					HoverText: 0.67x spread per pellet
 				}
 
 				QuadrupleBarrel: {
@@ -347,11 +352,6 @@ Mods: {
 				Buckshot: {
 					DisplayName: Buckshot
 					HoverText: +12 damage with one less pellet
-				}
-
-				Sniper: {
-					DisplayName: Sniper
-					HoverText: Halves the spread of the gun
 				}
 
 				ReloadSpeed: {
