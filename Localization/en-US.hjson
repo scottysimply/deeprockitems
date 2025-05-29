@@ -219,491 +219,435 @@ Mods: {
 
 		Upgrades: {
 			M1000: {
-				DamageUpgrade: {
-					DisplayName: High-Cal Bullets
-					HoverText: Increases damage by 15%
+				Tier1: {
+					DamageUpgrade: {
+						DisplayName: High-Cal Bullets
+						HoverText: Increases damage by 15%
+					}
+				
+					BiggerClip: {
+						DisplayName: Bigger Clip
+						HoverText: Fire 50% more shots before cooling down
+					}
+				
+					FocusDamage: {
+						DisplayName: Pin-Point Sights
+						HoverText: Increases focus damage by 33%
+					}
 				}
 				
-				BiggerClip: {
-					DisplayName: Bigger Clip
-					HoverText: Fire 50% more shots before cooling down
-				}
+				Tier2: {
+					QuickCharge: {
+						DisplayName: Quick-Charge Coils
+						HoverText: Reduces total charge time by 50%
+					}
+
+					BumpFire: {
+						DisplayName: Bump Stock
+						HoverText: Increases fire rate by 33%
+					}
 				
-				FocusDamage: {
-					DisplayName: Pin-Point Sights
-					HoverText: Increases focus damage by 33%
-				}
-				
-				QuickCharge: {
-					DisplayName: Quick-Charge Coils
-					HoverText: Reduces total charge time by 50%
 				}
 
-				BumpFire: {
-					DisplayName: Bump Stock
-					HoverText: Increases fire rate by 33%
+				Tier3: {
+					ArmorPiercing: {
+						DisplayName: Armor Piercing
+						HoverText: Ignores 25% of enemy defence
+					}
+				
+					UmaniteBullets: {
+						DisplayName: Umanite Bullets
+						HoverText: Inflicts a debuff that strengthens with damage done
+					}
+				}
+
+				Tier4: {
+					EfficientCharge: {
+						DisplayName: Efficient Coils
+						HoverText: Charge shots only consume 1 ammo
+					}
+
+					HighDamageUpgrade: {
+						DisplayName: The Gustav
+						HoverText: Increased damage by 75%
+					}
 				}
 				
-				ArmorPiercing: {
-					DisplayName: Armor Piercing
-					HoverText: Ignores 25% of enemy defence
+				Tier5: {
+					WhereItHurts: {
+						DisplayName: Hitting Where It Hurts
+						HoverText: Focus shots will always deal at least 5% of the target's health!
+					}
+
+					MagicBullets: {
+						DisplayName: Magic Bullets
+						HoverText: Bullets will automatically rebound to the nearest target
+					}
 				}
 				
-				UmaniteBullets: {
-					DisplayName: Umanite Bullets
-					HoverText: Causes a debuff that increases in p
-				}
-				
-				EfficientCharge: {
-					DisplayName: Efficient Coils
-					HoverText: Charge shots only consume 1 ammo
+				Overclocks: {
+					TheWidowmaker: {
+						DisplayName: The Widowmaker
+						HoverText: Cooldown is returned on hit
+						Positives:
+							'''
+							Hitting an enemy 'refunds' the weapon's cooldown
+							Killing an enemy gives extra cooldown back
+							'''
+					}
+
+					Hipster: {
+						DisplayName: Hipster
+						HoverText: Trades focused shot power for improved hipfiring ability
+						Positives:
+							'''
+							+25% unfocused damage boost
+							0.2x spread
+							'''
+						Negatives:
+							'''
+							50% focused damage penalty
+							'''
+					}
+
+					SupercoolingChamber: {
+						DisplayName: Supercooling Chamber
+						HoverText: Increased ability of focused shots
+						Positives:
+							'''
+							3x further focus shot damage
+							'''
+						Negatives:
+							'''
+							50% increase to cooldown length
+							25% unfocused damage penalty
+							'''
+					}
 				}
 
-				HighDamageUpgrade: {
-					DisplayName: The Gustav
-					HoverText: Increased damage by 75%
-				}
-
-				WhereItHurts: {
-					DisplayName: Hitting Where It Hurts
-					HoverText: Focus shots will always deal at least 5% of the target's health!
-				}
-
-				MagicBullets: {
-					DisplayName: Magic Bullets
-					HoverText: Bullets will automatically rebound to the nearest target
-				}
-				
-				TheWidowmaker: {
-					DisplayName: The Widowmaker
-					HoverText: Cooldown is returned on hit
-					Positives:
-						'''
-						Hitting an enemy 'refunds' the weapon's cooldown
-						Killing an enemy gives extra cooldown back
-						'''
-				}
-
-				Hipster: {
-					DisplayName: Hipster
-					HoverText: Trades focused shot power for improved hipfiring ability
-					Positives:
-						'''
-						+25% unfocused damage boost
-						0.2x spread
-						'''
-					Negatives:
-						'''
-						50% focused damage penalty
-						'''
-				}
-
-				SupercoolingChamber: {
-					DisplayName: Supercooling Chamber
-					HoverText: Increased ability of focused shots
-					Positives:
-						'''
-						3x further focus shot damage
-						'''
-					Negatives:
-						'''
-						50% increase to cooldown length
-						25% unfocused damage penalty
-						'''
-				}
 			}
 
 			JuryShotgun: {
-				DamageUpgrade: {
-					DisplayName: Damage Upgrade
-					HoverText: 1.2x 
-				}
+				Tier1: {
+					DamageUpgrade: {
+						DisplayName: Damage Upgrade
+						HoverText: 1.2x 
+					}
 				
-				Sniper: {
-					DisplayName: Sniper
-					HoverText: 0.67x spread per pellet
+					Sniper: {
+						DisplayName: Sniper
+						HoverText: 0.67x spread per pellet
+					}
 				}
 
-				QuickFire: {
-					DisplayName: Quick-Fire Ejectors
-					HoverText: Both shots fire in quick succession
-				}
+				Tier2: {
+					QuickFire: {
+						DisplayName: Quick-Fire Ejectors
+						HoverText: Both shots fire in quick succession
+					}
 				
-				ReloadSpeed: {
-					DisplayName: Snaploader
-					HoverText: Reduces the cooldown time by 50%
+					ReloadSpeed: {
+						DisplayName: Snaploader
+						HoverText: Reduces the cooldown time by 50%
+					}
 				}
 
-				Birdshot: {
-					DisplayName: Birdshot
-					HoverText: +5 pellets
+				Tier3: {
+					Birdshot: {
+						DisplayName: Birdshot
+						HoverText: +5 pellets
+					}
+
+					Buckshot: {
+						DisplayName: Buckshot
+						HoverText: +13 damage with one less pellet
+					}
 				}
 
-				Buckshot: {
-					DisplayName: Buckshot
-					HoverText: +13 damage with one less pellet
+				Tier4: {
+					QuadrupleBarrel: {
+						DisplayName: Quad-Barrel
+						HoverText: 2x shots fired before cooling down!
+					}
+
+					WhitePhosphorusShells: {
+						DisplayName: White Phosphorus Shells
+						HoverText: Pellets inflict heat on hit
+					}
+
+					Shockwave: {
+						DisplayName: Shockwave
+						HoverText: Damages and stuns enemies too close to the player!
+					}
 				}
 
-				QuadrupleBarrel: {
-					DisplayName: Quad-Barrel
-					HoverText: 2x shots fired before cooling down!
+				Tier5: {
+					Blowthrough: {
+						DisplayName: Blowthrough Rounds
+						HoverText: Pellets will penetrate up to 2 extra enemies
+					}
+
+					HeavyDamageUpgrade: {
+						DisplayName: Jumbo Shells
+						HoverText: 2x damage
+					}
 				}
 
-				WhitePhosphorusShells: {
-					DisplayName: White Phosphorus Shells
-					HoverText: Pellets inflict heat on hit
-				}
+				Overclocks: {
+					SpecialPowder: {
+						DisplayName: Special Powder
+						HoverText: Launches the player backwards with each shot
+						Positives:
+							'''
+							Propels the player backward when firing
+							'''
+					}
 
-				Shockwave: {
-					DisplayName: Shockwave
-					HoverText: Damages and stuns enemies too close to the player!
-				}
+					TheSlug: {
+						DisplayName: The Slug
+						HoverText: Converts pellets into a high damage slug
+						Positives:
+							'''
+							Produces the slug instead of pellets
+							Slugs shatter into a bullet storm
+							'''
+					}
 
-				Blowthrough: {
-					DisplayName: Blowthrough Rounds
-					HoverText: Pellets will penetrate up to 2 extra enemies
-				}
-
-				HeavyDamageUpgrade: {
-					DisplayName: Jumbo Shells
-					HoverText: 2x damage
-				}
-
-				SpecialPowder: {
-					DisplayName: Special Powder
-					HoverText: Launches the player backwards with each shot
-					Positives:
-						'''
-						Propels the player backward when firing
-						'''
-				}
-
-				TheSlug: {
-					DisplayName: The Slug
-					HoverText: Converts pellets into a high damage slug
-					Positives:
-						'''
-						Produces the slug instead of pellets
-						Slugs shatter into a bullet storm
-						'''
-				}
-
-				StuffedShells: {
-					DisplayName: Stuffed Shells
-					HoverText: Pellet count increased, and they ricochet off walls!
-					Positives:
-						'''
-						50% more pellets per shot
-						Pellets ricochet off walls
-						'''
-					Negatives:
-						'''
-						67% longer cooldown
-						Pellets are affected by gravity
-						'''
+					StuffedShells: {
+						DisplayName: Stuffed Shells
+						HoverText: Pellet count increased, and they ricochet off walls!
+						Positives:
+							'''
+							50% more pellets per shot
+							Pellets ricochet off walls
+							'''
+						Negatives:
+							'''
+							67% longer cooldown
+							Pellets are affected by gravity
+							'''
+					}
 				}
 			}
 
 			SludgePump: {
-				VisualCalculus: {
-					DisplayName: Visual Calculus
-					HoverText: Shows a rough outline of where the projectile will travel
+				Tier1: {
+					VisualCalculus: {
+						DisplayName: Visual Calculus
+						HoverText: Shows a rough outline of where the projectile will travel
+					}
+
+					Glowstick: {
+						DisplayName: Glowstick
+						HoverText: Causes goo to be visible in the dark
+					}
 				}
 
-				Glowstick: {
-					DisplayName: Glowstick
-					HoverText: Causes goo to be visible in the dark
-				}
+				Tier2: {
+					QuickCharge: {
+						DisplayName: Smaller Pressure Chamber
+						HoverText: 25% faster charge time
+					}
 
-				QuickCharge: {
-					DisplayName: Smaller Pressure Chamber
-					HoverText: 25% faster charge time
-				}
-
-				EfficientCharge: {
-					DisplayName: Foaming Mixture
-					HoverText: Reduces the cooldown gained by charging a shot
-				}
-
-				SpreadingSludge: {
-					DisplayName: Biochemical Warfare
-					HoverText: Enemies affected by sludge will infect nearby enemies
-				}
-
-				DamageUpgrade: {
-					DisplayName: Hardened Mixture
-					HoverText: +15% damage to sludge
-				}
-
-				MoreFragments: {
-					DisplayName: Perforated Nozzle
-					HoverText: +4 fragments on charged shots
+					EfficientCharge: {
+						DisplayName: Foaming Mixture
+						HoverText: Reduces the cooldown gained by charging a shot
+					}
 				}
 				
-				WasteOrdnance: {
-					DisplayName: Waste Ordnance
-					HoverText: Fully charged goo explodes instead of fragmenting
+				Tier3: {
+					SpreadingSludge: {
+						DisplayName: Biochemical Warfare
+						HoverText: Enemies affected by sludge will infect nearby enemies
+					}
+
+					DamageUpgrade: {
+						DisplayName: Hardened Mixture
+						HoverText: +15% damage to sludge
+					}
 				}
 
-				SlowingPoison: {
-					DisplayName: Paralytic Agents
-					HoverText: Slows down sludged enemies
+				Tier4: {
+					MoreFragments: {
+						DisplayName: Perforated Nozzle
+						HoverText: +4 fragments on charged shots
+					}
+				
+					WasteOrdnance: {
+						DisplayName: Waste Ordnance
+						HoverText: Fully charged goo explodes instead of fragmenting
+					}
 				}
 
-				StrongSludge: {
-					DisplayName: Hydofluoric Acid
-					HoverText: 2x damage over time
+				Tier5: {
+					SlowingPoison: {
+						DisplayName: Paralytic Agents
+						HoverText: Slows down sludged enemies
+					}
+
+					StrongSludge: {
+						DisplayName: Hydofluoric Acid
+						HoverText: 2x damage over time
+					}
 				}
 
-				OvertunedNozzles: {
-					DisplayName: Overtuned Nozzles
-					HoverText: Increases the general power of sludge
-					Positives:
-						'''
-						+40% extra damage
-						+25% extra shots before overheat
-						15% faster cooldown
-						'''
-				}
+				Overclocks: {
+					OvertunedNozzles: {
+						DisplayName: Overtuned Nozzles
+						HoverText: Increases the general power of sludge
+						Positives:
+							'''
+							+40% extra damage
+							+25% extra shots before overheat
+							15% faster cooldown
+							'''
+					}
 
-				SludgeBlast: {
-					DisplayName: Sludge Blast
-					HoverText: Quadruples the number of projectiles fired per-trigger press
-					Positives:
-						'''
-						Produces 4, half-damage projectiles at a time
-						'''
-					Negatives:
-						'''
-						20% longer overheat
-						'''
-				}
+					SludgeBlast: {
+						DisplayName: Sludge Blast
+						HoverText: Quadruples the number of projectiles fired per-trigger press
+						Positives:
+							'''
+							Produces 4, half-damage projectiles at a time
+							'''
+						Negatives:
+							'''
+							20% longer overheat
+							'''
+					}
 
-				GooBomberSpecial: {
-					DisplayName: Goo Bomber Special
-					HoverText: Fully-charged goo will rain down fragments as it travels
-					Positives:
-						'''
-						Fully-charged goo rains from the air
-						'''
-					Negatives:
-						'''
-						Fully-charged goo no longer fragments on impact
-						+33% charge time
-						'''
+					GooBomberSpecial: {
+						DisplayName: Goo Bomber Special
+						HoverText: Fully-charged goo will rain down fragments as it travels
+						Positives:
+							'''
+							Fully-charged goo rains from the air
+							'''
+						Negatives:
+							'''
+							Fully-charged goo no longer fragments on impact
+							+33% charge time
+							'''
+					}
 				}
 			}
 
 			PlasmaPistol: {
-				ThinContainmentField: {
-					DisplayName: Thin Containment Field
-					HoverText: Hitting charged plasma with uncharged plasma creates an explosion with concussive force
+				Tier1: {
+					DamageUpgrade: {
+						DisplayName: Dense Plasma
+						HoverText: +10% base damage
+					}
+				
+					IncreasedBattery: {
+						DisplayName: Higher Capacity Battery
+						HoverText: Fire 2x shots before cooling down
+					}
+
+					IncreasedChargeDamage: {
+						DisplayName: Oxygen Coil Injectors
+						HoverText: +25% charged shot damage
+					}
 				}
 
-				HeatDump: {
-					DisplayName: Heat Dump
-					HoverText: Plasma sheds heat onto enemies
+				Tier2: {
+					SuperSpeedPlasma: {
+						DisplayName: Overtuned Nozzle
+						HoverText: +25% increase to projectile velocity
+					}
+
+					QuickCharge: {
+						DisplayName: Quick Charge Coils
+						HoverText: 25% faster charge speed
+					}
+				}
+				
+				Tier3: {
+					ArmorBreak: {
+						DisplayName: Gamma Ray Emitters
+						HoverText: +25% armor penetration
+					}
+
+					FireRateIncrease: {
+						DisplayName: Crystal Capacitors
+						HoverText: +33% faster fire rate
+					}
+
+					MediumDamageUpgrade: {
+						DisplayName: Even Denser Plasma
+						HoverText: +25% base damage
+					}
+				}
+				
+				Tier4: {
+					PlasmaSplash: {
+						DisplayName: Plasma Splash
+						HoverText: Uncharged plasma impacts with a small area of effect
+					}
+				
+					FlyingNightmare: {
+						DisplayName: Flying Nightmare
+						HoverText: Fully charged plasma pierces all enemies
+					}
 				}
 
-				DamageUpgrade: {
-					DisplayName: Dense Plasma
-					HoverText: +10% base damage
+				Tier5: {
+					ThinContainmentField: {
+						DisplayName: Thin Containment Field
+						HoverText: Hitting charged plasma with uncharged plasma creates an explosion with concussive force
+					}
+
+					HeatDump: {
+						DisplayName: Heat Dump
+						HoverText: Plasma sheds heat onto enemies
+					}
 				}
 
-				PlasmaSplash: {
-					DisplayName: Plasma Splash
-					HoverText: Uncharged plasma impacts with a small area of effect
-				}
+				Overclocks: {
+					Whiplash: {
+						DisplayName: Whiplash
+						HoverText: Stuns enemies struck by plasma
+						Positives:
+							'''
+							Inflicts stun on hit
+							'''
+					}
 
-				IncreasedBattery: {
-					DisplayName: Higher Capacity Battery
-					HoverText: 2x magazine capacity
-				}
+					HeavyHitter: {
+						DisplayName: Heavy Hitter
+						HoverText: Increases the power of uncharged plasma
+						Positives:
+							'''
+							33% higher damage
+							'''
+						Negatives:
+							'''
+							0.5x charged plasma damage bonus
+							'''
+					}
 
-				SuperSpeedPlasma: {
-					DisplayName: Overtuned Nozzle
-					HoverText: +25% increase to projectile velocity
-				}
-
-				FlyingNightmare: {
-					DisplayName: Flying Nightmare
-					HoverText: Fully charged plasma pierces all enemies
-				}
-
-				ArmorBreak: {
-					DisplayName: Gamma Ray Emitters
-					HoverText: +25% armor penetration
-				}
-
-				QuickCharge: {
-					DisplayName: Quick Charge Coils
-					HoverText: 25% faster charge speed
-				}
-
-				IncreasedChargeDamage: {
-					DisplayName: Oxygen Coil Injectors
-					HoverText: +25% charged shot damage
-				}
-
-				FireRateIncrease: {
-					DisplayName: Crystal Capacitors
-					HoverText: +33% faster fire rate
-				}
-
-				MediumDamageUpgrade: {
-					DisplayName: Even Denser Plasma
-					HoverText: +25% base damage
-				}
-
-				Whiplash: {
-					DisplayName: Whiplash
-					HoverText: Hover text
-				}
-
-				HeavyHitter: {
-					DisplayName: HeavyHitter
-					HoverText: Hover text
-				}
-
-				Ionosphere: {
-					DisplayName: Ionosphere
-					HoverText: Hover text
+					Ionosphere: {
+						DisplayName: Ionosphere
+						HoverText: Charged plasma electrocutes up to 5 nearby enemies
+						Positives:
+							'''
+							Charged plasma arcs between enemies
+							'''
+						Negatives:
+							'''
+							Removed the charged plasma damage bonus
+							0.33x charged plasma velocity
+							'''
+					}
 				}
 			}
 
 			Zhukovs: {
-				DamageUpgrade: {
-					DisplayName: Increased Caliber Rounds
-					HoverText: +10% damage
-				}
-
-				FireRate: {
-					DisplayName: Bump Stock
-					HoverText: +20% fire rate increase
-				}
-
-				FireRounds: {
-					DisplayName: Incendiary Rounds
-					HoverText: Shots add heat on hit
-				}
-
-				CryoRounds: {
-					DisplayName: Cryo Rounds
-					HoverText: Shots add cryo on hit
-				}
-
-				GetInGetOut: {
-					DisplayName: Get In, Get Out
-					HoverText: +50% haste while actively fighting an enemy
-				}
-
-				Blowthrough: {
-					DisplayName: Blowthrough Rounds
-					HoverText: Shots will penetrate up to 5 enemies
-				}
-
-				ReducedSpread: {
-					DisplayName: Red Dot Sights
-					HoverText: Reduces spread by 50%
-				}
-
-				HighVelocityRounds: {
-					DisplayName: Dense-Packed Propellant
-					HoverText: +25% velocity increase
-				}
-
-				DamageUpgrade2: {
-					DisplayName: Titanium Rounds
-					HoverText: +20% damage
-				}
-
-				BiggerMagazine: {
-					DisplayName: Drum Magazines
-					HoverText: Fire 75% bullets until having to reload
-				}
-
-				DamageUpgrade3: {
-					DisplayName: DamageUpgrade3
-					HoverText: Hover text
-				}
-
-				LightningReload: {
-					DisplayName: LightningReload
-					HoverText: Hover text
-				}
-
-				StaticBlast: {
-					DisplayName: StaticBlast
-					HoverText: Hover text
-				}
-
-				CryoMinelets: {
-					DisplayName: CryoMinelets
-					HoverText: Hover text
-				}
-
-				EmbeddedDetonators: {
-					DisplayName: EmbeddedDetonators
-					HoverText: Hover text
-				}
+				
 			}
 
 			CryoCannon: {
-				IncreasedCooling: {
-					DisplayName: Adiabatic Chambers
-					HoverText: +2 cooling on hit
-				}
-
-				ReloadSpeed: {
-					DisplayName: Faster Chamber Recharge
-					HoverText: 25% faster cooldown
-				}
-
-				ReducedManaCost: {
-					DisplayName: Exorcist
-					HoverText: Reduced mana cost by 1
-				}
-
-				FireRate: {
-					DisplayName: Wider Nozzle
-					HoverText: Increased the flow rate of cooling particles
-				}
-
-				ColdRadiance: {
-					DisplayName: Cold Radiance
-					HoverText: Enemies nearby the player will begin to freeze
-				}
-
-				ReversedEntropy: {
-					DisplayName: Reversed Entropy
-					HoverText: Enemies above 25% freeze will spread to nearby enemies
-				}
-
-				FartherStream: {
-					DisplayName: High Pressure Nozzles
-					HoverText: Increased the maximum distance of the stream
-				}
-
-				DamageUpgrade: {
-					DisplayName: Nucleation
-					HoverText: +2 damage on hit
-				}
-
-				Snowball: {
-					DisplayName: Snowball
-					HoverText: Hover text
-				}
-
-				IceSpear: {
-					DisplayName: IceSpear
-					HoverText: Hover text
-				}
-
-				IceStorm: {
-					DisplayName: IceStorm
-					HoverText: Hover text
-				}
-			}
+				
 		}
 
 		Configs: {
