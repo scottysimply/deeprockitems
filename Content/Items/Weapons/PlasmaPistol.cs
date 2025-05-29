@@ -169,7 +169,7 @@ namespace deeprockitems.Content.Items.Weapons
                         (item.ModItem as PlasmaPistol).TimeToEndCooldown *= 1.33f;
                     })
                     .WithBehavior<HeldProjectileModifyShootStats>((HeldProjectileBase projectile, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
-                        damage = (int)(damage / projectile.ChargeShotDamageMultiplier);
+                        projectile.ChargeShotDamageMultiplier = 1f;
                     })
                 .WithOverclock("Ionosphere", Assets.Upgrades.Electricity, Overclock.OverclockType.Unstable)
                     .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
