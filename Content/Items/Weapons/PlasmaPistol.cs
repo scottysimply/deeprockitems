@@ -24,8 +24,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.mana = 4;
             Item.knockBack = 4;
             Item.crit = 4;
-            Item.useTime = 14;
-            Item.useAnimation = 14;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
             Item.shoot = ModContent.ProjectileType<PlasmaPistolHelper>();
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = 18f;
