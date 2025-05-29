@@ -166,15 +166,17 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithOverclock("HeavyHitter", Assets.Upgrades.Damage, Overclock.OverclockType.Balanced)
                     .WithBehavior<ItemStatChange>((Item item) => {
                         item.damage = (int)(item.damage * 1.33f);
-                        (item.ModItem as PlasmaPistol).TimeToEndCooldown *= 1.33f;
                     })
                     .WithBehavior<HeldProjectileModifyShootStats>((HeldProjectileBase projectile, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
-                        projectile.ChargeShotDamageMultiplier = 1f;
+                        projectile.ChargeShotDamageMultiplier /= 2f;
                     })
                 .WithOverclock("Ionosphere", Assets.Upgrades.Electricity, Overclock.OverclockType.Unstable)
                     .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                         if (projectile.ModProjectile is not BigPlasma) return;
                         projectile.velocity *= 0.33f;
+                    })
+                    .WithBehavior<HeldProjectileModifyShootStats>((HeldProjectileBase projectile, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
+                        projectile.ChargeShotDamageMultiplier = 1f;
                     })
                     .WithBehavior<ProjectileAI>((Projectile projectile) => {
                         if (projectile.ModProjectile is not BigPlasma) return;
