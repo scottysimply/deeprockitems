@@ -405,9 +405,19 @@ Mods: {
 			}
 
 			SludgePump: {
-				MoreFragments: {
-					DisplayName: Perforated Nozzle
-					HoverText: +4 fragments on charged shots
+				VisualCalculus: {
+					DisplayName: Visual Calculus
+					HoverText: Shows a rough outline of where the projectile will travel
+				}
+
+				Glowstick: {
+					DisplayName: Glowstick
+					HoverText: Causes goo to be visible in the dark
+				}
+
+				QuickCharge: {
+					DisplayName: Smaller Pressure Chamber
+					HoverText: 25% faster charge time
 				}
 
 				EfficientCharge: {
@@ -415,24 +425,24 @@ Mods: {
 					HoverText: Reduces the cooldown gained by charging a shot
 				}
 
-				VisualCalculus: {
-					DisplayName: Visual Calculus
-					HoverText: Shows a tracer where the projectile will travel
+				SpreadingSludge: {
+					DisplayName: Biochemical Warfare
+					HoverText: Enemies affected by sludge will infect nearby enemies
 				}
 
-				Glowstick: {
-					DisplayName: Glowstick
-					HoverText: Goo emits light in the dark
+				DamageUpgrade: {
+					DisplayName: Hardened Mixture
+					HoverText: +15% damage to sludge
 				}
 
+				MoreFragments: {
+					DisplayName: Perforated Nozzle
+					HoverText: +4 fragments on charged shots
+				}
+				
 				WasteOrdnance: {
 					DisplayName: Waste Ordnance
 					HoverText: Fully charged goo explodes instead of fragmenting
-				}
-
-				QuickCharge: {
-					DisplayName: Smaller Pressure Chamber
-					HoverText: 25% faster charge time
 				}
 
 				SlowingPoison: {
@@ -445,34 +455,42 @@ Mods: {
 					HoverText: 2x damage over time
 				}
 
-				LingeringSludge: {
-					DisplayName: Sticky Mix
-					HoverText: Sludge will stick to tiles
-				}
-
-				SpreadingSludge: {
-					DisplayName: Biochemical Warfare
-					HoverText: Enemies affected by sludge will infect other enemies
-				}
-
-				DamageUpgrade: {
-					DisplayName: Hardened Mixture
-					HoverText: +15% damage to sludge
+				OvertunedNozzles: {
+					DisplayName: Overtuned Nozzles
+					HoverText: Increases the general power of sludge
+					Positives:
+						'''
+						+40% extra damage
+						+25% extra shots before overheat
+						15% faster cooldown
+						'''
 				}
 
 				SludgeBlast: {
-					DisplayName: SludgeBlast
-					HoverText: Hover text
+					DisplayName: Sludge Blast
+					HoverText: Quadruples the number of projectiles fired per-trigger press
+					Positives:
+						'''
+						Produces 4, half-damage projectiles at a time
+						'''
+					Negatives:
+						'''
+						20% longer overheat
+						'''
 				}
 
 				GooBomberSpecial: {
-					DisplayName: GooBomberSpecial
-					HoverText: Hover text
-				}
-
-				OvertunedNozzles: {
-					DisplayName: OvertunedNozzles
-					HoverText: Hover text
+					DisplayName: Goo Bomber Special
+					HoverText: Fully-charged goo will rain down fragments as it travels
+					Positives:
+						'''
+						Fully-charged goo rains from the air
+						'''
+					Negatives:
+						'''
+						Fully-charged goo no longer fragments on impact
+						+33% charge time
+						'''
 				}
 			}
 

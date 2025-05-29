@@ -147,7 +147,7 @@ namespace deeprockitems.Content.Items.Weapons
                         // Shoot 4 projectiles in a cone-ish shape, with slight spread
                         for (int i = 0; i < 4; i++)
                         {
-                            Projectile proj = Projectile.NewProjectileDirect(source, position, Main.rand.NextFloat(0.9f, 1.1f) * velocity.RotatedBy(0.05f * (i - 1.5f)).RotatedByRandom(0.02f), type, damage, knockback, owner: player.whoAmI);
+                            Projectile proj = Projectile.NewProjectileDirect(source, position, Main.rand.NextFloat(0.9f, 1.1f) * velocity.RotatedBy(0.05f * (i - 1.5f)).RotatedByRandom(0.02f), type, damage / 2, knockback, owner: player.whoAmI);
                             if (helper.HasReachedFullCharge && proj.ModProjectile is SludgeBall ball)
                             {
                                 ball.ShouldSplatter = true;
