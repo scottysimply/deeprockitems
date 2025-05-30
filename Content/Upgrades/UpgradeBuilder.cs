@@ -140,7 +140,8 @@ namespace deeprockitems.Content.Upgrades
             {
                 foreach (var upgrade in kvp.Value)
                 {
-                    upgrade.LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{upgrade.InternalName}";
+                    string tierText = upgrade is Overclock ? "Overclocks" : $"Tier{kvp.Key}";
+                    upgrade.LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{tierText}.{upgrade.InternalName}";
                     _ = upgrade.DisplayName;
                     _ = upgrade.HoverText;
                 }

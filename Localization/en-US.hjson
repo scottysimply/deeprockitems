@@ -224,18 +224,18 @@ Mods: {
 						DisplayName: High-Cal Bullets
 						HoverText: Increases damage by 15%
 					}
-				
+
 					BiggerClip: {
 						DisplayName: Bigger Clip
 						HoverText: Fire 50% more shots before cooling down
 					}
-				
+
 					FocusDamage: {
 						DisplayName: Pin-Point Sights
 						HoverText: Increases focus damage by 33%
 					}
 				}
-				
+
 				Tier2: {
 					QuickCharge: {
 						DisplayName: Quick-Charge Coils
@@ -246,7 +246,11 @@ Mods: {
 						DisplayName: Bump Stock
 						HoverText: Increases fire rate by 33%
 					}
-				
+
+					FocusDamage: {
+						DisplayName: FocusDamage
+						HoverText: Hover text
+					}
 				}
 
 				Tier3: {
@@ -254,7 +258,7 @@ Mods: {
 						DisplayName: Armor Piercing
 						HoverText: Ignores 25% of enemy defence
 					}
-				
+
 					UmaniteBullets: {
 						DisplayName: Umanite Bullets
 						HoverText: Inflicts a debuff that strengthens with damage done
@@ -272,7 +276,7 @@ Mods: {
 						HoverText: Increased damage by 75%
 					}
 				}
-				
+
 				Tier5: {
 					WhereItHurts: {
 						DisplayName: Hitting Where It Hurts
@@ -284,7 +288,7 @@ Mods: {
 						HoverText: Bullets will automatically rebound to the nearest target
 					}
 				}
-				
+
 				Overclocks: {
 					TheWidowmaker: {
 						DisplayName: The Widowmaker
@@ -304,19 +308,13 @@ Mods: {
 							+25% unfocused damage boost
 							0.2x spread
 							'''
-						Negatives:
-							'''
-							50% focused damage penalty
-							'''
+						Negatives: 50% focused damage penalty
 					}
 
 					SupercoolingChamber: {
 						DisplayName: Supercooling Chamber
 						HoverText: Increased ability of focused shots
-						Positives:
-							'''
-							3x further focus shot damage
-							'''
+						Positives: 3x further focus shot damage
 						Negatives:
 							'''
 							50% increase to cooldown length
@@ -324,16 +322,15 @@ Mods: {
 							'''
 					}
 				}
-
 			}
 
 			JuryShotgun: {
 				Tier1: {
 					DamageUpgrade: {
 						DisplayName: Damage Upgrade
-						HoverText: 1.2x 
+						HoverText: 1.2x
 					}
-				
+
 					Sniper: {
 						DisplayName: Sniper
 						HoverText: 0.67x spread per pellet
@@ -345,7 +342,7 @@ Mods: {
 						DisplayName: Quick-Fire Ejectors
 						HoverText: Both shots fire in quick succession
 					}
-				
+
 					ReloadSpeed: {
 						DisplayName: Snaploader
 						HoverText: Reduces the cooldown time by 50%
@@ -397,10 +394,7 @@ Mods: {
 					SpecialPowder: {
 						DisplayName: Special Powder
 						HoverText: Launches the player backwards with each shot
-						Positives:
-							'''
-							Propels the player backward when firing
-							'''
+						Positives: Propels the player backward when firing
 					}
 
 					TheSlug: {
@@ -454,7 +448,7 @@ Mods: {
 						HoverText: Reduces the cooldown gained by charging a shot
 					}
 				}
-				
+
 				Tier3: {
 					SpreadingSludge: {
 						DisplayName: Biochemical Warfare
@@ -472,7 +466,7 @@ Mods: {
 						DisplayName: Perforated Nozzle
 						HoverText: +4 fragments on charged shots
 					}
-				
+
 					WasteOrdnance: {
 						DisplayName: Waste Ordnance
 						HoverText: Fully charged goo explodes instead of fragmenting
@@ -506,23 +500,14 @@ Mods: {
 					SludgeBlast: {
 						DisplayName: Sludge Blast
 						HoverText: Quadruples the number of projectiles fired per-trigger press
-						Positives:
-							'''
-							Produces 4, half-damage projectiles at a time
-							'''
-						Negatives:
-							'''
-							20% longer overheat
-							'''
+						Positives: Produces 4, half-damage projectiles at a time
+						Negatives: 20% longer overheat
 					}
 
 					GooBomberSpecial: {
 						DisplayName: Goo Bomber Special
 						HoverText: Fully-charged goo will rain down fragments as it travels
-						Positives:
-							'''
-							Fully-charged goo rains from the air
-							'''
+						Positives: Fully-charged goo rains from the air
 						Negatives:
 							'''
 							Fully-charged goo no longer fragments on impact
@@ -538,7 +523,7 @@ Mods: {
 						DisplayName: Dense Plasma
 						HoverText: +10% base damage
 					}
-				
+
 					IncreasedBattery: {
 						DisplayName: Higher Capacity Battery
 						HoverText: Fire 2x shots before cooling down
@@ -561,7 +546,7 @@ Mods: {
 						HoverText: 25% faster charge speed
 					}
 				}
-				
+
 				Tier3: {
 					ArmorBreak: {
 						DisplayName: Gamma Ray Emitters
@@ -578,13 +563,13 @@ Mods: {
 						HoverText: +25% base damage
 					}
 				}
-				
+
 				Tier4: {
 					PlasmaSplash: {
 						DisplayName: Plasma Splash
 						HoverText: Uncharged plasma impacts with a small area of effect
 					}
-				
+
 					FlyingNightmare: {
 						DisplayName: Flying Nightmare
 						HoverText: Fully charged plasma pierces all enemies
@@ -607,32 +592,20 @@ Mods: {
 					Whiplash: {
 						DisplayName: Whiplash
 						HoverText: Stuns enemies struck by plasma
-						Positives:
-							'''
-							Inflicts stun on hit
-							'''
+						Positives: Inflicts stun on hit
 					}
 
 					HeavyHitter: {
 						DisplayName: Heavy Hitter
 						HoverText: Increases the power of uncharged plasma
-						Positives:
-							'''
-							33% higher damage
-							'''
-						Negatives:
-							'''
-							0.5x charged plasma damage bonus
-							'''
+						Positives: 33% higher damage
+						Negatives: 0.5x charged plasma damage bonus
 					}
 
 					Ionosphere: {
 						DisplayName: Ionosphere
 						HoverText: Charged plasma electrocutes up to 5 nearby enemies
-						Positives:
-							'''
-							Charged plasma arcs between enemies
-							'''
+						Positives: Charged plasma arcs between enemies
 						Negatives:
 							'''
 							Removed the charged plasma damage bonus
@@ -643,11 +616,172 @@ Mods: {
 			}
 
 			Zhukovs: {
-				
+				Tier1: {
+					DamageUpgrade: {
+						DisplayName: DamageUpgrade
+						HoverText: Hover text
+					}
+
+					FireRate: {
+						DisplayName: FireRate
+						HoverText: Hover text
+					}
+				}
+
+				Tier2: {
+					ReducedSpread: {
+						DisplayName: ReducedSpread
+						HoverText: Hover text
+					}
+
+					HighVelocityRounds: {
+						DisplayName: HighVelocityRounds
+						HoverText: Hover text
+					}
+				}
+
+				Tier3: {
+					DamageUpgrade2: {
+						DisplayName: DamageUpgrade2
+						HoverText: Hover text
+					}
+
+					BiggerMagazine: {
+						DisplayName: BiggerMagazine
+						HoverText: Hover text
+					}
+				}
+
+				Tier4: {
+					GetInGetOut: {
+						DisplayName: GetInGetOut
+						HoverText: Hover text
+					}
+
+					Blowthrough: {
+						DisplayName: Blowthrough
+						HoverText: Hover text
+					}
+				}
+
+				Tier5: {
+					DamageUpgrade3: {
+						DisplayName: DamageUpgrade3
+						HoverText: Hover text
+					}
+
+					LightningReload: {
+						DisplayName: LightningReload
+						HoverText: Hover text
+					}
+				}
+
+				Overclocks: {
+					StaticBlast: {
+						DisplayName: StaticBlast
+						HoverText: Hover text
+					}
+
+					CryoMinelets: {
+						DisplayName: CryoMinelets
+						HoverText: Hover text
+					}
+
+					EmbeddedDetonators: {
+						DisplayName: EmbeddedDetonators
+						HoverText: Hover text
+					}
+				}
 			}
 
 			CryoCannon: {
-				
+				Tier1: {
+					IncreasedCooling: {
+						DisplayName: IncreasedCooling
+						HoverText: Hover text
+					}
+
+					FartherStream: {
+						DisplayName: FartherStream
+						HoverText: Hover text
+					}
+				}
+
+				Tier2: {
+					ReducedManaCost: {
+						DisplayName: ReducedManaCost
+						HoverText: Hover text
+					}
+
+					FireRate: {
+						DisplayName: FireRate
+						HoverText: Hover text
+					}
+
+					DamageUpgrade: {
+						DisplayName: DamageUpgrade
+						HoverText: Hover text
+					}
+				}
+
+				Tier3: {
+					FartherStream: {
+						DisplayName: FartherStream
+						HoverText: Hover text
+					}
+
+					ReloadSpeed: {
+						DisplayName: ReloadSpeed
+						HoverText: Hover text
+					}
+				}
+
+				Tier4: {
+					IncreasedCooling: {
+						DisplayName: IncreasedCooling
+						HoverText: Hover text
+					}
+
+					DamageUpgrade: {
+						DisplayName: DamageUpgrade
+						HoverText: Hover text
+					}
+
+					ReducedManaCost: {
+						DisplayName: ReducedManaCost
+						HoverText: Hover text
+					}
+				}
+
+				Tier5: {
+					ColdRadiance: {
+						DisplayName: ColdRadiance
+						HoverText: Hover text
+					}
+
+					ReversedEntropy: {
+						DisplayName: ReversedEntropy
+						HoverText: Hover text
+					}
+				}
+
+				Overclocks: {
+					Snowball: {
+						DisplayName: Snowball
+						HoverText: Hover text
+					}
+
+					IceSpear: {
+						DisplayName: IceSpear
+						HoverText: Hover text
+					}
+
+					IceStorm: {
+						DisplayName: IceStorm
+						HoverText: Hover text
+					}
+				}
+			}
 		}
 
 		Configs: {
