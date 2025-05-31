@@ -1,9 +1,11 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Common.NPCs;
 using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles.Globals;
 using deeprockitems.Content.Projectiles.PlasmaProjectiles;
 using deeprockitems.Content.Projectiles.ZhukovProjectiles;
 using deeprockitems.Content.Upgrades;
+using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -113,7 +115,7 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
                         .WithIngredient(ItemID.MeteoriteBar, 6)
                 .WithTier()
-                    .WithUpgrade("DamageUpgrade3", Assets.Upgrades.Damage)
+                    .WithUpgrade("DamageUpgrade2", Assets.Upgrades.Damage)
                         .WithBehavior<ItemStatChange>((Item item) => {
                             item.damage = (int)(item.damage * 1.2f);
                         })
@@ -139,7 +141,7 @@ namespace deeprockitems.Content.Items.Weapons
                             {
                                 if (hitNPCs >= 1) continue;
                                 if (npc.immortal) continue;
-                                if (projectile.Center.DistanceSQ(npc.Center) > 16f * 16f * 10f * 10f) continue;
+                                if (projectile.Center.DistanceSQ(npc.Center) > 16f * 16f * 15f * 15f) continue;
                                 // Arc damage
                                 NPC.HitInfo hit = npc.CalculateHitInfo(projectile.damage, 1, damageType: DamageClass.Magic);
                                 Main.player[projectile.owner].StrikeNPCDirect(npc, hit);
@@ -177,15 +179,43 @@ namespace deeprockitems.Content.Items.Weapons
                         pointsToElectrify[projectile.whoAmI] = [];
                         return true;
                     })
-                .WithOverclock("CryoMinelets", Assets.Upgrades.Cryo, Overclock.OverclockType.Balanced)
+                .WithOverclock("CryoMinelets", Assets.Upgrades.Cryo, Overclock.OverclockType.Clean)
                     .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
+                        if (projectile.type == ModContent.ProjectileType<CryoMineletProjectile>()) return false;
                         if (projectile.owner == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.position - 0.25f * oldVelocity, Vector2.Zero, ModContent.ProjectileType<CryoMineletProjectile>(), 0, 0f, Owner: projectile.owner);
+                            Point spawnTile = projectile.Center.ToTileCoordinates();
+                            // Move projectile right
+                            if (oldVelocity.X > projectile.velocity.X)
+                            {
+                                spawnTile.X++;
+                            }
+                            // Move projectile left
+                            if (oldVelocity.X < projectile.velocity.X)
+                            {
+                                spawnTile.X--;
+                            }
+                            // Move projectile down
+                            if (oldVelocity.Y > projectile.velocity.Y)
+                            {
+                                spawnTile.Y++;
+                            }
+                            // Move projectile up
+                            if (oldVelocity.Y < projectile.velocity.Y)
+                            {
+                                spawnTile.Y--;
+                            }
+                            Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<CryoMineletProjectile>(), projectile.damage, 0f, projectile.owner, ai0: 40f, ai1: spawnTile.X, ai2: spawnTile.Y);
+                            proj.position += projectile.velocity * 2f;
                         }
                         return true;
                     })
                 .WithOverclock("EmbeddedDetonators", Assets.Upgrades.AreaOfEffect, Overclock.OverclockType.Unstable)
+                    .WithBehavior<ItemStatChange>((Item item) => {
+                        item.damage = (int)(item.damage * 0.8f);
+                        item.useTime = (int)Math.Ceiling(item.useTime * 1.2f);
+                        item.useAnimation = (int)Math.Ceiling(item.useAnimation * 1.2f);
+                    })
                     .WithBehavior<ItemAltFunctionUse>((Item item, Player player) => {
                         if (player.itemAnimation > 0) return false;
                         return true;

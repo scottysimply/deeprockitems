@@ -248,8 +248,8 @@ Mods: {
 					}
 
 					FocusDamage: {
-						DisplayName: FocusDamage
-						HoverText: Hover text
+						DisplayName: Pin-Point Sights
+						HoverText: Increases focus damage by 33%
 					}
 				}
 
@@ -618,78 +618,96 @@ Mods: {
 			Zhukovs: {
 				Tier1: {
 					DamageUpgrade: {
-						DisplayName: DamageUpgrade
-						HoverText: Hover text
+						DisplayName: High Caliber Rounds
+						HoverText: +10% damage
 					}
 
 					FireRate: {
-						DisplayName: FireRate
-						HoverText: Hover text
+						DisplayName: Aftermarket Receivers
+						HoverText: 20% faster fire rate
 					}
 				}
 
 				Tier2: {
 					ReducedSpread: {
-						DisplayName: ReducedSpread
-						HoverText: Hover text
+						DisplayName: Laser Sights
+						HoverText: 50% less spread
 					}
 
 					HighVelocityRounds: {
-						DisplayName: HighVelocityRounds
-						HoverText: Hover text
+						DisplayName: Extended Barrels
+						HoverText: +25% bullet velocity
 					}
 				}
 
 				Tier3: {
 					DamageUpgrade2: {
-						DisplayName: DamageUpgrade2
-						HoverText: Hover text
+						DisplayName: Packed Powder
+						HoverText: +20% damage
 					}
 
 					BiggerMagazine: {
-						DisplayName: BiggerMagazine
-						HoverText: Hover text
+						DisplayName: High Capacity Magazines
+						HoverText: Fire 75% more rounds before overheating
 					}
 				}
 
 				Tier4: {
 					GetInGetOut: {
-						DisplayName: GetInGetOut
-						HoverText: Hover text
+						DisplayName: Get In, Get Out
+						HoverText: Gain a 50% haste bonus when striking an enemy
 					}
 
 					Blowthrough: {
-						DisplayName: Blowthrough
-						HoverText: Hover text
+						DisplayName: Blowthrough Rounds
+						HoverText: Bullets pierce 1 additional enemy
 					}
 				}
 
 				Tier5: {
-					DamageUpgrade3: {
-						DisplayName: DamageUpgrade3
-						HoverText: Hover text
+					DamageUpgrade2: {
+						DisplayName: Packed Powder
+						HoverText: +20% damage
 					}
 
 					LightningReload: {
-						DisplayName: LightningReload
-						HoverText: Hover text
+						DisplayName: Lightning-Fast Reload
+						HoverText: Halves the cooldown length of the weapon
 					}
 				}
 
 				Overclocks: {
 					StaticBlast: {
-						DisplayName: StaticBlast
-						HoverText: Hover text
+						DisplayName: Static Blast
+						HoverText: Electricity arcs to enemies on near misses
+						Positives:
+							'''
+							Electricity arcs to nearby enemies
+							'''
 					}
 
 					CryoMinelets: {
-						DisplayName: CryoMinelets
-						HoverText: Hover text
+						DisplayName: Cryo Minelets
+						HoverText: Creates freezing mines on tiles where bullets hit
+						Positives:
+							'''
+							Creates cryo minelets on terrain strikes
+							'''
 					}
 
 					EmbeddedDetonators: {
-						DisplayName: EmbeddedDetonators
-						HoverText: Hover text
+						DisplayName: Embedded Detonators
+						HoverText: Struck enemies gain mines that are detonated when the gun overheats
+						Positives:
+							'''
+							Embeds detonators on target hits
+							Right click to force the overheat early
+							'''
+						Negatives:
+							'''
+							-20% damage
+							-20% fire rate
+							'''
 					}
 				}
 			}
