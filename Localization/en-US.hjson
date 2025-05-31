@@ -715,88 +715,109 @@ Mods: {
 			CryoCannon: {
 				Tier1: {
 					IncreasedCooling: {
-						DisplayName: IncreasedCooling
-						HoverText: Hover text
+						DisplayName: Adiabatic Chambers
+						HoverText: +2 cooling per particle
 					}
 
 					FartherStream: {
-						DisplayName: FartherStream
-						HoverText: Hover text
+						DisplayName: High Pressure Chambers
+						HoverText: Increased distance of the stream
 					}
 				}
 
 				Tier2: {
 					ReducedManaCost: {
-						DisplayName: ReducedManaCost
-						HoverText: Hover text
+						DisplayName: Exorcist
+						HoverText: -1 mana cost
 					}
 
 					FireRate: {
-						DisplayName: FireRate
-						HoverText: Hover text
+						DisplayName: Extra Nozzles
+						HoverText: -3 use time
 					}
 
 					DamageUpgrade: {
-						DisplayName: DamageUpgrade
-						HoverText: Hover text
+						DisplayName: Nucleation Sites
+						HoverText: +2 damage per particle
 					}
 				}
 
 				Tier3: {
 					FartherStream: {
-						DisplayName: FartherStream
-						HoverText: Hover text
+						DisplayName: High Pressure Chambers
+						HoverText: Increased distance of the stream
 					}
 
 					ReloadSpeed: {
-						DisplayName: ReloadSpeed
-						HoverText: Hover text
+						DisplayName: Liquid Nitrogen Tanks
+						HoverText: 25% faster cooldown
 					}
 				}
 
 				Tier4: {
 					IncreasedCooling: {
-						DisplayName: IncreasedCooling
-						HoverText: Hover text
+						DisplayName: Adiabatic Chambers
+						HoverText: +2 cooling per particle
 					}
 
 					DamageUpgrade: {
-						DisplayName: DamageUpgrade
-						HoverText: Hover text
+						DisplayName: Nucleation Sites
+						HoverText: +2 damage per particle
 					}
 
 					ReducedManaCost: {
-						DisplayName: ReducedManaCost
-						HoverText: Hover text
+						DisplayName: Exorcist
+						HoverText: -1 mana cost
 					}
 				}
 
 				Tier5: {
 					ColdRadiance: {
-						DisplayName: ColdRadiance
-						HoverText: Hover text
+						DisplayName: Cold Radiance
+						HoverText: Heavily freezes enemies close to the player
 					}
 
 					ReversedEntropy: {
-						DisplayName: ReversedEntropy
-						HoverText: Hover text
+						DisplayName: Reversed Entropy
+						HoverText: Enemies above 25% cooling will spread cooling to nearby enemies
 					}
 				}
 
 				Overclocks: {
 					Snowball: {
 						DisplayName: Snowball
-						HoverText: Hover text
+						HoverText: +33% cooling on hit
+						Positives:
+							'''
+							+33% cooling
+							'''
 					}
 
 					IceSpear: {
-						DisplayName: IceSpear
-						HoverText: Hover text
+						DisplayName: Ice Spear
+						HoverText: Press alt fire to shoot a high-damage ice spear
+						Positives:
+							'''
+							Right click to shoot a damaging spear of frost
+							'''
+						Negatives:
+							'''
+							20% less cooling power
+							Firing the spear overheats the weapon
+							'''
 					}
 
 					IceStorm: {
-						DisplayName: IceStorm
-						HoverText: Hover text
+						DisplayName: Ice Storm
+						HoverText: Increases the damage of the weapon, but reduces cooling power
+						Positives:
+							'''
+							x4 damage per particle
+							'''
+						Negatives:
+							'''
+							0.25x cooling power
+							'''
 					}
 				}
 			}

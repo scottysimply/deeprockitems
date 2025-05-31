@@ -109,7 +109,7 @@ namespace deeprockitems.Content.Items.Weapons
                             var npcs = Main.npc.Where(npc => npc.active && npc.Center.DistanceSQ(player.Center) <= 6400);
                             foreach (var npc in npcs)
                             {
-                                npc.ChangeTemperature(-8, player.whoAmI);
+                                npc.ChangeTemperature(-12, player.whoAmI);
                             }
                             return true;
                         })
@@ -156,13 +156,17 @@ namespace deeprockitems.Content.Items.Weapons
                             (item.ModItem as CryoCannon).AddCooldownOnShoot(player, 999f);
                             return false;
                         })
+                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                            if (projectile.ModProjectile is not CryoProjectile cryo) return;
+                            cryo.CoolingAmount *= 0.8f;
+                        })
                     .WithOverclock("IceStorm", Assets.Upgrades.Damage, Overclock.OverclockType.Unstable)
                         .WithBehavior<ItemStatChange>((Item item) => {
                             item.damage *= 4;
                         })
                         .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
-                            cryo.CoolingAmount *= 0.5f;
+                            cryo.CoolingAmount *= 0.25f;
                         })
             .Seal();
         }
