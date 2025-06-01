@@ -17,8 +17,9 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
         public UIButton<LocalizedText> OverclockStateButton { get; set; }
         public override void OnInitialize() {
             base.OnInitialize();
-            OverclockLabel = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.Overclock", () => "Overclock"), textScale: 0.66f) {
-                Left = { Percent = 0f, Pixels = -4f }
+            OverclockLabel = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.Overclock", () => "Overclock"), textScale: 1f) {
+                Left = { Percent = 0f, Pixels = -4f },
+                Height = { Pixels = 20f },
             };
             OverclockLabel.OnLeftClick += (UIMouseEvent evt, UIElement sender) => {
                 ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.SetState<OverclockPanel>();
@@ -27,7 +28,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             OverclockStateButton = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.ViewOverclocks", () => "View Overclocks")) {
                 Left = { Percent = 0f },
                 Top = { Pixels = OverclockLabel.Height.Pixels },
-                Width = { Percent = 1f },
+                Width = { Pixels = GetDimensions().Width + 20f },
                 Height = { Pixels = 30f}
             };
             OverclockStateButton.OnLeftClick += (UIMouseEvent evt, UIElement sender) => {
@@ -36,8 +37,10 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             Append(OverclockStateButton);
             OverclockIcon = new() {
                 Left = { Percent = 0.5f },
-                Top = { Pixels = OverclockStateButton.Top.Pixels + OverclockStateButton.Height.Pixels }
+                Top = { Pixels = OverclockStateButton.Top.Pixels + OverclockStateButton.Height.Pixels + 30f }
             };
+            float remainingHeight = this.Height.Pixels - OverclockIcon.Top.Pixels;
+            OverclockIcon.Width.Pixels = OverclockIcon.Height.Pixels = remainingHeight < this.Width.Pixels ? remainingHeight : this.Width.Pixels;
             Append(OverclockIcon);
         }
         public void SetOverclock(Overclock overclock) {
