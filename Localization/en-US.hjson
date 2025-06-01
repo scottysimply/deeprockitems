@@ -680,19 +680,13 @@ Mods: {
 					StaticBlast: {
 						DisplayName: Static Blast
 						HoverText: Electricity arcs to enemies on near misses
-						Positives:
-							'''
-							Electricity arcs to nearby enemies
-							'''
+						Positives: Electricity arcs to nearby enemies
 					}
 
 					CryoMinelets: {
 						DisplayName: Cryo Minelets
 						HoverText: Creates freezing mines on tiles where bullets hit
-						Positives:
-							'''
-							Creates cryo minelets on terrain strikes
-							'''
+						Positives: Creates cryo minelets on terrain strikes
 					}
 
 					EmbeddedDetonators: {
@@ -787,19 +781,13 @@ Mods: {
 					Snowball: {
 						DisplayName: Snowball
 						HoverText: +33% cooling on hit
-						Positives:
-							'''
-							+33% cooling
-							'''
+						Positives: +33% cooling
 					}
 
 					IceSpear: {
 						DisplayName: Ice Spear
 						HoverText: Press alt fire to shoot a high-damage ice spear
-						Positives:
-							'''
-							Right click to shoot a damaging spear of frost
-							'''
+						Positives: Right click to shoot a damaging spear of frost
 						Negatives:
 							'''
 							20% less cooling power
@@ -810,14 +798,8 @@ Mods: {
 					IceStorm: {
 						DisplayName: Ice Storm
 						HoverText: Increases the damage of the weapon, but reduces cooling power
-						Positives:
-							'''
-							x4 damage per particle
-							'''
-						Negatives:
-							'''
-							0.25x cooling power
-							'''
+						Positives: x4 damage per particle
+						Negatives: 0.25x cooling power
 					}
 				}
 			}
