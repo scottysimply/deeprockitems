@@ -27,7 +27,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             Append(OverclockLabel);
             OverclockStateButton = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.ViewOverclocks", () => "View Overclocks")) {
                 Left = { Percent = 0f },
-                Top = { Pixels = OverclockLabel.Height.Pixels },
+                Top = { Pixels = OverclockLabel.Height.Pixels + 5f },
                 Width = { Pixels = GetDimensions().Width + 20f },
                 Height = { Pixels = 30f}
             };
@@ -36,11 +36,11 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             };
             Append(OverclockStateButton);
             OverclockIcon = new() {
-                Left = { Percent = 0.5f },
-                Top = { Pixels = OverclockStateButton.Top.Pixels + OverclockStateButton.Height.Pixels + 30f }
+                Left = { Pixels = 10f },
+                Top = { Pixels = OverclockStateButton.Top.Pixels + OverclockStateButton.Height.Pixels + 5f }
             };
             float remainingHeight = this.Height.Pixels - OverclockIcon.Top.Pixels;
-            OverclockIcon.Width.Pixels = OverclockIcon.Height.Pixels = remainingHeight < this.Width.Pixels ? remainingHeight : this.Width.Pixels;
+            OverclockIcon.Width.Pixels = OverclockIcon.Height.Pixels = 52f;
             Append(OverclockIcon);
         }
         public void SetOverclock(Overclock overclock) {
