@@ -181,7 +181,7 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.ChlorophyteBar, 8)
                         .WithIngredient(ItemID.Nanites, 6)
-                .WithOverclock("TheWidowmaker", Assets.Upgrades.Haste, Overclock.OverclockType.Balanced)
+                .WithOverclock("TheWidowmaker", Assets.Upgrades.Haste, Overclock.OverclockType.Clean)
                     .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
                         if (target.immortal) return;
                         if (target.life <= 0)
