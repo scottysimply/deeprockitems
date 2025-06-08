@@ -399,11 +399,11 @@ Mods: {
 
 					TheSlug: {
 						DisplayName: The Slug
-						HoverText: Converts pellets into a high damage slug
+						HoverText: Converts pellets into a single, high damage slug
 						Positives:
 							'''
 							Produces the slug instead of pellets
-							Slugs shatter into a bullet storm
+							Slugs explode into bullets after 2 seconds
 							'''
 					}
 
@@ -499,8 +499,8 @@ Mods: {
 
 					SludgeBlast: {
 						DisplayName: Sludge Blast
-						HoverText: Quadruples the number of projectiles fired per-trigger press
-						Positives: Produces 4, half-damage projectiles at a time
+						HoverText: Quadruples the number of projectiles fired at one time
+						Positives: Produces 4, half-damage projectiles per shot
 						Negatives: 20% longer overheat
 					}
 
@@ -780,8 +780,8 @@ Mods: {
 				Overclocks: {
 					Snowball: {
 						DisplayName: Snowball
-						HoverText: +33% cooling on hit
-						Positives: +33% cooling
+						HoverText: Strongly increases the cooling ability
+						Positives: +33% cryo gain on hit
 					}
 
 					IceSpear: {
