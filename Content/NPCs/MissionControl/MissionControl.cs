@@ -8,6 +8,10 @@ using Terraria.GameContent.Personalities;
 using deeprockitems.Content.Projectiles.MissionControlAttack;
 using Terraria.GameContent.Bestiary;
 using System.Collections.Generic;
+using deeprockitems.Content.Items.Misc;
+using deeprockitems.Content.Items.Weapons;
+using deeprockitems.Content.Upgrades;
+using System.Linq;
 
 namespace deeprockitems.Content.NPCs.MissionControl
 {
@@ -162,139 +166,128 @@ namespace deeprockitems.Content.NPCs.MissionControl
         {
             dialogue.Add(Language.GetTextValue(location + key, format), weight);
         }
+        private BlankMatrixCore currentBlankCore;
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.64");
+            for (int i = 0; i < Main.InventoryItemSlotsCount; i++)
+            {
+                if (Main.LocalPlayer.inventory[i].ModItem is BlankMatrixCore core)
+                {
+                    currentBlankCore = core;
+                    button2 = Language.GetTextValue("Mods.deeprockitems.Misc.UsefulWords.Infuse");
+                }
+            }
         }
         public override void OnChatButtonClicked(bool firstButton, ref string shop)
         {
             // If the quest button was clicked
             if (firstButton)
             {
-                // Get modplayer
-                if (!Main.LocalPlayer.TryGetModPlayer(out QuestModPlayer modPlayer)) return;
-
-                // Give player a quest if they don't have one.
-                if (modPlayer.ActiveQuest is null)
-                {
-                    // Get system
-                    QuestSystem system = ModContent.GetInstance<QuestSystem>();
-                    // Give quest from system
-                    modPlayer.ActiveQuest = system.CurrentQuest.CreateQuestFromThis();
-                }
-
-                // If player is owed quest rewards, give them rewards
-                if (modPlayer.ActiveQuest.Completed && !modPlayer.ActiveQuest.HasQuestBeenRewarded)
-                {
-                    // Give rewards
-                    modPlayer.GiveDeepRockReward();
-
-                    // Set chat
-                    WeightedRandom<string> dialogue = new();
-                    AddChat(dialogue, "QuestCompleted1");
-                    AddChat(dialogue, "QuestCompleted2");
-                    AddChat(dialogue, "QuestCompleted3");
-                    Main.npcChatText = dialogue;
-
-                    // Disable rewards
-                    modPlayer.ActiveQuest.HasQuestBeenRewarded = true;
-                }
-                // Else if quest has been completed
-                else if (modPlayer.ActiveQuest.Completed)
-                {
-                    // Set chat
-                    WeightedRandom<string> dialogue = new();
-                    AddChat(dialogue, "QuestInactive1");
-                    AddChat(dialogue, "QuestInactive2");
-                    AddChat(dialogue, "QuestInactive3");
-                    Main.npcChatText = dialogue;
-                }
-                // Else, give player quest and display the correct chat message
-                else
-                {
-                    // Set dialogue variation
-                    int chatVariation = Main.rand.Next(1, 3);
-
-                    // Get types and amounts
-                    int type = modPlayer.ActiveQuest.Data.TypeRequired;
-                    int amount = modPlayer.ActiveQuest.Data.AmountRequired;
-
-                    // Change dialogue based on variation and what quest type
-                    switch (modPlayer.ActiveQuest.Type)
-                    {
-                        case QuestID.Mining:
-                            // Find if the map object name has a name--if else, use block name
-                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
-                            break;
-                        case QuestID.Gathering:
-                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
-                                break;
-                        case QuestID.Fighting:
-                            Main.npcChatText = Language.GetTextValue(location + $"QuestStartSlay{chatVariation}", Lang.GetNPCNameValue(type).Pluralizer(amount), amount);
-                                break;
-                    }
-                    Main.npcChatCornerItem = modPlayer.ActiveQuest.ItemIcon;
-                }
+                PerformQuestLogic();
+                return;
             }
+
+            PerformCoreInfusion();
         }
-        /*private void QuestButtonClicked()
-        {
-            // This is the modplayer of the player who talked to the NPC.
-            DRGQuestsModPlayer modPlayer = Main.LocalPlayer.GetModPlayer<DRGQuestsModPlayer>();
-            if (modPlayer is null) return; // Return if null.
+        private void PerformQuestLogic() {
+            // Get modplayer
+            if (!Main.LocalPlayer.TryGetModPlayer(out QuestModPlayer modPlayer)) return;
 
-            // If quest is inactive (completed or otherwise) and player is owed rewards
-            if (!modPlayer.PlayerHasClaimedRewards && modPlayer.CurrentQuestInformation[0] == -1)
+            // Give player a quest if they don't have one.
+            if (modPlayer.ActiveQuest is null)
             {
-                QuestsRewards.IssueRewards(modPlayer); // Give the player the rewards they're owed
-                modPlayer.PlayerHasClaimedRewards = true; // Don't let the player claim any more rewards
-                modPlayer.CurrentQuestInformation[3] = 0; // Quest progress reset to 0, in case it got lowered below zero by mistake
-                int chat = Main.rand.Next(3);
-                Main.npcChatText = chat switch // Congratulatory messages
-                {
-                    0 => Language.GetTextValue(location + "QuestCompleted1"),
-                    1 => Language.GetTextValue(location + "QuestCompleted2"),
-                    _ => Language.GetTextValue(location + "QuestCompleted3")
-                };
+                // Get system
+                QuestSystem system = ModContent.GetInstance<QuestSystem>();
+                // Give quest from system
+                modPlayer.ActiveQuest = system.CurrentQuest.CreateQuestFromThis();
             }
-            // If a quest is completed
-            else if (modPlayer.CurrentQuestInformation[0] == -1)
+
+            // If player is owed quest rewards, give them rewards
+            if (modPlayer.ActiveQuest.Completed && !modPlayer.ActiveQuest.HasQuestBeenRewarded)
             {
-                int chat = Main.rand.Next(3);
-                Main.npcChatText = chat switch // Messages telling the player that no quests are available
-                {
-                    0 => Language.GetTextValue(location + "QuestInactive1"),
-                    1 => Language.GetTextValue(location + "QuestInactive2"),
-                    _ => Language.GetTextValue(location + "QuestInactive3")
-                };
+                // Give rewards
+                modPlayer.GiveDeepRockReward();
+
+                // Set chat
+                WeightedRandom<string> dialogue = new();
+                AddChat(dialogue, "QuestCompleted1");
+                AddChat(dialogue, "QuestCompleted2");
+                AddChat(dialogue, "QuestCompleted3");
+                Main.npcChatText = dialogue;
+
+                // Disable rewards
+                modPlayer.ActiveQuest.HasQuestBeenRewarded = true;
             }
-            // A quest is ongoing or needs to be created
+            // Else if quest has been completed
+            else if (modPlayer.ActiveQuest.Completed)
+            {
+                // Set chat
+                WeightedRandom<string> dialogue = new();
+                AddChat(dialogue, "QuestInactive1");
+                AddChat(dialogue, "QuestInactive2");
+                AddChat(dialogue, "QuestInactive3");
+                Main.npcChatText = dialogue;
+            }
+            // Else, give player quest and display the correct chat message
             else
             {
-                // If a quest needs to be created, create the quest
-                if (modPlayer.CurrentQuestInformation[0] == 0)
+                // Set dialogue variation
+                int chatVariation = Main.rand.Next(1, 3);
+
+                // Get types and amounts
+                int type = modPlayer.ActiveQuest.Data.TypeRequired;
+                int amount = modPlayer.ActiveQuest.Data.AmountRequired;
+
+                // Change dialogue based on variation and what quest type
+                switch (modPlayer.ActiveQuest.Type)
                 {
-                    QuestsBase.Talk_CreateQuest(modPlayer);
+                    case QuestID.Mining:
+                        // Find if the map object name has a name--if else, use block name
+                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
+                        break;
+                    case QuestID.Gathering:
+                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
+                        break;
+                    case QuestID.Fighting:
+                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartSlay{chatVariation}", Lang.GetNPCNameValue(type).Pluralizer(amount), amount);
+                        break;
                 }
-                bool chat = !Main.rand.NextBool(2);
-                // This is messy, but I wanted two available messages for quests. Since they rely on templates, I wanted the messages to be less same-y
-                switch (modPlayer.CurrentQuestInformation[0])
-                {   // LOOOONG lines. this is just further randomizing between two options to add flavor.
-                    case 1:
-                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartMining1", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]).Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]) : Language.GetTextValue(location + "QuestStartMining2", Lang.GetMapObjectName(MapHelper.tileLookup[modPlayer.CurrentQuestInformation[1]]).Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]);
-                        Main.npcChatCornerItem = ItemID.IronPickaxe;
-                        break;
-                    case 2:
-                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartGather1", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]).ToString().Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]) : Language.GetTextValue(location + "QuestStartGather2", Lang.GetItemName(modPlayer.CurrentQuestInformation[1]).ToString().Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]);
-                        Main.npcChatCornerItem = ItemID.StaffofRegrowth;
-                        break;
-                    default:
-                        Main.npcChatText = chat ? Language.GetTextValue(location + "QuestStartSlay1", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]).ToString().Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]) : Language.GetTextValue(location + "QuestStartSlay2", Lang.GetNPCName(modPlayer.CurrentQuestInformation[1]).ToString().Pluralizer(modPlayer.CurrentQuestInformation[3]), modPlayer.CurrentQuestInformation[3]);
-                        Main.npcChatCornerItem = ItemID.CopperShortsword;
-                        break;
+                Main.npcChatCornerItem = modPlayer.ActiveQuest.ItemIcon;
+            }
+        }
+        private void PerformCoreInfusion() {
+            List<int> weapons = new();
+            // select indices for potential weapons
+            for (int i = 0; i < Main.InventoryItemSlotsCount; i++)
+            {
+                if (Main.LocalPlayer.inventory[i].ModItem is UpgradableWeapon { UpgradeMasterList: UpgradeList upgrades })
+                {
+                    bool shouldContinue = false;
+                    foreach (var upgrade in upgrades[UpgradeBuilder.OVERCLOCK_TIER])
+                    {
+                        if (!upgrade.UpgradeState.IsUnlocked)
+                        {
+                            shouldContinue = true;
+                        }
+                    }
+                    if (!shouldContinue) return;
+                    weapons.Add(i);
                 }
             }
-        }*/
+            if (weapons.Count == 0) return;
+            // choose random overclock
+            int weaponindex = Main.rand.NextFromList([.. weapons]);
+            UpgradableWeapon weapon = Main.LocalPlayer.inventory[weaponindex].ModItem as UpgradableWeapon;
+            int overclockIndex = Main.rand.Next(weapon.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER].Length);
+            Overclock chosenOverclock = weapon.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER][overclockIndex] as Overclock;
+            // spawn new infused matrix core
+            currentBlankCore.Item.stack--;
+            currentBlankCore = null;
+            var newCore = Main.LocalPlayer.QuickSpawnItemDirect(NPC.GetSource_GiftOrReward(), ModContent.ItemType<InfusedMatrixCore>()).ModItem as InfusedMatrixCore;
+            newCore.InfuseWthOverclock(chosenOverclock);
+
+        }
     }
     public static class Extensions
     {
@@ -329,29 +322,6 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 return str;
             }
             return str + "s";
-            /*for (int i = 0; i < words.Length; i++)
-            {
-                if (int.TryParse(words[i], out int n))
-                {
-                    if (n == 1)
-                    {
-                        return str;
-                    }
-                    else
-                    {
-                        i += 1;
-                        if (words[i].Contains(",") || words[i].Contains("."))
-                        {
-                            words[i] = words[i][..^1] + "s" + words[i][^1];
-                        }
-                    }
-                }
-            }
-            for (int x = 0; x < words.Length; x++)
-            {
-                sentence += words[x] + " ";
-            }
-            return sentence.TrimEnd();*/
         }
     }
 }
