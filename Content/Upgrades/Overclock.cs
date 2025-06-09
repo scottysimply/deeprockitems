@@ -12,7 +12,7 @@ namespace deeprockitems.Content.Upgrades
             Balanced = 2,
             Unstable = 3,
         }
-        public Overclock(string internalName, Asset<Texture2D> sprite, OverclockType overclockType) : base(internalName, sprite) {
+        public Overclock(string weaponName, string upgradeName, Asset<Texture2D> sprite, OverclockType overclockType) : base(weaponName, upgradeName, sprite) {
             _type = overclockType;
         }
         public OverclockType Type { get => _type; }

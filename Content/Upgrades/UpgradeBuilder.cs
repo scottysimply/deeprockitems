@@ -67,7 +67,7 @@ namespace deeprockitems.Content.Upgrades
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
             }
-            _currentUpgradeAddingTo = new Overclock(name, texture, type) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
+            _currentUpgradeAddingTo = new Overclock(_internalName, name, texture, type) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
             return this;
         }
         /// <summary>
@@ -81,7 +81,7 @@ namespace deeprockitems.Content.Upgrades
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
             }
-            _currentUpgradeAddingTo = new Upgrade(name, texture) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
+            _currentUpgradeAddingTo = new Upgrade(_internalName, name, texture) { LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{name}" };
             return this;
         }
         /// <summary>
@@ -99,7 +99,7 @@ namespace deeprockitems.Content.Upgrades
 
             if (!query.Any()) throw new ArgumentException($"{nameof(UpgradeBehavior)} has no delegate with type {nameof(T)}");
             var property = _currentUpgradeAddingTo.Behavior.GetType().GetProperty(query.First().Name, BindingFlags.Public | BindingFlags.Instance);
-            if (property.GetMethod.Invoke(_currentUpgradeAddingTo.Behavior, null) != null) throw new InvalidOperationException($"{_internalName + "." + _currentUpgradeAddingTo.InternalName} already has behavior defined for type {nameof(T)}.");
+            if (property.GetMethod.Invoke(_currentUpgradeAddingTo.Behavior, null) != null) throw new InvalidOperationException($"{_internalName + "." + _currentUpgradeAddingTo.UpgradeName} already has behavior defined for type {nameof(T)}.");
 
             _currentUpgradeAddingTo.Behavior.GetType().GetProperty(query.First().Name, BindingFlags.Public | BindingFlags.Instance).SetMethod.Invoke(_currentUpgradeAddingTo.Behavior, [action]);
             return this;
@@ -141,7 +141,7 @@ namespace deeprockitems.Content.Upgrades
                 foreach (var upgrade in kvp.Value)
                 {
                     string tierText = upgrade is Overclock ? "Overclocks" : $"Tier{kvp.Key}";
-                    upgrade.LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{tierText}.{upgrade.InternalName}";
+                    upgrade.LocalizedKey = $"Mods.deeprockitems.Upgrades.{_internalName}.{tierText}.{upgrade.UpgradeName}";
                     _ = upgrade.DisplayName;
                     _ = upgrade.HoverText;
                 }

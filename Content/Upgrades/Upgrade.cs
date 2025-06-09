@@ -5,8 +5,9 @@ using Terraria.Localization;
 namespace deeprockitems.Content.Upgrades
 {
     public class Upgrade {
-        public Upgrade(string internalName, Asset<Texture2D> sprite) {
-            InternalName = internalName;
+        public Upgrade(string weaponName, string upgradeName, Asset<Texture2D> sprite) {
+            UpgradeName = upgradeName;
+            WeaponName = weaponName;
             Texture = sprite;
             Behavior = new();
             Recipe = new();
@@ -15,11 +16,12 @@ namespace deeprockitems.Content.Upgrades
                 IsUnlocked = false,
             };
         }
-        public readonly string InternalName;
+        public readonly string WeaponName;
+        public readonly string UpgradeName;
         public Asset<Texture2D> Texture { get; set; }
         public virtual Asset<Texture2D> Background { get => Assets.UI.UpgradeSlot; }
         public string LocalizedKey { get; set; }
-        public LocalizedText DisplayName { get => Language.GetOrRegister($"{LocalizedKey}.DisplayName", () => InternalName); }
+        public LocalizedText DisplayName { get => Language.GetOrRegister($"{LocalizedKey}.DisplayName", () => UpgradeName); }
         public LocalizedText HoverText { get => Language.GetOrRegister($"{LocalizedKey}.HoverText", () => "Hover text"); }
         public UpgradeStateBinding UpgradeState { get; set; }
         public UpgradeBehavior Behavior { get; set; }
