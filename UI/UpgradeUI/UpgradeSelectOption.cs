@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using ReLogic.Content;
 using deeprockitems.Types;
+using deeprockitems.Localization;
 
 namespace deeprockitems.UI.UpgradeUI
 {
@@ -68,7 +69,7 @@ namespace deeprockitems.UI.UpgradeUI
                 // Add locked text
                 if (!Upgrade.UpgradeState.IsUnlocked)
                 {
-                    mouseText = "[c/F13010:[Locked][c/F13010:]] " + mouseText;
+                    mouseText = "[Locked] ".TextColor(DRGText.NegativeText) + mouseText;
                 }
                 // Draw
                 UICommon.TooltipMouseText(mouseText);
