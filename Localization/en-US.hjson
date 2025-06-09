@@ -3,11 +3,13 @@ Mods: {
 		Items: {
 			MatrixCore: {
 				DisplayName: Blank Matrix Core
-				Tooltip: 'If you want something done right, you do it yourself!'
+				Tooltip:
+				'''
+				'If you want something done right, you do it yourself!'
+				'''
 				BlankTooltip:
 					'''
 					Can be infused by Mission Control after completing a quest
-					Requires a weapon with at least 1 upgrade unlocked in each tier
 					'''
 				InfusedDisplayName: Infused Matrix Core
 				InfusedTooltip:
