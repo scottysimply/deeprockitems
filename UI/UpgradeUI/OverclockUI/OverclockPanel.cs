@@ -15,8 +15,8 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
         public override void PostInitialize() {
             int PADDING = 6;
             MatrixCoreSlot = new FakeItemSlot((mouseItem, slotItem) => {
-                if (mouseItem.ModItem is MatrixCore) return true;
-                if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is MatrixCore)) return true;
+                if (mouseItem.ModItem is BlankMatrixCore) return true;
+                if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is BlankMatrixCore)) return true;
                 return false;
             }) {
                 Left = { Pixels = ParentSlot.Left.Pixels + ParentSlot.Width.Pixels + PADDING },

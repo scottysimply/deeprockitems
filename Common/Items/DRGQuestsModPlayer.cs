@@ -65,7 +65,7 @@ namespace deeprockitems.Common.Quests
             // Give matrix core after 4 quests
             if (TotalQuestsCompleted % 4 == 0)
             {
-                Player.QuickSpawnItem(Player.GetSource_DropAsItem(), ModContent.ItemType<MatrixCore>());
+                Player.QuickSpawnItem(Player.GetSource_DropAsItem(), ModContent.ItemType<BlankMatrixCore>());
             }
 
             // Get how many vanilla bosses were killed
