@@ -3,10 +3,17 @@ Mods: {
 		Items: {
 			MatrixCore: {
 				DisplayName: Blank Matrix Core
-				Tooltip:
+				Tooltip: 'If you want something done right, you do it yourself!'
+				BlankTooltip:
 					'''
-					Can be used at an upgrade station to unlock an overclock
-					'If you want something done right, you do it yourself!'
+					Can be infused by Mission Control after completing a quest
+					Requires a weapon with at least 1 upgrade unlocked in each tier
+					'''
+				InfusedDisplayName: Infused Matrix Core
+				InfusedTooltip:
+					'''
+					Can be used on the {0} to overclock it
+					Contains the power of {1}
 					'''
 			}
 
