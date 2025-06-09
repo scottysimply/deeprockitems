@@ -47,7 +47,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             {
                 Main.NewText($"Selected {target.ThisOverclock.DisplayName}");
                 SelectedOverclock.ThisOverclock = target.ThisOverclock;
-                SelectedOverclock.ThisOverclock.Tier.SelectUpgrade(target.ThisOverclock.InternalName);
+                SelectedOverclock.ThisOverclock.Tier.SelectUpgrade(target.ThisOverclock.UpgradeName);
                 (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();
             }
         }

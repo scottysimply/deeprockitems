@@ -23,7 +23,7 @@ namespace deeprockitems.Content.Projectiles.Globals
         /// <returns></returns>
         public bool IsUpgradeEquipped(string name)
         {
-            return _equippedUpgrades.Any(upgrade => upgrade.InternalName == name);
+            return _equippedUpgrades.Any(upgrade => upgrade.UpgradeName == name);
         }
         public override void SetDefaults(Projectile entity)
         {

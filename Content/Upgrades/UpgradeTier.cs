@@ -49,7 +49,7 @@ namespace deeprockitems.Content.Upgrades
         public void SelectUpgrade(string name) {
             foreach (var upgrade in _innerArray)
             {
-                if (upgrade.InternalName == name)
+                if (upgrade.UpgradeName == name)
                 {
                     upgrade.UpgradeState.IsEquipped = !upgrade.UpgradeState.IsEquipped;
                     continue;

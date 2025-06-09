@@ -143,7 +143,7 @@ namespace deeprockitems.Content.Items.Weapons
                 foreach (var upgrade in tier.Value)
                 {
                     // Of note: instead of serializing everything to do with these upgrades, i'm serializing whether the upgrade is both equipped and unlocked.
-                    tag.Add($"{upgrade.InternalName}.{tier.Key}.State", upgrade.UpgradeState);
+                    tag.Add($"{upgrade.UpgradeName}.{tier.Key}.State", upgrade.UpgradeState);
                 }
             }
         }
@@ -153,8 +153,8 @@ namespace deeprockitems.Content.Items.Weapons
             {
                 foreach (var upgrade in tier.Value)
                 {
-                    if (!tag.ContainsKey($"{upgrade.InternalName}.{tier.Key}.State")) continue;
-                    upgrade.UpgradeState = tag.Get<UpgradeStateBinding>($"{upgrade.InternalName}.{tier.Key}.State");
+                    if (!tag.ContainsKey($"{upgrade.UpgradeName}.{tier.Key}.State")) continue;
+                    upgrade.UpgradeState = tag.Get<UpgradeStateBinding>($"{upgrade.UpgradeName}.{tier.Key}.State");
                 }
             }
             ApplyStatUpgrades();
