@@ -11,9 +11,9 @@ Mods: {
 			}
 
 			InfusedMatrixCore: {
-				DisplayName: "Infused Matrix Core: {0}"
+				DisplayName: Infused Matrix Core: {0}
 				Tooltip: "'This Overclock is going to be amazing!'"
-				InfusedTooltip: "Applies the following effects to the {0}:"
+				InfusedTooltip: Applies the following effects to the {0}:
 			}
 
 			JuryShotgun: {
