@@ -33,14 +33,16 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                     {
                         foreach (var line in _overclock.Positives.Value.Split('\n'))
                         {
-                            mouseText += $"\n▲ {line}".TextColor(DRGText.PositiveText);
+                            mouseText += "\n";
+                            mouseText += $"▲ {line}".TextColor(DRGText.PositiveText);
                         }
                     }
                     if (_overclock.Negatives.Value != _overclock.Negatives.Key)
                     {
                         foreach (var line in _overclock.Negatives.Value.Split('\n'))
                         {
-                            mouseText += $"\n▼ {line}".TextColor(DRGText.NegativeText);
+                            mouseText += "\n";
+                            mouseText += $"▼ {line}".TextColor(DRGText.NegativeText);
                         }
                     }
                     UICommon.TooltipMouseText(mouseText);
