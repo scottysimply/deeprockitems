@@ -18,14 +18,16 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
     public class OverclockIcon : UIElement
     {
         Overclock _overclock;
+        public bool ShowTooltip { get; set; } = true;
         protected override void DrawSelf(SpriteBatch spriteBatch) {
             if (_overclock is not null)
             {
-                var dims = GetDimensions().ToRectangle();
+                var dims = GetDimensions();
                 var overclockFrame = _overclock.Background.Frame(verticalFrames: 3, frameY: (int)_overclock.Type - 1);
-                spriteBatch.Draw(_overclock.Background.Value, dims.Center.ToVector2() - 0.5f * overclockFrame.Size(), overclockFrame, Color.White, 0f, new Vector2(0.5f), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(_overclock.Texture.Value, dims.Center.ToVector2() - 0.5f * _overclock.Texture.Size(), null, Color.White, 0f, new Vector2(0.5f), 1f, SpriteEffects.None, 0f);
-                if (GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint()))
+                float drawScale = (float)dims.Width / (float)overclockFrame.Width;
+                spriteBatch.Draw(_overclock.Background.Value, new Vector2(dims.Center().X - drawScale * 0.5f * overclockFrame.Width, dims.Center().Y - 0.5f * overclockFrame.Height), overclockFrame, Color.White, 0f, new Vector2(0f), drawScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(_overclock.Texture.Value, new Vector2(dims.Center().X - drawScale * 0.5f * _overclock.Texture.Width(), dims.Center().Y - 0.5f * _overclock.Texture.Height()), null, Color.White, 0f, new Vector2(0f), drawScale, SpriteEffects.None, 0f);
+                if (ShowTooltip && GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint()))
                 {
                     string mouseText = $"[c/E3B465:{Language.GetTextValue("Mods.deeprockitems.Misc.UsefulWords.Overclock")}: {_overclock.DisplayName}]\n" +
                                        $"{_overclock.HoverText}";
