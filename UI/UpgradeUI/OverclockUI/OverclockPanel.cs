@@ -1,7 +1,10 @@
 ﻿using deeprockitems.Content.Items;
 using deeprockitems.Content.Items.Misc;
 using deeprockitems.Content.Upgrades;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
+using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI.OverclockUI
@@ -10,6 +13,8 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
     {
         public OverclockService SelectedOverclock { get; set; } = new();
         public FakeItemSlot MatrixCoreSlot { get; set; }
+        public bool SelectedDetails = false;
+        public bool SelectedMenu = false;
         public OverclockDetails Details { get; set; }
         public OverclockSelectionMenu SelectionMenu { get; set; }
         public override void PostInitialize() {
@@ -29,7 +34,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Width = { Percent = 0.5f, Pixels = -PADDING },
                 Height = { Percent = 1f, Pixels = -MatrixCoreSlot.Height.Pixels - PADDING },
                 Left = { Percent = 0f },
-                Top = { Pixels = MatrixCoreSlot.Height.Pixels + PADDING}
+                Top = { Pixels = MatrixCoreSlot.Height.Pixels + PADDING},
             };
             Append(SelectionMenu);
             SelectionMenu.Activate();
@@ -37,14 +42,77 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Width = { Percent = 0.5f, Pixels = -PADDING },
                 Height = { Percent = 1f, Pixels = -MatrixCoreSlot.Height.Pixels - PADDING },
                 Left = { Percent = 0.5f },
-                Top = { Pixels = MatrixCoreSlot.Height.Pixels + PADDING }
+                Top = { Pixels = MatrixCoreSlot.Height.Pixels + PADDING },
             };
             Append(Details);
             if ((ParentSlot.ItemInSlot.ModItem as IUpgradable)?.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier overclocks) ?? false)
             {
                 SelectionMenu.SetOverclocks(overclocks);
             }
+            OnUpdate += OverclockPanel_OnUpdate;
+            SelectedOverclock.OnValueChanged += SelectedOverclock_OnValueChanged;
         }
+
+        private void SelectedOverclock_OnValueChanged(Overclock newValue, Overclock oldValue) {
+            
+        }
+        public static float DesiredSelectedWidth => 260f;
+        private void OverclockPanel_OnUpdate(UIElement affectedElement) {
+            // Determine selected panel
+            if (Details.IsMouseHovering)
+            {
+                SelectedDetails = true;
+                SelectedMenu = false;
+            }
+            else if (SelectionMenu.IsMouseHovering)
+            {
+                SelectedMenu = true;
+                SelectedDetails = false;
+            }
+
+            // Set selected width
+            const float BaseSpeed = 6f;
+            Func<float, float> getMultiplier = panelWidth => {
+                return (2.5f * DesiredSelectedWidth / panelWidth) - 2.4f;
+            };
+            var detailsDims = Details.GetDimensions();
+            var menuDims = SelectionMenu.GetDimensions();
+            if (SelectedDetails)
+            {
+                if (detailsDims.Width < DesiredSelectedWidth)
+                {
+                    float multiplier = getMultiplier(detailsDims.Width);
+                    Details.Width.Pixels += BaseSpeed * multiplier;
+                    Details.Left.Pixels -= BaseSpeed * multiplier;
+                    SelectionMenu.Width.Pixels -= BaseSpeed * multiplier;
+                }
+                if (detailsDims.Width > DesiredSelectedWidth)
+                {
+                    float difference = detailsDims.Width - DesiredSelectedWidth;
+                    Details.Width.Pixels -= difference;
+                    Details.Left.Pixels += difference;
+                    SelectionMenu.Width.Pixels += difference;
+                }
+            }
+            if (SelectedMenu)
+            {
+                if (menuDims.Width < DesiredSelectedWidth)
+                {
+                    float multiplier = getMultiplier(menuDims.Width);
+                    SelectionMenu.Width.Pixels += BaseSpeed * multiplier;
+                    Details.Width.Pixels -= BaseSpeed * multiplier;
+                    Details.Left.Pixels += BaseSpeed * multiplier;
+                }
+                if (menuDims.Width > DesiredSelectedWidth)
+                {
+                    float difference = menuDims.Width - DesiredSelectedWidth;
+                    Details.Width.Pixels += difference;
+                    Details.Left.Pixels -= difference;
+                    SelectionMenu.Width.Pixels -= difference;
+                }
+            }
+        }
+
         protected override void OnClickParentSlot(Item itemNowInSlot, Item itemThatLeftSlot) {
             if ((itemNowInSlot.ModItem as IUpgradable)?.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier overclocks) ?? false)
             {
