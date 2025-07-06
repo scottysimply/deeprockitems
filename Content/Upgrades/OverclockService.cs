@@ -8,6 +8,19 @@ namespace deeprockitems.Content.Upgrades
 {
     public class OverclockService
     {
-        public Overclock ThisOverclock { get; set; }
+        private Overclock _value;
+        public Overclock ThisOverclock
+        {
+            get => _value;
+            set
+            {
+                _oldValue = _value;
+                _value = value;
+                OnValueChanged(_value, _oldValue);
+            }
+        }
+        private Overclock _oldValue;
+        public delegate void ValueChanged(Overclock newValue, Overclock oldValue);
+        public event ValueChanged OnValueChanged; 
     }
 }
