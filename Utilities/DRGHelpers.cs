@@ -4,6 +4,9 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.Localization;
+using Terraria.GameContent;
+using Terraria.UI.Chat;
 
 namespace deeprockitems.Utilities
 {
@@ -108,6 +111,22 @@ namespace deeprockitems.Utilities
             // Swap periods with slashes
             var newString = self.GetNamespace().Replace('.', '/');
             return ModContent.Request<T>(newString + "/" + name, AssetRequestMode.ImmediateLoad);
+        }
+        public static void ScaleText(this LocalizedText text, float maxWidth, out float textScale, out Vector2 size) {
+            textScale = 1f;
+            size = ChatManager.GetStringSize(FontAssets.MouseText.Value, text.Value, Vector2.One);
+            if (size.X > maxWidth)
+            {
+                textScale = maxWidth / size.X;
+            }
+        }
+        public static void ScaleText(this string text, float maxWidth, out float textScale, out Vector2 size) {
+            textScale = 1f;
+            size = ChatManager.GetStringSize(FontAssets.MouseText.Value, text, Vector2.One);
+            if (size.X > maxWidth)
+            {
+                textScale = maxWidth / size.X;
+            }
         }
     }
 }
