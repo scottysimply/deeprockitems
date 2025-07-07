@@ -112,21 +112,114 @@ namespace deeprockitems.Utilities
             var newString = self.GetNamespace().Replace('.', '/');
             return ModContent.Request<T>(newString + "/" + name, AssetRequestMode.ImmediateLoad);
         }
-        public static void ScaleText(this LocalizedText text, float maxWidth, out float textScale, out Vector2 size) {
+        /// <summary>
+        /// Scales text to fit when it becomes too large for a given width.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="maxWidth"></param>
+        /// <param name="textScale">The resulting scale of the text.</param>
+        /// <param name="size">The measured size of the text.</param>
+        public static void ScaleToFit(this LocalizedText text, float maxWidth, out float textScale, out Vector2 size) {
             textScale = 1f;
             size = ChatManager.GetStringSize(FontAssets.MouseText.Value, text.Value, Vector2.One);
             if (size.X > maxWidth)
             {
                 textScale = maxWidth / size.X;
+                size = ChatManager.GetStringSize(FontAssets.MouseText.Value, text.Value, new Vector2(textScale));
             }
         }
-        public static void ScaleText(this string text, float maxWidth, out float textScale, out Vector2 size) {
+        /// <summary>
+        /// Scales text to fit when it becomes too large for a given width.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="maxWidth"></param>
+        /// <param name="textScale">The resulting scale of the text.</param>
+        /// <param name="size">The measured size of the text.</param>
+        public static void ScaleToFit(this string text, float maxWidth, out float textScale, out Vector2 size) {
             textScale = 1f;
             size = ChatManager.GetStringSize(FontAssets.MouseText.Value, text, Vector2.One);
             if (size.X > maxWidth)
             {
                 textScale = maxWidth / size.X;
+                size = ChatManager.GetStringSize(FontAssets.MouseText.Value, text, new Vector2(textScale));
             }
+        }
+        public static string SplitToFit(this string text, float maxWidth, float scale, out Vector2 size) {
+            string[] splitText = text.Split(' ');
+            string currentText = "";
+            foreach (string substring in splitText)
+            {
+                Vector2 testedSize = ChatManager.GetStringSize(FontAssets.MouseText.Value, currentText + ' ' + substring, new Vector2(scale));
+                if (testedSize.X > maxWidth)
+                {
+                    // big text lmao
+                    currentText += '\n' + substring;
+                    continue;
+                }
+                currentText += ' ' + substring;
+            }
+            size = ChatManager.GetStringSize(FontAssets.MouseText.Value, currentText, new Vector2(scale));
+            return currentText.Trim();
+        }
+        /// <summary>
+        /// Scales text to fit when it becomes too large for a given width. If the scale becomes too small, it will move characters to a new line.
+        /// </summary>
+        /// <returns>The formatted text.</returns>
+        public static string ScaleThenSplit(this LocalizedText text, float minScale, float maxWidth, out float finalScale, out Vector2 size) {
+            text.ScaleToFit(maxWidth, out float testScale, out Vector2 testSize);
+            if (testScale > minScale)
+            {
+                finalScale = testScale;
+                size = testSize;
+                return text.Value;
+            }
+            // The tested scale failed. Clamp the scale, then begin splitting until we find a size that works.
+            finalScale = minScale;
+            string[] splitText = text.Value.Split(' ');
+            string currentText = "";
+            foreach (string substring in splitText)
+            {
+                Vector2 testedSize = ChatManager.GetStringSize(FontAssets.MouseText.Value, currentText + ' ' + substring, new Vector2(finalScale));
+                if (testedSize.X > maxWidth)
+                {
+                    // big text lmao
+                    currentText += '\n' + substring;
+                    continue;
+                }
+                currentText += ' ' + substring;
+            }
+            size = ChatManager.GetStringSize(FontAssets.MouseText.Value, currentText, new Vector2(finalScale));
+            return currentText.Trim();
+        }
+        /// <summary>
+        /// Scales text to fit when it becomes too large for a given width. If the scale becomes too small, it will move characters to a new line.
+        /// </summary>
+        /// <returns>The formatted text.</returns>
+        public static string ScaleThenSplit(this string text, float minScale, float maxWidth, out float finalScale, out Vector2 size) {
+            text.ScaleToFit(maxWidth, out float testScale, out Vector2 testSize);
+            if (testScale > minScale)
+            {
+                finalScale = testScale;
+                size = testSize;
+                return text;
+            }
+            // The tested scale failed. Clamp the scale, then begin splitting until we find a size that works.
+            finalScale = minScale;
+            string[] splitText = text.Split(' ');
+            string currentText = "";
+            foreach (string substring in splitText)
+            {
+                Vector2 testedSize = ChatManager.GetStringSize(FontAssets.MouseText.Value, currentText + ' ' + substring, new Vector2(finalScale));
+                if (testedSize.X > maxWidth)
+                {
+                    // big text lmao
+                    currentText += '\n' + substring;
+                    continue;
+                }
+                currentText += ' ' + substring;
+            }
+            size = ChatManager.GetStringSize(FontAssets.MouseText.Value, currentText, new Vector2(finalScale));
+            return currentText.Trim();
         }
     }
 }
