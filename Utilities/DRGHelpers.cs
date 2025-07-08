@@ -144,7 +144,7 @@ namespace deeprockitems.Utilities
                 size = ChatManager.GetStringSize(FontAssets.MouseText.Value, text, new Vector2(textScale));
             }
         }
-        public static string SplitToFit(this string text, float maxWidth, float scale, out Vector2 size) {
+        public static string SplitToFit(this string text, float maxWidth, float scale, out Vector2 size, string replaceWith = "\n") {
             string[] splitText = text.Split(' ');
             string currentText = "";
             foreach (string substring in splitText)
@@ -153,7 +153,7 @@ namespace deeprockitems.Utilities
                 if (testedSize.X > maxWidth)
                 {
                     // big text lmao
-                    currentText += '\n' + substring;
+                    currentText += replaceWith + substring;
                     continue;
                 }
                 currentText += ' ' + substring;
