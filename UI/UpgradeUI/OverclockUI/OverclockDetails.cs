@@ -118,7 +118,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             }
             ScrollBar = new UIScrollbar {
                 Width = { Pixels = 20f },
-                Left = { Pixels = innerWidth + 6f },
+                Left = { Percent = 1f, Pixels = -14f },
                 Height = { Percent = 1f, Pixels = -MarginTop * 2 },
                 Top = { Pixels = MarginTop },
             };
