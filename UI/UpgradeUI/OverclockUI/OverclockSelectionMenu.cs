@@ -46,7 +46,6 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
         private void OverclockList_OnLeftClick(UIMouseEvent evt, UIElement listeningElement) {
             if (evt.Target is OverclockListItem target)
             {
-                Main.NewText($"Selected {target.ThisOverclock.DisplayName}");
                 SelectedOverclock.ThisOverclock = target.ThisOverclock;
                 (Parent as OverclockPanel).SelectedOverclock.ThisOverclock = target.ThisOverclock;
                 /*SelectedOverclock.ThisOverclock.Tier.SelectUpgrade(target.ThisOverclock.UpgradeName);
