@@ -16,7 +16,7 @@ namespace deeprockitems.UI.UpgradeUI
             // If my ui is open, move icon
             if (UpgradeSystem.IsUIOpen)
             {
-                offY = 200;
+                offY = (int)UpgradeState.MenuSize.Y;
             }
             //pivotTopLeftX = (int)((455 + pivotTopLeftX) - 56f * Main.inventoryScale * 2f);
             orig(offX, offY);

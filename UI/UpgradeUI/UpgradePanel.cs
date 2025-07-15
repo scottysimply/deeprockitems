@@ -3,26 +3,31 @@ using Terraria.UI;
 using deeprockitems.Content.Items;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader.UI;
+using Terraria.ModLoader.Config;
+using Terraria.ModLoader;
 
 namespace deeprockitems.UI.UpgradeUI
 {
     public abstract class UpgradePanel : UIPanel
     {
+        public UpgradePanel() {
+
+        }
         #region UI Elements
         public FakeItemSlot ParentSlot { get; set; }
         public UIButton<string> ForgeButton { get; set; }
         #endregion
         public override sealed void OnInitialize()
         {
-            float MARGIN = 6;
             float PADDING = 6;
             SetPadding(PADDING);
+            const float SLOT_SIZE = 46f;
 
             // Initialize the "craft" button
             ForgeButton = new UIButton<string>("Forge") {
                 HAlign = 1f,
-                Height = { Pixels = 52f, Percent = 0f },
-                Width = { Pixels = 1.8f * 52, Percent = 0f },
+                Height = { Pixels = SLOT_SIZE, Percent = 0f },
+                Width = { Pixels = 1.8f * SLOT_SIZE, Percent = 0f },
                 TextScaleMax = 1.5f,
             };
             ForgeButton.TextOriginY -= 0.3f;
@@ -40,8 +45,8 @@ namespace deeprockitems.UI.UpgradeUI
                 Height = ForgeButton.Height
             };
             ParentSlot.OnItemSwap += OnClickParentSlot;
-            ParentSlot.GetItemToTrackInstead = () => (Parent as UpgradeState).ItemInSlot;
-            ParentSlot.SetItemToTrackInstead = (ref Item item) => (Parent as UpgradeState).ItemInSlot = item;
+            ParentSlot.GetItemToTrackInstead = () => ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot;
+            ParentSlot.SetItemToTrackInstead = (ref Item item) => ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot = item;
             Append(ParentSlot);
 
             // Here goes the other initialization logic

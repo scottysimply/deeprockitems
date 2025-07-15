@@ -19,6 +19,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
         public OverclockSelectionMenu SelectionMenu { get; set; }
         public override void PostInitialize() {
             int PADDING = 6;
+            float slotSize = ParentSlot.GetDimensions().Width;
             MatrixCoreSlot = new FakeItemSlot((mouseItem, slotItem) => {
                 if (mouseItem.ModItem is BlankMatrixCore) return true;
                 if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is BlankMatrixCore)) return true;
@@ -26,8 +27,8 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             }) {
                 Left = { Pixels = ParentSlot.Left.Pixels + ParentSlot.Width.Pixels + PADDING },
                 Top = ParentSlot.Top,
-                Width = { Pixels = 52 },
-                Height = { Pixels = 52 }
+                Width = { Pixels = slotSize },
+                Height = { Pixels = slotSize }
             };
             Append(MatrixCoreSlot);
             SelectionMenu = new OverclockSelectionMenu(SelectedOverclock) {
@@ -54,7 +55,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
         }
 
         private void SelectedOverclock_OnValueChanged(Overclock newValue, Overclock oldValue) {
-            
+            Main.NewText($"oldclock: {oldValue.DisplayName.Value ?? "none"}, newclock: {newValue.DisplayName.Value ?? "none"}");
         }
         public static float DesiredSelectedWidth => 260f;
         private void OverclockPanel_OnUpdate(UIElement affectedElement) {

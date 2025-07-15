@@ -1,27 +1,35 @@
-﻿using Terraria;
+﻿using deeprockitems.UI.UpgradeUI.OverclockUI;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI
 {
     public class UpgradeState : UIState
     {
-        public UpgradePanel Panel { get; set; }
+        public TabViewPanel<UpgradePanel> Panel { get; set; }
+        public static Vector2 MenuSize { get => new(420, 220); }
         public override void OnInitialize()
         {
-            // default state is UpgradeSelectionPanel
-            SetState<UpgradeSelectionPanel>();
-        }
-        internal Item ItemInSlot { get; set; } = new(0);    
-        public void SetState<TPanel>() where TPanel : UpgradePanel, new() {
-            RemoveAllChildren();
-            Panel = new TPanel();
-            // Set size and location
+            Panel = new();
             Panel.Left.Pixels = 73f;
             Panel.Top.Pixels = Main.instance.invBottom;
-            Panel.Height.Pixels = 200;
-            Panel.Width.Pixels = 420;
+            Panel.Height.Pixels = MenuSize.Y;
+            Panel.Width.Pixels = MenuSize.X;
+            Panel.AddPanel("Upgrade", new UpgradeSelectionPanel() {
+                Height = { Pixels = MenuSize.Y },
+                Width = { Pixels = MenuSize.X }
+            });
+            Panel.AddPanel("Overclock", new OverclockPanel() {
+                Height = { Pixels = MenuSize.Y },
+                Width = { Pixels = MenuSize.X }
+            });
+            Panel.SetLabelHeight(20f);
             Append(Panel);
             Panel.Activate();
+            /*// default state is UpgradeSelectionPanel
+            SetState<UpgradeSelectionPanel>();*/
         }
+        internal Item ItemInSlot { get; set; } = new(0);
     }
 }

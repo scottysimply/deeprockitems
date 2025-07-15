@@ -27,6 +27,15 @@ namespace deeprockitems.UI.UpgradeUI
         }
         private static UpgradeSystem _upgradeSystem;
         public Item ItemToSpawnOnWorldLoad = new(0);
-        public Item ItemInSlot { get => _upgradeSystem.UpgradeUIState.Panel.ParentSlot.ItemInSlot; set => _upgradeSystem.UpgradeUIState.Panel.ParentSlot.ItemInSlot = value; }
+        public Item ItemInSlot { 
+            get => _upgradeSystem.UpgradeUIState.Panel.SelectedPanel?.ParentSlot.ItemInSlot;
+            set
+            {
+                if (_upgradeSystem.UpgradeUIState.Panel.SelectedPanel is not null)
+                {
+                    _upgradeSystem.UpgradeUIState.Panel.SelectedPanel.ParentSlot.ItemInSlot = value;
+                }
+            }
+        }
     }
 }

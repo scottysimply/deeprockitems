@@ -20,7 +20,7 @@ namespace deeprockitems.UI
         public override bool HoverSlot(Item[] inventory, int context, int slot)
         {
             if (inventory[slot].type == 0) return false;
-            if (ItemSlot.ShiftInUse && !ItemSlot.ShiftForcedOn && upgradeSystem.Interface.CurrentState != null && upgradeSystem.UpgradeUIState.Panel.ParentSlot.PredicateToPutItemIn(inventory[slot], upgradeSystem.UpgradeUIState.Panel.ParentSlot.ItemInSlot))
+            if (ItemSlot.ShiftInUse && !ItemSlot.ShiftForcedOn && upgradeSystem.Interface.CurrentState != null && (upgradeSystem.UpgradeUIState.Panel.SelectedPanel?.ParentSlot.PredicateToPutItemIn(inventory[slot], upgradeSystem.UpgradeUIState.Panel.SelectedPanel?.ParentSlot.ItemInSlot) ?? false))
             {
                 Main.cursorOverride = 9;
                 canShiftIn = true;
@@ -33,7 +33,7 @@ namespace deeprockitems.UI
             if (canShiftIn)
             {
                 Item tempItem = upgradeSystem.UpgradeUIState.ItemInSlot;
-                upgradeSystem.UpgradeUIState.Panel.ParentSlot.SwapItems(ref inventory[slot], ref tempItem);
+                upgradeSystem.UpgradeUIState.Panel.SelectedPanel?.ParentSlot.SwapItems(ref inventory[slot], ref tempItem);
                 upgradeSystem.UpgradeUIState.ItemInSlot = tempItem;
                 return true;
             }
