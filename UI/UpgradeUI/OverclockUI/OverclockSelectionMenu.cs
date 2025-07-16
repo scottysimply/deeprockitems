@@ -47,7 +47,6 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             if (evt.Target is OverclockListItem target)
             {
                 SelectedOverclock.ThisOverclock = target.ThisOverclock;
-                (Parent as OverclockPanel).SelectedOverclock.ThisOverclock = target.ThisOverclock;
             }
         }
 
