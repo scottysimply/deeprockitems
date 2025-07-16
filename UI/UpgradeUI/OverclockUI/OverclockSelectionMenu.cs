@@ -52,9 +52,9 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
         }
 
         public void SetOverclocks(UpgradeTier tier) {
+            OverclockList.Clear();
             if (tier is null || tier.Tier != UpgradeBuilder.OVERCLOCK_TIER)
             {
-                OverclockList.Clear();
                 return;
             }
             // Generate overclock elements from tier
