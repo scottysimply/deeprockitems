@@ -48,8 +48,6 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             {
                 SelectedOverclock.ThisOverclock = target.ThisOverclock;
                 (Parent as OverclockPanel).SelectedOverclock.ThisOverclock = target.ThisOverclock;
-                /*SelectedOverclock.ThisOverclock.Tier.SelectUpgrade(target.ThisOverclock.UpgradeName);
-                (ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();*/
             }
         }
 
