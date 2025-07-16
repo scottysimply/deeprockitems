@@ -49,13 +49,11 @@ namespace deeprockitems.UI.UpgradeUI
         {
             int mouseTextIndex = layers.FindIndex((layer) => layer.Name.Equals("Vanilla: Mouse Text"));
             if (mouseTextIndex == -1) return;
-            layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer("deeprockitems: UpgradeStationUI",
-                                                                       () =>
-                                                                       {
-                                                                           Interface.Draw(Main.spriteBatch, new GameTime());
-                                                                           return true;
-                                                                       },
-                                                                       InterfaceScaleType.UI));
+            bool drawMethod() {
+                Interface.Draw(Main.spriteBatch, new GameTime());
+                return true;
+            }
+            layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer("deeprockitems: UpgradeStationUI", drawMethod, InterfaceScaleType.UI));
         }
     }
 }
