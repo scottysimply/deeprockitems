@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using deeprockitems.Content.Items;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -9,6 +10,8 @@ namespace deeprockitems.UI.UpgradeUI
     public class UpgradeUIPlayer : ModPlayer
     {
         public static Point UpgradeStationLocation;
+        public static Item ItemInUpgradeSlot = new(0);
+        public static Item ItemInMatrixSlot = new(0);
         public override void SetStaticDefaults() {
             _upgradeSystem = ModContent.GetInstance<UpgradeSystem>();
         }
@@ -20,13 +23,18 @@ namespace deeprockitems.UI.UpgradeUI
         }
         public override void OnEnterWorld() {
             // Give item to player
-            if (ItemToSpawnOnWorldLoad != null && ItemToSpawnOnWorldLoad.type != ItemID.None)
+            if (ItemInUpgradeSlot != null && ItemInUpgradeSlot.type != ItemID.None)
             {
-                Player.QuickSpawnItem(ItemToSpawnOnWorldLoad.GetSource_ReleaseEntity(), ItemToSpawnOnWorldLoad);
+                Player.QuickSpawnItem(ItemInUpgradeSlot.GetSource_ReleaseEntity(), ItemInUpgradeSlot);
+                ItemInUpgradeSlot = new(0);
+            }
+            if (ItemInMatrixSlot != null && ItemInMatrixSlot.type != ItemID.None)
+            {
+                Player.QuickSpawnItem(ItemInMatrixSlot.GetSource_ReleaseEntity(), ItemInMatrixSlot);
+                ItemInMatrixSlot = new(0);
             }
         }
         private static UpgradeSystem _upgradeSystem;
-        public Item ItemToSpawnOnWorldLoad = new(0);
         public Item ItemInSlot { 
             get => _upgradeSystem.UpgradeUIState.Panel.SelectedPanel?.ParentSlot.ItemInSlot;
             set
