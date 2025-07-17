@@ -11,6 +11,7 @@ namespace deeprockitems.UI
         bool canShiftIn = false;
         public override void Initialize()
         {
+            // Used to get the UI instance
             upgradeSystem = ModContent.GetInstance<UpgradeSystem>();
         }
         public override void PreUpdate()
@@ -30,11 +31,11 @@ namespace deeprockitems.UI
         }
         public override bool ShiftClickSlot(Item[] inventory, int context, int slot)
         {
-            if (canShiftIn)
+            if (canShiftIn && upgradeSystem.UpgradeUIState.Panel.SelectedPanel is not null)
             {
-                Item tempItem = upgradeSystem.UpgradeUIState.ItemInSlot;
-                upgradeSystem.UpgradeUIState.Panel.SelectedPanel?.ParentSlot.SwapItems(ref inventory[slot], ref tempItem);
-                upgradeSystem.UpgradeUIState.ItemInSlot = tempItem;
+                Item tempItem = upgradeSystem.UpgradeUIState.Panel.SelectedPanel.ParentSlot.ItemInSlot;
+                upgradeSystem.UpgradeUIState.Panel.SelectedPanel.ParentSlot.SwapItems(ref inventory[slot], ref tempItem);
+                upgradeSystem.UpgradeUIState.Panel.SelectedPanel.ParentSlot.ItemInSlot = tempItem;
                 return true;
             }
             return false;
