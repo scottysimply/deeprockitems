@@ -89,7 +89,7 @@ namespace deeprockitems.UI.UpgradeUI
 
             option.SelectThisUpgrade();
         }
-        protected override void OnClickParentSlot(Item itemNowInSlot, Item itemThatLeftSlot)
+        protected override void ParentItemSlotChanged(Item itemNowInSlot, Item itemThatLeftSlot)
         {
             // Remove currently selected locked upgrade
             RecipeDisplay.SetState(null);
@@ -101,7 +101,6 @@ namespace deeprockitems.UI.UpgradeUI
                 UpgradeContainer.SetUpgrades(modItem.UpgradeMasterList);
                 if (modItem.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier value))
                 {
-
                     OverclockDisplay.SetOverclock(value.Where(ov => ov.UpgradeState.IsEquipped).FirstOrDefault() as Overclock ?? null);
                 }
             }

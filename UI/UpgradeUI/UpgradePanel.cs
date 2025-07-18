@@ -44,13 +44,17 @@ namespace deeprockitems.UI.UpgradeUI
                 Width = ForgeButton.Height,
                 Height = ForgeButton.Height
             };
-            ParentSlot.OnItemSwap += OnClickParentSlot;
+            ParentSlot.OnItemSwap += ParentItemSlotChanged;
             ParentSlot.GetItemToTrackInstead = () => ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot;
             ParentSlot.SetItemToTrackInstead = (ref Item item) => ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot = item;
             Append(ParentSlot);
 
             // Here goes the other initialization logic
             PostInitialize();
+        }
+        public override void OnActivate() {
+            // When tabs are switched, make sure the upgrades or overclocks get set
+            ParentItemSlotChanged(ParentSlot.ItemInSlot, new(0));
         }
         protected virtual void OnClickForgeButton(UIMouseEvent evt, UIElement sender) {
 
@@ -61,7 +65,7 @@ namespace deeprockitems.UI.UpgradeUI
         public virtual void PostInitialize() {
 
         }
-        protected virtual void OnClickParentSlot(Item itemNowInSlot, Item itemThatLeftSlot)
+        protected virtual void ParentItemSlotChanged(Item itemNowInSlot, Item itemThatLeftSlot)
         {
 
         }
