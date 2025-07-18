@@ -46,7 +46,6 @@ namespace deeprockitems.UI
         }
         public event ItemSwapHandler OnItemSwap;
         public delegate void ItemSwapHandler(Item itemNowInSlot, Item itemThatLeftSlot);
-
         private void FakeItemSlot_OnLeftClick(UIMouseEvent evt, UIElement listeningElement)
         {
             if (ItemSlot.ShiftInUse && !ItemSlot.ShiftForcedOn && ItemInSlot.type != 0)
