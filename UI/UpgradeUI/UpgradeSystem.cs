@@ -40,11 +40,7 @@ namespace deeprockitems.UI.UpgradeUI
         public override void UpdateUI(GameTime gameTime)
         {
             Interface?.Update(gameTime);
-            if (UpgradeUIState?.IsMouseHovering ?? false)
-            {
-                Main.LocalPlayer.mouseInterface = true;
-            }
-        }        
+        }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex((layer) => layer.Name.Equals("Vanilla: Mouse Text"));

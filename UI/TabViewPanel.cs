@@ -101,6 +101,10 @@ namespace deeprockitems.UI
             ValidateLabelsAndPanel();
         }
         public override void Update(GameTime gameTime) {
+            if (IsMouseHovering)
+            {
+                Main.LocalPlayer.mouseInterface = true;
+            }
             if (_needsRevalidate)
             {
                 ValidateLabelsAndPanel();
