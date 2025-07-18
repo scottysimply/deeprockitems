@@ -51,7 +51,6 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
         }
 
         private void SelectedOverclock_OnValueChanged(Overclock newValue, Overclock oldValue) {
-            Main.NewText($"oldclock: {oldValue.DisplayName.Value ?? "none"}, newclock: {newValue.DisplayName.Value ?? "none"}");
         }
         public static float DesiredSelectedWidth => 260f;
         private void OverclockPanel_OnUpdate(UIElement affectedElement) {
