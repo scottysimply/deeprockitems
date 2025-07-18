@@ -27,9 +27,11 @@ namespace deeprockitems.UI.UpgradeUI
             Panel.SetLabelHeight(20f);
             Append(Panel);
             Panel.Activate();
-            /*// default state is UpgradeSelectionPanel
-            SetState<UpgradeSelectionPanel>();*/
         }
-        internal Item ItemInSlot { get; set; } = new(0);
+        internal Item ItemInSlot
+        {
+            get => UpgradeUIPlayer.ItemInUpgradeSlot;
+            set => UpgradeUIPlayer.ItemInUpgradeSlot = value;
+        }
     }
 }
