@@ -3,8 +3,6 @@ using Terraria.UI;
 using deeprockitems.Content.Items;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader.UI;
-using Terraria.ModLoader.Config;
-using Terraria.ModLoader;
 
 namespace deeprockitems.UI.UpgradeUI
 {

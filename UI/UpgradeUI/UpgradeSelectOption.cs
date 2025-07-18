@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader.UI;
 using Terraria.ModLoader;
-using Terraria.UI;
 using ReLogic.Content;
 using deeprockitems.Types;
 using deeprockitems.Localization;

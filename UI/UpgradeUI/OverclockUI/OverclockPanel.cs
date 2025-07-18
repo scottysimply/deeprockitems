@@ -1,10 +1,8 @@
 ﻿using deeprockitems.Content.Items;
 using deeprockitems.Content.Items.Misc;
 using deeprockitems.Content.Upgrades;
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI.OverclockUI
