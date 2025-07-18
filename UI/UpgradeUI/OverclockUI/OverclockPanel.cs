@@ -46,10 +46,6 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Top = { Pixels = MatrixCoreSlot.Height.Pixels + PADDING },
             };
             Append(Details);
-            if ((ParentSlot.ItemInSlot.ModItem as IUpgradable)?.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier overclocks) ?? false)
-            {
-                SelectionMenu.SetOverclocks(overclocks);
-            }
             OnUpdate += OverclockPanel_OnUpdate;
             SelectedOverclock.OnValueChanged += SelectedOverclock_OnValueChanged;
         }
@@ -114,7 +110,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             }
         }
 
-        protected override void OnClickParentSlot(Item itemNowInSlot, Item itemThatLeftSlot) {
+        protected override void ParentItemSlotChanged(Item itemNowInSlot, Item itemThatLeftSlot) {
             if ((itemNowInSlot.ModItem as IUpgradable)?.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier overclocks) ?? false)
             {
                 SelectionMenu.SetOverclocks(overclocks);
