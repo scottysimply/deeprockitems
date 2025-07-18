@@ -45,8 +45,8 @@ namespace deeprockitems.UI.UpgradeUI
                 Height = ForgeButton.Height
             };
             ParentSlot.OnItemSwap += ParentItemSlotChanged;
-            ParentSlot.GetItemToTrackInstead = () => ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot;
-            ParentSlot.SetItemToTrackInstead = (ref Item item) => ModContent.GetInstance<UpgradeSystem>().UpgradeUIState.ItemInSlot = item;
+            ParentSlot.GetItemToTrackInstead = () => UpgradeUIPlayer.ItemInUpgradeSlot;
+            ParentSlot.SetItemToTrackInstead = (ref Item item) => UpgradeUIPlayer.ItemInUpgradeSlot = item;
             Append(ParentSlot);
 
             // Here goes the other initialization logic
