@@ -33,7 +33,7 @@ namespace deeprockitems.UI
             }
         }
 #nullable disable
-        public virtual SoundStyle SwitchTabSound => SoundID.MenuTick;
+        public SoundStyle SwitchTabSound { get; set; } = SoundID.MenuTick;
         public float LabelHeight { get; private set; }
         public void SetLabelHeight(float labelHeight) {
             LabelHeight = labelHeight;
