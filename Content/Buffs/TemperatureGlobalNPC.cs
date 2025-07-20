@@ -371,7 +371,7 @@ namespace deeprockitems.Content.Buffs
         public static void TempShock(this NPC self, ref int tempAmount, int player = -1)
         {
             var info = self.CalculateHitInfo(3 * Math.Abs(tempAmount), -1, damageType: DamageClass.Generic, damageVariation: true);
-            if (player != 1)
+            if (player != -1)
             {
                 Main.player[player].StrikeNPCDirect(self, info);
                 tempAmount = 0;
