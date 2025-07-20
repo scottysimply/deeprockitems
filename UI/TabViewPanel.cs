@@ -165,22 +165,35 @@ namespace deeprockitems.UI
         protected class TabLabel : UIElement {
             private float _labelHeight;
             public Color BorderColor = Color.Black;
+            public Color BackgroundColor = new Color(63, 82, 151) * 0.7f;
             public TabLabel(LocalizedText text) : this(text.Value) {
 
             }
             public TabLabel(string text) {
                 Text = text;
             }
-            private Color BackgroundColor 
+            private Color AdjustedBorderColor
             {
                 get
                 {
                     if (IsSelected)
                     {
-                        return new Color(63, 82, 151) * 0.7f;
+                        return BorderColor;
                     }
                     float dimPercent = 0.66f;
-                    return new Color((int)(63 * dimPercent), (int)(82 * dimPercent), (int)(151 * dimPercent)) * 0.8f;
+                    return new Color((int)(BorderColor.R * dimPercent), (int)(BorderColor.G * dimPercent), (int)(BorderColor.B * dimPercent), BackgroundColor.A);
+                }
+            }
+            private Color AdjustedBackgroundColor 
+            {
+                get
+                {
+                    if (IsSelected)
+                    {
+                        return BackgroundColor;
+                    }
+                    float dimPercent = 0.66f;
+                    return new Color((int)(BackgroundColor.R * dimPercent), (int)(BackgroundColor.G * dimPercent), (int)(BackgroundColor.B * dimPercent), BackgroundColor.A);
                 }
             }
             public bool IsSelected { get; set; }
@@ -200,34 +213,8 @@ namespace deeprockitems.UI
             }
             protected override void DrawSelf(SpriteBatch spriteBatch) {
                 var bounds = GetDimensions();
-                DrawTab(spriteBatch, Assets.UI.TabLabelFill.Value, 20, 12, new Vector2(bounds.X, bounds.Y), bounds.Width, bounds.Height, BackgroundColor);
-                DrawTab(spriteBatch, Assets.UI.TabLabelOutline.Value, 20, 12, new Vector2(bounds.X, bounds.Y), bounds.Width, bounds.Height, BorderColor);
-            }
-            /// <summary>
-            /// Adapted from DRGHelpers.DrawPanel.
-            /// </summary>
-            public void DrawTab(SpriteBatch spriteBatch, Texture2D texture, int insetWidth, int insetHeight, Vector2 position, float width, float height, Color color) {
-                // Draw each edge
-                var dimensions = new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height);
-                // Left
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X, dimensions.Y + insetHeight, insetWidth, dimensions.Height - 2 * insetHeight), new Rectangle(0, insetHeight, insetWidth, texture.Height - 2 * insetHeight), color);
-                // Right
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X + dimensions.Width - insetWidth, dimensions.Y + insetHeight, insetWidth, dimensions.Height - 2 * insetHeight), new Rectangle(texture.Width - insetWidth, insetHeight, insetWidth, texture.Height - 2 * insetHeight), color);
-                // Top
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X + insetWidth, dimensions.Y, dimensions.Width - 2 * insetWidth, insetHeight), new Rectangle(insetWidth, 0, texture.Width - 2 * insetWidth, insetHeight), color);
-                // bottom is omitted for tab sake
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X + insetWidth, dimensions.Y + dimensions.Height - insetHeight, dimensions.Width - 2 * insetWidth, insetHeight), new Rectangle(insetWidth, texture.Height - insetHeight, texture.Width - 2 * insetWidth, insetHeight), color);
-                // Draw corners, top left
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X, dimensions.Y, insetWidth, insetHeight), new Rectangle(0, 0, insetWidth, insetHeight), color);
-                // top right
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X + dimensions.Width - insetWidth, dimensions.Y, insetWidth, insetHeight), new Rectangle(texture.Width - insetWidth, 0, insetWidth, insetHeight), color);
-                // bottom left
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X, dimensions.Y + dimensions.Height - insetHeight, insetWidth, insetHeight), new Rectangle(0, texture.Height - insetHeight, insetWidth, insetHeight), color);
-                // bottom right
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X + dimensions.Width - insetWidth, dimensions.Y + dimensions.Height - insetHeight, insetWidth, insetHeight), new Rectangle(texture.Width - insetWidth, texture.Height - insetHeight, insetWidth, insetHeight), color);
-
-                // Draw center
-                spriteBatch.Draw(texture, new Rectangle(dimensions.X + insetWidth, dimensions.Y + insetHeight, dimensions.Width - 2 * insetWidth, dimensions.Height - 2 * insetHeight), new Rectangle(insetWidth, insetHeight, texture.Width - 2 * insetWidth, texture.Height - 2 * insetHeight), color);
+                DRGHelpers.DrawPanel(spriteBatch, Assets.UI.TabLabelFill.Value, 18, 10, new Vector2(bounds.X, bounds.Y), bounds.Width, bounds.Height, AdjustedBackgroundColor);
+                DRGHelpers.DrawPanel(spriteBatch, Assets.UI.TabLabelOutline.Value, 18, 10, new Vector2(bounds.X, bounds.Y), bounds.Width, bounds.Height, AdjustedBorderColor);
             }
         }
     }
