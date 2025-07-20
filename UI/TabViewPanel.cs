@@ -1,5 +1,5 @@
 ﻿using deeprockitems.Utilities;
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
@@ -152,7 +152,7 @@ namespace deeprockitems.UI
                 }
                 otherChildren.Add(child);
             }
-            // Order will go labels -> other children -> the selected label
+
             TabLabel selectedLabel = null;
             foreach (TabLabel label in labels)
             {
@@ -165,13 +165,59 @@ namespace deeprockitems.UI
                 // normal label
                 label.Draw(spriteBatch);
             }
-            // draw normal children
+
+            DepthStencilState panelStencil = new() {
+                StencilEnable = true,
+                StencilFunction = CompareFunction.Always,
+                StencilPass = StencilOperation.Replace,
+                ReferenceStencil = 1,
+                StencilWriteMask = 255,
+                DepthBufferEnable = false,
+            };
+            DepthStencilState tabMaskStencil = new() {
+                StencilEnable = true,
+                StencilFunction = CompareFunction.NotEqual,
+                ReferenceStencil = 1,
+                DepthBufferEnable = false,
+            };
+            DepthFormat oldFormat = Main.graphics.PreferredDepthStencilFormat;
+            Main.graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
+            // brute force clearing the stencil buffer because fuck terraria
+            spriteBatch.End();
+            spriteBatch.BeginWithDefaultsForUI(blendState: new() {
+                ColorWriteChannels = ColorWriteChannels.None
+            }, stencilState: new() {
+                StencilEnable = true,
+                StencilFunction = CompareFunction.Always,
+                StencilPass = StencilOperation.Replace,
+                ReferenceStencil = 0,
+                StencilMask = 0xFF
+            });
+            spriteBatch.Draw(Assets.WhitePixel.Value,
+                new Rectangle(0, 0, spriteBatch.GraphicsDevice.PresentationParameters.BackBufferWidth, spriteBatch.GraphicsDevice.PresentationParameters.BackBufferHeight),
+                Color.White);
+            spriteBatch.End();
+
+            // draw the mask (1994)
+            spriteBatch.BeginWithDefaultsForUI(stencilState: panelStencil, blendState: new() { ColorWriteChannels = ColorWriteChannels.None });
+            spriteBatch.Draw(Assets.WhitePixel.Value, selectedLabel.GetDimensions().ToRectangle(), Color.White);
+            spriteBatch.End();
+
+            // panel with stencil
+            spriteBatch.BeginWithDefaultsForUI(stencilState: tabMaskStencil);
+            SelectedPanel.Draw(spriteBatch);
+            spriteBatch.End();
+
+            // drawing the tab for realsies :D
+            spriteBatch.BeginWithDefaultsForUI();
+            selectedLabel?.Draw(spriteBatch);
+
+            Main.graphics.PreferredDepthStencilFormat = oldFormat;
+            // draw normal children after stenciling
             foreach (var child in otherChildren)
             {
                 child.Draw(spriteBatch);
             }
-            // draw selected last (over everything else)
-            selectedLabel?.Draw(spriteBatch);
         }
         protected class TabLabel : UIElement {
             private float _labelHeight;
