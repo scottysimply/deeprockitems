@@ -139,6 +139,10 @@ namespace deeprockitems.UI
                     labels.Add(label);
                     continue;
                 }
+                else if (child == SelectedPanel)
+                {
+                    continue;
+                }
                 otherChildren.Add(child);
             }
             // Order will go labels -> other children -> the selected label
