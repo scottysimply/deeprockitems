@@ -1,3 +1,4 @@
+﻿using deeprockitems.Utilities;
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -34,6 +35,8 @@ namespace deeprockitems.UI
         }
 #nullable disable
         public SoundStyle SwitchTabSound { get; set; } = SoundID.MenuTick;
+        public Color BorderColor { get; set; } = Color.Black;
+        public Color BackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
         public float LabelHeight { get; private set; }
         public void SetLabelHeight(float labelHeight) {
             LabelHeight = labelHeight;
@@ -74,6 +77,8 @@ namespace deeprockitems.UI
                     Top = { Pixels = 2f }
                 };
                 label.IsSelected = false;
+                label.BackgroundColor = BackgroundColor;
+                label.BorderColor = BorderColor;
                 // Makes sure the panel stays selected
                 if ((_selectedText ?? "") == text)
                 {
@@ -89,6 +94,8 @@ namespace deeprockitems.UI
         }
         private void ValidatePanel() {
             // Append panel directly below labels:
+            SelectedPanel.BackgroundColor = BackgroundColor;
+            SelectedPanel.BorderColor = BorderColor;
             SelectedPanel.Top.Pixels = LabelHeight;
             SelectedPanel.Height.Pixels = GetInnerDimensions().Height - LabelHeight;
             Append(SelectedPanel);
