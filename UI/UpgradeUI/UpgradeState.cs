@@ -24,6 +24,8 @@ namespace deeprockitems.UI.UpgradeUI
                 Height = { Pixels = MenuSize.Y },
                 Width = { Pixels = MenuSize.X }
             });
+            Panel.BackgroundColor = new Color(140, 130, 120) * 0.7f;
+            Panel.BorderColor = new(140, 80, 20);
             Panel.SetLabelHeight(20f);
             Append(Panel);
             Panel.Activate();
