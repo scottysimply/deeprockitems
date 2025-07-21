@@ -374,16 +374,15 @@ namespace deeprockitems.Content.Buffs
             if (player != -1)
             {
                 Main.player[player].StrikeNPCDirect(self, info);
-                tempAmount = 0;
             }
             else
             {
                 self.StrikeNPC(info);
             }
             var modNPC = self.GetGlobalNPC<TemperatureGlobalNPC>();
-            modNPC.TempChangeCooldown = 15;
+            modNPC.TempChangeCooldown = 30;
             modNPC.Temperature = 0;
-            
+            tempAmount = 0;
         }
         /// <summary>
         /// Gets the temperature of an NPC, which ranges from -100 to 100
