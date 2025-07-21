@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using ReLogic.Content;
 using deeprockitems.Types;
 using deeprockitems.Localization;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.UI.UpgradeUI
 {
@@ -24,6 +25,11 @@ namespace deeprockitems.UI.UpgradeUI
             Upgrade = upgrade;
             _upgrades = upgrades;
         }
+        public Color BackgroundColor { get; set; } = new(213, 106, 0);
+        public Color SelectedBackgroundColor { get; set; } = new(255, 156, 0);
+        public Color IconColor { get; set; } = new Color(255, 255, 255);
+        public Color SelectedIconColor { get; set; } = new Color(0, 0, 0);
+        public Color BorderColor { get; set; } = new Color(242, 227, 62);
 
         /// <summary>
         /// The upgrade that is represented by this UIElement.
@@ -57,7 +63,8 @@ namespace deeprockitems.UI.UpgradeUI
                 AllowedToTween = false;
             }
             // Get slot color
-            Color drawColor = BaseColor;
+            Color adjustedBackgroundColor = BackgroundColor;
+            Color adjustedIconColor = IconColor;
 
             // Show hover text if the slot is being hovered
             if (IsMouseHovering)
@@ -73,19 +80,23 @@ namespace deeprockitems.UI.UpgradeUI
                 // Draw
                 UICommon.TooltipMouseText(mouseText);
             }
+            if (Upgrade.UpgradeState.IsEquipped)
+            {
+                adjustedBackgroundColor = SelectedBackgroundColor;
+            }
             // Draw the actual slot
-            spriteBatch.Draw(backgroundImage.Value, (Rectangle)ScaledDimensions, drawColor);
+            spriteBatch.Draw(backgroundImage.Value, (Rectangle)ScaledDimensions, adjustedBackgroundColor);
 
             // Draw upgrade icon
             float scale = 0.7f * currentScale;
             Rectangle destination = new((int)(ScaledDimensions.Center.X - ScaledDimensions.Width * 0.5f), (int)(ScaledDimensions.Center.Y - ScaledDimensions.Height * 0.5f), (int)ScaledDimensions.Width, (int)ScaledDimensions.Height);
-            spriteBatch.Draw(icon.Value, destination, Color.White);
+            spriteBatch.Draw(icon.Value, destination, adjustedIconColor);
 
             // Draw outline if equipped
             if (Upgrade.UpgradeState.IsEquipped)
             {
                 RectangleF outlineDimensions = new RectangleF(ScaledDimensions.Center.X - 0.5f * Assets.UI.UpgradeSlotOutline.Value.Height, ScaledDimensions.Y - 0.5f * Assets.UI.UpgradeSlotOutline.Value.Height, Assets.UI.UpgradeSlotOutline.Value.Width, Assets.UI.UpgradeSlotOutline.Value.Height);
-                spriteBatch.Draw(Assets.UI.UpgradeSlotOutline.Value, (Rectangle)ScaledDimensions, SelectedColor);
+                spriteBatch.Draw(Assets.UI.UpgradeSlotOutline.Value, (Rectangle)ScaledDimensions, BorderColor);
             }
             // Don't draw lock if unlocked
             if (Upgrade.UpgradeState.IsUnlocked) return;
