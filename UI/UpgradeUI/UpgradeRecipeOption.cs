@@ -11,8 +11,7 @@ namespace deeprockitems.UI.UpgradeUI
     public class UpgradeRecipeOption : UIElement
     {
         RecipeBinding _recipeIngredient;
-        public UpgradeRecipeOption(int size, RecipeBinding ingredient) {
-            Width.Pixels = Height.Pixels = size;
+        public UpgradeRecipeOption(RecipeBinding ingredient) {
             _recipeIngredient = ingredient;
         }
         public override void Draw(SpriteBatch spriteBatch) {
