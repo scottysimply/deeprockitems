@@ -38,8 +38,7 @@ namespace deeprockitems.UI.UpgradeUI
                 // Hover text
                 dummy = new(_recipeIngredient.AcceptedTypes[0], stack: _recipeIngredient.Stack);
                 ItemSlot.MouseHover(ref dummy, 22);
-                // Set override name if the item is a multiple
-                // Append "any" if there's multiple accepted types
+                // Set override name if the item is a multiple, and append any for multiple accepted types
                 if (_recipeIngredient.AcceptedTypes.Length > 1)
                 {
                     Main.HoverItem.SetNameOverride(Language.GetTextValue("LegacyMisc.37") + " " + dummy.Name);
@@ -49,9 +48,6 @@ namespace deeprockitems.UI.UpgradeUI
                 {
                     Main.hoverItemName += $" ({dummy.stack})";
                 }
-
-                //Main.hoverItemName = $"{Language.GetTextValue("LegacyMisc.37")} {Main.hoverItemName}";
-                //UICommon.TooltipMouseText($"{Language.GetTextValue("LegacyMisc.37")} {dummy.Name} ({dummy.stack})"); // Redraw with "any" prepended to it
             }
             // Reset scale
             Main.inventoryScale = oldScale;
