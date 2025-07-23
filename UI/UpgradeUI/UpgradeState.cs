@@ -27,7 +27,7 @@ namespace deeprockitems.UI.UpgradeUI
             });
             Panel.BackgroundColor = new Color(94, 90, 74) * 0.8f;
             Panel.BorderColor = new(255, 156, 0);
-            Panel.SetLabelHeight(20f);
+            Panel.SetLabelHeight(24f);
             Panel.SetFont(FontAssets.DeathText);
             Append(Panel);
             Panel.Activate();
