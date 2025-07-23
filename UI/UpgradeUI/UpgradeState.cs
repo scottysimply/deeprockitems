@@ -1,6 +1,7 @@
 ﻿using deeprockitems.UI.UpgradeUI.OverclockUI;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI
@@ -27,6 +28,7 @@ namespace deeprockitems.UI.UpgradeUI
             Panel.BackgroundColor = new Color(94, 90, 74) * 0.8f;
             Panel.BorderColor = new(255, 156, 0);
             Panel.SetLabelHeight(20f);
+            Panel.SetFont(FontAssets.DeathText);
             Append(Panel);
             Panel.Activate();
         }

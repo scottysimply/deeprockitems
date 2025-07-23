@@ -1,6 +1,8 @@
 ﻿using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using ReLogic.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -38,6 +40,12 @@ namespace deeprockitems.UI
         public Color BorderColor { get; set; } = Color.Black;
         public Color BackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
         public float LabelHeight { get; private set; }
+
+        public Asset<DynamicSpriteFont> Font { get; private set; } = FontAssets.MouseText;
+        public void SetFont(Asset<DynamicSpriteFont> font) {
+            Font = font;
+            _needsRevalidate = true;
+        }
         public void SetLabelHeight(float labelHeight) {
             LabelHeight = labelHeight;
             _needsRevalidate = true;
@@ -255,23 +263,15 @@ namespace deeprockitems.UI
             }
             public bool IsSelected { get; set; }
             public string Text { get; private set; }
-            public UIText LabelText { get; set; }
-            public override void OnInitialize() {
-                Vector2 baseSize = ChatManager.GetStringSize(FontAssets.MouseText.Value, Text, new(1f));
-                float scale = GetInnerDimensions().Height / baseSize.Y;
-                LabelText = new(Text, scale) {
-                    PaddingLeft = 18,
-                    PaddingRight = 18,
-                    Top = { Pixels = 6}
-                };
-                LabelText.IgnoresMouseInteraction = true;
-                Width.Pixels = baseSize.X * scale + 36;
-                Append(LabelText);
-            }
-            protected override void DrawSelf(SpriteBatch spriteBatch) {
+            public Asset<DynamicSpriteFont> Font { get; set; } = FontAssets.MouseText;
+            public override void Draw(SpriteBatch spriteBatch) {
                 var bounds = GetDimensions();
                 DRGHelpers.DrawPanel(spriteBatch, Assets.UI.TabLabelFill.Value, 18, 10, new Vector2(bounds.X, bounds.Y), bounds.Width, bounds.Height, AdjustedBackgroundColor);
                 DRGHelpers.DrawPanel(spriteBatch, Assets.UI.TabLabelOutline.Value, 18, 10, new Vector2(bounds.X, bounds.Y), bounds.Width, bounds.Height, AdjustedBorderColor);
+                // Draw font centered
+                Vector2 baseSize = ChatManager.GetStringSize(Font.Value, Text, new(1f));
+                float scale = GetInnerDimensions().Height / baseSize.Y;
+                Utils.DrawBorderString(spriteBatch, Text, bounds.Center() - 0.5f * scale * baseSize, Color.White, scale);
             }
         }
     }
