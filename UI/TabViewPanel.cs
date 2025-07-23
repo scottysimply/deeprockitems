@@ -264,14 +264,21 @@ namespace deeprockitems.UI
             public bool IsSelected { get; set; }
             public string Text { get; private set; }
             public Asset<DynamicSpriteFont> Font { get; set; } = FontAssets.MouseText;
+            public override void OnInitialize() {
+                Vector2 baseSize = ChatManager.GetStringSize(Font.Value, Text, new(1f));
+                float scale = GetInnerDimensions().Height / baseSize.Y;
+                Width.Pixels = baseSize.X * scale + 30f;
+                Recalculate();
+            }
             public override void Draw(SpriteBatch spriteBatch) {
                 var bounds = GetDimensions();
                 DRGHelpers.DrawPanel(spriteBatch, Assets.UI.TabLabelFill.Value, 18, 10, new Vector2(bounds.X, bounds.Y), bounds.Width, bounds.Height, AdjustedBackgroundColor);
                 DRGHelpers.DrawPanel(spriteBatch, Assets.UI.TabLabelOutline.Value, 18, 10, new Vector2(bounds.X, bounds.Y), bounds.Width, bounds.Height, AdjustedBorderColor);
                 // Draw font centered
                 Vector2 baseSize = ChatManager.GetStringSize(Font.Value, Text, new(1f));
-                float scale = GetInnerDimensions().Height / baseSize.Y;
-                Utils.DrawBorderString(spriteBatch, Text, bounds.Center() - 0.5f * scale * baseSize, Color.White, scale);
+                float scale = (GetInnerDimensions().Height - 4f) / baseSize.Y;
+                Vector2 adjustedCenter = GetDimensions().Center() + new Vector2(0f, 2f);
+                Utils.DrawBorderString(spriteBatch, Text, adjustedCenter - 0.5f * scale * baseSize, Color.White, scale);
             }
         }
     }
