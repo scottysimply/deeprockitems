@@ -89,8 +89,8 @@ namespace deeprockitems.UI
                     Top = { Pixels = 2f }
                 };
                 label.IsSelected = false;
-                label.BackgroundColor = BackgroundColor;
-                label.BorderColor = BorderColor;
+                label.BackgroundColor = PrimaryBackgroundColor;
+                label.BorderColor = PrimaryBorderColor;
                 // Makes sure the panel stays selected
                 if ((_selectedText ?? "") == text)
                 {
@@ -106,8 +106,8 @@ namespace deeprockitems.UI
         }
         private void ValidatePanel() {
             // Append panel directly below labels:
-            SelectedPanel.BackgroundColor = BackgroundColor;
-            SelectedPanel.BorderColor = BorderColor;
+            SelectedPanel.BackgroundColor = PrimaryBackgroundColor;
+            SelectedPanel.BorderColor = PrimaryBorderColor;
             SelectedPanel.Top.Pixels = LabelHeight;
             SelectedPanel.Height.Pixels = GetInnerDimensions().Height - LabelHeight;
             Append(SelectedPanel);
