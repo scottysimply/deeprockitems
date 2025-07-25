@@ -55,7 +55,11 @@ namespace deeprockitems.UI
         }
         public void AddPanel(string label, TPanel panel) {
             _views.Add(label, panel);
+            PostAddPanel(panel);
             _needsRevalidate = true;
+        }
+        public virtual void PostAddPanel(TPanel panel) {
+
         }
         private void ValidateLabelsAndPanel() {
             // Remove existing labels/panels
