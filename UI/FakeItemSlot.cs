@@ -6,6 +6,12 @@ using Terraria.GameInput;
 using Terraria.Audio;
 using Terraria.ID;
 using System;
+using Humanizer;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+using Terraria.UI.Chat;
+using Terraria.UI.Gamepad;
+using ReLogic.Content;
 
 namespace deeprockitems.UI
 {
@@ -14,6 +20,11 @@ namespace deeprockitems.UI
         public Func<Item> GetItemToTrackInstead { get; set; }
         public delegate void ItemSetter(ref Item item);
         public ItemSetter SetItemToTrackInstead { get; set; }
+        public Asset<Texture2D> BackgroundTexture { get; set; } = TextureAssets.InventoryBack9;
+        public Asset<Texture2D>? BorderTexture { get; set; } = null;
+        public Color BackgroundColor { get; set; } = Main.inventoryBack;
+        public Color BorderColor { get; set; } = Color.Black;
+        public int Context { get; set; } = 1;
         private Item _itemInSlot;
         internal Item ItemInSlot
         {
@@ -36,7 +47,6 @@ namespace deeprockitems.UI
             }
         }
         public ItemPredicate PredicateToPutItemIn;
-        private float _drawScale = 1f;
         public delegate bool ItemPredicate(Item mouseItem, Item inSlot);
         public FakeItemSlot(ItemPredicate canItemBePutInSlot)
         {
@@ -82,14 +92,12 @@ namespace deeprockitems.UI
         }
         public override void OnInitialize()
         {
-            _drawScale = Width.Pixels / 52f;
             base.OnInitialize();
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             Rectangle dimensions = GetDimensions().ToRectangle();
-            float oldScale = Main.inventoryScale;
-            Main.inventoryScale = _drawScale;
+            float inventoryScale = Main.inventoryScale * 1.416667f;
 
             if (ContainsPoint(Main.MouseScreen) && !PlayerInput.IgnoreMouseInterface)
             {
@@ -102,11 +110,26 @@ namespace deeprockitems.UI
                     Main.cursorOverride = 8;
                 }
             }
-            Item tempItem = ItemInSlot;
-            ItemSlot.Draw(spriteBatch, ref tempItem, 1, dimensions.TopLeft());
+            if (BorderTexture is not null)
+            {
+                spriteBatch.Draw(BorderTexture.Value, dimensions, BackgroundColor);
+            }
+            if (BackgroundTexture is not null)
+            {
+                spriteBatch.Draw(BackgroundTexture.Value, dimensions, BackgroundColor);
+            }
+            Vector2 scaledCenterOffset = dimensions.Size();
 
-            // Reset scale
-            Main.inventoryScale = oldScale;
+            if (ItemInSlot.type > ItemID.None && ItemInSlot.stack > 0)
+            {
+                int type = ItemInSlot.type;
+                Color color = Color.White;
+                Main.instance.LoadItem(type);
+                Texture2D itemTexture = TextureAssets.Item[type].Value;
+                Rectangle itemFrame = ((Main.itemAnimations[type] == null) ? itemTexture.Frame() : Main.itemAnimations[type].GetFrame(itemTexture));
+                ItemSlot.DrawItem_GetColorAndScale(ItemInSlot, inventoryScale, ref color, 40f / 52f * dimensions.Width, ref itemFrame, out var itemLight, out var finalDrawScale);
+                spriteBatch.Draw(itemTexture, dimensions.TopLeft() + scaledCenterOffset / 2f, itemFrame, ItemInSlot.GetAlpha(itemLight), 0f, itemFrame.Size() / 2f, finalDrawScale, SpriteEffects.None, 0f);
+            }
         }
     }
 }
