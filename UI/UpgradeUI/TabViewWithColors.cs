@@ -10,8 +10,6 @@ namespace deeprockitems.UI.UpgradeUI
     public class TabViewWithColors : TabViewPanel<UpgradePanel>
     {
         #region UI Colors
-        public Color PrimaryBorderColor { get; set; } = Color.Black;
-        public Color PrimaryBackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
         public Color SecondaryBorderColor { get; set; } = Color.Black;
         public Color SecondaryBackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
         public Color TertiaryBorderColor { get; set; } = Color.Black;

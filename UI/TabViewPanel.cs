@@ -37,8 +37,8 @@ namespace deeprockitems.UI
         }
 #nullable disable
         public SoundStyle SwitchTabSound { get; set; } = SoundID.MenuTick;
-        public Color BorderColor { get; set; } = Color.Black;
-        public Color BackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
+        public Color PrimaryBorderColor { get; set; } = Color.Black;
+        public Color PrimaryBackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
         public float LabelHeight { get; private set; }
 
         public Asset<DynamicSpriteFont> Font { get; private set; } = FontAssets.MouseText;
