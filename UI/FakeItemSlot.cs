@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using Terraria.UI.Gamepad;
 using ReLogic.Content;
+using deeprockitems.Utilities;
 
 namespace deeprockitems.UI
 {
@@ -110,13 +111,13 @@ namespace deeprockitems.UI
                     Main.cursorOverride = 8;
                 }
             }
-            if (BorderTexture is not null)
-            {
-                spriteBatch.Draw(BorderTexture.Value, dimensions, BackgroundColor);
-            }
             if (BackgroundTexture is not null)
             {
-                spriteBatch.Draw(BackgroundTexture.Value, dimensions, BackgroundColor);
+                DRGHelpers.DrawPanel(spriteBatch, BackgroundTexture.Value, 12, 12, dimensions.TopLeft(), dimensions.Width, dimensions.Height, BackgroundColor);
+            }
+            if (BorderTexture is not null)
+            {
+                DRGHelpers.DrawPanel(spriteBatch, BorderTexture.Value, 12, 12, dimensions.TopLeft(), dimensions.Width, dimensions.Height, BorderColor);
             }
             Vector2 scaledCenterOffset = dimensions.Size();
 
