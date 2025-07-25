@@ -3,6 +3,8 @@ using Terraria.UI;
 using deeprockitems.Content.Items;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace deeprockitems.UI.UpgradeUI
 {
@@ -14,6 +16,14 @@ namespace deeprockitems.UI.UpgradeUI
         #region UI Elements
         public FakeItemSlot ParentSlot { get; set; }
         public UIButton<string> ForgeButton { get; set; }
+        #endregion
+        #region UI Colors
+        public Color PrimaryBorderColor { get; set; } = Color.Black;
+        public Color PrimaryBackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
+        public Color SecondaryBorderColor { get; set; } = Color.Black;
+        public Color SecondaryBackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
+        public Color TertiaryBorderColor { get; set; } = Color.Black;
+        public Color TertiaryBackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
         #endregion
         public override sealed void OnInitialize()
         {
@@ -28,6 +38,8 @@ namespace deeprockitems.UI.UpgradeUI
                 Width = { Pixels = 1.8f * SLOT_SIZE, Percent = 0f },
                 TextScaleMax = 1.5f,
             };
+            ForgeButton.BorderColor = SecondaryBorderColor;
+            ForgeButton.BackgroundColor = SecondaryBackgroundColor;
             ForgeButton.TextOriginY -= 0.3f;
             ForgeButton.OnLeftClick += OnClickForgeButton;
             Append(ForgeButton);
@@ -42,6 +54,10 @@ namespace deeprockitems.UI.UpgradeUI
                 Width = ForgeButton.Height,
                 Height = ForgeButton.Height
             };
+            ParentSlot.BorderTexture = Main.Assets.Request<Texture2D>("Images/UI/PanelBorder");
+            ParentSlot.BackgroundTexture = Main.Assets.Request<Texture2D>("Images/UI/PanelBackground");
+            ParentSlot.BorderColor = new(160, 90, 15);
+            ParentSlot.BackgroundColor = new Color(82, 70, 50);
             ParentSlot.OnItemSwap += ParentItemSlotChanged;
             ParentSlot.GetItemToTrackInstead = () => UpgradeUIPlayer.ItemInUpgradeSlot;
             ParentSlot.SetItemToTrackInstead = (ref Item item) => UpgradeUIPlayer.ItemInUpgradeSlot = item;
