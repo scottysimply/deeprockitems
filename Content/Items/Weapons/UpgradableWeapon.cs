@@ -1,4 +1,5 @@
 ﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Items.Misc;
 using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
@@ -221,7 +222,17 @@ namespace deeprockitems.Content.Items.Weapons
             return [..upgrades];
         }
         public override void Load() {
-            _ = InitializeUpgrades();
+            var upgrades = InitializeUpgrades();
+            // This initializes each possible matrix core!!
+            if (upgrades.ContainsKey(UpgradeBuilder.OVERCLOCK_TIER))
+            {
+                foreach (var overclock in upgrades[UpgradeBuilder.OVERCLOCK_TIER])
+                {
+                    BlankMatrixCore core = new();
+                    core.InfuseWthOverclock(overclock as Overclock);
+                    Mod.AddContent(core);
+                }
+            }
         }
         public virtual void ResetStats() { }
         /// <summary>

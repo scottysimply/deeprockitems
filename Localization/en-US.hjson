@@ -8,11 +8,7 @@ Mods: {
 					Can be infused by Mission Control after completing a quest
 					'If you want something done right, you do it yourself!'
 					'''
-			}
-
-			InfusedMatrixCore: {
-				DisplayName: Infused Matrix Core: {0}
-				Tooltip: "'This Overclock is going to be amazing!'"
+				InfusedDisplayName: Infused Matrix Core: {0}
 				InfusedTooltip: Applies the following effects to the {0}:
 			}
 
