@@ -65,7 +65,18 @@ namespace deeprockitems.Content.Items.Misc
                 return Language.GetText("Mods.deeprockitems.Items.BlankMatrixCore.InfusedDisplayName").WithFormatArgs(_infusedOverclock.DisplayName);
             }
         }
-        public override LocalizedText Tooltip => base.Tooltip;
+        public override LocalizedText Tooltip
+        {
+            get
+            {
+                if (ModifiableInternalName is null || ModifiableInternalName == "")
+                {
+                    return base.Tooltip;
+                }
+                return Language.GetText("Mods.deeprockitems.Items.BlankMatrixCore.InfusedTooltip");
+            }
+        }
+        internal string ModifiableTooltip;
         public override string Name
         {
             get
