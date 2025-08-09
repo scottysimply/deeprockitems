@@ -38,6 +38,8 @@ namespace deeprockitems.UI.UpgradeUI
                 Width = { Pixels = this.Width.Pixels - ForgeButton.Width.Pixels - ParentSlot.Width.Pixels - 4 * PADDING },
                 Left = { Pixels = ParentSlot.Left.Pixels + ParentSlot.Width.Pixels + PADDING },
                 Height = ParentSlot.Height,
+                BackgroundColor = SecondaryBackgroundColor,
+                BorderColor = SecondaryBorderColor
             };
             RecipeDisplay.SetState(null);
             Append(RecipeDisplay);
@@ -58,14 +60,16 @@ namespace deeprockitems.UI.UpgradeUI
                 Width = ForgeButton.Width,
                 // Height is the (parent's height - some offset)
                 Height = { Pixels = this.Height.Pixels-(ForgeButton.Height.Pixels + 3 * PADDING) },
+                BackgroundColor = SecondaryBackgroundColor,
+                BorderColor = SecondaryBorderColor
             };
             Append(OverclockDisplay);
         }
         /// <summary>
         /// Selects the locked upgrade for crafting. Will not attempt to unlock the upgrade; refer to <see cref="UpgradeSelectionPanel.UnlockUpgrade()"/>
         /// </summary>
-        private void SelectThisLockedUpgrade(UpgradeSelectOption option) {
-            RecipeDisplay.SetState(option);
+        private void SelectThisLockedUpgrade(Upgrade upgrade) {
+            RecipeDisplay.SetState(upgrade);
         }
 
         protected void UpgradeContainer_OnLeftClick(UIMouseEvent evt, UIElement listeningElement) {
@@ -76,14 +80,14 @@ namespace deeprockitems.UI.UpgradeUI
             // DEBUG: allow any upgrade to be equipped
             if (deeprockitems.DebugMode)
             {
-                SelectThisLockedUpgrade(option);
+                SelectThisLockedUpgrade(option.Upgrade);
                 option.SelectThisUpgrade();
                 return;
             }
 
             if (!option.Upgrade.UpgradeState.IsUnlocked)
             {
-                SelectThisLockedUpgrade(option);
+                SelectThisLockedUpgrade(option.Upgrade);
                 return;
             }
 
@@ -113,76 +117,18 @@ namespace deeprockitems.UI.UpgradeUI
 
         protected override void OnClickForgeButton(UIMouseEvent evt, UIElement listeningElement)
         {
-            // Check if a current recipe is put in
-            if (RecipeDisplay.Option is null || RecipeDisplay.Option.Upgrade is null) return;
-
-            // Check if the ingredients of the recipe are in the player's inventory
-            if (!TryToCraftItem(Main.LocalPlayer, RecipeDisplay.Option.Upgrade.Recipe))
+            // Check if the recipe could be unlocked or not
+            if (RecipeDisplay.CurrentUpgrade is null || !RecipeDisplay.CurrentUpgrade.Recipe.TryToUnlockUpgrade(Main.LocalPlayer))
             {
-                // cannot craft sound
+                // funne sound
                 SoundEngine.PlaySound(SoundID.Tink);
                 return;
             }
 
-            // Unlock the upgrade, equip it, and disable the recipe
-            RecipeDisplay.Option.Upgrade.UpgradeState.IsUnlocked = true;
-
-            // Select this upgrade through the recipe
-            RecipeDisplay.Option.SelectThisUpgrade();
-            // Set state to null
+            // Upgrade could be crafted
+            RecipeDisplay.CurrentUpgrade.UpgradeState.IsUnlocked = true;
             RecipeDisplay.SetState(null);
-            // Play sound to let the player know items were taken
             SoundEngine.PlaySound(SoundID.Unlock);
-
-        }
-        /// <summary>
-        /// Attempt crafting the upgrade. Returns true if the item was successfully crafted.
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="recipe"></param>
-        /// <returns></returns>
-        private bool TryToCraftItem(Player player, UpgradeRecipe recipe) {
-            List<Item> matchingItems = [];
-
-            // Search for recipes for each item.
-            for (int recipeIndex = 0; recipeIndex < recipe.Length; recipeIndex++)
-            {
-                for (int invIndex = 0; invIndex < 50; invIndex++)
-                {
-                    // Filter accepted types and allow it to be used for crafting
-                    if (!recipe.ItemsAndAmounts[recipeIndex].AcceptedTypes.Contains(player.inventory[invIndex].type)) continue;
-                    matchingItems.Add(player.inventory[invIndex]);
-                }
-
-                // Sum each stack of items.
-                int totalStack = matchingItems.Where(item => recipe.ItemsAndAmounts[recipeIndex].AcceptedTypes.Contains(item.type)).Sum(item => item.stack);
-                // No items? :megamind:
-                if (totalStack < recipe.ItemsAndAmounts[recipeIndex].Stack) return false;
-            }
-
-            // Take items from the player's inventory to craft
-            for (int recipeIndex = 0; recipeIndex < recipe.Length; recipeIndex++)
-            {
-                int itemsRequired = recipe.ItemsAndAmounts[recipeIndex].Stack;
-                foreach (var item in matchingItems)
-                {
-                    if (!recipe.ItemsAndAmounts[recipeIndex].AcceptedTypes.Contains(item.type)) continue;
-
-                    // Awful code but i'm not sure how to do this better
-                    int currentStack = 0;
-                    while (currentStack < itemsRequired)
-                    {
-                        item.stack--;
-                        currentStack++;
-                        if (item.stack == 0)
-                        {
-                            item.TurnToAir();
-                            item.maxStack = 0; // still not fixed in the year of our lord 2025
-                        }
-                    }
-                }
-            }
-            return true;
         }
     }
 }
