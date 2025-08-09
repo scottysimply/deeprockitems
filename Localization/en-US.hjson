@@ -87,6 +87,8 @@ Mods: {
 				Upgradable: Upgradable at an Upgrade Station
 				Overclocks: Overclocks
 				Infuse: Infuse Matrix Core
+				Equip: Equip
+				Remove: Remove
 			}
 		}
 
