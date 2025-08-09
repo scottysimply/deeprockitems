@@ -58,7 +58,7 @@ namespace deeprockitems.UI.UpgradeUI
         {
             // Enable tweening blocker if this upgrade is the selected recipe
 
-            if ((Parent.Parent.Parent as UpgradeSelectionPanel)?.RecipeDisplay.Option?.Upgrade == Upgrade)
+            if ((Parent.Parent.Parent as UpgradeSelectionPanel)?.RecipeDisplay.CurrentUpgrade == Upgrade)
             {
                 AllowedToTween = false;
             }
