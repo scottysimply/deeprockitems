@@ -23,9 +23,9 @@ namespace deeprockitems.Content.Upgrades
         public string LocalizedKey { get; set; }
         public LocalizedText DisplayName { get => Language.GetOrRegister($"{LocalizedKey}.DisplayName", () => UpgradeName); }
         public LocalizedText HoverText { get => Language.GetOrRegister($"{LocalizedKey}.HoverText", () => "Hover text"); }
-        public UpgradeStateBinding UpgradeState { get; set; }
-        public UpgradeBehavior Behavior { get; set; }
-        public UpgradeRecipe Recipe { get; set; }
+        public UpgradeStateBinding UpgradeState { get; set; } = new();
+        public UpgradeBehavior Behavior { get; set; } = new();
+        public UpgradeRecipe Recipe { get; set; } = new();
         public UpgradeTier Tier { get; set; }
     }
 }
