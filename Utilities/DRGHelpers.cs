@@ -166,16 +166,29 @@ namespace deeprockitems.Utilities
         /// </summary>
         /// <returns>The formatted text.</returns>
         public static string ScaleThenSplit(this LocalizedText text, float minScale, float maxWidth, out float finalScale, out Vector2 size) {
+            return ScaleThenSplit(text.Value, minScale, 1f, maxWidth, out finalScale, out size);
+        }
+        public static string ScaleThenSplit(this LocalizedText text, float minScale, float maxScale, float maxWidth, out float finalScale, out Vector2 size) {
+            return ScaleThenSplit(text.Value, minScale, maxScale, maxWidth, out finalScale, out size);
+        }
+        public static string ScaleThenSplit(this string text, float minScale, float maxScale, float maxWidth, out float finalScale, out Vector2 size) {
             text.ScaleToFit(maxWidth, out float testScale, out Vector2 testSize);
-            if (testScale > minScale)
+            if (minScale < testScale)
             {
+                // Clamp scale to the max value
+                if (testScale > maxScale)
+                {
+                    finalScale = maxScale;
+                    size = finalScale * testSize;
+                    return text;
+                }
                 finalScale = testScale;
                 size = testSize;
-                return text.Value;
+                return text;
             }
-            // The tested scale failed. Clamp the scale, then begin splitting until we find a size that works.
+            // Text was too small, try splitting until it works
             finalScale = minScale;
-            string[] splitText = text.Value.Split(' ');
+            string[] splitText = text.Split(' ');
             string currentText = "";
             foreach (string substring in splitText)
             {
@@ -196,30 +209,7 @@ namespace deeprockitems.Utilities
         /// </summary>
         /// <returns>The formatted text.</returns>
         public static string ScaleThenSplit(this string text, float minScale, float maxWidth, out float finalScale, out Vector2 size) {
-            text.ScaleToFit(maxWidth, out float testScale, out Vector2 testSize);
-            if (testScale > minScale)
-            {
-                finalScale = testScale;
-                size = testSize;
-                return text;
-            }
-            // The tested scale failed. Clamp the scale, then begin splitting until we find a size that works.
-            finalScale = minScale;
-            string[] splitText = text.Split(' ');
-            string currentText = "";
-            foreach (string substring in splitText)
-            {
-                Vector2 testedSize = ChatManager.GetStringSize(FontAssets.MouseText.Value, currentText + ' ' + substring, new Vector2(finalScale));
-                if (testedSize.X > maxWidth)
-                {
-                    // big text lmao
-                    currentText += '\n' + substring;
-                    continue;
-                }
-                currentText += ' ' + substring;
-            }
-            size = ChatManager.GetStringSize(FontAssets.MouseText.Value, currentText, new Vector2(finalScale));
-            return currentText.Trim();
+            return ScaleThenSplit(text, minScale, 1f, maxWidth, out finalScale, out size);
         }
     }
 }
