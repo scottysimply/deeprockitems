@@ -276,7 +276,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 }
             }
             if (weapons.Count == 0) return;
-            // choose random overclock
+            /*// choose random overclock
             int weaponindex = Main.rand.NextFromList([.. weapons]);
             UpgradableWeapon weapon = Main.LocalPlayer.inventory[weaponindex].ModItem as UpgradableWeapon;
             int overclockIndex = Main.rand.Next(weapon.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER].Length);
@@ -285,7 +285,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
             currentBlankCore.Item.stack--;
             currentBlankCore = null;
             var newCore = Main.LocalPlayer.QuickSpawnItemDirect(NPC.GetSource_GiftOrReward(), ModContent.ItemType<InfusedMatrixCore>()).ModItem as InfusedMatrixCore;
-            newCore.InfuseWthOverclock(chosenOverclock);
+            newCore.InfuseWthOverclock(chosenOverclock);*/
 
         }
     }
