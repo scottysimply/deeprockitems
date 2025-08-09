@@ -13,10 +13,13 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
     public class OverclockSelectionMenu : UIPanel
     {
+        private UpgradeTier _tier;
         public OverclockService SelectedOverclock { get; set; }
         public UIScrollbar Scrollbar { get; set; }
         public UIText OverclockLabel { get; set; }
         public UIList OverclockList { get; set; }
+        public Color ChildBackgroundColor { get; set; } = Color.Transparent;
+        public Color ChildBorderColor { get; set; } = Color.Transparent;
         public OverclockSelectionMenu(OverclockService overclock) {
             SelectedOverclock = overclock;
         }
@@ -26,11 +29,13 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Left = { Percent = 0f, Pixels = -4f }
             };
             Append(OverclockLabel);
-            Scrollbar = new UIScrollbar {
+            Scrollbar = new ColorableScrollbar {
                 Width = { Pixels = 20f },
                 Left = { Percent = 1f, Pixels = -14f },
                 Height = { Percent = 1f, Pixels = -OverclockLabel.Height.Pixels },
-                Top = { Pixels = OverclockLabel.Height.Pixels }
+                Top = { Pixels = OverclockLabel.Height.Pixels },
+                ScrollbarColor = ChildBackgroundColor,
+                InnerColor = ChildBorderColor,
             };
             OverclockList = new UIList {
                 Width = { Pixels = 220f },
@@ -49,22 +54,36 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 SelectedOverclock.ThisOverclock = target.ThisOverclock;
             }
         }
-
-        public void SetOverclocks(UpgradeTier tier) {
+        public void RefreshMenu() {
             OverclockList.Clear();
-            if (tier is null || tier.Tier != UpgradeBuilder.OVERCLOCK_TIER)
+            if (_tier is null || _tier.Tier != UpgradeBuilder.OVERCLOCK_TIER)
             {
                 return;
             }
             // Generate overclock elements from tier
-            var list_of_elements = tier.Select<Upgrade, OverclockListItem>(upgrade => new(upgrade as Overclock) {
-                Width = { Percent = 1f, Pixels = -10f },
-                Height = { Pixels = 40f },
-                Left = { Pixels = 0f },
+            var list_of_elements = _tier.Where(u => u is Overclock oc && oc.UpgradeState.IsUnlocked).Select((Upgrade upgrade) => {
+                var element = new OverclockListItem(upgrade as Overclock) {
+                    Width = { Percent = 1f, Pixels = -10f },
+                    Height = { Pixels = 40f },
+                    Left = { Pixels = 0f },
+                };
+                if (ChildBackgroundColor != Color.Transparent)
+                {
+                    element.BackgroundColor = ChildBackgroundColor;
+                }
+                if (ChildBorderColor != Color.Transparent)
+                {
+                    element.BorderColor = ChildBorderColor;
+                }
+                return element;
             });
             OverclockList.AddRange(list_of_elements);
             OverclockList.Activate();
             OverclockList.OverflowHidden = true;
+        }
+        public void SetOverclocks(UpgradeTier tier) {
+            _tier = tier;
+            RefreshMenu();
         }
         public void RemoveOverclocks() {
             OverclockList = null;
@@ -77,6 +96,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             var oldRect = spriteBatch.GraphicsDevice.ScissorRectangle;
             var oldRasterizer = spriteBatch.GraphicsDevice.RasterizerState;
             var oldClamp = spriteBatch.GraphicsDevice.SamplerStates[0];
+            // Allows for scissor rectangle
             foreach (var element in Children)
             {
                 if (element is not UIList list)

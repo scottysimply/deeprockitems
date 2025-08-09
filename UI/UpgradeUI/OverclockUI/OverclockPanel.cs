@@ -1,39 +1,72 @@
 ﻿using deeprockitems.Content.Items;
 using deeprockitems.Content.Items.Misc;
 using deeprockitems.Content.Upgrades;
+using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
     public class OverclockPanel : UpgradePanel
     {
-        public OverclockService SelectedOverclock { get; set; } = new();
+        public OverclockService CurrentlyViewedOverclock { get; set; } = new();
+        public Overclock CraftableOverclock { get; set; }
         public FakeItemSlot MatrixCoreSlot { get; set; }
         public bool SelectedDetails = false;
         public bool SelectedMenu = false;
         public OverclockDetails Details { get; set; }
         public OverclockSelectionMenu SelectionMenu { get; set; }
+        public UpgradeRecipeDisplay OverclockRecipe { get; set; }
         public override void PostInitialize() {
             int PADDING = 6;
             float slotSize = ParentSlot.GetDimensions().Width;
             MatrixCoreSlot = new FakeItemSlot((mouseItem, slotItem) => {
-                if (mouseItem.ModItem is BlankMatrixCore) return true;
-                if (slotItem.type != 0 && (mouseItem.type == 0 || mouseItem.ModItem is BlankMatrixCore)) return true;
+                // Removing from slot
+                if (ParentSlot.ItemInSlot is null || ParentSlot.ItemInSlot.type == 0) return false;
+                if (slotItem.type > 0 && mouseItem.type == 0) return true;
+                // Adding or swapping to the slot (both are the same logic)
+                if (mouseItem.ModItem is BlankMatrixCore core && core.InfusedOverclock != null)
+                {
+                    // Only allow matrix cores that match the parent slot's slot
+                    if (ParentSlot.ItemInSlot.ModItem.Name == core.InfusedOverclock.WeaponName)
+                    {
+                        return true;
+                    }
+                }
                 return false;
             }) {
                 Left = { Pixels = ParentSlot.Left.Pixels + ParentSlot.Width.Pixels + PADDING },
                 Top = ParentSlot.Top,
                 Width = { Pixels = slotSize },
-                Height = { Pixels = slotSize }
+                Height = { Pixels = slotSize },
+                BackgroundColor = ParentSlot.BackgroundColor,
+                BackgroundTexture = ParentSlot.BackgroundTexture,
+                BorderColor = ParentSlot.BorderColor,
+                BorderTexture = ParentSlot.BorderTexture
             };
+            OverclockRecipe = new() {
+                Top = { Pixels = ParentSlot.Top.Pixels },
+                Width = { Pixels = this.Width.Pixels - ForgeButton.Width.Pixels - MatrixCoreSlot.Width.Pixels - 4 * PADDING },
+                Left = { Pixels = MatrixCoreSlot.Left.Pixels + MatrixCoreSlot.Width.Pixels + PADDING },
+                Height = ParentSlot.Height,
+                BackgroundColor = SecondaryBackgroundColor,
+                BorderColor = SecondaryBorderColor
+            };
+            OverclockRecipe.SetState(null);
             Append(MatrixCoreSlot);
-            SelectionMenu = new OverclockSelectionMenu(SelectedOverclock) {
+            SelectionMenu = new OverclockSelectionMenu(CurrentlyViewedOverclock) {
                 Width = { Percent = 0.5f, Pixels = -PADDING },
                 Height = { Percent = 1f, Pixels = -MatrixCoreSlot.Height.Pixels - PADDING },
                 Left = { Percent = 0f },
                 Top = { Pixels = MatrixCoreSlot.Height.Pixels + PADDING},
+                BackgroundColor = SecondaryBackgroundColor,
+                BorderColor = SecondaryBorderColor,
+                ChildBorderColor = new Color(SecondaryBorderColor.ToVector3() * 0.8f),
+                ChildBackgroundColor = new Color(SecondaryBackgroundColor.ToVector3() * 0.8f),
             };
             Append(SelectionMenu);
             SelectionMenu.Activate();
@@ -42,12 +75,17 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Height = { Percent = 1f, Pixels = -MatrixCoreSlot.Height.Pixels - PADDING },
                 Left = { Percent = 0.5f },
                 Top = { Pixels = MatrixCoreSlot.Height.Pixels + PADDING },
+                BackgroundColor = SecondaryBackgroundColor,
+                BorderColor = SecondaryBorderColor,
+                ChildBorderColor = new Color(SecondaryBorderColor.ToVector3() * 0.8f),
+                ChildBackgroundColor = new Color(SecondaryBackgroundColor.ToVector3() * 0.8f),
             };
             Append(Details);
             OnUpdate += OverclockPanel_OnUpdate;
-            SelectedOverclock.OnValueChanged += SelectedOverclock_OnValueChanged;
-        }
+            CurrentlyViewedOverclock.OnValueChanged += SelectedOverclock_OnValueChanged;
+            MatrixCoreSlot.OnItemSwap += MatrixCoreChanged;
 
+        }
         private void SelectedOverclock_OnValueChanged(Overclock newValue, Overclock oldValue) {
         }
         public static float DesiredSelectedWidth => 260f;
@@ -106,30 +144,52 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 }
             }
         }
-
         protected override void ParentItemSlotChanged(Item itemNowInSlot, Item itemThatLeftSlot) {
+            // If the upgradable item was removed, spawn the matrix core
+            if (itemNowInSlot.type != itemThatLeftSlot.type && itemNowInSlot.ModItem is IUpgradable && MatrixCoreSlot.ItemInSlot.type != 0)
+            {
+                Item tempItem = MatrixCoreSlot.ItemInSlot;
+                Item air = new(0);
+                MatrixCoreSlot.SwapItems(ref tempItem, ref air);
+                Main.LocalPlayer.QuickSpawnItem(Main.LocalPlayer.GetSource_ReleaseEntity(), tempItem);
+            }
             if ((itemNowInSlot.ModItem as IUpgradable)?.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier overclocks) ?? false)
             {
                 SelectionMenu.SetOverclocks(overclocks);
                 return;
             }
+            CurrentlyViewedOverclock.ThisOverclock = null;
             SelectionMenu.SetOverclocks(null);
         }
+        protected void MatrixCoreChanged(Item itemNowInSlot, Item itemThatLeftSlot) {
+            if (itemNowInSlot.ModItem is BlankMatrixCore { InfusedOverclock: Overclock overclock })
+            {
+                OverclockRecipe.SetState(overclock);
+                return;
+            }
+            CraftableOverclock = null;
+        }
         protected override void OnClickForgeButton(UIMouseEvent evt, UIElement sender) {
-            if (SelectedOverclock?.ThisOverclock is not null)
+            if ((OverclockRecipe.CurrentUpgrade is null || OverclockRecipe.CurrentUpgrade.UpgradeState.IsUnlocked || !OverclockRecipe.CurrentUpgrade.Recipe.TryToUnlockUpgrade(Main.LocalPlayer)))
             {
-                Main.NewText($"Verified OC: {SelectedOverclock.ThisOverclock.DisplayName}");
+                SoundEngine.PlaySound(SoundID.Tink);
+                return;
             }
-            if (MatrixCoreSlot.ItemInSlot?.type != 0)
+
+            // Slight difference from the way upgrades are handled: Dependencies are broken from matrix cores. We need to search for this overclock on the player
+            var upgrades = (ParentSlot.ItemInSlot.ModItem as IUpgradable).UpgradeMasterList;
+            foreach (var upgrade in upgrades[UpgradeBuilder.OVERCLOCK_TIER])
             {
-                MatrixCoreSlot.ItemInSlot.stack--;
-                if (MatrixCoreSlot.ItemInSlot.stack == 0)
+                if (upgrade.UpgradeName == OverclockRecipe.CurrentUpgrade.UpgradeName)
                 {
-                    MatrixCoreSlot.ItemInSlot.TurnToAir();
+                    upgrade.UpgradeState.IsUnlocked = true;
+                    SelectionMenu.RefreshMenu();
+                    OverclockRecipe.SetState(null);
+                    SoundEngine.PlaySound(SoundID.Unlock);
+                    return;
                 }
-                // Consume item in slot
-                Main.NewText("Explode");
             }
+            SoundEngine.PlaySound(SoundID.Tink);
         }
     }
 }

@@ -10,19 +10,20 @@ using deeprockitems.Utilities;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI.Chat;
 using System;
+using deeprockitems.Content.Upgrades;
 
 namespace deeprockitems.UI.UpgradeUI
 {
     public class UpgradeRecipeDisplay : UIElement
     {
-        public UpgradeSelectOption Option;
+        public Upgrade CurrentUpgrade;
         private UpgradeRecipeOption[] optionItems;
         private Texture2D _backgroundTexture;
         private Texture2D _borderTexture;
         private bool _needsLoad = true;
         public UIText RecipeTextDisplay { get; set; }
-        public Color BackgroundColor { get; set; } = new Color(82, 70, 50);
-        public Color BorderColor { get; set; } = new(160, 90, 15);
+        public Color BackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
+        public Color BorderColor { get; set; } = Color.Black;
         LocalizedText recipeText => Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.Recipe", () => "Recipe:");
         public UpgradeRecipeDisplay() {
             _ = recipeText;
@@ -35,13 +36,13 @@ namespace deeprockitems.UI.UpgradeUI
             if (_backgroundTexture == null)
                 _backgroundTexture = Main.Assets.Request<Texture2D>("Images/UI/PanelBackground").Value;
         }
-        public void SetState(UpgradeSelectOption option) {
-            Option = option;
+        public void SetState(Upgrade upgrade) {
+            CurrentUpgrade = upgrade;
             // Ensure that no children exist
             RemoveAllChildren();
             optionItems = null;
 
-            if (option is null || option.Upgrade.Recipe.Length == 0)
+            if (upgrade is null || upgrade.Recipe.Length == 0)
             {
                 return;
             }
@@ -55,15 +56,15 @@ namespace deeprockitems.UI.UpgradeUI
             };
             Append(RecipeTextDisplay);
 
-            optionItems = new UpgradeRecipeOption[option.Upgrade.Recipe.Length];
+            optionItems = new UpgradeRecipeOption[upgrade.Recipe.Length];
             // Place the leftmost element first
             const float GAP = 14f;
             float size = 0.8f * GetDimensions().Height;
             float textDisplayRight = RecipeTextDisplay.Left.Pixels + RecipeTextDisplay.Width.Pixels;
             Vector2 center = new(textDisplayRight + 0.5f * (Width.Pixels - textDisplayRight), GetDimensions().Height / 2f);
-            float gapToFirstElement = option.Upgrade.Recipe.Length % 2 == 0 ? (option.Upgrade.Recipe.Length / 2f - 0.5f) * GAP : MathF.Floor(option.Upgrade.Recipe.Length / 2f) * GAP;
-            float sizeToFirstElement = MathF.Floor(option.Upgrade.Recipe.Length / 2f) * size;
-            optionItems[0] = new UpgradeRecipeOption(option.Upgrade.Recipe.ItemsAndAmounts[0]) {
+            float gapToFirstElement = upgrade.Recipe.Length % 2 == 0 ? (upgrade.Recipe.Length / 2f - 0.5f) * GAP : MathF.Floor(upgrade.Recipe.Length / 2f) * GAP;
+            float sizeToFirstElement = MathF.Floor(upgrade.Recipe.Length / 2f) * size;
+            optionItems[0] = new UpgradeRecipeOption(upgrade.Recipe.ItemsAndAmounts[0]) {
                 Left = { Pixels = center.X - gapToFirstElement - sizeToFirstElement },
                 Top = { Pixels = center.Y - 0.5f * size },
                 Width = { Pixels = size },
@@ -74,7 +75,7 @@ namespace deeprockitems.UI.UpgradeUI
             // Auto place remaining elements
             for (int i = 1; i < optionItems.Length; i++)
             {
-                optionItems[i] = new UpgradeRecipeOption(option.Upgrade.Recipe.ItemsAndAmounts[i]) {
+                optionItems[i] = new UpgradeRecipeOption(upgrade.Recipe.ItemsAndAmounts[i]) {
                     Left = { Pixels = optionItems[0].Left.Pixels + i * (GAP + size) },
                     Top = { Pixels = center.Y - 0.5f * size },
                     Width = { Pixels = size },
@@ -86,7 +87,7 @@ namespace deeprockitems.UI.UpgradeUI
         public override void Draw(SpriteBatch spriteBatch) {
             if (_needsLoad) LoadTextures();
             // Early return to ensure that a recipe is selected.
-            if (Option is null) return;
+            if (CurrentUpgrade is null) return;
 
             // Drawing logic
             var dimensions = GetDimensions().ToRectangle();

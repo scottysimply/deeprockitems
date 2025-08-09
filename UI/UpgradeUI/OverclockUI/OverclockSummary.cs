@@ -1,12 +1,17 @@
 ﻿using deeprockitems.Content.Upgrades;
 using deeprockitems.Types;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using ReLogic.Graphics;
 using System.Linq;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
+using Terraria.UI.Chat;
 
 namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
@@ -14,24 +19,19 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
     {
         public UIText OverclockLabel { get; set; }
         public OverclockIcon OverclockIcon { get; set; }
-        public UIButton<LocalizedText> OverclockStateButton { get; set; }
+        public Asset<DynamicSpriteFont> Font { get; set; } = FontAssets.DeathText;
         public override void OnInitialize() {
             base.OnInitialize();
-            OverclockLabel = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.Overclock", () => "Overclock"), textScale: 1f) {
+            string text = Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.Overclock", () => "Overclock").Value;
+            Vector2 size = ChatManager.GetStringSize(Font.Value, text, new(1f));
+            OverclockLabel = new(text, textScale: (GetDimensions().Width - 16f) / size.X, large: true) {
                 Left = { Percent = 0f, Pixels = -4f },
                 Height = { Pixels = 20f },
             };
             Append(OverclockLabel);
-            OverclockStateButton = new(Language.GetOrRegister("Mods.deeprockitems.Misc.UsefulWords.ViewOverclocks", () => "View Overclocks")) {
-                Left = { Percent = 0f },
-                Top = { Pixels = OverclockLabel.Height.Pixels + 5f },
-                Width = { Pixels = GetDimensions().Width + 20f },
-                Height = { Pixels = 30f}
-            };
-            Append(OverclockStateButton);
             OverclockIcon = new() {
                 Left = { Pixels = 10f },
-                Top = { Pixels = OverclockStateButton.Top.Pixels + OverclockStateButton.Height.Pixels + 5f }
+                Top = { Pixels = OverclockLabel.Top.Pixels + OverclockLabel.Height.Pixels + 16f }
             };
             float remainingHeight = this.Height.Pixels - OverclockIcon.Top.Pixels;
             OverclockIcon.Width.Pixels = OverclockIcon.Height.Pixels = 52f;

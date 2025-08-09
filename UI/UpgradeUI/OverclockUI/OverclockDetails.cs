@@ -1,4 +1,5 @@
-﻿using deeprockitems.Content.Upgrades;
+﻿using deeprockitems.Content.Items;
+using deeprockitems.Content.Upgrades;
 using deeprockitems.Localization;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
@@ -20,21 +21,40 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
         public class InnerElement : UIElement {
 
         }
+
+        public Color ChildBackgroundColor { get; set; } = Color.Transparent;
+        public Color ChildBorderColor { get; set; } = Color.Transparent;
         private Item _item;
         public UIText OverclockName { get; set; }
         public UIText OverclockDescription { get; set; }
         public UIText Positives { get; set; }
         public UIText Negatives { get; set; }
         public UIButton<LocalizedText> EquipButtton { get; set; }
-        public UIButton<LocalizedText> ViewUpgradesButton { get; set; }
         private InnerElement Container { get; set; }
-        public UIScrollbar ScrollBar { get; set; }
+        public ColorableScrollbar ScrollBar { get; set; }
         public override void OnInitialize() {
-            (Parent as OverclockPanel).SelectedOverclock.OnValueChanged += SelectedOverclock_OnValueChanged;
+            (Parent as OverclockPanel).CurrentlyViewedOverclock.OnValueChanged += SelectedOverclock_OnValueChanged;
         }
         private static float SmallTextScale { get => 0.66f; }
+        private void UpdateButtonText(Overclock overclock) {
+            if (EquipButtton is not null)
+            {
+                EquipButtton.Remove();
+            }
+            LocalizedText equipText = overclock.UpgradeState.IsEquipped ? Language.GetText("Mods.deeprockitems.Misc.UsefulWords.Remove") : Language.GetText("Mods.deeprockitems.Misc.UsefulWords.Equip");
+            equipText.ScaleToFit(60f, out float buttonScale, out Vector2 buttonSize);
+            EquipButtton = new(equipText, buttonScale, large: false) {
+                Left = { Pixels = Container.Width.Pixels - buttonSize.X },
+                Top = { Pixels = -6f },
+                Height = { Pixels = buttonSize.Y + 3f },
+                Width = { Pixels = buttonSize.X + 3f },
+            };
+            EquipButtton.OnLeftClick += EquipButtton_OnLeftClick;
+            Container.Append(EquipButtton);
+        }
         private void SelectedOverclock_OnValueChanged(Overclock newValue, Overclock oldValue) {
             RemoveAllChildren();
+            if (newValue is null) return;
             float cutoutForScroll = 24f;
             float innerWidth = OverclockPanel.DesiredSelectedWidth - PaddingLeft - PaddingRight - MarginLeft - MarginRight - cutoutForScroll;
             // Create container
@@ -46,14 +66,15 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 OverflowHidden = false
             };
             Append(Container);
-            newValue.DisplayName.ScaleToFit(Container.Width.Pixels, out var nameScale, out var nameSize);
+            UpdateButtonText(newValue);
+            newValue.DisplayName.ScaleToFit(Container.Width.Pixels - EquipButtton.Width.Pixels - 16f, out var nameScale, out var nameSize);
             OverclockName = new(newValue.DisplayName, nameScale) {
-                Left = { Pixels = 0.5f * Container.Width.Pixels - 0.5f * nameSize.X * nameScale },
-                Top = { Pixels = 3f },
-                Height = { Pixels = nameSize.Y }
+/*                Left = { Pixels = 0.5f * Container.Width.Pixels - 0.5f * nameSize.X * nameScale },
+*/                Top = { Pixels = 3f },
+                  Height = { Pixels = nameSize.Y }
             };
             Container.Append(OverclockName);
-            string adjustedText = newValue.HoverText.ScaleThenSplit(SmallTextScale, Container.Width.Pixels, out float smallScale, out Vector2 descSize);
+            string adjustedText = newValue.HoverText.ScaleThenSplit(SmallTextScale, 0.85f, Container.Width.Pixels, out float smallScale, out Vector2 descSize);
             OverclockDescription = new(adjustedText, smallScale) {
                 Top = { Pixels = OverclockName.Height.Pixels },
                 Height = { Pixels = descSize.Y }
@@ -116,15 +137,25 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                     _scrollBarHeight = element.Top.Pixels + element.Height.Pixels;
                 }
             }
-            ScrollBar = new UIScrollbar {
+            ScrollBar = new ColorableScrollbar {
                 Width = { Pixels = 20f },
                 Left = { Percent = 1f, Pixels = -14f },
                 Height = { Percent = 1f, Pixels = -MarginTop * 2 },
                 Top = { Pixels = MarginTop },
+                ScrollbarColor = ChildBackgroundColor,
+                InnerColor = ChildBorderColor,
             };
             UpdateScrollBar();
             Append(ScrollBar);
         }
+
+        private void EquipButtton_OnLeftClick(UIMouseEvent evt, UIElement listeningElement) {
+            Overclock oc = (Parent as OverclockPanel).CurrentlyViewedOverclock.ThisOverclock;
+            oc.Tier.SelectUpgrade(oc.UpgradeName);
+            ((Parent as OverclockPanel).ParentSlot.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();
+            UpdateButtonText(oc);
+        }
+
         private float _scrollBarHeight;
         public override void Recalculate() {
             UpdateScrollBar();
@@ -169,7 +200,10 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 // End current spritebatch; begin with new one
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, oldClamp, DepthStencilState.None, OverflowHiddenRasterizerState, null, Main.UIScaleMatrix);
-                spriteBatch.GraphicsDevice.ScissorRectangle = Rectangle.Intersect(GetClippingRectangle(spriteBatch), oldRect);
+                Rectangle intersection = Rectangle.Intersect(GetClippingRectangle(spriteBatch), oldRect);
+                // use rectangle with more height
+                const float offset = 18f;
+                spriteBatch.GraphicsDevice.ScissorRectangle = new Rectangle(intersection.X, (int)(intersection.Y - 0.5f * offset), intersection.Width, (int)(intersection.Height + offset));
                 container.Draw(spriteBatch);
                 // Reset spriteBatch
                 spriteBatch.End();

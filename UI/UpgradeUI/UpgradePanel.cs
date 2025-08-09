@@ -37,9 +37,11 @@ namespace deeprockitems.UI.UpgradeUI
                 Height = { Pixels = SLOT_SIZE, Percent = 0f },
                 Width = { Pixels = 1.8f * SLOT_SIZE, Percent = 0f },
                 TextScaleMax = 1.5f,
+                BorderColor = TertiaryBorderColor,
+                BackgroundColor = TertiaryBackgroundColor,
+                HoverBorderColor = TertiaryBorderColor * 1.25f,
+                HoverPanelColor = TertiaryBackgroundColor * 1.25f,
             };
-            ForgeButton.BorderColor = SecondaryBorderColor;
-            ForgeButton.BackgroundColor = SecondaryBackgroundColor;
             ForgeButton.TextOriginY -= 0.3f;
             ForgeButton.OnLeftClick += OnClickForgeButton;
             Append(ForgeButton);
@@ -52,12 +54,12 @@ namespace deeprockitems.UI.UpgradeUI
             }) {
                 HAlign = 0f,
                 Width = ForgeButton.Height,
-                Height = ForgeButton.Height
+                Height = ForgeButton.Height,
+                BorderTexture = Main.Assets.Request<Texture2D>("Images/UI/PanelBorder"),
+                BackgroundTexture = Main.Assets.Request<Texture2D>("Images/UI/PanelBackground"),
+                BorderColor = SecondaryBorderColor,
+                BackgroundColor = SecondaryBackgroundColor,
             };
-            ParentSlot.BorderTexture = Main.Assets.Request<Texture2D>("Images/UI/PanelBorder");
-            ParentSlot.BackgroundTexture = Main.Assets.Request<Texture2D>("Images/UI/PanelBackground");
-            ParentSlot.BorderColor = new(160, 90, 15);
-            ParentSlot.BackgroundColor = new Color(82, 70, 50);
             ParentSlot.OnItemSwap += ParentItemSlotChanged;
             ParentSlot.GetItemToTrackInstead = () => UpgradeUIPlayer.ItemInUpgradeSlot;
             ParentSlot.SetItemToTrackInstead = (ref Item item) => UpgradeUIPlayer.ItemInUpgradeSlot = item;

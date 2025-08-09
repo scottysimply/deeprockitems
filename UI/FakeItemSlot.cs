@@ -24,7 +24,7 @@ namespace deeprockitems.UI
         public Asset<Texture2D> BackgroundTexture { get; set; } = TextureAssets.InventoryBack9;
         public Asset<Texture2D>? BorderTexture { get; set; } = null;
         public Color BackgroundColor { get; set; } = Main.inventoryBack;
-        public Color BorderColor { get; set; } = Color.Black;
+        public Color BorderColor { get; set; } = Color.Transparent;
         public int Context { get; set; } = 1;
         private Item _itemInSlot;
         internal Item ItemInSlot
