@@ -47,6 +47,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 BorderColor = ParentSlot.BorderColor,
                 BorderTexture = ParentSlot.BorderTexture
             };
+            Append(MatrixCoreSlot);
             // upgrade recipe display
             OverclockRecipe = new() {
                 Top = { Pixels = ParentSlot.Top.Pixels },
@@ -56,10 +57,8 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 BackgroundColor = SecondaryBackgroundColor,
                 BorderColor = SecondaryBorderColor
             };
-            // setting position manually because of jank
-            OverclockRecipe.Left.Pixels = MatrixCoreSlot.Left.Pixels + MatrixCoreSlot.Width.Pixels + PADDING;
             OverclockRecipe.SetState(null);
-            Append(MatrixCoreSlot);
+            Append(OverclockRecipe);
             // Left-side menu
             SelectionMenu = new OverclockSelectionMenu(CurrentlyViewedOverclock) {
                 Width = { Percent = 0.5f, Pixels = -PADDING },
