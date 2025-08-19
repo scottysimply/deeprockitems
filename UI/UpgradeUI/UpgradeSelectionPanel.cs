@@ -118,7 +118,7 @@ namespace deeprockitems.UI.UpgradeUI
         protected override void OnClickForgeButton(UIMouseEvent evt, UIElement listeningElement)
         {
             // Check if the recipe could be unlocked or not
-            if (RecipeDisplay.CurrentUpgrade is null || !RecipeDisplay.CurrentUpgrade.Recipe.TryToUnlockUpgrade(Main.LocalPlayer))
+            if (RecipeDisplay.CurrentUpgrade is null && !RecipeDisplay.CurrentUpgrade.UpgradeState.IsUnlocked || !RecipeDisplay.CurrentUpgrade.Recipe.TryToUnlockUpgrade(Main.LocalPlayer))
             {
                 // funne sound
                 SoundEngine.PlaySound(SoundID.Tink);
