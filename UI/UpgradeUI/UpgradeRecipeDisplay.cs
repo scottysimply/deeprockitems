@@ -42,10 +42,6 @@ namespace deeprockitems.UI.UpgradeUI
             RemoveAllChildren();
             optionItems = null;
 
-            if (upgrade is null || upgrade.Recipe.Length == 0)
-            {
-                return;
-            }
             Vector2 textSize = ChatManager.GetStringSize(FontAssets.DeathText.Value, recipeText.Value, new(1));
             float scale = (GetDimensions().Height - 24) / (textSize.Y - 24);
             RecipeTextDisplay = new(recipeText.Value, scale, true) {
@@ -55,6 +51,11 @@ namespace deeprockitems.UI.UpgradeUI
                 Height = { Pixels = scale * textSize.Y}
             };
             Append(RecipeTextDisplay);
+
+            if (upgrade is null || upgrade.Recipe.Length == 0)
+            {
+                return;
+            }
 
             optionItems = new UpgradeRecipeOption[upgrade.Recipe.Length];
             // Place the leftmost element first
