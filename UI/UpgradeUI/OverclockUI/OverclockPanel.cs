@@ -51,7 +51,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             // upgrade recipe display
             OverclockRecipe = new() {
                 Top = { Pixels = ParentSlot.Top.Pixels },
-                Width = { Pixels = this.Width.Pixels - ForgeButton.Width.Pixels - MatrixCoreSlot.Width.Pixels - 4 * PADDING },
+                Width = { Pixels = this.Width.Pixels - ForgeButton.Width.Pixels - MatrixCoreSlot.Width.Pixels - ParentSlot.Width.Pixels - 5 * PADDING },
                 Left = { Pixels = MatrixCoreSlot.Left.Pixels + MatrixCoreSlot.Width.Pixels + PADDING },
                 Height = ParentSlot.Height,
                 BackgroundColor = SecondaryBackgroundColor,
