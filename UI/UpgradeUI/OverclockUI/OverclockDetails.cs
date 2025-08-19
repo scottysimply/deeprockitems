@@ -74,7 +74,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                   Height = { Pixels = nameSize.Y }
             };
             Container.Append(OverclockName);
-            string adjustedText = newValue.HoverText.ScaleThenSplit(SmallTextScale, 0.85f, Container.Width.Pixels, out float smallScale, out Vector2 descSize);
+            string adjustedText = newValue.HoverText.ScaleThenSplit(SmallTextScale, nameScale, Container.Width.Pixels, out float smallScale, out Vector2 descSize);
             OverclockDescription = new(adjustedText, smallScale) {
                 Top = { Pixels = OverclockName.Height.Pixels },
                 Height = { Pixels = descSize.Y }
