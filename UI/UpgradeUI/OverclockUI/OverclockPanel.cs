@@ -14,7 +14,6 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
     public class OverclockPanel : UpgradePanel
     {
         public OverclockService CurrentlyViewedOverclock { get; set; } = new();
-        public Overclock CraftableOverclock { get; set; }
         public FakeItemSlot MatrixCoreSlot { get; set; }
         public bool SelectedDetails = false;
         public bool SelectedMenu = false;
@@ -48,6 +47,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 BorderColor = ParentSlot.BorderColor,
                 BorderTexture = ParentSlot.BorderTexture
             };
+            // upgrade recipe display
             OverclockRecipe = new() {
                 Top = { Pixels = ParentSlot.Top.Pixels },
                 Width = { Pixels = this.Width.Pixels - ForgeButton.Width.Pixels - MatrixCoreSlot.Width.Pixels - 4 * PADDING },
@@ -56,8 +56,11 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 BackgroundColor = SecondaryBackgroundColor,
                 BorderColor = SecondaryBorderColor
             };
+            // setting position manually because of jank
+            OverclockRecipe.Left.Pixels = MatrixCoreSlot.Left.Pixels + MatrixCoreSlot.Width.Pixels + PADDING;
             OverclockRecipe.SetState(null);
             Append(MatrixCoreSlot);
+            // Left-side menu
             SelectionMenu = new OverclockSelectionMenu(CurrentlyViewedOverclock) {
                 Width = { Percent = 0.5f, Pixels = -PADDING },
                 Height = { Percent = 1f, Pixels = -MatrixCoreSlot.Height.Pixels - PADDING },
@@ -70,6 +73,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             };
             Append(SelectionMenu);
             SelectionMenu.Activate();
+            // Right-side menu
             Details = new OverclockDetails() {
                 Width = { Percent = 0.5f, Pixels = -PADDING },
                 Height = { Percent = 1f, Pixels = -MatrixCoreSlot.Height.Pixels - PADDING },
@@ -81,6 +85,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 ChildBackgroundColor = new Color(SecondaryBackgroundColor.ToVector3() * 0.8f),
             };
             Append(Details);
+            // Add delegates
             OnUpdate += OverclockPanel_OnUpdate;
             CurrentlyViewedOverclock.OnValueChanged += SelectedOverclock_OnValueChanged;
             MatrixCoreSlot.OnItemSwap += MatrixCoreChanged;
@@ -167,7 +172,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 OverclockRecipe.SetState(overclock);
                 return;
             }
-            CraftableOverclock = null;
+            OverclockRecipe.SetState(null);
         }
         protected override void OnClickForgeButton(UIMouseEvent evt, UIElement sender) {
             if ((OverclockRecipe.CurrentUpgrade is null || OverclockRecipe.CurrentUpgrade.UpgradeState.IsUnlocked || !OverclockRecipe.CurrentUpgrade.Recipe.TryToUnlockUpgrade(Main.LocalPlayer)))
