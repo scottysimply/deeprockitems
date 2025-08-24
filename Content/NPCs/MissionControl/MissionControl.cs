@@ -172,7 +172,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
             button = Language.GetTextValue("LegacyInterface.64");
             for (int i = 0; i < Main.InventoryItemSlotsCount; i++)
             {
-                if (Main.LocalPlayer.inventory[i].ModItem is BlankMatrixCore core)
+                if (Main.LocalPlayer.inventory[i].ModItem is BlankMatrixCore core && core.InfusedOverclock == null)
                 {
                     currentBlankCore = core;
                     button2 = Language.GetTextValue("Mods.deeprockitems.Misc.UsefulWords.Infuse");
@@ -276,17 +276,15 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 }
             }
             if (weapons.Count == 0) return;
-            /*// choose random overclock
+            // choose random overclock
             int weaponindex = Main.rand.NextFromList([.. weapons]);
             UpgradableWeapon weapon = Main.LocalPlayer.inventory[weaponindex].ModItem as UpgradableWeapon;
             int overclockIndex = Main.rand.Next(weapon.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER].Length);
             Overclock chosenOverclock = weapon.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER][overclockIndex] as Overclock;
             // spawn new infused matrix core
             currentBlankCore.Item.stack--;
-            currentBlankCore = null;
-            var newCore = Main.LocalPlayer.QuickSpawnItemDirect(NPC.GetSource_GiftOrReward(), ModContent.ItemType<InfusedMatrixCore>()).ModItem as InfusedMatrixCore;
-            newCore.InfuseWthOverclock(chosenOverclock);*/
-
+            int type = Mod.GetContent<BlankMatrixCore>().Where(core => core.InfusedOverclock?.UpgradeName == chosenOverclock.UpgradeName).First().Type;
+            Main.LocalPlayer.QuickSpawnItem(NPC.GetSource_GiftOrReward(), type);
         }
     }
     public static class Extensions

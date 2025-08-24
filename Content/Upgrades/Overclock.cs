@@ -17,6 +17,7 @@ namespace deeprockitems.Content.Upgrades
         }
         public OverclockType Type { get => _type; }
         private readonly OverclockType _type;
+        public int MatrixCoreID { get; internal set; }
         public override Asset<Texture2D> Background => Assets.Upgrades.Overclocks.Backgrounds;
         public LocalizedText Positives { get => Language.GetOrRegister($"{LocalizedKey}.Positives"); }
         public LocalizedText Negatives { get => Language.GetOrRegister($"{LocalizedKey}.Negatives"); }
