@@ -4,16 +4,14 @@ using deeprockitems.Localization;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.GameContent;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameInput;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
-using Terraria.UI.Chat;
-using static AssGen.Assets.Upgrades;
 
 namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
@@ -36,7 +34,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             (Parent as OverclockPanel).CurrentlyViewedOverclock.OnValueChanged += SelectedOverclock_OnValueChanged;
         }
         private static float SmallTextScale { get => 0.66f; }
-        private void UpdateButtonText(Overclock overclock) {
+        public void UpdateButtonText(Overclock overclock) {
             if (EquipButtton is not null)
             {
                 EquipButtton.Remove();
@@ -153,7 +151,9 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             Overclock oc = (Parent as OverclockPanel).CurrentlyViewedOverclock.ThisOverclock;
             oc.Tier.SelectUpgrade(oc.UpgradeName);
             ((Parent as OverclockPanel).ParentSlot.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();
+            (Parent as OverclockPanel).SelectionMenu.RefreshMenu();
             UpdateButtonText(oc);
+            SoundEngine.PlaySound(SoundID.MenuTick);
         }
 
         private float _scrollBarHeight;

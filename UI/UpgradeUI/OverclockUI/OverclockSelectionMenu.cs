@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -44,14 +46,28 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Height = { Percent = 1f, Pixels = -OverclockLabel.GetDimensions().Height },
             };
             OverclockList.OnLeftClick += OverclockList_OnLeftClick;
+            OverclockList.OnLeftDoubleClick += OverclockList_OnLeftDoubleClick;
             OverclockList.SetScrollbar(Scrollbar);
             Append(OverclockList);
             Append(Scrollbar);
         }
+
+        private void OverclockList_OnLeftDoubleClick(UIMouseEvent evt, UIElement listeningElement) {
+            if (evt.Target is OverclockListItem target)
+            {
+                Overclock oc = target.ThisOverclock;
+                oc.Tier.SelectUpgrade(oc.UpgradeName);
+                ((Parent as OverclockPanel).ParentSlot.ItemInSlot.ModItem as IUpgradable).ApplyStatUpgrades();
+                RefreshMenu();
+                (Parent as OverclockPanel).Details.UpdateButtonText(oc);
+                SoundEngine.PlaySound(SoundID.MenuTick);
+            }
+        }
+
         private void OverclockList_OnLeftClick(UIMouseEvent evt, UIElement listeningElement) {
             if (evt.Target is OverclockListItem target)
             {
-                SelectedOverclock.ThisOverclock = target.ThisOverclock;
+                (Parent as OverclockPanel).CurrentlyViewedOverclock.ThisOverclock = target.ThisOverclock;
             }
         }
         public void RefreshMenu() {
@@ -74,6 +90,10 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 if (ChildBorderColor != Color.Transparent)
                 {
                     element.BorderColor = ChildBorderColor;
+                }
+                if (upgrade.UpgradeState.IsEquipped)
+                {
+                    element.BorderColor = UpgradePanel.SelectedContentBorderColor;
                 }
                 return element;
             });

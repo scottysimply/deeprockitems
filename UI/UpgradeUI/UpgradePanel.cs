@@ -24,6 +24,7 @@ namespace deeprockitems.UI.UpgradeUI
         public Color SecondaryBackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
         public Color TertiaryBorderColor { get; set; } = Color.Black;
         public Color TertiaryBackgroundColor { get; set; } = new Color(63, 82, 151) * 0.7f;
+        public static Color SelectedContentBorderColor { get; set; } = new Color(242, 227, 62);
         #endregion
         public override sealed void OnInitialize()
         {

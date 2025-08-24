@@ -29,7 +29,7 @@ namespace deeprockitems.UI.UpgradeUI
         public Color SelectedBackgroundColor { get; set; } = new(255, 156, 0);
         public Color IconColor { get; set; } = new Color(255, 255, 255);
         public Color SelectedIconColor { get; set; } = new Color(0, 0, 0);
-        public Color BorderColor { get; set; } = new Color(242, 227, 62);
+
 
         /// <summary>
         /// The upgrade that is represented by this UIElement.
@@ -96,7 +96,7 @@ namespace deeprockitems.UI.UpgradeUI
             if (Upgrade.UpgradeState.IsEquipped)
             {
                 RectangleF outlineDimensions = new RectangleF(ScaledDimensions.Center.X - 0.5f * Assets.UI.UpgradeSlotOutline.Value.Height, ScaledDimensions.Y - 0.5f * Assets.UI.UpgradeSlotOutline.Value.Height, Assets.UI.UpgradeSlotOutline.Value.Width, Assets.UI.UpgradeSlotOutline.Value.Height);
-                spriteBatch.Draw(Assets.UI.UpgradeSlotOutline.Value, (Rectangle)ScaledDimensions, BorderColor);
+                spriteBatch.Draw(Assets.UI.UpgradeSlotOutline.Value, (Rectangle)ScaledDimensions, UpgradePanel.SelectedContentBorderColor);
             }
             // Don't draw lock if unlocked
             if (Upgrade.UpgradeState.IsUnlocked) return;
