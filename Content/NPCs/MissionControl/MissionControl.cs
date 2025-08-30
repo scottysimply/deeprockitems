@@ -32,13 +32,6 @@ namespace deeprockitems.Content.NPCs.MissionControl
             NPCID.Sets.AttackAverageChance[Type] = 30;
             NPCID.Sets.HatOffsetY[Type] = 4; // For when a party is active, the party hat spawns at a Y offset.
 
-            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers()
-            {
-                Velocity = 1f,
-                Direction = 1
-            };
-
-
             NPC.Happiness
                 .SetBiomeAffection(new Common.Interfaces.SpaceBiome(), AffectionLevel.Love) // Loves space!
                 .SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like) // Likes the underground
@@ -66,6 +59,9 @@ namespace deeprockitems.Content.NPCs.MissionControl
                             break;
                         case NPCID.Princess:
                             level = AffectionLevel.Like;
+                            break;
+                        case NPCID.Truffle:
+                            level = AffectionLevel.Hate;
                             break;
                         case NPCID.Stylist:
                             level = AffectionLevel.Hate;
