@@ -117,7 +117,6 @@ Mods: {
 					LikeNPC: I wish I could get {NPCName} to work with R&D... She's so talented!
 					// Default
 					DislikeNPC: "{NPCName} pries on me too much. So what if I need a lot of gunk seeds?"
-					// Only the stylist is hated, lol bald
 					HateNPC: Me and {NPCName} really don't get along. I think you can figure out why...
 					// This is Princess messages
 					LikeNPC_Princess: Have you seen {NPCName}? She's incredibly charismatic, even by my standards!
