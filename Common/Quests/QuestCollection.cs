@@ -8,31 +8,11 @@ namespace deeprockitems.Common.Quests
 {
     public class QuestCollection : IEnumerable<QuestData>
     {
-        private QuestData[] _quests;
-        public QuestCollection(params QuestData[] quests)
+        private QuestData[] _internalArray;
+        private int _capacity = 0;
+        public QuestCollection()
         {
-            _quests = new QuestData[quests.Length];
-            for (int i = 0; i < quests.Length; i++)
-            {
-                _quests[i] = quests[i];
-            }
-        }
-        public void Add(QuestData questToAdd)
-        {
-            if (_quests.Length >= Array.MaxLength)
-            {
-                throw new InvalidOperationException();
-            }
-            else
-            {
-                QuestData[] newQuests = new QuestData[_quests.Length + 1];
-                for (int i = 0; i < _quests.Length; i++)
-                {
-                    newQuests[i] = _quests[i];
-                }
-                newQuests[^1] = questToAdd;
-                _quests = newQuests;
-            }
+            _internalArray = new QuestData[_capacity];
         }
         public QuestCollection Where(Func<QuestData, bool> predicate)
         {
@@ -52,42 +32,49 @@ namespace deeprockitems.Common.Quests
         /// <returns></returns>
         public QuestData TakeRandom()
         {
-            int index = Main.rand.Next(0, _quests.Where(q => q.Predicate).Count());
-            return _quests[index];
+            int index = Main.rand.Next(0, _internalArray.Where(q => q.Predicate).Count());
+            return _internalArray[index];
         }
-        public void Add(QuestID questType, int typeRequired, int amountRequired, bool hardmode)
+        public QuestCollection Add(QuestData questToAdd)
         {
-            Add(new QuestData(questType, typeRequired, amountRequired, hardmode));
-        }
-        public QuestCollection ChainAdd(QuestData questToAdd)
-        {
-            if (_quests.Length >= Array.MaxLength)
+            if (_internalArray.Length >= Array.MaxLength)
             {
                 throw new InvalidOperationException();
             }
             else
             {
-                QuestData[] newQuests = new QuestData[_quests.Length + 1];
-                for (int i = 0; i < _quests.Length; i++)
+                if (_internalArray.Length == 0)
                 {
-                    newQuests[i] = _quests[i];
+                    _capacity = 4;
                 }
-                newQuests[^1] = questToAdd;
-                _quests = newQuests;
+                if (_internalArray.Length + 1 < _capacity)
+                {
+                    _capacity *= 2;
+                }
+                QuestData[] oldArray = [.._internalArray];
+                _internalArray = new QuestData[_capacity];
+                int i = 0;
+                while (i < _internalArray.Length)
+                {
+                    _internalArray[i] = oldArray[i];
+                    i++;
+                }
+                _internalArray[i] = questToAdd;
+                
                 return this;
             }
         }
-        public QuestCollection ChainAdd(QuestID questType, int typeRequired, int amountRequired, bool hardmode)
+        public QuestCollection Add(QuestID questType, int typeRequired, int amountRequired, bool hardmode)
         {
-            return ChainAdd(new QuestData(questType, typeRequired, amountRequired, hardmode));
+            return Add(new QuestData(questType, typeRequired, amountRequired, hardmode));
         }
 
-        public IEnumerator<QuestData> GetEnumerator() => new QuestEnumerator(_quests);
+        public IEnumerator<QuestData> GetEnumerator() => new QuestEnumerator(_internalArray);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public int Length => _quests.Length;
-        public QuestData this[int i] { get => _quests[i]; set => _quests[i] = value; }
+        public int Length => _internalArray.Length;
+        public QuestData this[int i] { get => _internalArray[i]; set => _internalArray[i] = value; }
     }
     public class QuestEnumerator : IEnumerator<QuestData>
     {
