@@ -10,6 +10,8 @@ namespace deeprockitems.Common.Quests
     {
         private QuestData[] _internalArray;
         private int _capacity = 0;
+        private int _count = 0;
+        public int Count => _count;
         public QuestCollection()
         {
             _internalArray = new QuestData[_capacity];
@@ -19,6 +21,7 @@ namespace deeprockitems.Common.Quests
             QuestCollection toReturn = new();
             foreach (QuestData data in this)
             {
+                if (data is null) continue;
                 if (predicate.Invoke(data))
                 {
                     toReturn.Add(data);
@@ -32,7 +35,7 @@ namespace deeprockitems.Common.Quests
         /// <returns></returns>
         public QuestData TakeRandom()
         {
-            int index = Main.rand.Next(0, _internalArray.Where(q => q.Predicate).Count());
+            int index = Main.rand.Next(0, Where(q => q.Predicate).Count);
             return _internalArray[index];
         }
         public QuestCollection Add(QuestData questToAdd)
@@ -47,20 +50,13 @@ namespace deeprockitems.Common.Quests
                 {
                     _capacity = 4;
                 }
-                if (_internalArray.Length + 1 < _capacity)
+                else if (_count + 1 > _capacity)
                 {
                     _capacity *= 2;
                 }
-                QuestData[] oldArray = [.._internalArray];
-                _internalArray = new QuestData[_capacity];
-                int i = 0;
-                while (i < _internalArray.Length)
-                {
-                    _internalArray[i] = oldArray[i];
-                    i++;
-                }
-                _internalArray[i] = questToAdd;
-                
+                Array.Resize(ref _internalArray, _capacity);
+                _internalArray[_count] = questToAdd;
+                _count++;
                 return this;
             }
         }
@@ -72,8 +68,6 @@ namespace deeprockitems.Common.Quests
         public IEnumerator<QuestData> GetEnumerator() => new QuestEnumerator(_internalArray);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        public int Length => _internalArray.Length;
         public QuestData this[int i] { get => _internalArray[i]; set => _internalArray[i] = value; }
     }
     public class QuestEnumerator : IEnumerator<QuestData>
