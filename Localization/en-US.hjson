@@ -35,7 +35,7 @@ Mods: {
 			}
 
 			SludgePump: {
-				DisplayName: Sludge Pump
+				DisplayName: Corrosive Sludge Pump
 				Tooltip:
 					'''
 					Shots can be charged by holding click
