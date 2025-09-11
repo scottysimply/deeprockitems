@@ -69,7 +69,7 @@ namespace deeprockitems.Content.Items.Misc
         {
             get
             {
-                if (ModifiableInternalName is null || ModifiableInternalName == "")
+                if (ModifiableInternalName is null || ModifiableInternalName == nameof(BlankMatrixCore))
                 {
                     return base.Tooltip;
                 }
@@ -109,7 +109,7 @@ namespace deeprockitems.Content.Items.Misc
                     tooltips.Insert(index, new TooltipLine(Mod, $"Positive{i}", $"▲ {positives[i]}".TextColor(DRGText.PositiveText)));
                 }
             }
-            tooltips.Insert(index, new TooltipLine(Mod, "InfusedMatrixTooltip", string.Format(Language.GetOrRegister("Mods.deeprockitems.Items.BlankMatrixCore.InfusedTooltip").Value, _infusedOverclock.WeaponName, _infusedOverclock.DisplayName)));
+            tooltips.Insert(index, new TooltipLine(Mod, "InfusedMatrixTooltip", string.Format(Language.GetOrRegister("Mods.deeprockitems.Items.BlankMatrixCore.AppliesTo").Value, Mod.Find<ModItem>(_infusedOverclock.WeaponName).DisplayName)));
         }
         public void InfuseWthOverclock(Overclock overclock) {
             if (overclock is null) throw new ArgumentNullException("Matrix cores cannot be set with null!");
