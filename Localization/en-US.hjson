@@ -9,10 +9,7 @@ Mods: {
 					'If you want something done right, you do it yourself!'
 					'''
 				InfusedDisplayName: Infused Matrix Core: {0}
-				InfusedTooltip:
-					'''
-					'This overclock is going to be awesome!'
-					'''
+				InfusedTooltip: "'This overclock is going to be awesome!'"
 				AppliesTo: Applies the following effects to the {0}:
 			}
 
