@@ -2,6 +2,7 @@
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.ComponentModel;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
@@ -13,11 +14,10 @@ using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI.OverclockUI
 {
-    public class OverclockSelectionMenu : UIPanel
-    {
+    public class OverclockSelectionMenu : UIPanel {
         private UpgradeTier _tier;
         public OverclockService SelectedOverclock { get; set; }
-        public UIScrollbar Scrollbar { get; set; }
+        public ColorableScrollbar Scrollbar { get; set; }
         public UIText OverclockLabel { get; set; }
         public UIList OverclockList { get; set; }
         public Color ChildBackgroundColor { get; set; } = Color.Transparent;
@@ -41,10 +41,11 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             };
             OverclockList = new UIList {
                 Width = { Pixels = 220f },
-                MinWidth = { Pixels = 220f},
+                MinWidth = { Pixels = 220f },
                 Top = { Pixels = OverclockLabel.GetDimensions().Height + 4f },
                 Height = { Percent = 1f, Pixels = -OverclockLabel.GetDimensions().Height },
             };
+            OverclockList.Add(new UIElement());
             OverclockList.OnLeftClick += OverclockList_OnLeftClick;
             OverclockList.OnLeftDoubleClick += OverclockList_OnLeftDoubleClick;
             OverclockList.SetScrollbar(Scrollbar);
@@ -74,6 +75,7 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             OverclockList.Clear();
             if (_tier is null || _tier.Tier != UpgradeBuilder.OVERCLOCK_TIER)
             {
+                OverclockList.Add(new UIElement());
                 return;
             }
             // Generate overclock elements from tier
@@ -100,6 +102,9 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             OverclockList.AddRange(list_of_elements);
             OverclockList.Activate();
             OverclockList.OverflowHidden = true;
+        }
+        public override void Recalculate() {
+            base.Recalculate();
         }
         public void SetOverclocks(UpgradeTier tier) {
             _tier = tier;
