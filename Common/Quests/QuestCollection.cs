@@ -97,7 +97,7 @@ namespace deeprockitems.Common.Quests
 
         public void Dispose()
         {
-            
+            GC.SuppressFinalize(this);
         }
 
         public bool MoveNext()
