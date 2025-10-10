@@ -113,14 +113,14 @@ Mods: {
 					HateBiome: This sucks. I would demote you if I could.
 					// NPC levels. All NPCs are disliked with a few exceptions
 					// Tax collector and goblin
-					LoveNPC: Me and {NPCName} see eye to eye. I could do with seeing his mug more.
+					LoveNPC: Me and {NPCName} see eye to eye.
 					// Steampunker
-					LikeNPC: I wish I could get {NPCName} to work with R&D... She's so talented!
+					LikeNPC: I wish I could get {NPCName} to work with R&D...
 					// Default
-					DislikeNPC: "{NPCName} pries on me too much. So what if I need a lot of gunk seeds?"
-					HateNPC: Me and {NPCName} really don't get along. I think you can figure out why...
+					DislikeNPC: "{NPCName} pries on me too much."
+					HateNPC: Me and {NPCName} really don't get along.
 					// This is Princess messages
-					LikeNPC_Princess: Have you seen {NPCName}? She's incredibly charismatic, even by my standards!
+					LikeNPC_Princess: Have you met {NPCName}? She's incredibly charismatic, even by my standards!
 					Princess_LovesNPC: "{NPCName} may keep to himself, but he's a pretty stand-up guy!"
 				}
 				BestiaryText: Mission Control may be short, but he's also bald. He gives quests and allows for the infusing of matrix cores.
@@ -143,12 +143,12 @@ Mods: {
 				QuestInactive3: It breaks my heart to tell you, but R&D has no jobs available.
 				// These next few keys are used for the quests. Format 0 is the name of what's required, 1 is how much is remaining.
 				
-				QuestStartMining1: Listen up, crew. I've got word that R&D is running low on {0}. Mine {1} {0}, and report back!
-				QuestStartMining2: Here we go, team. We're close to empty on {0}. If you could mine {1} {0}, it would greatly speed up our efforts.
-				QuestStartGather1: Alright miners, R&D is requesting... {0} for... some reason. No need to ask! Look, just get us {1} {0}, and you'll be done for the day.
+				QuestStartMining1: Listen up, crew. I've got word that R&D is running low on resources. Mine {1} {0}, and report back!
+				QuestStartMining2: Team, we're close to empty on {0}. Go mine {1} {0}, and you'll be given a reward in return.
+				QuestStartGather1: Alright miners, R&D is requesting {1} {0}. Find some, bring it here, and you'll receive a bonus.
 				QuestStartGather2: Expedition time, crew! We need you to set out and get {1} {0}, can you do that?
-				QuestStartSlay1: Heads up from management: We've got an infestation of {0}. Go down into the caves, and slay {1} {0}. Good luck.
-				QuestStartSlay2: I hope you're not tired of fighting; you're gonna need to go and kill {1} {0}. Report back here when you're done.
+				QuestStartSlay1: Heads up from management: We've got an infestation! Go take down {1} {0} so we can continue our work. Good luck.
+				QuestStartSlay2: I hope you're not tired of fighting; you're gonna need to kill {1} {0}. Report back here when you're done.
 			}
 		}
 
