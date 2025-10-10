@@ -101,7 +101,7 @@ namespace deeprockitems.Content.NPCs.MissionControl
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
 
-                new FlavorTextBestiaryInfoElement("Mission Control may be short, but he's also bald. He gives quests to enhance the unique weapons found around the time of his arrival."),
+                new FlavorTextBestiaryInfoElement("Mods.deeprockitems.NPCs.MissionControl.BestiaryText"),
             });
         }
         public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
