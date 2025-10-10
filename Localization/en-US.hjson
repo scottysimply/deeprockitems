@@ -123,6 +123,7 @@ Mods: {
 					LikeNPC_Princess: Have you met {NPCName}? She's incredibly charismatic, even by my standards!
 					Princess_LovesNPC: "{NPCName} may keep to himself, but he's a pretty stand-up guy!"
 				}
+
 				BestiaryText: Mission Control may be short, but he's also bald. He gives quests and allows for the infusing of matrix cores.
 			}
 		}
