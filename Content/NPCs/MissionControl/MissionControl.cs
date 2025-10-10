@@ -243,6 +243,10 @@ namespace deeprockitems.Content.NPCs.MissionControl
                         Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
                         break;
                     case QuestID.Gathering:
+                        if (modPlayer.ActiveQuest.Data.AmountRequired - modPlayer.ActiveQuest.Progress <= 4)
+                        {
+                            chatVariation = 2;
+                        }
                         Main.npcChatText = Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
                         break;
                     case QuestID.Fighting:
