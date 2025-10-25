@@ -342,6 +342,11 @@ Mods: {
 						DisplayName: Sniper
 						HoverText: 0.67x spread per pellet
 					}
+
+					BestUpgrade: {
+						DisplayName: BestUpgrade
+						HoverText: Hover text
+					}
 				}
 
 				Tier2: {
@@ -835,6 +840,76 @@ Mods: {
 					Label: Fancy
 					Tooltip: Visually larger bar with DRG-inspired flair
 				}
+			}
+		}
+
+		Pluralizer: {
+			NPCs: {
+				BlueSlime: Blue Slimes
+				DemonEye: Demon Eyes
+				WanderingEye: Wandering Eyes
+				Zombie: Zombies
+				Skeleton: Skeletons
+				GreekSkeleton: Hoplites
+				GraniteFlyer: Granite Elementals
+				GraniteGolem: Granite Golems
+				Medusa: Medusas
+				Demon: Demons
+				FireImp: Fire Imps
+				RedDevil: Red Devils
+				CaveBat: Cave Bats
+				GiantBat: Giant Bats
+				ArmoredSkeleton: Armored Skeletons
+				SkeletonArcher: Skeleton Archers
+				ChaosElemental: Chaos Elementals
+				AngryBones: Angry Bones
+			}
+
+			Items: {
+				Amethyst: Amethyst
+				Topaz: Topaz
+				Emerald: Emeralds
+				Ruby: Rubies
+				Diamond: Diamonds
+				Amber: Amber
+				CopperOre: Copper Ores
+				TinOre: Tin Ores
+				IronOre: Iron Ores
+				LeadOre: Lead Ores
+				SilverOre: Silver Ores
+				TungstenOre: Tungsten Ores
+				GoldOre: Gold Ores
+				PlatinumOre: Platinum Ores
+				DemoniteOre: Demonite Ores
+				CrimtaneOre: Crimtane Ores
+				Meteorite: Meteorites
+				Hellstone: Hellstones
+				CobaltOre: Cobalt Ores
+				PalladiumOre: Palladium Ores
+				MythrilOre: Mythril Ores
+				OrichalcumOre: Orichalcum Ores
+				AdamantiteOre: Adamantite Ores
+				TitaniumOre: Titanium Ores
+				ChlorophyteOre: Chlorophyte Ores
+				Daybloom: Dayblooms
+				Moonglow: Moonglows
+				Waterleaf: Waterleaves
+				Fireblossom: Fireblossoms
+				Deathweed: Deathweeds
+				Blinkroot: Blinkroots
+				Shiverthorn: Shiverthorns
+				YellowMarigold: Yellow Marigolds
+				OrangeBloodroot: Orange Bloodroots
+				TealMushroom: Teal Mushrooms
+				GreenMushroom: Green Mushrooms
+				LimeKelp: Lime Kelps
+				SkyBlueFlower: Sky Blue Flowers
+				BlueBerries: Blue Berries
+				PinkPricklyPear: Pink Prickly Pears
+				VileMushroom: Vile Mushrooms
+				ViciousMushroom: Vicious Mushrooms
+				GlowingMushroom: Glowing Mushrooms
+				Mushroom: Mushrooms
 			}
 		}
 	}

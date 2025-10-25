@@ -12,6 +12,7 @@ using deeprockitems.Content.Items.Misc;
 using deeprockitems.Content.Items.Weapons;
 using deeprockitems.Content.Upgrades;
 using System.Linq;
+using Humanizer;
 
 namespace deeprockitems.Content.NPCs.MissionControl
 {
@@ -236,21 +237,37 @@ namespace deeprockitems.Content.NPCs.MissionControl
                 int amount = modPlayer.ActiveQuest.Data.AmountRequired;
 
                 // Change dialogue based on variation and what quest type
+                string name;
                 switch (modPlayer.ActiveQuest.Type)
                 {
                     case QuestID.Mining:
                         // Find if the map object name has a name--if else, use block name
-                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
+                        name = Lang.GetItemNameValue(type);
+                        if (amount > 1)
+                        {
+                            name = name.Pluralize();
+                        }
+                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartMining{chatVariation}", name, amount);
                         break;
                     case QuestID.Gathering:
+                        name = Lang.GetItemNameValue(type);
+                        if (amount > 1)
+                        {
+                            name = name.Pluralize();
+                        }
                         if (modPlayer.ActiveQuest.Data.AmountRequired - modPlayer.ActiveQuest.Progress <= 4)
                         {
                             chatVariation = 2;
                         }
-                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartGather{chatVariation}", Lang.GetItemNameValue(type).Pluralizer(amount), amount);
+                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartGather{chatVariation}", name, amount);
                         break;
                     case QuestID.Fighting:
-                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartSlay{chatVariation}", Lang.GetNPCNameValue(type).Pluralizer(amount), amount);
+                        name = Lang.GetNPCNameValue(type);
+                        if (amount > 1)
+                        {
+                            name = name.Pluralize();
+                        }
+                        Main.npcChatText = Language.GetTextValue(location + $"QuestStartSlay{chatVariation}", name, amount);
                         break;
                 }
                 Main.npcChatCornerItem = modPlayer.ActiveQuest.ItemIcon;
@@ -285,41 +302,6 @@ namespace deeprockitems.Content.NPCs.MissionControl
             currentBlankCore.Item.stack--;
             int type = Mod.GetContent<BlankMatrixCore>().Where(core => core.InfusedOverclock?.UpgradeName == chosenOverclock.UpgradeName).First().Type;
             Main.LocalPlayer.QuickSpawnItem(NPC.GetSource_GiftOrReward(), type);
-        }
-    }
-    public static class Extensions
-    {
-        private static List<string> ores = new List<string>()
-        {
-            "copper",
-            "iron",
-            "silver",
-            "gold",
-            "tin",
-            "lead",
-            "tungsten",
-            "platinum",
-            "demonite",
-            "crimtane",
-            "cobalt",
-            "mythril",
-            "adamantite",
-            "palladium",
-            "orichalcum",
-            "titanium",
-            "chlorophyte",
-        };
-        public static string Pluralizer(this string str, int count)
-        {
-            if (ores.Contains(str.ToLower()))
-            {
-                return str + " Ore";
-            }
-            if (count == 1)
-            {
-                return str;
-            }
-            return str + "s";
         }
     }
 }
