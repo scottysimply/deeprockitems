@@ -61,8 +61,7 @@ namespace deeprockitems.Common.Quests
         }
         private void RecalculateGatheringQuests()
         {
-            Quests.Add(QuestID.Gathering, ItemID.Daybloom, 10, true)
-                .Add(QuestID.Gathering, ItemID.Moonglow, 10, true)
+            Quests.Add(QuestID.Gathering, ItemID.Moonglow, 10, true)
                 .Add(QuestID.Gathering, ItemID.Waterleaf, 10, true)
                 .Add(QuestID.Gathering, ItemID.Fireblossom, 10, true)
                 .Add(QuestID.Gathering, ItemID.Deathweed, 10, true)
@@ -169,7 +168,7 @@ namespace deeprockitems.Common.Quests
                 }
                 modPlayer.ActiveQuest = null;
             }
-            // Post launch bug fix!!!
+            // If the quest list is null, cancel. This gives a default quest.
             if (Quests is null) return;
 
             // Generate quest
