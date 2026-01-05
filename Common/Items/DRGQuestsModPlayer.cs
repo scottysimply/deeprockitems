@@ -121,9 +121,9 @@ namespace deeprockitems.Common.Quests
             if (chance <= uniqueChance)
             {
                 // Pick random index
-                int index = Main.rand.Next(0, QuestRewardSystem.UniqueRewards.Count);
+                int index = Main.rand.Next(0, QuestRewardSystem.AssignmentReward.Count);
                 // Spawn reward
-                Player.QuickSpawnItem(Player.GetSource_DropAsItem(), QuestRewardSystem.UniqueRewards[index].RewardType);
+                Player.QuickSpawnItem(Player.GetSource_DropAsItem(), QuestRewardSystem.AssignmentReward[index].RewardType);
             }
         }
     }

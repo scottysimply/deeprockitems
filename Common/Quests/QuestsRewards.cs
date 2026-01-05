@@ -11,25 +11,24 @@ namespace deeprockitems.Common.Quests
     public class QuestRewardSystem : ModSystem
     {
         /// <summary>
-        /// Common rewards make up the majority of quest rewards.
-        /// Number of rewards scales with each vanilla boss downed.
+        /// Common rewards make up the bulk of rewards and act like angler quest/crate loot. <br/>
+        /// Chances
         /// </summary>
         public static List<QuestReward> CommonRewards { get; set; }
         /// <summary>
         /// Rare rewards serve as a boost to the gameplay loop.
         /// Chance scales with total quests completed.
         /// </summary>
-        [Obsolete("Rare rewards are not currently implemented.")]
         public static List<QuestReward> RareRewards { get; set; }
         /// <summary>
-        /// These rewards are seldom rewarded, but they act as alternative ways to obtain rare items, or are outright new items altogether.
-        /// Doing multiple quests in a session will greatly increase the chances of getting these rewards.
+        /// One of these is given after completing an assignment. <br/>
+        /// Duplicates will not be given until all other rewards were given.
         /// </summary>
-        public static List<QuestReward> UniqueRewards { get; private set; }
+        public static List<QuestReward> AssignmentReward { get; private set; }
         public override void OnWorldLoad() {
-            RecalculateQuests();
+            RecalculateRewards();
         }
-        private void RecalculateQuests() {
+        private void RecalculateRewards() {
             // Create list of rewards
             CommonRewards = new List<QuestReward>()
             {
@@ -47,11 +46,11 @@ namespace deeprockitems.Common.Quests
                 new(ItemID.SummoningPotion, 5, true, 1),
                 new(ItemID.HallowedBar, 15, NPC.downedMechBossAny, 10),
                 new(ItemID.LifeFruit, 3, NPC.downedMechBossAny, 10),
-                new(ItemID.SoulofMight, 10, NPC.downedMechBoss1, 10),
-                new(ItemID.SoulofSight, 10, NPC.downedMechBoss2),
-                new(ItemID.SoulofFright, 10, NPC.downedMechBoss3),
+                new(ItemID.SoulofMight, 5, NPC.downedMechBoss1, 10),
+                new(ItemID.SoulofSight, 5, NPC.downedMechBoss2),
+                new(ItemID.SoulofFright, 5, NPC.downedMechBoss3),
             };
-            UniqueRewards = new()
+            AssignmentReward = new()
             {
                 new(ModContent.ItemType<ChunkOfNitra>(), 1, NPC.downedBoss3, 1),
                 // Able to get weapons through quests as a treat.
@@ -88,13 +87,5 @@ namespace deeprockitems.Common.Quests
             Condition = condition;
             Weight = weight;
         }
-    }
-    public enum QuestRewardType
-    {
-        None = 0,
-        Common, // Common rewards are the bulk of a givens quest reward.
-        Rare, // Rare rewards get more common with the total amount of quests completed.
-        Unique, // Unique rewards are items like accessories or upgrades, scaling with the amount of quests completed per session.
-
     }
 }
