@@ -9,7 +9,7 @@ namespace deeprockitems.Content.Buffs
             _reapplyCount++;
             return true;
         }
-        public override void UpdateLifeRegen(NPC npc, ref int damage) {
+        public override void UpdateLifeRegenNPC(NPC npc, ref int damage) {
             switch (_reapplyCount)
             {
                 case <= 3:
