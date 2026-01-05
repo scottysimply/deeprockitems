@@ -80,6 +80,11 @@ Mods: {
 				DisplayName: Upgrade Station
 				Tooltip: Used for upgrading dwarven equipment
 			}
+
+			PotsOfGold: {
+				DisplayName: Pots Of Gold
+				Tooltip: ""
+			}
 		}
 
 		Misc: {
@@ -221,6 +226,11 @@ Mods: {
 			Irradiated: {
 				DisplayName: Irradiated
 				Description: It burns, but it doesn't feel warm!
+			}
+
+			PogBuff: {
+				DisplayName: Pog Buff
+				Description: Mods.deeprockitems.Buffs.PogBuff.Description
 			}
 		}
 
