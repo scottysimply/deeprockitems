@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace deeprockitems.Content.Buffs
 {
@@ -14,6 +15,7 @@ namespace deeprockitems.Content.Buffs
         public override void SetStaticDefaults() {
             IsTemplateInstance = true;
         }
+        public override string Texture => "deeprockitems/Content/Buffs/Buff";
         public bool IsTemplateInstance { get; set; } = false;
         #region Singleton members
         public sealed override bool ReApply(NPC npc, int time, int buffIndex) {
@@ -25,25 +27,42 @@ namespace deeprockitems.Content.Buffs
         #endregion
 
         #region Instance members
+        public bool AppliedToNPC { get => _onNPC; }
+        private bool _onNPC;
+        public bool AppliedToPlayer { get => _onPlayer; }
+        private bool _onPlayer;
         public NPC ThisNPC { get; set; }
+        public Player ThisPlayer { get; set; }
+        public bool IsValid { get => ThisNPC is null ^ ThisPlayer is null; }
         public int TimeLeft
         {
             get
             {
-                if (ThisNPC is null) return -1;
+                if (IsValid) return -1;
                 return ThisNPC.buffTime[BuffIndex];
             }
             set
             {
-                if (ThisNPC is null) throw new InvalidOperationException("This buff is no longer valid.");
-                ThisNPC.buffTime[BuffIndex] = value;
+                if (IsValid)
+                {
+                    ThisNPC.buffTime[BuffIndex] = value;
+                }
+                else
+                {
+                    ThisNPC.buffTime[BuffIndex] = 0;
+                    Mod.Logger.Warn($"Buff {GetType().Name} was invalid and was removed.");
+                }
             }
         }
         public int InstancedType { get; set; } = -1;
         public int BuffIndex { get; set; } = -1;
-        public virtual void UpdateLifeRegen(NPC npc, ref int damage) {
+        public virtual void UpdateLifeRegenPlayer(Player player, ref int damage) {
 
         }
+        public virtual void UpdateLifeRegenNPC(NPC npc, ref int damage) {
+
+        }
+        public virtual bool ReapplyPlayer(Player player) => true;
         public virtual bool ReapplyNPC(NPC npc) => true;
         public virtual void PostDrawNPC(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
 
@@ -149,7 +168,7 @@ namespace deeprockitems.Content.Buffs
             // We are going to navigate to 4 lines before the subtraction call.
             cursor.GotoNext(i => i.MatchSub());
             cursor.Index -= 4;
-            // Create delegate that will shift the indices of the instanced buffs.
+            // Create delegate that will shift the indices of all of the instanced buffs
             static void deleteBuffHook(NPC npc, int oldIndex) {
                 InstancedNPC globalNpc = npc.GetGlobalNPC<InstancedNPC>();
                 var query = globalNpc.InstancedBuffs.Where(buff => buff.InstancedType == npc.buffType[oldIndex]);
@@ -163,6 +182,29 @@ namespace deeprockitems.Content.Buffs
             cursor.EmitLdarg0(); // arg 0 is the 'this' keyword
             cursor.EmitLdloc1(); // loc 1 is j (old buff index)
             cursor.EmitDelegate(deleteBuffHook);
+        }
+    }
+    public class InstancedPlayer : ModPlayer {
+        public List<InstancedBuff> InstancedBuffs = new();
+        public override void UpdateLifeRegen() {
+            for (int i = InstancedBuffs.Count - 1; i >= 0; i--)
+            {
+                // Remove any buffs that have buff time less than 0.
+                if (InstancedBuffs[i].TimeLeft <= 0)
+                {
+                    InstancedBuffs.RemoveAt(i);
+                    continue; // Don't continue with this index.
+                }
+                // This ensures that buffs only set damage if it was greater than or equal to. Realistically, each buff should check this, but just in case we will do it here as well.
+                int newDamage = damage;
+                // Call the life regen hook.
+                InstancedBuffs[i].UpdateLifeRegenPlayer(Player, ref newDamage);
+                // Set damage if greater or equal to.
+                if (newDamage > damage)
+                {
+                    damage = newDamage;
+                }
+            }
         }
     }
     public class InstancedNPC : GlobalNPC
@@ -182,7 +224,7 @@ namespace deeprockitems.Content.Buffs
                 // This ensures that buffs only set damage if it was greater than or equal to. Realistically, each buff should check this, but just in case we will do it here as well.
                 int newDamage = damage;
                 // Call the life regen hook.
-                InstancedBuffs[i].UpdateLifeRegen(npc, ref newDamage);
+                InstancedBuffs[i].UpdateLifeRegenNPC(npc, ref newDamage);
                 // Set damage if greater or equal to.
                 if (newDamage > damage)
                 {
