@@ -2,14 +2,12 @@
 using deeprockitems.Content.Upgrades;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.ComponentModel;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace deeprockitems.UI.UpgradeUI.OverclockUI
@@ -45,11 +43,11 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 Top = { Pixels = OverclockLabel.GetDimensions().Height + 4f },
                 Height = { Percent = 1f, Pixels = -OverclockLabel.GetDimensions().Height },
             };
-            OverclockList.Add(new UIElement());
             OverclockList.OnLeftClick += OverclockList_OnLeftClick;
             OverclockList.OnLeftDoubleClick += OverclockList_OnLeftDoubleClick;
             OverclockList.SetScrollbar(Scrollbar);
             Append(OverclockList);
+            OverclockList.Recalculate();
             Append(Scrollbar);
         }
 
@@ -75,7 +73,6 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             OverclockList.Clear();
             if (_tier is null || _tier.Tier != UpgradeBuilder.OVERCLOCK_TIER)
             {
-                OverclockList.Add(new UIElement());
                 return;
             }
             // Generate overclock elements from tier
@@ -99,12 +96,11 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
                 }
                 return element;
             });
-            OverclockList.AddRange(list_of_elements);
+            foreach (var element in list_of_elements)
+            {
+                OverclockList.Add(element);
+            }
             OverclockList.Activate();
-            OverclockList.OverflowHidden = true;
-        }
-        public override void Recalculate() {
-            base.Recalculate();
         }
         public void SetOverclocks(UpgradeTier tier) {
             _tier = tier;
