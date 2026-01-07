@@ -174,17 +174,16 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             OverclockRecipe.SetState(null);
         }
         protected override void OnClickForgeButton(UIMouseEvent evt, UIElement sender) {
-            if ((OverclockRecipe.CurrentUpgrade is null || OverclockRecipe.CurrentUpgrade.UpgradeState.IsUnlocked || !OverclockRecipe.CurrentUpgrade.Recipe.TryToUnlockUpgrade(Main.LocalPlayer)))
+            if (OverclockRecipe.CurrentUpgrade is null || ParentSlot.ItemInSlot.ModItem is not IUpgradable upgradable)
             {
                 SoundEngine.PlaySound(SoundID.Tink);
                 return;
             }
 
             // Slight difference from the way upgrades are handled: Dependencies are broken from matrix cores. We need to search for this overclock on the player
-            var upgrades = (ParentSlot.ItemInSlot.ModItem as IUpgradable).UpgradeMasterList;
-            foreach (var upgrade in upgrades[UpgradeBuilder.OVERCLOCK_TIER])
+            foreach (var upgrade in upgradable.UpgradeMasterList[UpgradeBuilder.OVERCLOCK_TIER])
             {
-                if (upgrade.UpgradeName == OverclockRecipe.CurrentUpgrade.UpgradeName)
+                if (upgrade.UpgradeName == OverclockRecipe.CurrentUpgrade.UpgradeName && !upgrade.UpgradeState.IsUnlocked && upgrade.Recipe.TryToUnlockUpgrade(Main.LocalPlayer))
                 {
                     upgrade.UpgradeState.IsUnlocked = true;
                     SelectionMenu.RefreshMenu();
