@@ -44,6 +44,9 @@ namespace deeprockitems.Utilities
             // Draw center
             spriteBatch.Draw(texture, new Rectangle(dimensions.X + insetWidth, dimensions.Y + insetHeight, dimensions.Width - 2 * insetWidth, dimensions.Height - 2 * insetHeight), new Rectangle(insetWidth, insetHeight, texture.Width - 2 * insetWidth, texture.Height - 2 * insetHeight), color);
         }
+        public static void DrawPanel(SpriteBatch spriteBatch, Texture2D texture, int insetWidth, int insetHeight, Rectangle rectangle, Color color) {
+            DrawPanel(spriteBatch, texture, insetWidth, insetHeight, rectangle.TopLeft(), rectangle.Width, rectangle.Height, color);
+        }
         public static Color GetTeamColor(int team)
         {
             Color color = team switch
