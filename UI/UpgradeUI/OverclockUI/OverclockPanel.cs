@@ -149,13 +149,14 @@ namespace deeprockitems.UI.UpgradeUI.OverclockUI
             }
         }
         protected override void ParentItemSlotChanged(Item itemNowInSlot, Item itemThatLeftSlot) {
-            // If the upgradable item was removed, spawn the matrix core
-            if (itemNowInSlot.type != itemThatLeftSlot.type && itemNowInSlot.ModItem is IUpgradable && MatrixCoreSlot.ItemInSlot.type != 0)
+            // If the matrix core no longer matches.
+            if (itemNowInSlot.type != itemThatLeftSlot.type && itemThatLeftSlot.ModItem is IUpgradable && MatrixCoreSlot.ItemInSlot.type != 0)
             {
                 Item tempItem = MatrixCoreSlot.ItemInSlot;
                 Item air = new(0);
-                MatrixCoreSlot.SwapItems(ref tempItem, ref air);
-                Main.LocalPlayer.QuickSpawnItem(Main.LocalPlayer.GetSource_ReleaseEntity(), tempItem);
+                MatrixCoreSlot.SwapItems(ref air, ref tempItem);
+                Main.LocalPlayer.QuickSpawnItem(Main.LocalPlayer.GetSource_ReleaseEntity(), air);
+                MatrixCoreSlot.ItemInSlot = tempItem;
             }
             if ((itemNowInSlot.ModItem as IUpgradable)?.UpgradeMasterList.TryGetValue(UpgradeBuilder.OVERCLOCK_TIER, out UpgradeTier overclocks) ?? false)
             {
