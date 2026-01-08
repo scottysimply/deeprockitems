@@ -272,12 +272,12 @@ namespace deeprockitems.Content.Buffs
         {
             if (AtColdThreshold && (modifiers.DamageType == DamageClass.Melee || modifiers.DamageType == DamageClass.Summon || modifiers.DamageType == DamageClass.MagicSummonHybrid || modifiers.DamageType == DamageClass.SummonMeleeSpeed))
             {
-                modifiers.SourceDamage *= 1.25f;
+                modifiers.SourceDamage *= 1.5f;
                 modifiers.HideCombatText();
             }
             else if (AtHeatThreshold && (modifiers.DamageType == DamageClass.Ranged || modifiers.DamageType == DamageClass.Magic || modifiers.DamageType == DamageClass.MagicSummonHybrid))
             {
-                modifiers.SourceDamage *= 1.25f;
+                modifiers.SourceDamage *= 1.5f;
                 modifiers.HideCombatText();
             }
         }
