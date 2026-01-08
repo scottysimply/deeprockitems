@@ -51,7 +51,7 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithTier()
                     .WithUpgrade("PelletCount1", Assets.Upgrades.Pellets)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            PelletCount += 2;
+                            (item.ModItem as JuryShotgun).PelletCount += 2;
                         })
                         .WithIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
                         .WithIngredient(ItemID.MusketBall, 30)
@@ -81,14 +81,14 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient(ItemID.Vine, 1)
                     .WithUpgrade("ReloadSpeed", Assets.Upgrades.FireRate)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            TimeToEndCooldown -= 30;
+                            (item.ModItem as JuryShotgun).TimeToEndCooldown -= 30;
                         })
                         .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
                         .WithIngredient(ItemID.Stinger, 3)
                 .WithTier()
                     .WithUpgrade("PelletCount2", Assets.Upgrades.Pellets)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            PelletCount += 2;
+                            (item.ModItem as JuryShotgun).PelletCount += 2;
                         })
                         .WithIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
                         .WithIngredient(ItemID.MusketBall, 99)
@@ -109,7 +109,7 @@ namespace deeprockitems.Content.Items.Weapons
                 .WithTier()
                     .WithUpgrade("ExtendedBarrel", Assets.Upgrades.Focus)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            SpreadMultiplier *= 0.25f;
+                            (item.ModItem as JuryShotgun).SpreadMultiplier *= 0.25f;
                         })
                         .WithIngredient(ItemID.Bone, 10)
                         .WithIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
@@ -121,7 +121,7 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient([ItemID.SandBlock, ItemID.EbonsandBlock, ItemID.CrimsandBlock, ItemID.PearlsandBlock], 25)
                     .WithUpgrade("QuadrupleBarrel", Assets.Upgrades.FireRate)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            ShotsUntilCooldown += 2f;
+                            (item.ModItem as JuryShotgun).ShotsUntilCooldown += 2f;
                         })
                         .WithIngredient(ItemID.Bone, 10)
                         .WithIngredient(ItemID.QuadBarrelShotgun)
