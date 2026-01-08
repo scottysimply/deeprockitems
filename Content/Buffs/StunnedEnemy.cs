@@ -12,12 +12,10 @@ namespace deeprockitems.Content.Buffs
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
-            // Half if npc is immune
             if (npc.buffImmune[Type]) return;
-            // If we hit an npc with realLife, remove buff from here and apply to the parent
+            // If we hit an npc with realLife, remove buff from here and apply to the parent (for worms)
             if (npc.realLife > -1 && npc.realLife != npc.whoAmI)
             {
-                // Half if npc is immune
                 if (Main.npc[npc.realLife].buffImmune[Type]) return;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -28,7 +26,13 @@ namespace deeprockitems.Content.Buffs
                 Main.npc[npc.realLife].GetGlobalNPC<StunnedEnemyNPC>().IsStunned = true;
                 return;
             }
-            npc.GetGlobalNPC<StunnedEnemyNPC>().IsStunned = true;
+            if (npc.buffTime[buffIndex] > 300)
+            {
+                npc.GetGlobalNPC<StunnedEnemyNPC>().IsStunned = true;
+            }
+        }
+        public override bool ReApply(NPC npc, int time, int buffIndex) {
+            return true;
         }
     }
     public class StunnedEnemyNPC : GlobalNPC
