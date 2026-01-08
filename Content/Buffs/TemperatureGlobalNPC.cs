@@ -40,7 +40,8 @@ namespace deeprockitems.Content.Buffs
         public bool ImmuneToFreeze { get; set; } = false;
         public bool IsFrozen { get; set; } = false;
         private bool _oldFrozen = false;
-        public bool FirstFrameFrozen { get => IsFrozen && !_oldFrozen; }
+        public bool AtColdThreshold { get => Temperature <= ColdThreshold; }
+        public bool FirstFrameColdThreshold { get => IsFrozen && !_oldFrozen; }
 
         private int _fallingTime = 0;
         private bool _isFalling = false;
@@ -56,8 +57,8 @@ namespace deeprockitems.Content.Buffs
         /// </summary>
         public int TimeToStayMarkedFor { get; private set; } = 120;
         private bool _oldMarked = false;
-        public float DamageMultiplier = 1f;
-        public bool FirstFrameMarked { get => IsMarkedForDeath && !_oldMarked; }
+        public bool AtHeatThreshold { get => Temperature >= HeatThreshold; }
+        public bool FirstFrameHeatThreshold { get => IsMarkedForDeath && !_oldMarked; }
         public int HeatThreshold { get; private set; } = 100; // Default heat threshold
         #endregion
         public override bool InstancePerEntity => true;
@@ -190,14 +191,8 @@ namespace deeprockitems.Content.Buffs
                 }
             }
 
-            // If an NPC is marked for death, increase damage taken.
-            if (IsMarkedForDeath)
-            {
-                DamageMultiplier = 2f;
-            }
-
             // If an NPC was just frozen, find the floor beneath them and determine if they are falling
-            if (FirstFrameFrozen)
+            if (FirstFrameColdThreshold)
             {
                 LastTileCollide = npc.noTileCollide;
                 _lastKBResist = npc.knockBackResist;
@@ -275,23 +270,23 @@ namespace deeprockitems.Content.Buffs
         }
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
-            if (IsFrozen && (modifiers.DamageType == DamageClass.Melee || modifiers.DamageType == DamageClass.Summon || modifiers.DamageType == DamageClass.MagicSummonHybrid || modifiers.DamageType == DamageClass.SummonMeleeSpeed))
+            if (AtColdThreshold && (modifiers.DamageType == DamageClass.Melee || modifiers.DamageType == DamageClass.Summon || modifiers.DamageType == DamageClass.MagicSummonHybrid || modifiers.DamageType == DamageClass.SummonMeleeSpeed))
             {
-                modifiers.SourceDamage *= 2f;
+                modifiers.SourceDamage *= 1.25f;
                 modifiers.HideCombatText();
             }
-            else if (IsMarkedForDeath && (modifiers.DamageType == DamageClass.Ranged || modifiers.DamageType == DamageClass.Magic || modifiers.DamageType == DamageClass.MagicSummonHybrid))
+            else if (AtHeatThreshold && (modifiers.DamageType == DamageClass.Ranged || modifiers.DamageType == DamageClass.Magic || modifiers.DamageType == DamageClass.MagicSummonHybrid))
             {
-                modifiers.SourceDamage *= 2f;
+                modifiers.SourceDamage *= 1.25f;
                 modifiers.HideCombatText();
             }
         }
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone) {
-            if (IsFrozen && (hit.DamageType == DamageClass.Melee || hit.DamageType == DamageClass.Summon || hit.DamageType == DamageClass.MagicSummonHybrid || hit.DamageType == DamageClass.SummonMeleeSpeed))
+            if (AtColdThreshold && (hit.DamageType == DamageClass.Melee || hit.DamageType == DamageClass.Summon || hit.DamageType == DamageClass.MagicSummonHybrid || hit.DamageType == DamageClass.SummonMeleeSpeed))
             {
                 CombatText.NewText(npc.getRect(), Frozen_Text_Color, damageDone);
             }
-            else if (IsMarkedForDeath && (hit.DamageType == DamageClass.Ranged || hit.DamageType == DamageClass.Magic || hit.DamageType == DamageClass.MagicSummonHybrid))
+            else if (AtHeatThreshold && (hit.DamageType == DamageClass.Ranged || hit.DamageType == DamageClass.Magic || hit.DamageType == DamageClass.MagicSummonHybrid))
             {
                 CombatText.NewText(npc.getRect(), Marked_Text_Color, damageDone);
             }
@@ -299,11 +294,11 @@ namespace deeprockitems.Content.Buffs
         Color Frozen_Text_Color => new Color(110, 150, 245);
         Color Marked_Text_Color => new Color(245, 30, 60);
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone) {
-            if (IsFrozen && (hit.DamageType == DamageClass.Melee || hit.DamageType == DamageClass.Summon || hit.DamageType == DamageClass.MagicSummonHybrid || hit.DamageType == DamageClass.SummonMeleeSpeed))
+            if (AtColdThreshold && (hit.DamageType == DamageClass.Melee || hit.DamageType == DamageClass.Summon || hit.DamageType == DamageClass.MagicSummonHybrid || hit.DamageType == DamageClass.SummonMeleeSpeed))
             {
                 CombatText.NewText(npc.getRect(), Frozen_Text_Color, damageDone);
             }
-            else if (IsMarkedForDeath && (hit.DamageType == DamageClass.Ranged || hit.DamageType == DamageClass.Magic || hit.DamageType == DamageClass.MagicSummonHybrid))
+            else if (AtHeatThreshold && (hit.DamageType == DamageClass.Ranged || hit.DamageType == DamageClass.Magic || hit.DamageType == DamageClass.MagicSummonHybrid))
             {
                 CombatText.NewText(npc.getRect(), Marked_Text_Color, damageDone);
             }
