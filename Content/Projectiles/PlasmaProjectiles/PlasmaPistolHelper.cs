@@ -14,7 +14,8 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         public override float ChargeTime { get; set; } = 45f;
         private static bool _noSpreadOnNextShot = false;
         public override void NewSetDefaults() {
-            ChargeShotDamageMultiplier = 3f;
+            ChargeShotDamageMultiplier = 2f;
+            ChargeShotCooldownMultiplier = 6f;
         }
         public override void WhenReachedFullCharge()
         {
@@ -39,12 +40,6 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             }
         }
         public override void WhileHeldAtCharge() {
-            // Drain mana to encourage the player to fire a projectile
-            if (this.HasReachedFullCharge && Main.player[Projectile.owner].statMana > 0)
-            {
-                Main.player[Projectile.owner].statMana -= 1;
-            }
-
             if (Main.player[Projectile.owner].statMana < 7)
             {
                 ProjectileToSpawn = ModContent.ProjectileType<PlasmaBullet>();
