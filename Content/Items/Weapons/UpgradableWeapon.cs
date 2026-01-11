@@ -162,10 +162,6 @@ namespace deeprockitems.Content.Items.Weapons
             ApplyStatUpgrades();
         }
         #endregion
-/*        public override bool? CanAutoReuseItem(Player player) {
-            if (Item.channel && player.autoReuseAllWeapons) return true;
-            return null;
-        }*/
         public override void ModifyTooltips(List<TooltipLine> tooltips) {
             // Remove the crit line, add "upgradable"
             tooltips.Find(tl => tl.FullName == "Terraria/CritChance")?.Hide();
@@ -197,7 +193,6 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useTime = _oldUseTime;
             Item.useAnimation = _oldUseAnimation;
             Item.damage = Item.OriginalDamage;
-            ResetStats();
             NewSetDefaults();
             foreach (var tier in UpgradeMasterList)
             {
@@ -235,7 +230,6 @@ namespace deeprockitems.Content.Items.Weapons
                 }
             }
         }
-        public virtual void ResetStats() { }
         /// <summary>
         /// Initializes the master list of upgrades this weapon will use.
         /// </summary>

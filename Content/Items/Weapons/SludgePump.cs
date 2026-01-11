@@ -32,13 +32,11 @@ namespace deeprockitems.Content.Items.Weapons
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Orange;
 
-            Item.value = Item.sellPrice(0, 5, 30, 0);
-
-        }
-        public override void ResetStats() {
-            Item.damage = Item.OriginalDamage;
             TimeToEndCooldown = 110f;
             ShotsUntilCooldown = 18f;
+
+            Item.value = Item.sellPrice(0, 5, 30, 0);
+
         }
         public override UpgradeList InitializeUpgrades() {
             return UpgradeBuilder.CreateUpgradeList("SludgePump")

@@ -6,7 +6,6 @@ namespace deeprockitems.Content.Items
     {
         public UpgradeList UpgradeMasterList { get; set; }
         public abstract void ApplyStatUpgrades();
-        public void ResetStats() { }
         /// <summary>
         /// Initializes the master list of upgrades this weapon will use.
         /// </summary>
