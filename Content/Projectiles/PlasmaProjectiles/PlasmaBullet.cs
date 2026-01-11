@@ -1,6 +1,7 @@
 ﻿using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
@@ -31,17 +32,27 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
         public void Explode() {
             Projectile.Resize(60, 60);
             IsExploding = true;
+            Projectile.frameCounter = 0;
             Projectile.frame = 1;
-            Projectile.timeLeft = 10;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 11;
             Projectile.tileCollide = false;
             Projectile.velocity = Vector2.Zero;
-            //Projectile.Damage();
         }
         public override void AI() {
-            if (!IsExploding) return;
-            Projectile.frameCounter++;
+            // Normal AI
+            if (!IsExploding)
+            {
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter % 4 == 0)
+                {
+                    // Purple
+                    Vector2 pos = Projectile.position + Projectile.velocity;
+                    Dust.NewDust(pos, Projectile.width, Projectile.height, DustID.Shadowflame, SpeedX: 0.1f * Projectile.velocity.X, SpeedY: 0.1f * Projectile.velocity.Y, Scale: 0.75f, newColor: new Color(0.8f, 0.6f, 0.78f));
+                }
+                return;
+            }
+            // Exploding AI
             if (Projectile.frameCounter % 3 == 0 && Projectile.frame < 2)
             {
                 Projectile.frame++;
