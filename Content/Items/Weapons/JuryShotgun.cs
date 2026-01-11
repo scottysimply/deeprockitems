@@ -15,7 +15,6 @@ namespace deeprockitems.Content.Items.Weapons
     {
         public override void NewSetDefaults()
         {
-            ResetStats();
             Item.CloneDefaults(ItemID.Boomstick);
             Item.UseSound = null;
             Item.material = false; // Prevents the weapon being erronously being called a material after upgrading
@@ -26,7 +25,7 @@ namespace deeprockitems.Content.Items.Weapons
             Item.useAnimation = 45;
             Item.autoReuse = true;
             Item.value = Item.sellPrice(0, 1, 0, 0);
-            TimeToEndCooldown = 75f;
+            TimeToEndCooldown = 90f;
             ShotsUntilCooldown = 2f;
             SpreadMultiplier = 1f;
             PelletCount = 3;
@@ -81,7 +80,7 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithIngredient(ItemID.Vine, 1)
                     .WithUpgrade("ReloadSpeed", Assets.Upgrades.FireRate)
                         .WithBehavior<ItemStatChange>((Item item) => {
-                            (item.ModItem as JuryShotgun).TimeToEndCooldown -= 30;
+                            (item.ModItem as JuryShotgun).TimeToEndCooldown -= 45;
                         })
                         .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
                         .WithIngredient(ItemID.Stinger, 3)
