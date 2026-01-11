@@ -270,6 +270,21 @@ namespace deeprockitems.Content.Buffs
         }
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
+            if (npc.realLife > -1)
+            {
+                TemperatureGlobalNPC parent = Main.npc[npc.realLife].GetGlobalNPC<TemperatureGlobalNPC>();
+                if (parent.AtColdThreshold && (modifiers.DamageType == DamageClass.Melee || modifiers.DamageType == DamageClass.Summon || modifiers.DamageType == DamageClass.MagicSummonHybrid || modifiers.DamageType == DamageClass.SummonMeleeSpeed))
+                {
+                    modifiers.SourceDamage *= 1.5f;
+                    modifiers.HideCombatText();
+                }
+                else if (parent.AtHeatThreshold && (modifiers.DamageType == DamageClass.Ranged || modifiers.DamageType == DamageClass.Magic || modifiers.DamageType == DamageClass.MagicSummonHybrid))
+                {
+                    modifiers.SourceDamage *= 1.5f;
+                    modifiers.HideCombatText();
+                }
+                return;
+            }
             if (AtColdThreshold && (modifiers.DamageType == DamageClass.Melee || modifiers.DamageType == DamageClass.Summon || modifiers.DamageType == DamageClass.MagicSummonHybrid || modifiers.DamageType == DamageClass.SummonMeleeSpeed))
             {
                 modifiers.SourceDamage *= 1.5f;
@@ -294,6 +309,19 @@ namespace deeprockitems.Content.Buffs
         Color Frozen_Text_Color => new Color(110, 150, 245);
         Color Marked_Text_Color => new Color(245, 30, 60);
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone) {
+            if (npc.realLife > -1)
+            {
+                TemperatureGlobalNPC parent = Main.npc[npc.realLife].GetGlobalNPC<TemperatureGlobalNPC>();
+                if (parent.AtColdThreshold && (hit.DamageType == DamageClass.Melee || hit.DamageType == DamageClass.Summon || hit.DamageType == DamageClass.MagicSummonHybrid || hit.DamageType == DamageClass.SummonMeleeSpeed))
+                {
+                    CombatText.NewText(npc.getRect(), Frozen_Text_Color, damageDone);
+                }
+                else if (parent.AtHeatThreshold && (hit.DamageType == DamageClass.Ranged || hit.DamageType == DamageClass.Magic || hit.DamageType == DamageClass.MagicSummonHybrid))
+                {
+                    CombatText.NewText(npc.getRect(), Marked_Text_Color, damageDone);
+                }
+                return;
+            }
             if (AtColdThreshold && (hit.DamageType == DamageClass.Melee || hit.DamageType == DamageClass.Summon || hit.DamageType == DamageClass.MagicSummonHybrid || hit.DamageType == DamageClass.SummonMeleeSpeed))
             {
                 CombatText.NewText(npc.getRect(), Frozen_Text_Color, damageDone);
@@ -305,6 +333,23 @@ namespace deeprockitems.Content.Buffs
         }
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
+            if (npc.realLife > -1)
+            {
+                TemperatureGlobalNPC parent = Main.npc[npc.realLife].GetGlobalNPC<TemperatureGlobalNPC>();
+                if (parent.IsFrozen)
+                {
+                    drawColor = Lighting.GetColor(npc.Center.ToTileCoordinates(), new Color(125, 175, 240));
+                }
+                else if (parent.IsMarkedForDeath)
+                {
+                    drawColor = Lighting.GetColor(npc.Center.ToTileCoordinates(), new Color(196, 43, 26));
+                }
+                else
+                {
+                    base.DrawEffects(npc, ref drawColor);
+                }
+                return;
+            }
             if (IsFrozen)
             {
                 drawColor = Lighting.GetColor(npc.Center.ToTileCoordinates(), new Color(125, 175, 240));
