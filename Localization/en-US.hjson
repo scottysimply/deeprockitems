@@ -498,98 +498,77 @@ Mods: {
 
 			PlasmaPistol: {
 				Tier1: {
-					DamageUpgrade: {
-						DisplayName: Dense Plasma
-						HoverText: +10% base damage
+					DenserField1: {
+						DisplayName: Denser Field
+						HoverText: x1.15 damage
 					}
 
-					IncreasedBattery: {
-						DisplayName: Higher Capacity Battery
-						HoverText: Fire 2x shots before cooling down
+					VacuumDielectric1: {
+						DisplayName: Vacuum Dielectrics
+						HoverText: x1.33 charged plasma damage
 					}
 
-					IncreasedChargeDamage: {
-						DisplayName: Oxygen Coil Injectors
-						HoverText: +25% charged shot damage
+					MagneticRails: {
+						DisplayName: Magna-Rails
+						HoverText: x1.5 uncharged plasma velocity
 					}
 				}
 
 				Tier2: {
-					SuperSpeedPlasma: {
-						DisplayName: Overtuned Nozzle
-						HoverText: +25% increase to projectile velocity
+					OversizedBattery: {
+						DisplayName: Oversized Battery
+						HoverText: +8 shots until cooldown
 					}
 
-					QuickCharge: {
-						DisplayName: Quick Charge Coils
-						HoverText: 25% faster charge speed
+					CrystalCapacitors: {
+						DisplayName: Crystal Capacitors
+						HoverText: x2 faster charge time
+					}
+
+					HeatPipe: {
+						DisplayName: Heat Pipe
+						HoverText: x0.75 heat generated on charged plasma
 					}
 				}
 
 				Tier3: {
-					ArmorBreak: {
-						DisplayName: Gamma Ray Emitters
-						HoverText: +25% armor penetration
+					DenserField2: {
+						DisplayName: Denser Field
+						HoverText: +10 damage
 					}
 
-					FireRateIncrease: {
-						DisplayName: Crystal Capacitors
-						HoverText: +33% faster fire rate
-					}
-
-					MediumDamageUpgrade: {
-						DisplayName: Even Denser Plasma
-						HoverText: +25% base damage
+					VacuumDielectric2: {
+						DisplayName: Vacuum Dielectrics
+						HoverText: +30 charged plasma damage
 					}
 				}
 
 				Tier4: {
-					PlasmaSplash: {
-						DisplayName: Plasma Splash
-						HoverText: Uncharged plasma impacts with a small area of effect
+					Exorcist: {
+						DisplayName: Exorcist
+						HoverText: x0.66 mana cost
 					}
 
-					FlyingNightmare: {
-						DisplayName: Flying Nightmare
-						HoverText: Fully charged plasma pierces all enemies
+					OversizedBattery: {
+						DisplayName: Oversized Battery
+						HoverText: +8 shots until cooldown
 					}
 				}
 
 				Tier5: {
 					ThinContainmentField: {
 						DisplayName: Thin Containment Field
-						HoverText: Hitting charged plasma with uncharged plasma creates an explosion with concussive force
+						HoverText: Charged plasma can be "popped" by hiting it for a massive area of effect
 					}
 
-					HeatDump: {
-						DisplayName: Heat Dump
-						HoverText: Plasma sheds heat onto enemies
-					}
-				}
-
-				Overclocks: {
-					Whiplash: {
-						DisplayName: Whiplash
-						HoverText: Stuns enemies struck by plasma
-						Positives: Inflicts stun on hit
+					FlyingNightmare: {
+						DisplayName: Flying Nightmare
+						HoverText: Charged plasma can pierce indefinitely
 					}
 
-					HeavyHitter: {
-						DisplayName: Heavy Hitter
-						HoverText: Increases the power of uncharged plasma
-						Positives: 33% higher damage
-						Negatives: 0.5x charged plasma damage bonus
-					}
-
-					Ionosphere: {
-						DisplayName: Ionosphere
-						HoverText: Charged plasma electrocutes up to 5 nearby enemies
-						Positives: Charged plasma arcs between enemies
-						Negatives:
-							'''
-							Removed the charged plasma damage bonus
-							0.33x charged plasma velocity
-							'''
+					PlasmaSplash: {
+						DisplayName: Plasma Splash
+						HoverText: Uncharged plasma gains a small area of effect
 					}
 				}
 			}
