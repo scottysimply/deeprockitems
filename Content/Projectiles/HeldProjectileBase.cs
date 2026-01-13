@@ -150,7 +150,7 @@ namespace deeprockitems.Content.Projectiles
             if (!Main.player[Projectile.owner].autoReuseAllWeapons) return;
 
             _heldChargeTimer++;
-            if (_heldChargeTimer == 5)
+            if (_heldChargeTimer == 8)
             {
                 Projectile.Kill();
                 _heldChargeTimer = 0; ;
