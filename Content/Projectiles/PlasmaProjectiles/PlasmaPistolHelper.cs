@@ -39,11 +39,5 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
                 Main.player[Projectile.owner].CheckMana(7, true, false);
             }
         }
-        public override void WhileHeldAtCharge() {
-            if (Main.player[Projectile.owner].statMana < 7)
-            {
-                ProjectileToSpawn = ModContent.ProjectileType<PlasmaBullet>();
-            }
-        }
     }
 }
