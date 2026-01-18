@@ -505,7 +505,7 @@ Mods: {
 
 					VacuumDielectric1: {
 						DisplayName: Vacuum Dielectrics
-						HoverText: x1.33 charged plasma damage
+						HoverText: x1.5 charged plasma damage
 					}
 
 					MagneticRails: {
@@ -527,7 +527,7 @@ Mods: {
 
 					HeatPipe: {
 						DisplayName: Heat Pipe
-						HoverText: x0.75 heat generated on charged plasma
+						HoverText: x0.66 heat generated on charged plasma
 					}
 				}
 
@@ -539,7 +539,7 @@ Mods: {
 
 					VacuumDielectric2: {
 						DisplayName: Vacuum Dielectrics
-						HoverText: +30 charged plasma damage
+						HoverText: +45 charged plasma damage
 					}
 				}
 
