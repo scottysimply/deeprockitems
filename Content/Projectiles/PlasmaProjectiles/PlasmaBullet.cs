@@ -1,5 +1,6 @@
 ﻿using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -61,6 +62,15 @@ namespace deeprockitems.Content.Projectiles.PlasmaProjectiles
             {
                 Projectile.Kill();
             }
+        }
+        public override bool PreKill(int timeLeft) {
+            for (int i = 0; i < 4; i++)
+            {
+                float radial = 2 * MathHelper.Pi / 16f;
+                Vector2 offset = new Vector2(MathF.Cos(radial), MathF.Sin(radial));
+                Dust.NewDust(Projectile.position + 6 * offset, Projectile.width / 2, Projectile.height / 2, DustID.Shadowflame, SpeedX: 0.5f * offset.X, 0.5f * offset.Y);
+            }
+            return base.PreKill(timeLeft);
         }
         public override Color? GetAlpha(Color lightColor)
         {
