@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -55,7 +56,7 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (!source.SourceProjectile.HasReachedFullCharge) return;
 
-                            projectile.damage = (int)(projectile.damage * 1.33f);
+                            projectile.damage = (int)(projectile.damage * 1.5f);
                         })
                         .WithIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
                         .WithIngredient(ItemID.Glass, 30)
@@ -82,16 +83,16 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.MeteoriteBar, 4)
                         .WithIngredient(ItemID.Diamond, 1)
-                    .WithUpgrade("HeatPipe", Assets.Upgrades.ArmorBreak)
+                    .WithUpgrade("HeatPipe", Assets.Upgrades.FireRate)
                         .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not PlasmaPistolHelper helper) return;
 
-                            helper.ChargeShotCooldownMultiplier *= 0.75f;
+                            helper.ChargeShotCooldownMultiplier *= 0.66f;
                         })
                         .WithIngredient(ItemID.MeteoriteBar, 4)
                         .WithIngredient([ItemID.CopperBar, ItemID.TinBar], 4)
                 .WithTier()
-                    .WithUpgrade("DenserField2", Assets.Upgrades.FireRate)
+                    .WithUpgrade("DenserField2", Assets.Upgrades.Damage)
                         .WithBehavior<ItemStatChange>((Item item) => {
                             item.damage += 10;
                         })
@@ -101,7 +102,7 @@ namespace deeprockitems.Content.Items.Weapons
                         .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (!source.SourceProjectile.HasReachedFullCharge) return;
 
-                            projectile.damage += 30;
+                            projectile.damage += 45;
                         })
                         .WithIngredient(ItemID.Bone, 10)
                         .WithIngredient(ItemID.Glass, 30)
@@ -129,6 +130,7 @@ namespace deeprockitems.Content.Items.Weapons
 
                             
                             Projectile.NewProjectile(projectile.GetSource_FromAI(), Main.projectile[intersection].Center, Vector2.Zero, ModContent.ProjectileType<PlasmaExplosion>(), projectile.damage * 3, 0f, projectile.owner);
+                            SoundEngine.PlaySound(SoundID.Item14 with { Pitch = -1f, PitchVariance = 0.1f }, Main.projectile[intersection].Center);
                             Main.projectile[intersection].Kill();
                             projectile.Kill();
                         })
@@ -138,7 +140,7 @@ namespace deeprockitems.Content.Items.Weapons
                         })
                         .WithIngredient(ItemID.Bubble, 30)
                         .WithIngredient(ItemID.Dynamite, 10)
-                    .WithUpgrade("FlyingNightmare", Assets.Upgrades.Heat)
+                    .WithUpgrade("FlyingNightmare", Assets.Upgrades.Penetrate)
                         .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (projectile.ModProjectile is not BigPlasma plasma) return;
 
