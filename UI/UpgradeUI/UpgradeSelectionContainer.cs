@@ -14,8 +14,8 @@ namespace deeprockitems.UI.UpgradeUI
         {
             // Begin by removing all children
             RemoveAllChildren();
-            // If the upgrades are not set, the parent item was removed. Undo everything.
-            if (upgrades is null)
+            // If the upgrades are not set, there's no upgrade list and nothing should draw.
+            if (upgrades is null || upgrades.Count == 0)
             {
                 upgradeSelectors = [];
                 return;
