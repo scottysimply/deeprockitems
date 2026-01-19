@@ -30,7 +30,7 @@ namespace deeprockitems.Content.Upgrades
         /// </summary>
         /// <param name="tier"></param>
         /// <returns></returns>
-        public UpgradeBuilder WithTier(int tier) {
+        public UpgradeBuilder Tier(int tier) {
             if (_currentUpgradeAddingTo != null)
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
@@ -44,7 +44,7 @@ namespace deeprockitems.Content.Upgrades
         /// Defines a new upgrade tier for this upgrade list without a specified tier.
         /// </summary>
         /// <returns></returns>
-        public UpgradeBuilder WithTier() {
+        public UpgradeBuilder Tier() {
             if (_currentUpgradeAddingTo != null)
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
@@ -58,10 +58,10 @@ namespace deeprockitems.Content.Upgrades
         /// Defines a new overclock for this weapon.
         /// </summary>
         /// <returns></returns>
-        public UpgradeBuilder WithOverclock(string name, Asset<Texture2D> texture, Overclock.OverclockType type) {
+        public UpgradeBuilder Overclock(string name, Asset<Texture2D> texture, Overclock.OverclockType type) {
             if (_currentTierAddingTo != OVERCLOCK_TIER)
             {
-                WithTier(OVERCLOCK_TIER);
+                Tier(OVERCLOCK_TIER);
             }
             if (_currentUpgradeAddingTo != null)
             {
@@ -76,7 +76,7 @@ namespace deeprockitems.Content.Upgrades
         /// <param name="name"></param>
         /// <param name="texture"></param>
         /// <returns></returns>
-        public UpgradeBuilder WithUpgrade(string name, Asset<Texture2D> texture) {
+        public UpgradeBuilder Upgrade(string name, Asset<Texture2D> texture) {
             if (_currentUpgradeAddingTo != null)
             {
                 _innerUpgrades[_currentTierAddingTo].Add(_currentUpgradeAddingTo);
@@ -93,8 +93,8 @@ namespace deeprockitems.Content.Upgrades
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public UpgradeBuilder WithBehavior<T>(T action) where T : Delegate {
-            if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(WithUpgrade)} must be invoked before invoking {nameof(WithBehavior)}");
+        public UpgradeBuilder Behavior<T>(T action) where T : Delegate {
+            if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(Upgrade)} must be invoked before invoking {nameof(Behavior)}");
             var query = _currentUpgradeAddingTo.Behavior.GetType().GetProperties().Where(info => info.PropertyType == typeof(T));
 
             if (!query.Any()) throw new ArgumentException($"{nameof(UpgradeBehavior)} has no delegate with type {nameof(T)}");
@@ -111,15 +111,15 @@ namespace deeprockitems.Content.Upgrades
         /// <param name="stack"></param>
         /// <returns></returns>
         /// <exception cref="NotSupportedException"></exception>
-        public UpgradeBuilder WithIngredient(int[] candidateItemIDs, int stack = 1) {
-            if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(WithUpgrade)} must be invoked before adding a recipe.");
+        public UpgradeBuilder Ingredient(int[] candidateItemIDs, int stack = 1) {
+            if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(Upgrade)} must be invoked before adding a recipe.");
             _currentUpgradeAddingTo.Recipe ??= new();
 
             _currentUpgradeAddingTo.Recipe.AddCandidateIngredient(candidateItemIDs, stack);
             return this;
         }
-        public UpgradeBuilder WithIngredient(int itemID, int stack = 1) {
-            if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(WithUpgrade)} must be invoked before adding a recipe.");
+        public UpgradeBuilder Ingredient(int itemID, int stack = 1) {
+            if (_currentUpgradeAddingTo is null) throw new NotSupportedException($"{nameof(Upgrade)} must be invoked before adding a recipe.");
             _currentUpgradeAddingTo.Recipe ??= new();
 
             _currentUpgradeAddingTo.Recipe.AddIngredient(itemID, stack);

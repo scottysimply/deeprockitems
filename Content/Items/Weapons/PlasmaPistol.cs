@@ -45,83 +45,83 @@ namespace deeprockitems.Content.Items.Weapons
         public override UpgradeList InitializeUpgrades() {
             Dictionary<int, List<Vector2>> pointsToElectrify = [];
             return UpgradeBuilder.CreateUpgradeList("PlasmaPistol")
-                .WithTier()
-                    .WithUpgrade("DenserField1", Assets.Upgrades.Damage)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                .Tier()
+                    .Upgrade("DenserField1", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage = (int)(item.OriginalDamage * 1.15f);
                         })
-                        .WithIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
-                        .WithIngredient(ItemID.FallenStar, 3)
-                    .WithUpgrade("VacuumDielectric1", Assets.Upgrades.AreaOfEffect)
-                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                        .Ingredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
+                        .Ingredient(ItemID.FallenStar, 3)
+                    .Upgrade("VacuumDielectric1", Assets.Upgrades.AreaOfEffect)
+                        .Behavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (!source.SourceProjectile.HasReachedFullCharge) return;
 
                             projectile.damage = (int)(projectile.damage * 1.5f);
                         })
-                        .WithIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
-                        .WithIngredient(ItemID.Glass, 30)
-                    .WithUpgrade("MagneticRails", Assets.Upgrades.BigArrow)
-                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                        .Ingredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
+                        .Ingredient(ItemID.Glass, 30)
+                    .Upgrade("MagneticRails", Assets.Upgrades.BigArrow)
+                        .Behavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (source.SourceProjectile.HasReachedFullCharge) return;
 
                             projectile.velocity *= 1.5f;
                         })
-                        .WithIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
-                        .WithIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
-                .WithTier()
-                    .WithUpgrade("OversizedBattery", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
+                        .Ingredient([ItemID.IronBar, ItemID.LeadBar], 4)
+                .Tier()
+                    .Upgrade("OversizedBattery", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             (item.ModItem as PlasmaPistol).ShotsUntilCooldown += 8f;
                         })
-                        .WithIngredient(ItemID.MeteoriteBar, 4)
-                        .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
-                    .WithUpgrade("CrystalCapacitors", Assets.Upgrades.Focus)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient(ItemID.MeteoriteBar, 4)
+                        .Ingredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
+                    .Upgrade("CrystalCapacitors", Assets.Upgrades.Focus)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not PlasmaPistolHelper helper) return;
 
                             helper.ChargeTimeMultiplier = 0.5f;
                         })
-                        .WithIngredient(ItemID.MeteoriteBar, 4)
-                        .WithIngredient(ItemID.Diamond, 1)
-                    .WithUpgrade("HeatPipe", Assets.Upgrades.FireRate)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient(ItemID.MeteoriteBar, 4)
+                        .Ingredient(ItemID.Diamond, 1)
+                    .Upgrade("HeatPipe", Assets.Upgrades.FireRate)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not PlasmaPistolHelper helper) return;
 
                             helper.ChargeShotCooldownMultiplier *= 0.66f;
                         })
-                        .WithIngredient(ItemID.MeteoriteBar, 4)
-                        .WithIngredient([ItemID.CopperBar, ItemID.TinBar], 4)
-                .WithTier()
-                    .WithUpgrade("DenserField2", Assets.Upgrades.Damage)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient(ItemID.MeteoriteBar, 4)
+                        .Ingredient([ItemID.CopperBar, ItemID.TinBar], 4)
+                .Tier()
+                    .Upgrade("DenserField2", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage += 10;
                         })
-                        .WithIngredient(ItemID.Bone, 10)
-                        .WithIngredient(ItemID.FallenStar, 3)
-                    .WithUpgrade("VacuumDielectric2", Assets.Upgrades.AreaOfEffect)
-                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                        .Ingredient(ItemID.Bone, 10)
+                        .Ingredient(ItemID.FallenStar, 3)
+                    .Upgrade("VacuumDielectric2", Assets.Upgrades.AreaOfEffect)
+                        .Behavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (!source.SourceProjectile.HasReachedFullCharge) return;
 
                             projectile.damage += 45;
                         })
-                        .WithIngredient(ItemID.Bone, 10)
-                        .WithIngredient(ItemID.Glass, 30)
-                .WithTier()
-                    .WithUpgrade("Exorcist", Assets.Upgrades.AreaOfEffect)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient(ItemID.Bone, 10)
+                        .Ingredient(ItemID.Glass, 30)
+                .Tier()
+                    .Upgrade("Exorcist", Assets.Upgrades.AreaOfEffect)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.mana = (int)(item.mana * 0.66f);
                         })
-                        .WithIngredient(ItemID.HellstoneBar, 4)
-                        .WithIngredient(ItemID.ManaCrystal, 2)
-                    .WithUpgrade("OversizedBattery", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient(ItemID.HellstoneBar, 4)
+                        .Ingredient(ItemID.ManaCrystal, 2)
+                    .Upgrade("OversizedBattery", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             (item.ModItem as PlasmaPistol).ShotsUntilCooldown += 8f;
                         })
-                        .WithIngredient(ItemID.HellstoneBar, 4)
-                        .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
-                .WithTier()
-                    .WithUpgrade("ThinContainmentField", Assets.Upgrades.SpecialStar)
-                        .WithBehavior<ProjectileAI>((Projectile projectile) => {
+                        .Ingredient(ItemID.HellstoneBar, 4)
+                        .Ingredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
+                .Tier()
+                    .Upgrade("ThinContainmentField", Assets.Upgrades.SpecialStar)
+                        .Behavior<ProjectileAI>((Projectile projectile) => {
                             if (projectile.ModProjectile is not PlasmaBullet) return;
 
                             int intersection = projectile.IsCollidingWithProjectile(ModContent.ProjectileType<BigPlasma>());
@@ -134,14 +134,14 @@ namespace deeprockitems.Content.Items.Weapons
                             Main.projectile[intersection].Kill();
                             projectile.Kill();
                         })
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not BigPlasma plasma) return;
                             plasma.CancelAoE = true;
                         })
-                        .WithIngredient(ItemID.Bubble, 30)
-                        .WithIngredient(ItemID.Dynamite, 10)
-                    .WithUpgrade("FlyingNightmare", Assets.Upgrades.Penetrate)
-                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                        .Ingredient(ItemID.Bubble, 30)
+                        .Ingredient(ItemID.Dynamite, 10)
+                    .Upgrade("FlyingNightmare", Assets.Upgrades.Penetrate)
+                        .Behavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (projectile.ModProjectile is not BigPlasma plasma) return;
 
                             plasma.CancelAoE = true;
@@ -149,24 +149,24 @@ namespace deeprockitems.Content.Items.Weapons
                             projectile.usesLocalNPCImmunity = true;
                             projectile.localNPCHitCooldown = 10;
                         })
-                        .WithIngredient(ItemID.Bubble, 30)
-                        .WithIngredient(ItemID.Bomb, 30)
-                    .WithUpgrade("PlasmaSplash", Assets.Upgrades.AreaOfEffect)
-                        .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
+                        .Ingredient(ItemID.Bubble, 30)
+                        .Ingredient(ItemID.Bomb, 30)
+                    .Upgrade("PlasmaSplash", Assets.Upgrades.AreaOfEffect)
+                        .Behavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
                             if (projectile.ModProjectile is not PlasmaBullet plasma) return true;
                             if (projectile.owner != Main.myPlayer) return false;
                             if (plasma.IsExploding) return true;
                             plasma.Explode();
                             return false;
                         })
-                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
                             if (projectile.ModProjectile is not PlasmaBullet plasma) return;
                             if (projectile.owner != Main.myPlayer) return;
                             if (plasma.IsExploding) return;
                             plasma.Explode();
                         })
-                        .WithIngredient(ItemID.Bubble, 30)
-                        .WithIngredient(ItemID.Grenade, 99)
+                        .Ingredient(ItemID.Bubble, 30)
+                        .Ingredient(ItemID.Grenade, 99)
             //.WithOverclock("PlasmaSplash", Assets.Upgrades.Stun, Overclock.OverclockType.Clean)
             //    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
             //        if (projectile.ModProjectile is BigPlasma)

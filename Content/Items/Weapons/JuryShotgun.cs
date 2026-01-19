@@ -47,26 +47,26 @@ namespace deeprockitems.Content.Items.Weapons
         public override UpgradeList InitializeUpgrades() {
             int initialType = ProjectileID.Bullet;
             return UpgradeBuilder.CreateUpgradeList("JuryShotgun")
-                .WithTier()
-                    .WithUpgrade("PelletCount1", Assets.Upgrades.Pellets)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                .Tier()
+                    .Upgrade("PelletCount1", Assets.Upgrades.Pellets)
+                        .Behavior<ItemStatChange>((Item item) => {
                             (item.ModItem as JuryShotgun).PelletCount += 2;
                         })
-                        .WithIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
-                        .WithIngredient(ItemID.MusketBall, 30)
-                    .WithUpgrade("Buckshot1", Assets.Upgrades.Damage)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.IronBar, ItemID.LeadBar], 4)
+                        .Ingredient(ItemID.MusketBall, 30)
+                    .Upgrade("Buckshot1", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage += 3;
                         })
-                        .WithIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
-                        .WithIngredient([ItemID.RottenChunk, ItemID.Vertebrae], 3)
-                .WithTier()
-                    .WithUpgrade("DoubleTrigger", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.IronBar, ItemID.LeadBar], 4)
+                        .Ingredient([ItemID.RottenChunk, ItemID.Vertebrae], 3)
+                .Tier()
+                    .Upgrade("DoubleTrigger", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.useTime = 8;
                             item.useAnimation = 15;
                         })
-                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        .Behavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
                             _shotsFired++;
                             if (_shotsFired >= 2)
                             {
@@ -76,63 +76,63 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                             return true;
                         })
-                        .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
-                        .WithIngredient(ItemID.Vine, 1)
-                    .WithUpgrade("ReloadSpeed", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
+                        .Ingredient(ItemID.Vine, 1)
+                    .Upgrade("ReloadSpeed", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             (item.ModItem as JuryShotgun).TimeToEndCooldown -= 45;
                         })
-                        .WithIngredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
-                        .WithIngredient(ItemID.Stinger, 3)
-                .WithTier()
-                    .WithUpgrade("PelletCount2", Assets.Upgrades.Pellets)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.GoldBar, ItemID.PlatinumBar], 4)
+                        .Ingredient(ItemID.Stinger, 3)
+                .Tier()
+                    .Upgrade("PelletCount2", Assets.Upgrades.Pellets)
+                        .Behavior<ItemStatChange>((Item item) => {
                             (item.ModItem as JuryShotgun).PelletCount += 2;
                         })
-                        .WithIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
-                        .WithIngredient(ItemID.MusketBall, 99)
-                    .WithUpgrade("Buckshot2", Assets.Upgrades.Damage)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
+                        .Ingredient(ItemID.MusketBall, 99)
+                    .Upgrade("Buckshot2", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage += 3;
                         })
-                        .WithIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
-                        .WithIngredient([ItemID.ShadowScale, ItemID.TissueSample], 8)
-                    .WithUpgrade("Blowthrough", Assets.Upgrades.Penetrate)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
+                        .Ingredient([ItemID.ShadowScale, ItemID.TissueSample], 8)
+                    .Upgrade("Blowthrough", Assets.Upgrades.Penetrate)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             projectile.penetrate += 2;
                             projectile.usesLocalNPCImmunity = true;
                             projectile.localNPCHitCooldown = 30;
                         })
-                        .WithIngredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
-                        .WithIngredient(ItemID.Diamond, 2)
-                .WithTier()
-                    .WithUpgrade("ExtendedBarrel", Assets.Upgrades.Focus)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.DemoniteBar, ItemID.CrimtaneBar], 4)
+                        .Ingredient(ItemID.Diamond, 2)
+                .Tier()
+                    .Upgrade("ExtendedBarrel", Assets.Upgrades.Focus)
+                        .Behavior<ItemStatChange>((Item item) => {
                             (item.ModItem as JuryShotgun).SpreadMultiplier *= 0.25f;
                         })
-                        .WithIngredient(ItemID.Bone, 10)
-                        .WithIngredient([ItemID.IronBar, ItemID.LeadBar], 4)
-                    .WithUpgrade("StunChance", Assets.Upgrades.Stun)
-                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        .Ingredient(ItemID.Bone, 10)
+                        .Ingredient([ItemID.IronBar, ItemID.LeadBar], 4)
+                    .Upgrade("StunChance", Assets.Upgrades.Stun)
+                        .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
                             target.AddBuff(ModContent.BuffType<StunnedEnemy>(), 360);
                         })
-                        .WithIngredient(ItemID.Bone, 10)
-                        .WithIngredient([ItemID.SandBlock, ItemID.EbonsandBlock, ItemID.CrimsandBlock, ItemID.PearlsandBlock], 25)
-                    .WithUpgrade("QuadrupleBarrel", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient(ItemID.Bone, 10)
+                        .Ingredient([ItemID.SandBlock, ItemID.EbonsandBlock, ItemID.CrimsandBlock, ItemID.PearlsandBlock], 25)
+                    .Upgrade("QuadrupleBarrel", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             (item.ModItem as JuryShotgun).ShotsUntilCooldown += 2f;
                         })
-                        .WithIngredient(ItemID.Bone, 10)
-                        .WithIngredient(ItemID.QuadBarrelShotgun)
-                .WithTier()
-                    .WithUpgrade("WhitePhosphorusShells", Assets.Upgrades.Heat)
-                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        .Ingredient(ItemID.Bone, 10)
+                        .Ingredient(ItemID.QuadBarrelShotgun)
+                .Tier()
+                    .Upgrade("WhitePhosphorusShells", Assets.Upgrades.Heat)
+                        .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
                             target.ChangeTemperature(75 / PelletCount, projectile.owner);
                         })
-                        .WithIngredient(ItemID.HellstoneBar, 4)
-                        .WithIngredient(ItemID.MeteoriteBar, 4)
-                    .WithUpgrade("Shockwave", Assets.Upgrades.AreaOfEffect)
-                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        .Ingredient(ItemID.HellstoneBar, 4)
+                        .Ingredient(ItemID.MeteoriteBar, 4)
+                    .Upgrade("Shockwave", Assets.Upgrades.AreaOfEffect)
+                        .Behavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
                             int radius = 10;
                             foreach (var npc in Main.ActiveNPCs)
                             {
@@ -146,8 +146,8 @@ namespace deeprockitems.Content.Items.Weapons
 
                             return true;
                         })
-                        .WithIngredient(ItemID.HellstoneBar, 4)
-                        .WithIngredient(ItemID.Grenade, 15)
+                        .Ingredient(ItemID.HellstoneBar, 4)
+                        .Ingredient(ItemID.Grenade, 15)
             /*                .WithOverclock("TheSlug", Assets.Upgrades.Damage, Overclock.OverclockType.Clean)
                                 .WithBehavior<ItemModifyShootStats>((Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
                                     spread = 0;
