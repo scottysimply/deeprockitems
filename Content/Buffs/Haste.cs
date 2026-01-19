@@ -8,7 +8,7 @@ namespace deeprockitems.Content.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.GetModPlayer<HastePlayer>().HasHaste = true;
-            player.moveSpeed += 0.5f;
+            player.moveSpeed += 0.25f;
         }
     }
     public class HastePlayer : ModPlayer
@@ -21,7 +21,7 @@ namespace deeprockitems.Content.Buffs
         public override void PostUpdateRunSpeeds() {
             
             if (HasHaste) {
-                Player.accRunSpeed *= 1.5f;
+                Player.accRunSpeed *= 1.25f;
             }
         }
     }
