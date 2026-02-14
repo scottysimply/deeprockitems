@@ -43,82 +43,82 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override UpgradeList InitializeUpgrades() {
             return UpgradeBuilder.CreateUpgradeList("M1000")
-                .WithTier()
-                    .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                .Tier()
+                    .Upgrade("DamageUpgrade", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage = (int)(item.OriginalDamage * 1.15f);
                         })
-                        .WithIngredient(ItemID.HellstoneBar, 8)
-                        .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 1)
-                    .WithUpgrade("BiggerClip", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient(ItemID.HellstoneBar, 8)
+                        .Ingredient([ItemID.RagePotion, ItemID.WrathPotion], 1)
+                    .Upgrade("BiggerClip", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             (item.ModItem as M1000).ShotsUntilCooldown *= 1.5f;
                         })
-                        .WithIngredient(ItemID.HellstoneBar, 8)
-                        .WithIngredient([ItemID.AmmoReservationPotion], 1)
-                    .WithUpgrade("FocusDamage", Assets.Upgrades.Damage)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient(ItemID.HellstoneBar, 8)
+                        .Ingredient([ItemID.AmmoReservationPotion], 1)
+                    .Upgrade("FocusDamage", Assets.Upgrades.Damage)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (source is not EntitySource_FromHeldProjectile { SourceProjectile.HasReachedFullCharge: true }) return;
 
                             projectile.damage = (int)(projectile.damage * 1.33f);
                         })
-                        .WithIngredient(ItemID.HellstoneBar, 8)
-                        .WithIngredient(ItemID.SoulofNight, 3)
-                .WithTier()
-                    .WithUpgrade("QuickCharge", Assets.Upgrades.Focus)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient(ItemID.HellstoneBar, 8)
+                        .Ingredient(ItemID.SoulofNight, 3)
+                .Tier()
+                    .Upgrade("QuickCharge", Assets.Upgrades.Focus)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not M1000Helper helper) return;
 
                             helper.ChargeTime *= 0.5f;
                         })
-                        .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
-                        .WithIngredient([ItemID.SwiftnessPotion], 6)
-                    .WithUpgrade("FocusDamage", Assets.Upgrades.Damage)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                        .Ingredient([ItemID.SwiftnessPotion], 6)
+                    .Upgrade("FocusDamage", Assets.Upgrades.Damage)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (source is not EntitySource_FromHeldProjectile { SourceProjectile.HasReachedFullCharge: true }) return;
 
                             projectile.damage = (int)(projectile.damage * 1.33f);
                         })
-                        .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
-                        .WithIngredient([ItemID.SoulofNight], 6)
+                        .Ingredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                        .Ingredient([ItemID.SoulofNight], 6)
 
-                    .WithUpgrade("BumpFire", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                    .Upgrade("BumpFire", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.useTime = (int)(_oldUseTime * 0.67f);
                             item.useAnimation = (int)(_oldUseAnimation * 0.67f);
                         })
-                        .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
-                        .WithIngredient(ItemID.SwiftnessPotion, 3)
-                .WithTier()
-                    .WithUpgrade("ArmorPiercing", Assets.Upgrades.ArmorBreak)
-                        .WithBehavior<ProjectileModifyHitNPC>((Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
+                        .Ingredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                        .Ingredient(ItemID.SwiftnessPotion, 3)
+                .Tier()
+                    .Upgrade("ArmorPiercing", Assets.Upgrades.ArmorBreak)
+                        .Behavior<ProjectileModifyHitNPC>((Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
                             modifiers.ScalingArmorPenetration += 0.25f;
                         })
-                        .WithIngredient(ItemID.HallowedBar, 8)
-                        .WithIngredient(ItemID.SharkToothNecklace, 1)
-                    .WithUpgrade("UmaniteBullets", Assets.Upgrades.Powder)
-                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        .Ingredient(ItemID.HallowedBar, 8)
+                        .Ingredient(ItemID.SharkToothNecklace, 1)
+                    .Upgrade("UmaniteBullets", Assets.Upgrades.Powder)
+                        .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
                             target.AddInstancedBuff<Irradiated>(60, out _);
                         })
-                .WithTier()
-                    .WithUpgrade("HighDamageUpgrade", Assets.Upgrades.Damage)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                .Tier()
+                    .Upgrade("HighDamageUpgrade", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage = (int)(item.damage * 1.75f);
                         })
-                        .WithIngredient(ItemID.ChlorophyteBar, 8)
-                        .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
-                    .WithUpgrade("EfficientCharge", Assets.Upgrades.Focus)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient(ItemID.ChlorophyteBar, 8)
+                        .Ingredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
+                    .Upgrade("EfficientCharge", Assets.Upgrades.Focus)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not M1000Helper helper) return;
 
                             helper.ChargeShotCooldownMultiplier = 1;
                         })
-                        .WithIngredient(ItemID.ChlorophyteBar, 8)
-                        .WithIngredient(ItemID.MusketBall, 99)
+                        .Ingredient(ItemID.ChlorophyteBar, 8)
+                        .Ingredient(ItemID.MusketBall, 99)
 
-                .WithTier()
-                    .WithUpgrade("WhereItHurts", Assets.Upgrades.SpecialStar)
-                        .WithBehavior<ProjectileModifyHitNPC>((Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
+                .Tier()
+                    .Upgrade("WhereItHurts", Assets.Upgrades.SpecialStar)
+                        .Behavior<ProjectileModifyHitNPC>((Projectile projectile, NPC target, ref NPC.HitModifiers modifiers) => {
                             if (projectile.GetSource() is not EntitySource_FromHeldProjectile { SourceProjectile.HasReachedFullCharge: true }) return;
 
                             modifiers.ModifyHitInfo += (ref NPC.HitInfo info) => {
@@ -128,11 +128,11 @@ namespace deeprockitems.Content.Items.Weapons
                                 info.Damage = (int)(target.lifeMax * 0.05f);
                             };
                         })
-                        .WithIngredient(ItemID.ChlorophyteBar, 8)
-                        .WithIngredient(ItemID.FragmentVortex, 6)
+                        .Ingredient(ItemID.ChlorophyteBar, 8)
+                        .Ingredient(ItemID.FragmentVortex, 6)
                     // This upgrade functions like magic bullets for the bulldog in drg: focused bullets rebound automatically to targets
-                    .WithUpgrade("MagicBullets", Assets.Upgrades.Penetrate)
-                        .WithBehavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                    .Upgrade("MagicBullets", Assets.Upgrades.Penetrate)
+                        .Behavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (source.SourceProjectile.HasReachedFullCharge)
                             {
                                 projectile.penetrate += 2;
@@ -140,7 +140,7 @@ namespace deeprockitems.Content.Items.Weapons
                             projectile.penetrate += 2;
 
                         })
-                        .WithBehavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
+                        .Behavior<ProjectileOnTileCollide>((Projectile projectile, Vector2 oldVelocity) => {
                             var query = Main.npc.Where(n => n.active && !n.friendly && !n.immortal).OrderBy(n => n.Center.DistanceSQ(projectile.Center));
                             foreach (var npc in query)
                             {
@@ -154,7 +154,7 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                             return true;
                         })
-                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
                             var query = Main.npc.Where(n => n.active && !n.friendly && !n.immortal && n.immune[projectile.owner] < 10).OrderBy(n => n.Center.DistanceSQ(projectile.Center));
                             foreach (var npc in query)
                             {
@@ -167,7 +167,7 @@ namespace deeprockitems.Content.Items.Weapons
                                 }
                             }
                         })
-                        .WithBehavior<ProjectilePreDraw>((Projectile projectile, Color lightColor) => {
+                        .Behavior<ProjectilePreDraw>((Projectile projectile, Color lightColor) => {
                             int textureWidth = TextureAssets.Projectile[projectile.type].Value.Width;
                             var query = Main.npc.Where(n => n.active && projectile.Center.DistanceSQ(n.Center) <= textureWidth * textureWidth);
                             foreach (var npc in query)
@@ -179,10 +179,10 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                             return true;
                         })
-                        .WithIngredient(ItemID.ChlorophyteBar, 8)
-                        .WithIngredient(ItemID.Nanites, 6)
-                .WithOverclock("TheWidowmaker", Assets.Upgrades.Haste, Overclock.OverclockType.Clean)
-                    .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
+                        .Ingredient(ItemID.ChlorophyteBar, 8)
+                        .Ingredient(ItemID.Nanites, 6)
+                .Overclock("TheWidowmaker", Assets.Upgrades.Haste, Overclock.OverclockType.Clean)
+                    .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damage) => {
                         if (target.immortal) return;
                         if (target.life <= 0)
                         {
@@ -201,8 +201,8 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                         }
                     })
-                .WithOverclock("Hipster", Assets.Upgrades.Focus, Overclock.OverclockType.Balanced)
-                    .WithBehavior<HeldProjectileModifyShootStats>((HeldProjectileBase projectile, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockBack, ref float spread) => {
+                .Overclock("Hipster", Assets.Upgrades.Focus, Overclock.OverclockType.Balanced)
+                    .Behavior<HeldProjectileModifyShootStats>((HeldProjectileBase projectile, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockBack, ref float spread) => {
                         spread *= 0.2f;
                         projectile.ChargeShotDamageMultiplier = 1.5f;
                         if (!projectile.HasReachedFullCharge)
@@ -210,11 +210,11 @@ namespace deeprockitems.Content.Items.Weapons
                             damage = (int)(damage * 1.25f);
                         }
                     })
-                .WithOverclock("SupercoolingChamber", Assets.Upgrades.Damage, Overclock.OverclockType.Unstable)
-                    .WithBehavior<ItemStatChange>((Item item) => {
+                .Overclock("SupercoolingChamber", Assets.Upgrades.Damage, Overclock.OverclockType.Unstable)
+                    .Behavior<ItemStatChange>((Item item) => {
                         (item.ModItem as M1000).TimeToEndCooldown *= 1.5f;
                     })
-                    .WithBehavior<HeldProjectileModifyShootStats>((HeldProjectileBase helper, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
+                    .Behavior<HeldProjectileModifyShootStats>((HeldProjectileBase helper, Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) => {
                         helper.ChargeShotDamageMultiplier *= 3;
                         if (!helper.HasReachedFullCharge)
                         {

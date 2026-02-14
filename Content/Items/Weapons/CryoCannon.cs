@@ -33,78 +33,78 @@ namespace deeprockitems.Content.Items.Weapons
         }
         public override UpgradeList InitializeUpgrades() {
             return UpgradeBuilder.CreateUpgradeList("CryoCannon")
-                .WithTier()
-                    .WithUpgrade("IncreasedCooling", Assets.Upgrades.Cryo)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                .Tier()
+                    .Upgrade("IncreasedCooling", Assets.Upgrades.Cryo)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
                             cryo.CoolingAmount -= 2f;
                         })
-                        .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
-                        .WithIngredient([ItemID.IceBlock], 50)
-                    .WithUpgrade("FartherStream", Assets.Upgrades.BigArrow)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                        .Ingredient([ItemID.IceBlock], 50)
+                    .Upgrade("FartherStream", Assets.Upgrades.BigArrow)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
                             cryo.VelocityDecay += 0.01f;
                         })
-                        .WithIngredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
-                        .WithIngredient([ItemID.SoulofNight], 6)
-                .WithTier()
-                    .WithUpgrade("ReducedManaCost", Assets.Upgrades.SpecialStar)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
+                        .Ingredient([ItemID.SoulofNight], 6)
+                .Tier()
+                    .Upgrade("ReducedManaCost", Assets.Upgrades.SpecialStar)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.mana -= 1;
                         })
-                        .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
-                        .WithIngredient([ItemID.FallenStar], 5)
-                    .WithUpgrade("FireRate", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                        .Ingredient([ItemID.FallenStar], 5)
+                    .Upgrade("FireRate", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.useTime -= 3;
                             item.useAnimation -= 3;
                         })
-                        .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
-                        .WithIngredient([ItemID.SoulofLight], 6)
-                    .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                        .Ingredient([ItemID.SoulofLight], 6)
+                    .Upgrade("DamageUpgrade", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage += 2;
                         })
-                        .WithIngredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
-                        .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 2)
-                .WithTier()
-                    .WithUpgrade("FartherStream", Assets.Upgrades.BigArrow)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
+                        .Ingredient([ItemID.RagePotion, ItemID.WrathPotion], 2)
+                .Tier()
+                    .Upgrade("FartherStream", Assets.Upgrades.BigArrow)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
                             cryo.VelocityDecay += 0.01f;
                         })
-                        .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
-                        .WithIngredient([ItemID.SoulofNight], 6)
-                    .WithUpgrade("ReloadSpeed", Assets.Upgrades.FireRate)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                        .Ingredient([ItemID.SoulofNight], 6)
+                    .Upgrade("ReloadSpeed", Assets.Upgrades.FireRate)
+                        .Behavior<ItemStatChange>((Item item) => {
                             OverheatCooldown *= 0.75f;
                         })
-                        .WithIngredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
-                        .WithIngredient([ItemID.ManaRegenerationPotion], 6)
-                .WithTier()
-                    .WithUpgrade("IncreasedCooling", Assets.Upgrades.Cryo)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
+                        .Ingredient([ItemID.ManaRegenerationPotion], 6)
+                .Tier()
+                    .Upgrade("IncreasedCooling", Assets.Upgrades.Cryo)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
                             cryo.CoolingAmount -= 2f;
                         })
-                        .WithIngredient([ItemID.HallowedBar], 8)
-                        .WithIngredient([ItemID.IceBlock], 50)
-                    .WithUpgrade("DamageUpgrade", Assets.Upgrades.Damage)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.HallowedBar], 8)
+                        .Ingredient([ItemID.IceBlock], 50)
+                    .Upgrade("DamageUpgrade", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage += 2;
                         })
-                        .WithIngredient([ItemID.HallowedBar], 8)
-                        .WithIngredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
-                    .WithUpgrade("ReducedManaCost", Assets.Upgrades.SpecialStar)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                        .Ingredient([ItemID.HallowedBar], 8)
+                        .Ingredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
+                    .Upgrade("ReducedManaCost", Assets.Upgrades.SpecialStar)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.mana -= 1;
                         })
-                        .WithIngredient([ItemID.HallowedBar], 8)
-                        .WithIngredient([ItemID.FallenStar], 5)
-                .WithTier()
-                    .WithUpgrade("ColdRadiance", Assets.Upgrades.Cryo)
-                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        .Ingredient([ItemID.HallowedBar], 8)
+                        .Ingredient([ItemID.FallenStar], 5)
+                .Tier()
+                    .Upgrade("ColdRadiance", Assets.Upgrades.Cryo)
+                        .Behavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
                             // Query for enemies nearby the player (5 tiles)
                             var npcs = Main.npc.Where(npc => npc.active && npc.Center.DistanceSQ(player.Center) <= 6400);
                             foreach (var npc in npcs)
@@ -113,10 +113,10 @@ namespace deeprockitems.Content.Items.Weapons
                             }
                             return true;
                         })
-                        .WithIngredient([ItemID.ChlorophyteBar], 8)
-                        .WithIngredient([ItemID.InfernoPotion], 3)
-                    .WithUpgrade("ReversedEntropy", Assets.Upgrades.SpecialStar)
-                        .WithBehavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
+                        .Ingredient([ItemID.ChlorophyteBar], 8)
+                        .Ingredient([ItemID.InfernoPotion], 3)
+                    .Upgrade("ReversedEntropy", Assets.Upgrades.SpecialStar)
+                        .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) => {
                             if (target.GetTemperature() > -25) return;
                             // This ensures that we only try freezing each NPC once
                             bool[] frozenWhoAmIs = new bool[Main.npc.Length];
@@ -139,32 +139,32 @@ namespace deeprockitems.Content.Items.Weapons
                             // Begin the lag spikening
                             ChainTemperature(target);
                         })
-                        .WithIngredient([ItemID.ChlorophyteBar], 8)
-                        .WithIngredient([ItemID.FrostCore], 1)
-                    .WithOverclock("Snowball", Assets.Upgrades.Cryo, Overclock.OverclockType.Clean)
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Ingredient([ItemID.ChlorophyteBar], 8)
+                        .Ingredient([ItemID.FrostCore], 1)
+                    .Overclock("Snowball", Assets.Upgrades.Cryo, Overclock.OverclockType.Clean)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
                             cryo.CoolingAmount *= 1.33f;
                         })
-                    .WithOverclock("IceSpear", Assets.Upgrades.BigArrow, Overclock.OverclockType.Unstable)
-                        .WithBehavior<ItemAltFunctionUse>((Item item, Player player) => {
+                    .Overclock("IceSpear", Assets.Upgrades.BigArrow, Overclock.OverclockType.Unstable)
+                        .Behavior<ItemAltFunctionUse>((Item item, Player player) => {
                             return true;
                         })
-                        .WithBehavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
+                        .Behavior<ItemOnShoot>((Item item, Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
                             if (player.altFunctionUse != 2) return true;
                             Projectile.NewProjectile(source, player.Center, velocity, ModContent.ProjectileType<IceSpear>(), 250, knockback, Owner: player.whoAmI);
                             (item.ModItem as CryoCannon).AddCooldownOnShoot(player, 999f);
                             return false;
                         })
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
                             cryo.CoolingAmount *= 0.8f;
                         })
-                    .WithOverclock("IceStorm", Assets.Upgrades.Damage, Overclock.OverclockType.Unstable)
-                        .WithBehavior<ItemStatChange>((Item item) => {
+                    .Overclock("IceStorm", Assets.Upgrades.Damage, Overclock.OverclockType.Unstable)
+                        .Behavior<ItemStatChange>((Item item) => {
                             item.damage *= 4;
                         })
-                        .WithBehavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
                             if (projectile.ModProjectile is not CryoProjectile cryo) return;
                             cryo.CoolingAmount *= 0.25f;
                         })
