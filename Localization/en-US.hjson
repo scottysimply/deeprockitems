@@ -575,91 +575,72 @@ Mods: {
 
 			Zhukovs: {
 				Tier1: {
-					DamageUpgrade: {
-						DisplayName: High Caliber Rounds
-						HoverText: +10% damage
+					HighCaliber1: {
+						DisplayName: High Caliber
+						HoverText: +15% damage
 					}
 
 					FireRate: {
-						DisplayName: Aftermarket Receivers
-						HoverText: 20% faster fire rate
+						DisplayName: Well-Oiled Receivers
+						HoverText: x0.75 use time
 					}
 				}
 
 				Tier2: {
-					ReducedSpread: {
-						DisplayName: Laser Sights
-						HoverText: 50% less spread
+					MagSize1: {
+						DisplayName: Extended Mags
+						HoverText: +10 shots until cooldown
 					}
 
-					HighVelocityRounds: {
-						DisplayName: Extended Barrels
-						HoverText: +25% bullet velocity
+					ReloadSpeed: {
+						DisplayName: Lighter Mags
+						HoverText: -0.5s reload speed
+					}
+
+					Accuracy: {
+						DisplayName: Laser Sights
+						HoverText: 0.5x spread
 					}
 				}
 
 				Tier3: {
-					DamageUpgrade2: {
-						DisplayName: Packed Powder
-						HoverText: +20% damage
+					ArmorPenetration: {
+						DisplayName: Hollow Points
+						HoverText: +25% armor penetration
 					}
 
-					BiggerMagazine: {
-						DisplayName: High Capacity Magazines
-						HoverText: Fire 75% more rounds before overheating
+					HighCaliber2: {
+						DisplayName: Higher Caliber Rounds
+						HoverText: +6 damage
 					}
 				}
 
 				Tier4: {
-					GetInGetOut: {
-						DisplayName: Get In, Get Out
-						HoverText: Gain a 50% haste bonus when striking an enemy
+					MagSize2: {
+						DisplayName: Super Mags
+						HoverText: +10 magazine capacity
+					}
+
+					Stun: {
+						DisplayName: Full Metal Jackets
+						HoverText: 30% chance of stunning enemies for 3 seconds
 					}
 
 					Blowthrough: {
 						DisplayName: Blowthrough Rounds
-						HoverText: Bullets pierce 1 additional enemy
+						HoverText: +1 penetrations
 					}
 				}
 
 				Tier5: {
-					DamageUpgrade2: {
-						DisplayName: Packed Powder
-						HoverText: +20% damage
+					HighCaliber3: {
+						DisplayName: Double-Size Caliber
+						HoverText: +6 damage
 					}
 
-					LightningReload: {
-						DisplayName: Lightning-Fast Reload
-						HoverText: Halves the cooldown length of the weapon
-					}
-				}
-
-				Overclocks: {
-					StaticBlast: {
-						DisplayName: Static Blast
-						HoverText: Electricity arcs to enemies on near misses
-						Positives: Electricity arcs to nearby enemies
-					}
-
-					CryoMinelets: {
-						DisplayName: Cryo Minelets
-						HoverText: Creates freezing mines on tiles where bullets hit
-						Positives: Creates cryo minelets on terrain strikes
-					}
-
-					EmbeddedDetonators: {
-						DisplayName: Embedded Detonators
-						HoverText: Struck enemies gain mines that are detonated when the gun overheats
-						Positives:
-							'''
-							Embeds detonators on target hits
-							Right click to force the overheat early
-							'''
-						Negatives:
-							'''
-							-20% damage
-							-20% fire rate
-							'''
+					BattleFrenzy: {
+						DisplayName: Get In, Get Out!
+						HoverText: +2 seconds of strong haste on hit
 					}
 				}
 			}
