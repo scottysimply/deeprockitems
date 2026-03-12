@@ -1,14 +1,15 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
+﻿using deeprockitems.Common.EntitySources;
+using deeprockitems.Content.Buffs;
+using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.CryoCannonProjectiles;
 using deeprockitems.Content.Upgrades;
-using deeprockitems.Content.Buffs;
+using Microsoft.Xna.Framework;
 using System.Linq;
+using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using deeprockitems.Common.EntitySources;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace deeprockitems.Content.Items.Weapons
 {
@@ -173,6 +174,11 @@ namespace deeprockitems.Content.Items.Weapons
         public override void NewModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback, ref float spread) {
             spread = MathHelper.Pi / 40;
             SoundEngine.PlaySound(SoundID.Item13 with { Pitch = -0.5f, PitchVariance = 0.25f}, position: position);
+        }
+        public override bool NewShoot(Player player, EntitySource_FromUpgradableWeapon source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) {
+            PrimitiveProjectileHandler handler = ModContent.GetInstance<PrimitiveProjectileHandler>();
+            handler.NewVertex(1, player.Center, velocity.RotatedByRandom(spread) * 0.4f, 96f, 300);
+            return false;
         }
         public override void AddRecipes() {
             Recipe.Create(Type)
