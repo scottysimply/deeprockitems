@@ -1,4 +1,5 @@
-﻿using deeprockitems.Content.Buffs;
+﻿using deeprockitems.Common.NPCs;
+using deeprockitems.Content.Buffs;
 using deeprockitems.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -140,17 +141,18 @@ namespace deeprockitems.Content.Projectiles
                             thisVertex.Velocity.Y = -0.25f * newVelocity.Y;
                         }
                     }
-
                     // apply velocity
                     thisVertex.Position += thisVertex.Velocity;
 
                     // cool enemies
                     foreach (var npc in Main.ActiveNPCs)
                     {
-                        if (npc.Hitbox.Contains((int)thisVertex.Position.X, (int)thisVertex.Position.Y))
+                        var globalNPC = npc.GetGlobalNPC<PrimitiveImmunityNPC>();
+                        if (!globalNPC.StaticImmunityFrames.ContainsKey(thisVertex.Type) && npc.Hitbox.Contains((int)thisVertex.Position.X, (int)thisVertex.Position.Y))
                         {
                             var newNPC = npc.realLife != -1 && Main.npc[npc.realLife].active ? Main.npc[npc.realLife] : npc;
-                            newNPC.ChangeTemperature(-8);
+                            newNPC.ChangeTemperature(-16);
+                            globalNPC.StaticImmunityFrames.Add(thisVertex.Type, 5);
                         }
                     }
                     // kill
