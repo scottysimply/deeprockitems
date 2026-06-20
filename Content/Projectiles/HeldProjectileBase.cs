@@ -91,7 +91,8 @@ namespace deeprockitems.Content.Projectiles
             {
                 HoldItemOut(projectileOwner);
                 Projectile.Center = projectileOwner.Center;
-                if (TimeSinceSpawning == (int)(ChargeTime * ChargeTimeMultiplier)) // Projectile has been charged, I repeat, projectile has been charged
+                // Projectile has been fully charged
+                if (TimeSinceSpawning == (int)(ChargeTime * ChargeTimeMultiplier))
                 {
                     HasReachedFullCharge = true;
                     WhenReachedFullCharge();
@@ -123,7 +124,7 @@ namespace deeprockitems.Content.Projectiles
                 Projectile.Kill();
                 return;
             }
-            // SpecialAI() runs after all other AI.
+            // Functions as PostAI, but runs before it.
             SpecialAI();
         }
         public override void PostAI() {

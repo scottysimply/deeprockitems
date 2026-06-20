@@ -188,6 +188,19 @@ namespace deeprockitems.Content.Items.Weapons
             // Load upgrades and apply parent name to upgrade
             UpgradeMasterList = InitializeUpgrades();
         }
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult) {
+            base.ModifyManaCost(player, ref reduce, ref mult);
+            foreach (var tier in UpgradeMasterList)
+            {
+                foreach (var upgrade in tier.Value)
+                {
+                    if (upgrade.UpgradeState.IsEquipped)
+                    {
+                        upgrade.Behavior.Item_ModifyManaCost?.Invoke(player, ref reduce, ref mult);
+                    }
+                }
+            }
+        }
         public virtual void ApplyStatUpgrades() {
             // Reset global stats
             Item.useTime = _oldUseTime;
