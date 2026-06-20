@@ -1,6 +1,8 @@
 ﻿using deeprockitems.Audio;
 using deeprockitems.Content.Buffs;
 using deeprockitems.Content.Projectiles.Globals;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
@@ -10,9 +12,8 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
 {
     public class SludgeBall : ModProjectile
     {
-        public bool ShouldExplode { get; set; } = false;
-        public bool ShouldSplatter { get; set; } = false;
-        public int NumProjectilesToSpawn { get; set; } = 8;
+        public bool ShouldSplatter { get => Projectile.ai[0] > 0f; set => Projectile.ai[0] = value ? 1f : -1f; }
+        public int NumProjectilesToSpawn { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public override void SetDefaults()
         {
             Projectile.width = 20;
@@ -23,10 +24,11 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             Projectile.rotation = 0;
             DrawOffsetX = -8;
             DrawOriginOffsetY = -8;
+            NumProjectilesToSpawn = 8;
         }
         public override void AI()
         {
-            if (Projectile.velocity.Y <= 30f) // Set gravity cap
+            if (Projectile.velocity.Y <= 16f) // Gravity cap
             {
                 Projectile.velocity.Y += .5f;
             }
@@ -35,12 +37,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (target.AddInstancedBuff(300, out Sludged? buff))
-            {
-                buff.SlowingSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SlowingSludge");
-                buff.StrongSludge = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("StrongSludge");
-                buff.AmContagious = Projectile.GetGlobalProjectile<UpgradeGlobalProjectile>().IsUpgradeEquipped("SpreadingSludge");
-            }        
+            target.AddInstancedBuff(300, out Sludged _);
         }
         public override void OnKill(int timeLeft)
         {
@@ -55,9 +52,12 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
             // Check if projectile should splatter
             if (ShouldSplatter && Main.myPlayer == Projectile.owner)
             {
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), Projectile.damage, 0f, Projectile.owner);
                 for (int i = 0; i < NumProjectilesToSpawn; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit() * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
+                    float velocityAngle = -MathF.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
+                    const float spread = MathHelper.Pi;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Unit(velocityAngle - 0.5f * spread, spread) * 8f, ModContent.ProjectileType<SludgeFragment>(), (int)Floor(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
                 }
             }
         }

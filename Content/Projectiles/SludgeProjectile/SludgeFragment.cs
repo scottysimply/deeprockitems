@@ -25,7 +25,7 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         }
         public override void AI()
         {
-            if (Projectile.velocity.Y <= 30f) // Set gravity cap
+            if (Projectile.velocity.Y <= 16f) // Set gravity cap
             {
                 Projectile.velocity.Y += .5f;
             }

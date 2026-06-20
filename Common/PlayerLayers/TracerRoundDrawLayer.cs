@@ -30,7 +30,7 @@ namespace deeprockitems.Common.PlayerLayers
                 Vector2 velocity = (Main.MouseWorld - drawInfo.drawPlayer.Center);
                 velocity.Normalize();
                 velocity = drawInfo.drawPlayer.HeldItem.shootSpeed * velocity;
-                float gravityStrength = velocity.Y > 30f ? 0f : 0.5f;
+                float gravityStrength = velocity.Y > 16f ? 0f : 0.5f;
 
                 //Projectile.NewProjectile(drawInfo.drawPlayer.GetSource_ItemUse(drawInfo.drawPlayer.HeldItem), drawInfo.drawPlayer.Center, velocity, ModContent.ProjectileType<SludgeBall>(), 0, 0, drawInfo.drawPlayer.whoAmI);
                 // Start is the player's center
