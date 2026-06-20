@@ -41,6 +41,9 @@ namespace deeprockitems.Content.Buffs
         }
         public int InstancedType { get; set; } = -1;
         public int BuffIndex { get; set; } = -1;
+        public virtual void OnApply(NPC npc) {
+
+        }
         public virtual void UpdateLifeRegen(NPC npc, ref int damage) {
 
         }
@@ -114,6 +117,7 @@ namespace deeprockitems.Content.Buffs
                 };
                 globalNpc.InstancedBuffs.Add(buff);
                 instancedBuff = buff;
+                buff.OnApply(npc);
                 return true;
             }
             // Buff exists on NPC, so the buff will reset time
