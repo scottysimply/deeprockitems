@@ -407,91 +407,70 @@ Mods: {
 				Tier1: {
 					VisualCalculus: {
 						DisplayName: Visual Calculus
-						HoverText: Shows a rough outline of where the projectile will travel
+						HoverText: Draws a tracer of the path the goo will take
 					}
 
 					Glowstick: {
 						DisplayName: Glowstick
-						HoverText: Causes goo to be visible in the dark
+						HoverText: Makes goo glow in the dark
 					}
 				}
 
 				Tier2: {
-					QuickCharge: {
-						DisplayName: Smaller Pressure Chamber
-						HoverText: 25% faster charge time
+					HardenedGooMix: {
+						DisplayName: Hardened Goo Mix
+						HoverText: +10 uncharged damage
 					}
 
-					EfficientCharge: {
-						DisplayName: Foaming Mixture
-						HoverText: Reduces the cooldown gained by charging a shot
+					DyseNozzle: {
+						DisplayName: Dyse Nozzle
+						HoverText: +20 charged damage
 					}
 				}
 
 				Tier3: {
-					SpreadingSludge: {
-						DisplayName: Biochemical Warfare
-						HoverText: Enemies affected by sludge will infect nearby enemies
+					OvertunedNozzle: {
+						DisplayName: Overtuned Nozzle
+						HoverText: 0.75x charge time
 					}
 
-					DamageUpgrade: {
-						DisplayName: Hardened Mixture
-						HoverText: +15% damage to sludge
+					Exorcist: {
+						DisplayName: Exorcist
+						HoverText: -25% mana cost
+					}
+
+					PerforatedNozzle: {
+						DisplayName: Perforated Nozzle
+						HoverText: +4 fragments
 					}
 				}
 
 				Tier4: {
-					MoreFragments: {
-						DisplayName: Perforated Nozzle
-						HoverText: +4 fragments on charged shots
+					BiochemicalWarfare: {
+						DisplayName: Biochemical Warfare
+						HoverText: Sludged debuff spreads between enemies
 					}
 
-					WasteOrdnance: {
-						DisplayName: Waste Ordnance
-						HoverText: Fully charged goo explodes instead of fragmenting
+					HydrofluoricAcid: {
+						DisplayName: Hydrofluoric Acid
+						HoverText: +25% damage over time
 					}
 				}
 
 				Tier5: {
-					SlowingPoison: {
-						DisplayName: Paralytic Agents
-						HoverText: Slows down sludged enemies
+					HardenedGooMix: {
+						DisplayName: Hardened Goo Mix
+						HoverText: +10 base damage
 					}
 
-					StrongSludge: {
-						DisplayName: Hydofluoric Acid
-						HoverText: 2x damage over time
-					}
-				}
-
-				Overclocks: {
-					OvertunedNozzles: {
-						DisplayName: Overtuned Nozzles
-						HoverText: Increases the general power of sludge
-						Positives:
-							'''
-							+40% extra damage
-							+25% extra shots before overheat
-							15% faster cooldown
-							'''
+					PerforatedNozzle: {
+						DisplayName: Perforated Nozzle
+						HoverText: +4 fragments
 					}
 
-					SludgeBlast: {
-						DisplayName: Sludge Blast
-						HoverText: Quadruples the number of projectiles fired at one time
-						Positives: Produces 4, half-damage projectiles per shot
-						Negatives: 20% longer overheat
-					}
-
-					GooBomberSpecial: {
-						DisplayName: Goo Bomber Special
-						HoverText: Fully-charged goo will rain down fragments as it travels
-						Positives: Fully-charged goo rains from the air
-						Negatives:
-							'''
-							Fully-charged goo no longer fragments on impact
-							+33% charge time
-							'''
+					DyseNozzle: {
+						DisplayName: Dyse Nozzle
+						HoverText: +20 charged damage
 					}
 				}
 			}

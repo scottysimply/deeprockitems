@@ -1,5 +1,6 @@
 ﻿using deeprockitems.Common.EntitySources;
 using deeprockitems.Common.PlayerLayers;
+using deeprockitems.Content.Buffs;
 using deeprockitems.Content.Projectiles;
 using deeprockitems.Content.Projectiles.SludgeProjectile;
 using deeprockitems.Content.Upgrades;
@@ -15,7 +16,7 @@ namespace deeprockitems.Content.Items.Weapons
     public class SludgePump : UpgradableWeapon
     {
         public override void NewSetDefaults() {
-            Item.damage = 34;
+            Item.damage = 52;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
             Item.knockBack = 5;
@@ -23,8 +24,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.width = 70;
             Item.height = 36;
             Item.mana = 10;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.channel = true;
             Item.shoot = ModContent.ProjectileType<SludgeHelper>();
@@ -32,8 +33,8 @@ namespace deeprockitems.Content.Items.Weapons
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Orange;
 
-            TimeToEndCooldown = 110f;
-            ShotsUntilCooldown = 18f;
+            TimeToEndCooldown = 80f;
+            ShotsUntilCooldown = 16f;
 
             Item.value = Item.sellPrice(0, 5, 30, 0);
 
@@ -45,8 +46,8 @@ namespace deeprockitems.Content.Items.Weapons
                         .Behavior<ItemHoldItem>((item, player) => {
                             player.GetModPlayer<TracerRoundPlayer>().IsLayerAllowedToDraw = true;
                         })
+                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 4)
                         .Ingredient(ItemID.MechanicalLens, 1)
-                        .Ingredient(ItemID.Gel, 30)
                     .Upgrade("Glowstick", Assets.Upgrades.Heat)
                         .Behavior<ProjectilePreDraw>((projectile, lightColor) => {
                             if (projectile.ModProjectile is not SludgeBall) return true;
@@ -59,121 +60,96 @@ namespace deeprockitems.Content.Items.Weapons
 
                             Lighting.AddLight(projectile.position, new Vector3(0.05f, 0.9f, 0.05f));
                         })
-                        .Ingredient(ItemID.Glowstick, 15)
-                        .Ingredient(ItemID.Gel, 30)
+                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 4)
+                        .Ingredient(ItemID.Glowstick, 10)
                 .Tier(2)
-                    .Upgrade("EfficientCharge", Assets.Upgrades.Focus)
+                    .Upgrade("HardenedGooMix", Assets.Upgrades.Damage)
                         .Behavior<ProjectileOnSpawn>((proj, source) => {
-                            if (proj.ModProjectile is SludgeHelper helper)
+                            if (proj.ModProjectile is SludgeHelper helper && !helper.HasReachedFullCharge)
                             {
-                                helper.ChargeShotCooldownMultiplier = 1.5f;
+                                proj.damage += 10;
                             }
                         })
-                        .Ingredient(ItemID.HellstoneBar, 6)
-                        .Ingredient(ItemID.Gel, 30)
-                    .Upgrade("QuickCharge", Assets.Upgrades.Focus)
+                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 4)
+                        .Ingredient(ItemID.SlimeBlock, 30)
+                    .Upgrade("DyseNozzle", Assets.Upgrades.Focus)
                         .Behavior<ProjectileOnSpawn>((proj, source) => {
-                            if (proj.ModProjectile is SludgeHelper helper)
+                            if (proj.ModProjectile is SludgeHelper helper && helper.HasReachedFullCharge)
                             {
-                                helper.ChargeTime *= 0.75f;
+                                proj.damage += 20;
                             }
                         })
-                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
-                        .Ingredient(ItemID.SwiftnessPotion, 3)
+                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 4)
+                        .Ingredient(ItemID.SoulofNight, 4)
                 .Tier(3)
-                    .Upgrade("SpreadingSludge", Assets.Upgrades.GooBall)
-                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
-                        .Ingredient(ItemID.PinkGel, 15)
-                    .Upgrade("DamageUpgrade", Assets.Upgrades.Damage)
-                        .Behavior<ItemStatChange>((item) => {
-                            item.damage = (int)(item.OriginalDamage * 1.25f);
+                    .Upgrade("OvertunedNozzle", Assets.Upgrades.Focus)
+                        .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
+                            if (projectile.ModProjectile is SludgeHelper helper)
+                            {
+                                helper.ChargeTimeMultiplier = 0.75f;
+                            }
                         })
-                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 8)
-                        .Ingredient([ItemID.RagePotion, ItemID.WrathPotion], 3)
-                .Tier(4)
-                    .Upgrade("MoreFragments", Assets.Upgrades.Focus)
-                        .Behavior<ProjectileOnSpawn>((proj, source) => {
-                            if (proj.ModProjectile is SludgeBall ball)
+                        .Ingredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 4)
+                        .Ingredient(ItemID.SoulofFlight, 4)
+                    .Upgrade("Exorcist", Assets.Upgrades.Damage)
+                        .Behavior<ItemModifyManaCost>((Player player, ref float reduce, ref float mult) => {
+                            mult -= 0.25f;
+                        })
+                        .Ingredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 4)
+                        .Ingredient(ItemID.FallenStar, 10)
+                    .Upgrade("PerforatedNozzle", Assets.Upgrades.Focus)
+                        .Behavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
+                            if (projectile.ModProjectile is SludgeBall ball)
                             {
                                 ball.NumProjectilesToSpawn += 4;
                             }
                         })
-                        .Ingredient([ItemID.MythrilBar, ItemID.OrichalcumBar], 8)
-                        .Ingredient(ItemID.Gel, 30)
-                    .Upgrade("WasteOrdnance", Assets.Upgrades.Penetrate)
-                        .Behavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
-                            if (projectile.ModProjectile is not SludgeBall ball) return;
-                            if (!source.SourceProjectile.HasReachedFullCharge) return;
-                            ball.ShouldExplode = true;
-                            ball.ShouldSplatter = false;
+                        .Ingredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 4)
+                        .Ingredient([ItemID.IronBar, ItemID.LeadBar], 4)
+                .Tier(4)
+                    .Upgrade("BiochemicalWarfare", Assets.Upgrades.SpecialStar)
+                        .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC npc, NPC.HitInfo hit, int damageDone) => {
+                            if (npc.HasInstancedBuff(out Sludged buff))
+                            {
+                                buff.AmContagious = true;
+                            }
                         })
-                        .Behavior<ProjectilePreKill>((projectile, timeLeft) => {
+                        .Ingredient(ItemID.HallowedBar, 4)
+                        .Ingredient(ItemID.SoulofSight, 4)
+                    .Upgrade("HydrofluoricAcid", Assets.Upgrades.Damage)
+                        .Behavior<ProjectileOnHitNPC>((Projectile projectile, NPC npc, NPC.HitInfo hit, int damageDone) => {
+                            if (npc.HasInstancedBuff(out Sludged buff))
+                            {
+                                buff.StrongSludge = true;
+                            }
+                        })
+                        .Ingredient(ItemID.HallowedBar, 4)
+                        .Ingredient(ItemID.SoulofMight, 4)
+                .Tier(5)
+                    .Upgrade("HardenedGooMix", Assets.Upgrades.Damage)
+                        .Behavior<ItemStatChange>((Item item) => {
+                            item.damage += 10;
+                        })
+                        .Ingredient(ItemID.ChlorophyteBar, 4)
+                        .Ingredient(ItemID.SlimeBlock, 30)
+                    .Upgrade("PerforatedNozzle", Assets.Upgrades.Damage)
+                        .Behavior<HeldProjectilePostSpawn>((Projectile projectile, EntitySource_FromHeldProjectile source) => {
                             if (projectile.ModProjectile is SludgeBall ball)
                             {
-                                if (!ball.ShouldExplode) return true;
-
-                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SludgeExplosion>(), (int)(projectile.damage * 2f), 0f, Owner: projectile.owner);
-                                return false;
+                                ball.NumProjectilesToSpawn += 4;
                             }
-                            else if (projectile.ModProjectile is SludgeFragment fragment)
-                            {
-                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<SmallSludgeExplosion>(), (int)(projectile.damage * 1f), 0f, Owner: projectile.owner);
-                                return false;
-                            }
-                            return true;
                         })
-                        .Ingredient([ItemID.CobaltBar, ItemID.PalladiumBar], 6)
-                        .Ingredient(ItemID.Bomb, 15)
-                .Tier(5)
-                    .Upgrade("StrongSludge", Assets.Upgrades.Heat)
-                        .Ingredient([ItemID.CobaltBar, ItemID.OrichalcumBar], 8)
-                        .Ingredient(ItemID.Stinger, 6)
-                    .Upgrade("SlowingPoison", Assets.Upgrades.Stun)
-                        .Ingredient([ItemID.AdamantiteBar, ItemID.TitaniumBar], 8)
-                        .Ingredient(ItemID.HoneyComb, 6)
-                .Overclock("OvertunedNozzles", Assets.Upgrades.Damage, Overclock.OverclockType.Clean)
-                    .Behavior<ItemStatChange>((Item item) => {
-                        item.damage = (int)(item.damage * 1.4f);
-                        (item.ModItem as SludgePump).ShotsUntilCooldown *= 1.25f;
-                        (item.ModItem as SludgePump).TimeToEndCooldown *= 0.85f;
-                    })
-                .Overclock("SludgeBlast", Assets.Upgrades.Focus, Overclock.OverclockType.Balanced)
-                    .Behavior<ItemStatChange>((Item item) => {
-                        (item.ModItem as SludgePump).TimeToEndCooldown *= 1.2f;
-                    })
-                    .Behavior<HeldProjectileShoot>((HeldProjectileBase helper, Item item, Player player, EntitySource_FromHeldProjectile source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, float spread) => {
-                        // Shoot 4 projectiles in a cone-ish shape, with slight spread
-                        for (int i = 0; i < 4; i++)
-                        {
-                            Projectile proj = Projectile.NewProjectileDirect(source, position, Main.rand.NextFloat(0.9f, 1.1f) * velocity.RotatedBy(0.05f * (i - 1.5f)).RotatedByRandom(0.02f), type, damage / 2, knockback, owner: player.whoAmI);
-                            if (helper.HasReachedFullCharge && proj.ModProjectile is SludgeBall ball)
+                        .Ingredient(ItemID.ChlorophyteBar, 4)
+                        .Ingredient(ItemID.IronBar, 4)
+                    .Upgrade("DyseNozzle", Assets.Upgrades.Damage)
+                        .Behavior<ProjectileOnSpawn>((proj, source) => {
+                            if (proj.ModProjectile is SludgeHelper helper && helper.HasReachedFullCharge)
                             {
-                                ball.ShouldSplatter = true;
-                                ball.NumProjectilesToSpawn /= 2;
+                                proj.damage += 20;
                             }
-                        }
-                        return false;
-                    })
-                .Overclock("GooBomberSpecial", Assets.Upgrades.SpecialStar, Overclock.OverclockType.Unstable)
-                    .Behavior<ProjectileOnSpawn>((Projectile projectile, IEntitySource source) => {
-                        if (projectile.ModProjectile is not SludgeHelper helper) return;
-                        helper.ChargeTimeMultiplier *= 1.33f;
-                    })
-                    .Behavior<ProjectileAI>((Projectile projectile) => {
-                        if (projectile.ModProjectile is not SludgeBall ball) return;
-                        if (!(ball.ShouldSplatter || ball.ShouldExplode)) return;
-                        ball.ShouldExplode = false;
-                        ball.ShouldSplatter = true;
-                        projectile.ai[2]++;
-                        if (projectile.ai[2] % (16 - (int)(ball.NumProjectilesToSpawn / 1.4f)) == 0)
-                        {
-                            Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.position, new Vector2(0f, -2f), ModContent.ProjectileType<SludgeFragment>(), 2*projectile.damage, projectile.knockBack, Owner: projectile.owner);
-                        }
-                    })
-                    .Behavior<ProjectilePreKill>((Projectile projectile, int timeLeft) => {
-                        if (projectile.ModProjectile is not SludgeBall) return true;
-                        return false;
-                    })
+                        })
+                        .Ingredient(ItemID.ChlorophyteBar, 4)
+                        .Ingredient(ItemID.SoulofNight, 4)
             .Seal();
         }
         public override void AddRecipes() {
