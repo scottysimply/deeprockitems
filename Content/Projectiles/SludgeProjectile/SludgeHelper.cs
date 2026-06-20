@@ -13,12 +13,13 @@ namespace deeprockitems.Content.Projectiles.SludgeProjectile
         public override SoundStyle? FireSound => DRGSoundIDs.SludgePumpFire with { Volume = .5f, PitchVariance = .75f};
         public override void NewSetDefaults() {
             ChargeShotCooldownMultiplier = 2f;
-            ChargeShotDamageMultiplier = 1.25f;
+            ChargeShotDamageMultiplier = 2f;
         }
         public override void ModifyProjectileAfterSpawning(Projectile projectile) {
             if (!HasReachedFullCharge) return;
 
             (projectile.ModProjectile as SludgeBall).ShouldSplatter = true;
+            (projectile.ModProjectile as SludgeBall).NumProjectilesToSpawn = 8;
         }
     }
 }
