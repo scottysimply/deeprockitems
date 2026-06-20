@@ -165,6 +165,13 @@ namespace deeprockitems.Content.Upgrades
     /// <param name="player">The player that the cooldown ended on.</param>
     /// <param name="cooldownJustEnded">True if the cooldown just ended</param>
     public delegate void ItemOffCooldown(Item item, Player player, bool cooldownJustEnded);
+    /// <summary>
+    /// <inheritdoc cref="Terraria.ModLoader.ModItem.ModifyManaCost(Player, ref float, ref float)"/>
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="reduce"></param>
+    /// <param name="mult"></param>
+    public delegate void ItemModifyManaCost(Player player, ref float reduce, ref float mult);
     #endregion
     public class UpgradeBehavior
     {
@@ -187,6 +194,7 @@ namespace deeprockitems.Content.Upgrades
         public ItemAltFunctionUse Item_AltFunctionUse { get; set; }
         public ItemCooldownStart Item_OnCooldownStart { get; set; }
         public ItemOffCooldown Item_WhileOffCooldown { get; set; }
+        public ItemModifyManaCost Item_ModifyManaCost { get; set; }
         #endregion
     }
 }
