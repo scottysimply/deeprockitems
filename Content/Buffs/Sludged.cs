@@ -6,7 +6,7 @@ namespace deeprockitems.Content.Buffs
     public class Sludged : InstancedBuff
     {
         public override void UpdateLifeRegen(NPC npc, ref int damage) {
-            int dps = StrongSludge ? 30 : 15;
+            int dps = StrongSludge ? 23 : 15;
             npc.lifeRegen -= dps * 2;
             damage = dps;
             if (SlowingSludge)
@@ -26,16 +26,11 @@ namespace deeprockitems.Content.Buffs
                 var query = Main.npc.Where(n => n.active && npc.Center.DistanceSQ(n.Center) <= 9162);
                 foreach (NPC n in query)
                 {
-                    // If an NPC has the buff but is not contagious, add buff
-                    if (n.HasInstancedBuff(out Sludged buff))
+                    // If an NPC is not sludged, add the buff
+                    if (!n.HasInstancedBuff<Sludged>(out _))
                     {
-                        if (buff.AmContagious) continue;
-
-                        n.AddInstancedBuff<Sludged>(180, out _);
-                        continue;
+                        n.AddInstancedBuff<Sludged>(TimeLeft, out _);
                     }
-                    // Else, add buff regardless
-                    n.AddInstancedBuff<Sludged>(180, out _);
                 }
             }
         }
