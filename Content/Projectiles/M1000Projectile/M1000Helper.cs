@@ -35,6 +35,10 @@ namespace deeprockitems.Content.Projectiles.M1000Projectile
             {
                 projectile.penetrate = projectile.maxPenetrate = 1;
             }
+            if (HasReachedFullCharge)
+            {
+                projectile.penetrate = projectile.maxPenetrate += 1;
+            }
         }
     }
 }
