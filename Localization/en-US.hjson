@@ -227,106 +227,82 @@ Mods: {
 		Upgrades: {
 			M1000: {
 				Tier1: {
-					DamageUpgrade: {
-						DisplayName: High-Cal Bullets
-						HoverText: Increases damage by 15%
+					HighCaliberRounds: {
+						DisplayName: High Caliber Rounds
+						HoverText: +12 base damage
 					}
 
-					BiggerClip: {
-						DisplayName: Bigger Clip
-						HoverText: Fire 50% more shots before cooling down
+					LaserSights: {
+						DisplayName: Laser Sights
+						HoverText: 1.33x charge damage
 					}
 
-					FocusDamage: {
-						DisplayName: Pin-Point Sights
-						HoverText: Increases focus damage by 33%
+					ExtendedGrip: {
+						DisplayName: Extended Grip
+						HoverText: -50% spread
 					}
 				}
 
 				Tier2: {
-					QuickCharge: {
-						DisplayName: Quick-Charge Coils
-						HoverText: Reduces total charge time by 50%
+					CompactClips: {
+						DisplayName: Compact Clips
+						HoverText: +8 rounds until cooldown
 					}
 
-					BumpFire: {
-						DisplayName: Bump Stock
-						HoverText: Increases fire rate by 33%
+					QuickEject: {
+						DisplayName: Quick Ejectors
+						HoverText: 1.33x cooldown speed
 					}
 
-					FocusDamage: {
-						DisplayName: Pin-Point Sights
-						HoverText: Increases focus damage by 33%
+					FastChargingCoils: {
+						DisplayName: Fast Charging Coils
+						HoverText: 1.2x charge speed
 					}
 				}
 
 				Tier3: {
-					ArmorPiercing: {
-						DisplayName: Armor Piercing
-						HoverText: Ignores 25% of enemy defence
+					HighCaliberRounds: {
+						DisplayName: High Caliber Rounds
+						HoverText: +16 base damage
 					}
 
-					UmaniteBullets: {
-						DisplayName: Umanite Bullets
-						HoverText: Inflicts a debuff that strengthens with damage done
+					LaserSights: {
+						DisplayName: Laser Sights
+						HoverText: 1.33x charge damage
 					}
 				}
 
 				Tier4: {
-					EfficientCharge: {
-						DisplayName: Efficient Coils
-						HoverText: Charge shots only consume 1 ammo
+					HardenedRounds: {
+						DisplayName: Hardened Rounds
+						HoverText: +25% armor penetration
 					}
 
-					HighDamageUpgrade: {
-						DisplayName: The Gustav
-						HoverText: Increased damage by 75%
+					HittingWhereItHurts: {
+						DisplayName: Hitting Where It Hurts
+						HoverText: 25% chance to inflict stun for 1.5 seconds
+					}
+
+					FastChargingCoils: {
+						DisplayName: Fast Charging Coils
+						HoverText: 1.2x charge speed
 					}
 				}
 
 				Tier5: {
-					WhereItHurts: {
-						DisplayName: Hitting Where It Hurts
-						HoverText: Focus shots will always deal at least 5% of the target's health!
+					HighCaliberRounds: {
+						DisplayName: High Caliber Rounds
+						HoverText: +16 base damage
 					}
 
-					MagicBullets: {
-						DisplayName: Magic Bullets
-						HoverText: Bullets will automatically rebound to the nearest target
-					}
-				}
-
-				Overclocks: {
-					TheWidowmaker: {
-						DisplayName: The Widowmaker
-						HoverText: Cooldown is returned on hit
-						Positives:
-							'''
-							Hitting an enemy 'refunds' the weapon's cooldown
-							Killing an enemy gives extra cooldown back
-							'''
+					CompactClips: {
+						DisplayName: Compact Clips
+						HoverText: +12 rounds until cooldown
 					}
 
-					Hipster: {
-						DisplayName: Hipster
-						HoverText: Trades focused shot power for improved hipfiring ability
-						Positives:
-							'''
-							+25% unfocused damage boost
-							0.2x spread
-							'''
-						Negatives: 50% focused damage penalty
-					}
-
-					SupercoolingChamber: {
-						DisplayName: Supercooling Chamber
-						HoverText: Increased ability of focused shots
-						Positives: 3x further focus shot damage
-						Negatives:
-							'''
-							50% increase to cooldown length
-							25% unfocused damage penalty
-							'''
+					BlowthroughRounds: {
+						DisplayName: Blowthrough Rounds
+						HoverText: +2 enemy penetrations
 					}
 				}
 			}
@@ -381,7 +357,7 @@ Mods: {
 
 					StunChance: {
 						DisplayName: Greater than Lethal
-						HoverText: 40% stun chance on hit (1 second)
+						HoverText: 40% chance to inflict stun for 1 second
 					}
 
 					QuadrupleBarrel: {
