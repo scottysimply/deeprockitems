@@ -212,6 +212,10 @@ namespace deeprockitems.Content.Projectiles
                 }
             }
         }
+        /// <summary>
+        /// Modifies the resultant projectile after spawning. Does not modify this proejctile.
+        /// </summary>
+        /// <param name="projectile"></param>
         public virtual void ModifyProjectileAfterSpawning(Projectile projectile) { }
         /// <summary>
         /// Allows special behavior when the projectile is killed. Return false to override the base class' code.
